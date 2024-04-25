@@ -1,0 +1,30 @@
+<!-- <section>
+    <table>
+<tr class="highlight-header">
+    <th *ngFor="let header of arrayHead" class="col-xs-2">{{header}}</th>
+    <th>status</th>
+</tr>
+       
+<tr class="body" *ngFor="let data of pagedProducts" >
+<td *ngFor="let header of arrayHead"><p></p></td>
+ <td><p></p></td>
+</tr>   
+
+</table>
+
+    </section>  -->
+    
+<!-- table-shimmer.component.html -->
+
+<div class="shimmer-table">
+
+    
+    <table class="table">
+        
+        <tbody>
+            <tr *ngFor="let row of pagedProducts" class="placeholder-row">
+                <td style="background-color: brown;" class="placeholder col-1"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

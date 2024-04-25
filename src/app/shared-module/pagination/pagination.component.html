@@ -1,0 +1,32 @@
+<section>
+<!-- <p>Showing data {{calculateStartIndex() + 1}} to {{calculateEndIndex()}} of {{lengthArray}} entries</p> -->
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item" (click)="goToPreviousPage()">
+      <a class="page-link" aria-label="Previous">
+        <span aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.16 7.41L10.58 12L15.16 16.59L13.75 18L7.75 12L13.75 6L15.16 7.41Z" fill="#000"/>
+          </svg>
+          </span>
+      </a>
+    </li>
+
+    <!-- Updated code for displaying page numbers and ellipsis -->
+    <li class="page-item " [ngClass]="{ 'active': currentPage === page }" *ngFor="let page of getPageNumbers()" (click)="goToPage(page)">
+      <a class="page-link " *ngIf="page !== -1">{{ page + 1 }}</a>
+      <div *ngIf="page === -1" style="margin-top: 5px; margin-right:15px" >&hellip;</div>
+    </li>
+
+    <li class="page-item" (click)="goToNextPage()">
+      <a class="page-link" aria-label="Next">
+        <span aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.84 7.41L13.42 12L8.84 16.59L10.25 18L16.25 12L10.25 6L8.84 7.41Z" fill="#000"/>
+          </svg>
+          </span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+</section>

@@ -1,0 +1,95 @@
+.offcanvas {
+  width: 300px;
+  height: 100%;
+}
+
+.setting-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.bar {
+  width: 50%;
+  height: 2px;
+  background-color: rgb(229, 229, 229);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 2px;
+}
+
+.bar::before {
+  content: "";
+  width: 2px;
+  height: 2px;
+  background-color: rgb(126, 117, 255);
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid white;
+  transition: all 0.3s;
+  box-shadow: 0px 0px 5px white;
+}
+
+.bar1::before {
+  transform: translateX(-4px);
+}
+
+.bar2::before {
+  transform: translateX(4px);
+}
+.hamburger {
+  cursor: pointer;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  /* The size of the SVG defines the overall size */
+  height: 3em;
+  /* Define the transition for transforming the SVG */
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+  fill: none;
+  stroke: white;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  /* Define the transition for transforming the Stroke */
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+.hamburger input[type="checkbox"] {
+  display: none;
+}
+
+.hamburger input:checked + svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+}
+
+.offcanvas {
+  background-color: transparent;
+  border: none;
+}

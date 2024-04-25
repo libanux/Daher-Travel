@@ -1,0 +1,22 @@
+@media (max-width: 600px) {
+  .cssbuttons-io-button {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 5px;
+    color: white;
+    background: #ad5389;
+    background: linear-gradient(0deg, rgb(190, 15, 15) 0%, rgb(245, 5, 5) 100%);
+    border: none;
+    letter-spacing: 0.05em;
+    border-radius: 20em;
+  }
+}
+
+@media (min-width: 601px) {
+  .cssbuttons-io-button {
+    display: none;
+  }
+}

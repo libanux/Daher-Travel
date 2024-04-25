@@ -1,0 +1,26 @@
+.main {
+  display: flex;
+  background-color: white;
+ width: 100%;
+ padding: 30px;
+  flex-direction: column;
+  box-shadow: 0px 0px 10px rgba(26, 26, 26, 0.1);
+  border-radius: 20px;
+}
+.title{
+    color: #00000080;
+    font-weight: 600;
+    margin-bottom: 20px
+}
+
+
+.progressTitle{
+    font-weight: 600;
+}
+
+
+@media (max-width:425px) {
+  .main{
+    padding: 7px;
+  }
+}

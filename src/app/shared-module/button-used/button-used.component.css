@@ -1,0 +1,39 @@
+.button-red {
+  background-color: #ed2028;
+  color: white;
+  padding: 9px 13px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-red:hover {
+  background-color: #f03f45;
+}
+
+@media (max-width: 625px) {
+  .button-red {
+    font-size: 14px;
+    padding: 7px 11px;
+  }
+}
+
+.button-green {
+  background-color: #41ab0c;
+  color: white;
+  padding: 9px 13px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-green:hover {
+  background-color: #4dbb16;
+}
+
+@media (max-width: 625px) {
+  .button-green {
+    font-size: 14px;
+    padding: 7px 11px;
+  }
+}

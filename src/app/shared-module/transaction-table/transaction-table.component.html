@@ -1,0 +1,41 @@
+<main>
+
+    <div>
+        <h3>Transaction Table</h3>
+    </div>
+
+<div class="forDrop" *ngIf="showDropdowns">
+<div><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1"></app-dropdown-filter></div>
+<div><app-dropdown-filter [dropTitle]="dropTitle2" [dropOptions]="dropOptions2"></app-dropdown-filter></div>
+<div> <app-dropdown-filter [dropTitle]="dropTitle3" [dropOptions]="dropOptions3"></app-dropdown-filter></div>
+</div>
+    
+<section>
+
+<!-- Table -->
+<table>
+
+<!-- table Titles -->
+<tr class="highlight-header">
+<ng-container>
+    <th class="col-xs-3">id</th>
+    <th class="col-xs-3">paymentMethod</th>
+    <th class="col-xs-3">amount</th>
+    <th class="col-xs-3">datetimeOfCreation</th>
+    <th class="col-xs-3">userId</th>
+</ng-container>
+</tr>
+
+<!-- table Body -->
+<tr *ngFor="let trans of transactionArray">
+    <td>{{trans.id}}</td>
+    <td>{{trans.paymentMethod}}</td>
+    <td>{{trans.amount}} $</td>
+    <td>{{trans.datetimeOfCreation}} min</td>
+    <td>{{trans.userId}}</td>
+</tr>
+       
+</table>
+</section>
+</main>
+    

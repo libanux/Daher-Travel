@@ -1,0 +1,202 @@
+aside {
+  background: white;
+  width: 270px;
+  height: 100vh;
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  position: fixed;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 0 10px rgba(181, 186, 193, 0.5);
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 15px;
+}
+
+aside .sidebarLists .svg-image {
+  width: 24px;
+  height: 24px;
+  fill: #000000B2;
+}
+
+.LogoIcon {
+  display: flex;
+  align-items: center;
+  margin-left: 44px;
+}
+
+.LogoIcon .logo {
+  width: 170px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* divider below logo */
+.divider {
+    width: 100%;
+    padding: 10px 0;
+    color: #dde2ef;
+}
+
+aside .sidebarLists {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    padding: 0px;
+    margin-left: 2px;
+    align-items: center;
+    justify-content: center;
+}
+
+aside .BELOWsidebarLists {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  padding: 0px;
+  margin-left: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* li link */
+aside .BELOWsidebarLists .listItemss {
+  width: 200px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 15px;
+    color: #000000B2;
+    font-weight: 500;
+    padding-left: 20px;
+    border-radius: 10px;
+
+}
+
+/* li link */
+aside .BELOWsidebarLists .showmoreUL li{
+  width: 200px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+    align-items: center;
+    column-gap: 3px;
+    padding: 5px;
+    color: #000000B2;
+    font-weight: 500;
+    padding-left: 20px;
+    border-radius: 10px;
+}
+
+/* li hover */
+aside .BELOWsidebarLists .showmoreUL li:hover {
+  background-color: #20326933;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+aside .BELOWsidebarLists ul li a{
+  cursor: pointer;
+}
+
+/* li link */
+aside .sidebarLists li {
+  width: 200px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 15px;
+    color: #000000B2;
+    font-weight: 500;
+    padding-left: 20px;
+    border-radius: 10px;
+
+}
+
+.logout{
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+/* li hover */
+aside .sidebarLists li:hover {
+  background-color: #20326933;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+aside .sidebarLists li.active{
+ background-color: #1B59F81A;
+ color: #203269;
+}
+
+aside .sidebarLists li.active .svg-image path {
+  fill: #203269; /* Change SVG color to desired color when the li is active */
+}
+
+
+/* li hover */
+aside .BELOWsidebarLists .listItemss:hover {
+  background-color: #20326933;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+aside .BELOWsidebarLists .listItemss.active{
+ background-color: #1B59F81A;
+ color: #203269;
+}
+
+aside .BELOWsidebarLists .services {
+  display: flex;
+  padding: auto 0;
+  justify-content: space-between;
+}
+
+aside .BELOWsidebarLists .services .div1 {
+  display: flex;
+  padding: 0;
+  column-gap: 10px;
+
+}
+
+aside .BELOWsidebarLists .listItemss.active .svg-image path {
+  stroke: #203269; /* Change SVG color to desired color when the li is active */
+}
+
+
+.forhr{
+  width: 220px;
+}
+
+/* Styles for screens with a width between 600 and 900 pixels (inclusive) */
+@media screen and (min-width: 949px)  and (max-width: 1200px) {
+    aside {
+        width: 220px;
+    }
+    .LogoIcon{
+      margin-left: 20px;
+    }
+  }
+
+@media screen and (max-width: 950px) {
+ aside {
+     width:300px;
+    }
+    .LogoIcon {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        
+    }
+}

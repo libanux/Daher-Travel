@@ -1,0 +1,11 @@
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-topics',
+  templateUrl: './topics.component.html',
+  styleUrls: ['./topics.component.css']
+})
+export class TopicsComponent {
+@Input() title: string =''
+@Input() weakest: boolean =true
+}

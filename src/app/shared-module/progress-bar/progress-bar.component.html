@@ -1,0 +1,13 @@
+<div class="imageAndProgress">
+    <div><img src="./assets/Photo.png" /></div>
+    <div class="allProgress">
+      <div class="progressTitle">Food safety</div>
+      <div class="progressBar">
+        <div class="progress-bar-container" [ngClass]="{ 'weakest1': weakest, 'strongest1': !weakest }">
+          <div class="progress" [style.width.%]="progress" [ngClass]="{ 'weakest': weakest, 'strongest': !weakest }"></div> 
+        </div>
+        <div class="progress-value">{{progress}}%</div> <!-- Progress value -->
+      </div>
+    </div>
+  </div>
+  

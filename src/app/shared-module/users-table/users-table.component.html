@@ -1,0 +1,43 @@
+<main>
+
+<div *ngIf="showTitle"><h3>Users Table</h3></div>
+
+<div class="forDrop" *ngIf="showDropdowns">
+    <div><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1"></app-dropdown-filter></div>
+    <div><app-dropdown-filter [dropTitle]="dropTitle2" [dropOptions]="dropOptions2"></app-dropdown-filter></div>
+    <div> <app-dropdown-filter [dropTitle]="dropTitle3" [dropOptions]="dropOptions3"></app-dropdown-filter></div>
+</div>
+    
+<section>
+    
+<!-- Table -->
+<table>
+    
+<!-- table Titles -->
+<tr class="highlight-header">
+    <ng-container>
+    <th class="col-xs-3">id</th>
+    <th class="col-xs-3">GOOGLE_U</th>
+    <th class="col-xs-3">email</th>
+    <th class="col-xs-3">IS_ACTIVE</th>
+    <th class="col-xs-3">FirstNAME</th>
+    <th class="col-xs-3">lastName</th>
+    <th class="col-xs-3">datetimeCreated</th>
+    </ng-container>
+</tr>
+    
+<!-- table Body -->
+<tr *ngFor="let users of userArray" (click)="moveToRouteWithIndex('/users/view', users.id)">
+    <td>{{users.id}}</td>
+    <td>{{users.GOOGLE_U}}</td>
+    <td>{{users.email}}</td>
+    <td>{{users.IS_ACTIVE}}</td>
+    <td>{{users.FirstNAME}}</td>
+    <td>{{users.lastName}}</td>
+    <td>{{users.datetimeCreated}}</td>
+</tr>
+           
+    </table>
+    </section>
+    </main>
+        

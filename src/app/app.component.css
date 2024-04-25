@@ -1,0 +1,78 @@
+.showHeader {
+    display: block;
+  }
+    
+  .showSidebar {
+    display: block;
+  }
+  
+  @media screen and (max-width: 700px) {
+    section {
+    margin-left: 0px;
+    }
+  }
+  
+  
+  @media screen and (max-width: 800px) {
+    section {
+    margin-left: 10px;
+    }
+  }
+  
+  div {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      background: #F9F9F9;
+      width: 100%;
+      height: 100vh;
+      overflow-x: hidden;
+  }
+  
+  header {
+      width: 270px; /* Set the width of the sidebar */
+  }
+  
+  
+  main {
+      flex: 1; /* Use remaining available space for the main content */
+  
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+  }
+  
+  
+  @media screen and (max-width: 1200px) {
+      header {
+      width: 220px; 
+      }
+  }
+  
+  
+  
+  
+  @media screen and (min-width: 950px) {
+  
+   .navbar{
+          display: none;
+      }
+    }
+    
+  
+  @media screen and (max-width: 950px) {
+  
+    header{
+          display: none;
+      }
+  
+      .showSidebar {
+        display: none;
+       }
+  
+    }
+    
+  
+  
+  

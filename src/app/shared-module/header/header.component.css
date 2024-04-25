@@ -1,0 +1,21 @@
+section {
+  padding: 30px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 100%;
+  padding-right: 50px;
+  align-items: first baseline;
+}
+.forLine{
+width: 100%;
+padding-left: 50px;
+padding-right: 50px;
+}
+
+@media(max-width:582px){
+  section{
+    flex-direction: column;
+  }
+}

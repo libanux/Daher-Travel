@@ -1,0 +1,90 @@
+main{
+margin: 20px 0;
+}
+
+section {
+    background: white;
+    overflow-x: auto;
+    border-style: solid;
+    border-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(226, 236, 249, 0.5);
+}
+  
+.forDrop{
+display: flex;
+justify-content: space-between;
+width: 100%;
+gap: 10px;
+}
+  
+.forDrop div{
+width: 100%;
+}
+  
+.forLine{
+border: 1px solid #0000001A;
+}
+  
+/* table rows and hr lines */
+table tr {
+    border-bottom: 1px solid #e9edf7;
+    height: 45px;
+    cursor: pointer;
+}
+  
+table tr:not(:first-child):hover {
+    background-color: #f3f3f3;
+}
+  
+  /* table head */
+.highlight-header th {
+    color: gray;
+    font-weight: 300;
+    text-transform: capitalize;
+    font-size: 13px;
+}
+  
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: white;
+    justify-content: center;
+    align-items: center;
+}
+  
+th{
+    color: #B5B7C0;
+    text-align: left;
+    padding: 8px;
+}
+
+td{
+    text-align: left;
+    padding: 8px;
+    align-items: flex-start;
+}
+
+.body:hover {
+    background: #efeeee;
+    cursor: pointer;
+}
+    
+.noItemsFound {
+    color: rgb(159, 154, 154);
+    font-size: 16px;
+}
+
+@media (min-width:675px) {
+    .forDrop{
+      align-items: center;
+    }
+}
+
+@media (max-width:674px) {
+    .forDrop{
+      display: flex;
+      flex-direction: column;
+    }
+}

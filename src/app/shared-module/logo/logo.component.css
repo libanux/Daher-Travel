@@ -1,0 +1,16 @@
+.logo {
+  margin: 0;
+}
+
+.logo img {
+  width: 200px;
+  margin: 0;
+}
+
+/* Styles for screens with a width between 600 and 900 pixels (inclusive) */
+@media (max-width: 500px) {
+  .logo img {
+    width: 130px;
+    margin: 0;
+  }
+}

@@ -1,0 +1,165 @@
+header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.forSection {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  width: 100%;
+}
+
+.forSection div{
+  width: 100%;
+}
+
+.logo {
+  max-width: 100%; 
+}
+.forlogo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleBtn {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+section .logo {
+  margin: 10px;
+}
+.logo {
+  width: 200px;
+}
+div {
+  display: flex;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+
+.navigation-card {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgb(255, 255, 255);
+  padding: 5px 20px 5px 10px;
+  border-radius: 50px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  overflow: hidden;
+  background-color: rgb(252, 252, 252);
+  border-radius: 50%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.image img {
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+}
+
+@media screen and (min-width: 501px) {
+  .profile {
+    display: none;
+  }
+}
+
+/* ==================== GENDERS  ===================== */
+
+.gender {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  right: 0;
+  z-index: 1000;
+  position: absolute;
+  margin-top: 70px;
+}
+
+.gender label {
+  padding: 5px;
+  border-style: none;
+  color: black;
+  width: 150px;
+  align-items: center;
+  border-width: 1px;
+  border-radius: 5px;
+  background: white;
+}
+
+.gender label.checked {
+  cursor: pointer;
+  color: white;
+  background-color: #db4444;
+  border-style: none;
+}
+
+.gender li {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  color: #a3aed0;
+  font-weight: 500;
+}
+
+.gender li:hover {
+  color: #686565;
+  font-weight: 600;
+  border-color: #da6e72;
+  stroke: #ea5d62;
+}
+
+.gender li svg {
+  fill: #a3aed0;
+  background: #fefbfb;
+}
+
+.gender li.active {
+  color: #0d0d0d;
+  font-weight: 600;
+  fill: #ed2028;
+  border-right-style: solid;
+  border-width: 4px;
+  border-color: #ed2028;
+}
+.gender li svg.active {
+  fill: #ed2028;
+}

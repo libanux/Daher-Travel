@@ -1,0 +1,16 @@
+
+ .submit {
+    border-radius: 5px;
+    border-style: none;
+    color: white;
+    background: #203269;
+    padding: 10px 15px;
+}
+
+ .delete {
+    border-radius: 5px;
+    border-style: none;
+    color: white;
+    background: #a21818;
+    padding: 10px 15px;
+}
