@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { BreadcrumbsService } from '../../subjects/breadcrumbs.service';
 @Component({
   selector: 'app-transcription-table',
   templateUrl: './transcription-table.component.html',
@@ -30,7 +29,7 @@ export class TranscriptionTableComponent{
     {id:10, USERNAME: 'user10', VIDEOURL: 'https://example.com/video10.mp4', DURATION: 160, COST: 85, NUMBEROFSPEAKERS: '1-2', TRANSCRIPTIONTYPE: 'AI', TURNAROUNDTIME: '48 hours', STATUS: 'DECLINED' }
   ];
 
-  constructor(private routeService: BreadcrumbsService, private router: Router) { }
+  constructor(private router: Router) { }
 
   // function for viewing a specific item
   moveToRouteWithIndex(route: string, id: number) {

@@ -1,11 +1,11 @@
 <section>
     <p class="route">
         <a (click)="moveToRoute('/dashboard')">Dashboard </a> 
-        <a (click)="moveToRoute(breadCrumb1Route)" *ngIf="breadCrumb1"> / {{breadCrumb1}} </a> 
-        <a (click)="moveToRoute(BCbeforeLastOneRoute)" *ngIf="BCbeforeLastOne"> / {{BCbeforeLastOne}} </a> 
-        <span *ngIf="breadCrumb2"> / {{breadCrumb2}} </span> 
+        <a (click)="moveToRoute(breadCrumb1Route())" *ngIf="breadCrumb1">{{breadCrumb1()}} </a> 
+        <a (click)="moveToRoute(BCbeforeLastOneRoute())" *ngIf="BCbeforeLastOne">{{BCbeforeLastOne()}} </a> 
+        <span *ngIf="breadCrumb2">{{breadCrumb2()}} </span> 
     </p>
     
-    <p class="routeCurrently">{{routeCurrently}}</p>
+    <p class="routeCurrently">{{routeCurrently()}}</p>
     
 </section>

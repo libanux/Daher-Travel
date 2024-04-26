@@ -30,7 +30,7 @@ export class AppComponent{
           } else {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
             // if (isLoggedIn) {
-              this.showloadingOnLogin = true;
+              // this.showloadingOnLogin = true;
   
               setTimeout(() => {
                 this.showloadingOnLogin = false;

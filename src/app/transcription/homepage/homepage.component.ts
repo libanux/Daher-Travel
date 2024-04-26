@@ -1,11 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { BreadcrumbsService } from '../../subjects/breadcrumbs.service';
+import { Component, OnInit, signal } from '@angular/core';
+import { BreadcrumbService } from '../../signals/breadcrumb.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent implements OnInit{
+  routeCurrently = signal('');
+  breadCrumb1 =  signal('');
+  breadCrumb1Route =  signal('');
+  breadCrumb2 =  signal('');
+  BCbeforeLastOneRoute=  signal('');
+  BCbeforeLastOne =  signal('');
+  
   //Set the headers name & the visibility of the svg & the function when clicking on the svg
   HeadersArray = [
     { name: 'Customer Name',  isVisible: true, action: this.sortByName.bind(this)},
@@ -17,7 +24,7 @@ export class HomepageComponent implements OnInit{
   
   showShimmer = true;
 
-  constructor(private routeService: BreadcrumbsService) {}
+  constructor(private signalService : BreadcrumbService) { }
 
   //Here the functions  will be called on clicking respective SVGs in
 handleSvgClick(func: Function) {
@@ -33,13 +40,19 @@ sortByAge() {
 }
 
 ngOnInit() {
+  this.routeCurrently = this.signalService.routeCurrently
+  this.breadCrumb1 = this.signalService.breadCrumb1
+  this.breadCrumb1Route = this.signalService.breadCrumb1Route
+  this.breadCrumb2 = this.signalService.breadCrumb2
+  this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
+  this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-  this.routeService.sendBreadCrumb2('Transcription');
-  this.routeService.sendBreadCrumb1('');
-  this.routeService.sendBreadCrumb1Route('');
-  this.routeService.sendcurrentRoute('')   
-  this.routeService.sendBreadCrumbb4LO('');
-  this.routeService.sendcurrentRoute('Transcription');
+  this.routeCurrently.set('Transcription')
+  this.breadCrumb1.set('')
+  this.breadCrumb1Route.set('')
+  this.breadCrumb2.set(' / Transcription')
+  this.BCbeforeLastOneRoute.set('')
+  this.BCbeforeLastOne.set('')
 
     setTimeout(() => {
       this.showShimmer = false;

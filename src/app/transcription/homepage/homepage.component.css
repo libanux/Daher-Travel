@@ -1,7 +1,6 @@
 section {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
   justify-content: space-between;
   margin: 0 20px;
 }
