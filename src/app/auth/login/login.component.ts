@@ -1,5 +1,6 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService, Params_Authenticate } from '../../service-folder/auth.service';
 
 
 @Component({
@@ -13,80 +14,72 @@ export class LoginComponent {
   emailError: string = '';
   passwordError: string = '';
   loginError: string = '';
-  loading : boolean = false;
+  loading: boolean = false;
 
-  constructor( private router: Router) { }
-  
+  constructor(private router: Router, private authserivece: AuthService) { }
 
 
-validateEmail() {
-  this.emailError = '';
-  if (this.email.trim() === '') {
-    this.emailError = "Email Required.";
-  } 
-  else {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  //EMAIL VALIDATION
+  validateEmail() {
+    this.emailError = '';
+    if (this.email.trim() === '') {
+      this.emailError = "Email Required.";
+    }
+    else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(this.email)) { this.emailError = "Invalid Email"; }
     }
-}
+  }
 
-validatePassword() {
-  this.passwordError = '';
-  if (this.password.trim() === '') {
-    this.passwordError = "Password Required.";
+
+  //PASSWORD VALIDATION
+  validatePassword() {
+    this.passwordError = '';
+    if (this.password.trim() === '') {
+      this.passwordError = "Password Required.";
+    }
+  }
+
+  //LOGIN FUNCTION
+  login() {
+    this.validateEmail();
+    this.validatePassword();
+    this.loading = true;
+    this.loginError = '';
+    if (this.emailError === '' && this.passwordError === '') {
+
+      const authenticationParams: Params_Authenticate = {
+        EMAIL: this.email,
+        PASSWORD: this.password
+      };
+
+      this.authserivece.authenticate(authenticationParams).subscribe({
+        next: (response: any) => {
+          if (response.myResult != null) {
+            this.loading = false;
+            this.router.navigate(['/dashboard']).then(() => {
+              window.scrollTo(0, 0);
+            }),
+              // console.log("my result", response.myResult)
+              localStorage.setItem('TICKET', response.myResult.ticket),
+              localStorage.setItem('userId', response.myResult.userID)
+          }
+          else {
+            this.loginError = 'Incorrect Email or password';
+            this.loading = false;
+          }
+        },
+        error: (error: any) => {
+          this.loading = false;
+          this.loginError = 'Authentication failed. Please check your credentials.';
+        }
+      });
+    }
+    else {
+      this.loading = false;
+    }
   }
 }
 
-// login.component.ts
- login() {
-  if(this.email == 'admin@gmail.com' && this.password=='123'){
-    localStorage.setItem('isLoggedIn','true');
-    this.router.navigate(['/dashboard']).then(() => {
-      window.scrollTo(0, 0);
-    });
-  }
-  else{
-    if(this.email ==''){
-      this.emailError='Email required';
-    }
-    if(this.password ==''){
-      this.passwordError='Password required'
-    }
-    else{
-      this.passwordError='Invalid Email or Password'
-    }
-  }
- 
-  // this.validateEmail();
-  // this.validatePassword();
 
-  // this.loginError = ''; // Reset login error
-
-  // if (this.emailError === '' && this.passwordError === '') {
-  //   this.loading = true;
-
-  //   try {
-  //     if (await this.authserivece.isLoggedIn()) { // Call isLoggedIn without arguments
-  //       this.loading = false;
-        
-  //       this.subjectService.sendisLoggedInValue(true);
-  
-  //       this.router.navigate(['/dashboard']).then(() => {
-  //         window.scrollTo(0, 0);
-  //       });
-  //     } 
-      
-  //     else {
-  //       this.loading = false;
-  //       const error = 'Login error';
-  //       this.loginError = error;
-  //     }
-  //   } catch (error: any) {
-  //     this.loading = false;
-  //     console.error('Login error:', error.message);
-  //     this.loginError = error.message;
-  //   }
-  // }
-}
-
-}
