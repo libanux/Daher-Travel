@@ -51,7 +51,9 @@ export class LoginComponent {
 
       const authenticationParams: Params_Authenticate = {
         EMAIL: this.email,
-        PASSWORD: this.password
+        PASSWORD: this.password,
+        IS_ACTIVE:true,
+        PLATFORM:"DASH"
       };
 
       this.authserivece.authenticate(authenticationParams).subscribe({
@@ -73,6 +75,7 @@ export class LoginComponent {
         error: (error: any) => {
           this.loading = false;
           this.loginError = 'Authentication failed. Please check your credentials.';
+          this.passwordError= 'Incorrect Email or password';
         }
       });
     }
