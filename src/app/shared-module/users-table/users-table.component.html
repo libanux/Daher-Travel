@@ -16,25 +16,24 @@
 <!-- table Titles -->
 <tr class="highlight-header">
     <ng-container>
-    <th class="col-xs-3">id</th>
-    <th class="col-xs-3">GOOGLE_U</th>
-    <th class="col-xs-3">email</th>
-    <th class="col-xs-3">IS_ACTIVE</th>
-    <th class="col-xs-3">FirstNAME</th>
-    <th class="col-xs-3">lastName</th>
-    <th class="col-xs-3">datetimeCreated</th>
+    <th class="col-xs-3">ID</th>
+    <th class="col-xs-3">First Name</th>
+    <th class="col-xs-3">Last Name</th>
+    <th class="col-xs-3">Username</th>
+    <th class="col-xs-3">Email</th>
+    <th class="col-xs-3">Status</th>
+
     </ng-container>
 </tr>
     
 <!-- table Body -->
 <tr *ngFor="let users of userArray" (click)="moveToRouteWithIndex('/users/view', users.id)">
-    <td>{{users.id}}</td>
-    <td>{{users.GOOGLE_U}}</td>
+    <td>{{users.user_ID}}</td>
+    <td>{{users.first_NAME}}</td>
+    <td>{{users.last_NAME}}</td>
+    <td>{{users.username}}</td>
     <td>{{users.email}}</td>
-    <td>{{users.IS_ACTIVE}}</td>
-    <td>{{users.FirstNAME}}</td>
-    <td>{{users.lastName}}</td>
-    <td>{{users.datetimeCreated}}</td>
+    <td>{{users.is_ACTIVE}}</td>
 </tr>
            
     </table>

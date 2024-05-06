@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '../../enviroments/enviroment.prod';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { GeneralService } from './general.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,22 +10,22 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   private apiUrl = '';
+  userArray = signal<any[]>([]);
 
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private generalService: GeneralService) {
     this.apiUrl = environment.apiLocalBaseUrl
   }
 
-  getUsers(): Observable<any> {
-    const jwt = localStorage.getItem('TICKET');
-  
-    // Check if jwt is available
+  //GET USERS
+  getUsers(): void {
+    const jwt = this.generalService.storedToken;
+
     if (!jwt) {
       console.error('JWT token not found in local storage');
+      return;
     }
-  
-     // Set headers
-     const headers = new HttpHeaders({
+
+    const headers = new HttpHeaders({
       Authorization: `Bearer ${jwt}`
     });
 
@@ -43,6 +44,19 @@ export class UserService {
       TOTAL_COUNT: 0
     };
 
-    return this.http.post<any>(this.apiUrl + '/GET_USER_BY_CRITERIA', requestBody, { headers });
+    this.http.post<any>(this.apiUrl + '/GET_USER_BY_CRITERIA', requestBody, { headers })
+      .subscribe(
+        (response) => {
+          if (response && response.my_Users && Array.isArray(response.my_Users.first)) {
+            this.userArray.set([...response.my_Users.first]); 
+          } else {
+            console.error('Invalid response format - expected my_Users.first to be an array');
+          }
+        },
+        (error) => {
+          console.error('Error fetching users:', error);
+
+        }
+      );
   }
 }
