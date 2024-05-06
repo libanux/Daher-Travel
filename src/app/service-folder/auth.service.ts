@@ -46,4 +46,6 @@ export class AuthService {
 export class Params_Authenticate {
   EMAIL?: string;
   PASSWORD?: string;
+  IS_ACTIVE?:boolean;
+  PLATFORM?:string;
 }
