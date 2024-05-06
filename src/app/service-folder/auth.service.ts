@@ -10,11 +10,9 @@ export class AuthService {
 
   private apiUrl = '';
 
-
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiLocalBaseUrl
   }
-
 
   //VALIDATE TOKEN
   isTokenExpired1(): boolean {

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class TransactionTableComponent {
 
   @Input() showDropdowns = true;
+  @Input() showTitle = true;
   status: string = "ACCEPTED"
 
   dropTitle1: string = 'Timeframe';
