@@ -15,6 +15,7 @@ export const routes: Routes = [
   {path:'subtitles', loadChildren: () => import('./subtitles/subtitles.module').then(m => m.SubtitlesModule)},
   {path:'transcription', loadChildren: () => import('./transcription/transcription.module').then(m => m.HomeModule)},
   {path:'translation', loadChildren: () => import('./translation/translation.module').then(m => m.TranslationModule)},
+  {path:'transaction', loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)},
   {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)}
 ];
 

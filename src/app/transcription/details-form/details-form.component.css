@@ -67,7 +67,7 @@ background: rgb(229, 238, 245);
 border-radius: 5px;
 justify-content: center;
 align-items: center;
-padding: 0 5px;
+padding: 0 2px;
 }
 
 /* .forInputFiles{
@@ -99,7 +99,7 @@ button {
     border-style: none;
     color: white;
     background: #203269;
-    padding: 10px 15px;
+    padding: 5px 10px;
     height: fit-content;
   }
   
