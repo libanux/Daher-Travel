@@ -1,0 +1,37 @@
+<div class="main">
+    <div class="title">Add User</div>
+
+    <div>
+
+    <div class="row1">
+        <div class="forInput">First Name<input class="input" type="text"  [(ngModel)]="user.first_NAME" placeholder="First Name">
+        <p class="error">{{this.firstNameError}}</p>
+        </div>
+        <div class="forInput">Last Name<input class="input" type="text" [(ngModel)]="user.last_NAME" placeholder="Last Name">
+            <p class="error">{{this.lastNameError}}</p>
+        </div>
+        <div class="forInput">Username<input class="input" type="text" [(ngModel)]="user.username" placeholder="Username">
+            <p class="error">{{this.usernameError}}</p>
+        </div>
+    </div>
+    <div class="row1">
+        <div class="forInput">Email<input class="input" type="text"  [(ngModel)]="user.email" placeholder="Email">
+            <p class="error">{{this.emailError}}</p>
+        </div>
+        <div class="forInput">Password<input class="input" type="password" [(ngModel)]="user.password" placeholder="Password">
+            <p class="error">{{this.passwordError}}</p>
+        </div>
+    </div>
+
+    <p class="error">{{this.message}}</p>
+
+<br>
+
+
+    <br>
+
+    <div class="row3">
+        <button class="submit" (click)="addUser()">Save</button>
+    </div>
+
+</div>
