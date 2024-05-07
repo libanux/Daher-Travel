@@ -28,7 +28,7 @@
 </tr>
 
 <!-- table Body -->
-<tr *ngFor="let trans of transactionArray">
+<tr *ngFor="let trans of transactionArray" (click)="moveToRouteWithIndex('/transaction/edit', trans.payment_ID)">
     <td>{{trans.payment_ID}}</td>
     <td>{{trans.payment_METHOD}}</td>
     <td>{{trans.amount}} $</td>

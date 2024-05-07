@@ -12,28 +12,24 @@
             <!-- table Titles -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">Username</th>
-                    <th class="col-xs-3">Video Url</th>
-                    <th class="col-xs-3">Duration</th>
+                    <th class="col-xs-3">file_ID</th>
                     <th class="col-xs-3">Cost</th>
-                    <th class="col-xs-3">Nb of Speakers</th>
-                    <th class="col-xs-3">Transcription Type</th>
-                    <th class="col-xs-3">Turnaround time</th>
+                    <th class="col-xs-3">source</th>
+                    <th class="col-xs-3">original_LANGUAGE</th>
+                    <th class="col-xs-3">translated_LANGUAGE</th>
                     <th class="col-xs-3">Status</th>
                 </ng-container>
             </tr>
             
             <!-- table Body -->
-            <tr class="body" *ngFor="let trans of transcriptionArray" (click)="moveToRouteWithIndex('/transcription/details',trans.id )">
-                <td>{{trans.USERNAME}}</td>
-                <td>{{trans.VIDEOURL}}</td>
-                <td>{{trans.DURATION}} min</td>
-                <td>{{trans.COST}} $</td>
-                <td>{{trans.NUMBEROFSPEAKERS}}</td>
-                <td>{{trans.TRANSCRIPTIONTYPE}}</td>
-                <td>{{trans.TURNAROUNDTIME}}</td>
-                <td class="status-values" [ngClass]="{'active-class': trans.STATUS === 'ACCEPTED','nonActive-class': trans.STATUS === 'DECLINED','pending-class': trans.STATUS === 'PENDING'}">
-                    <p>{{trans.STATUS}}</p>
+            <tr class="body" *ngFor="let trans of translationArray" (click)="moveToRouteWithIndex('/transcription/details',trans.id )">
+                <td>{{trans.file_ID}}</td>
+                <td>{{trans.price}} {{trans.currency}}</td>
+                <td>{{trans.source}}</td>
+                <td>{{trans.original_LANGUAGE}}</td>
+                <td>{{trans.translated_LANGUAGE}}</td>
+                <td class="status-values" [ngClass]="{'active-class': trans.status === 'ACCEPTED','nonActive-class': trans.status === 'DECLINED','pending-class': trans.status === 'In Progress'}">
+                    <p>{{trans.status}}</p>
                 </td>
             </tr>
                
