@@ -4,13 +4,13 @@
     <div>
 
     <div class="row1">
-        <div class="forInput">First Name<input class="input" type="text" readonly></div>
-        <div class="forInput">Last Name<input class="input" type="text" readonly></div>
+        <div class="forInput">First Name<input class="input" type="text" *ngIf="selectedUser" [(ngModel)]="selectedUser.first_NAME" readonly></div>
+        <div class="forInput">Last Name<input class="input" type="text" [(ngModel)]="selectedUser.last_NAME" readonly></div>
 
-        <div class="forInput">Phone number
+        <!-- <div class="forInput">Phone number
             <textarea class="input" name="" id="" cols="30" rows="10"></textarea>
-        </div>
-        <div class="forInput">Email<input class="input" type="text" readonly></div>
+        </div> -->
+        <div class="forInput">Email<input class="input" type="text" [(ngModel)]="selectedUser.email" readonly></div>
     </div>
 
 <br>

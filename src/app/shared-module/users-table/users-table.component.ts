@@ -28,13 +28,14 @@ export class UsersTableComponent {
 
 
   ngOnInit(): void {
-    this.userService.getUsers(); // Call the method to fetch and set values
-    this.userArray = this.userService.userArray(); // Retrieve the current array values
-    console.log(this.userArray); // Log the array values to the console
+    this.userService.getUsers(); 
+    this.userArray = this.userService.userArray(); 
+    console.log(this.userArray); 
   }
 
   // function for viewing a specific item
   moveToRouteWithIndex(route: string, id: number) {
+    console.log("Raw id value:", id);
     this.router.navigate([route], { queryParams: { id: id } }).then(() => {
       window.scrollTo(0, 0);
     });
