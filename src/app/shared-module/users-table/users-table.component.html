@@ -27,7 +27,7 @@
 </tr>
     
 <!-- table Body -->
-<tr *ngFor="let users of userArray" (click)="moveToRouteWithIndex('/users/view', users.id)">
+<tr *ngFor="let users of userArray" (click)="moveToRouteWithIndex('/users/view', users.user_ID)">
     <td>{{users.user_ID}}</td>
     <td>{{users.first_NAME}}</td>
     <td>{{users.last_NAME}}</td>
