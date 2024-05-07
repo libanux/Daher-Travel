@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, Signal, signal } from '@angular/core';
 import { environment } from '../../enviroments/enviroment.prod';
-import { Observable, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { GeneralService } from './general.service';
 import { User } from '../classes/User';
 
@@ -10,92 +10,82 @@ import { User } from '../classes/User';
 })
 export class UserService {
 
-  private apiUrl = '';
+
   userArray = signal<any[]>([]);
   selectedUser = signal(new User());
+  private apiUrl = '';
+  private pagingSize = 10;
+  private storedToken = '';
 
- 
-
-  constructor(private http: HttpClient, private generalService: GeneralService) {
-    this.apiUrl = environment.apiLocalBaseUrl
+  constructor(private httpClient: HttpClient, private generalService : GeneralService) {
+    this.apiUrl = environment.apiLocalBaseUrl;
+    this.pagingSize = this.generalService.PageSizing;
+    this.storedToken = this.generalService.storedToken
   }
 
+
   //GET USERS
-  getUsers(): void {
-    const jwt = this.generalService.storedToken;
-
-    if (!jwt) {
-      console.error('JWT token not found in local storage');
-      return;
-    }
-
+  getUsers(page_Number: number): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${jwt}`
+      'Authorization': `Bearer ${this.storedToken}`, 
+      'Content-Type': 'application/json'
     });
 
+    const startRow = page_Number * this.pagingSize;
+    const endRow = this.pagingSize + (page_Number * this.pagingSize);
+
     const requestBody = {
-      OWNER_ID: 1,
-      GOOGLE_U: "",
-      FIRST_NAME: "",
-      LAST_NAME: "",
-      USERNAME: "",
-      EMAIL: "",
-      PASSWORD: "",
-      USER_TYPE_CODE: "",
-      USER_LANG_CODE: "",
-      START_ROW: 0,
-      END_ROW: 10,
-      TOTAL_COUNT: 0
+      "OWNER_ID": 1,
+      "GOOGLE_U": "",
+      "FIRST_NAME": "",
+      "LAST_NAME": "",
+      "USERNAME": "",
+      "EMAIL": "",
+      "PASSWORD": "",
+      "USER_TYPE_CODE": "",
+      "USER_LANG_CODE": "",
+      "START_ROW": startRow,
+      "END_ROW": endRow,
+      "TOTAL_COUNT": 0
     };
-
-    this.http.post<any>(this.apiUrl + '/GET_USER_BY_CRITERIA', requestBody, { headers })
-      .subscribe(
-        (response) => {
-          if (response && response.my_Users && Array.isArray(response.my_Users.first)) {
-            this.userArray.set([...response.my_Users.first]); 
-          } else {
-            console.error('Invalid response format - expected my_Users.first to be an array');
-          }
-        },
-        (error) => {
-          console.error('Error fetching users:', error);
-
-        }
-      );
+    return this.httpClient.post<any>(this.apiUrl + '/GET_USER_BY_CRITERIA', requestBody, { headers });
   }
 
 
    //GET USER BY ID
-   getUserByID(userID: number): void {
+   getUserByID(userID: number): Observable<any> {
     const jwt = this.generalService.storedToken;
 
-    if (!jwt) {
-      console.error('JWT token not found in local storage');
-      return;
-    }
-
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${jwt}`
+      'Authorization': `Bearer ${this.storedToken}`, 
+      'Content-Type': 'application/json'
     });
-
     const requestBody = {
       USER_ID: userID
     };
 
-    this.http.post<any>(this.apiUrl + '/GET_USER_BY_USER_ID', requestBody, { headers })
-      .subscribe(
-        (response) => {
-          console.log(response)
-          if (response) {
-            this.selectedUser.set(response.my_User);
-          } else {
-            console.error('Invalid response format ');
-          }
-        },
-        (error) => {
-          console.error('Error fetching users:', error);
+      return this.httpClient.post<any>(this.apiUrl + '/GET_USER_BY_USER_ID', requestBody, { headers });
+  }
 
-        }
-      );
+
+  // ADD USER
+  addUser(user:User): Observable<any> {
+    const requestBody = {
+      USER_ID: user.user_ID,
+      OWNER_ID: user.owner_ID,
+      GOOGLE_U: user.google_U,
+      FIRST_NAME: user.first_NAME,
+      LAST_NAME: user.last_NAME,
+      USERNAME: user.username,
+      EMAIL: user.email,
+      PASSWORD: user.password,
+      USER_TYPE_CODE: user.user_TYPE_CODE,
+      USER_LANG_CODE:user.user_LANG_CODE ,
+      IS_ACTIVE: user.is_ACTIVE,
+      IS_DELETED: user.is_DELETED,
+      PROFILE_COMPLETED:user.profile_COMPLETED ,
+      ENTRY_DATE: user.entry_DATE
+    };
+    return this.httpClient.post<any>(this.apiUrl + '/SIGN_UP', requestBody)
   }
 }
