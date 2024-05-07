@@ -63,7 +63,6 @@ export class LoginComponent {
             this.router.navigate(['/dashboard']).then(() => {
               window.scrollTo(0, 0);
             }),
-              // console.log("my result", response.myResult)
               localStorage.setItem('TICKET', response.myResult.ticket),
               localStorage.setItem('userId', response.myResult.userID)
           }

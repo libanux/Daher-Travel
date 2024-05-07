@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { BreadcrumbService } from '../../signals/breadcrumb.service';
+import { TranslationService } from '../../service-folder/translation.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -12,8 +13,13 @@ export class MainComponent implements OnInit{
   breadCrumb2 =  signal('');
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
-  
-  constructor(private signalService : BreadcrumbService) { }
+
+  showShimmer = true;
+  translationARRAY = [];
+  length = 0;
+  currentPage = 0;
+
+  constructor(private signalService : BreadcrumbService, private translationService : TranslationService) { }
 
   ngOnInit(): void {
     this.routeCurrently = this.signalService.routeCurrently
@@ -29,6 +35,17 @@ export class MainComponent implements OnInit{
     this.breadCrumb2.set(' / Translation')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
+
+    this.translationService.GET_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
+      next: (response: any) => {
+        console.log(response.my_TranslationsOrders.first)
+        this.translationARRAY = response.my_TranslationsOrders.first;
+        this.length = response.my_TranslationsOrders.second;
+        // this.pageNumber = Math.ceil(this.length / this.apiService.PAGING_SIZE);
+      },
+      error: (error) => {this.showShimmer = false; },
+      complete: () => {this.showShimmer = false;}
+    });
 
     }
   }

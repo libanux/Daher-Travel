@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PaymentService } from '../../service-folder/payment.service';
 import { Subscription } from 'rxjs';
 
@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs';
 })
 export class MainTransactionComponent implements OnInit{
 
+  @Input() showTitle = false;
+  
   transArray = [];
   length = 0;
   showShimmer = true;
@@ -30,7 +32,7 @@ ngOnDestroy(): void {
         this.length = response.my_Payments.second;
         // this.pageNumber = Math.ceil(this.length / this.apiService.PAGING_SIZE);
       },
-      error: (error) => {this.showShimmer = false;  console.log(error);},
+      error: (error) => {this.showShimmer = false;},
       complete: () => {this.showShimmer = false;}
     });
     

@@ -24,18 +24,6 @@ moveToRoute(route: string) {
   this.router.navigate([route]).then(() => {window.scrollTo(0, 0)});
 }
 
-  // Define the isActive method to color the links in the sidebar
-  isActive(route: string): boolean {
-    return this.router.isActive(route, true);
-  }
-
-  isActive2(route1: string, route2: string): boolean {
-    const currentRoute = this.router.url;
-    // Define an array of routes you want to consider for activation
-    const desiredRoutes = [route1, route2];
-    return desiredRoutes.some(desiredRoute => currentRoute.includes(desiredRoute));
-  }
-
   isActive3(route1: string, route2: string, route3: string): boolean {
     const currentRoute = this.router.url;
     // Define an array of routes you want to consider for activation

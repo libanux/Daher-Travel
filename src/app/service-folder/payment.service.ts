@@ -40,19 +40,28 @@ let endRow = this.pagingSize + (page_Number * this.pagingSize)
   };
 
   return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_CRITERIA', requestBody, { headers });
+}
 
-  // return this.httpClient.post<any>(`${this.apiUrl}/GET_PAYMENT_BY_CRITERIA`, requestBody, { headers }).pipe(
-  //   retry(2),
-  //   catchError((error: HttpErrorResponse) => {
-  //     if(error.error.exceptionCode != ''){
-  //       // this.subjectsService.sendAlertData(error.error.exceptionMsg, true);
-  //     }
+EDIT_PAYMENT(payment: any):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
 
-  //     else{
-  //       // this.subjectsService.sendAlertData('Error', true);
-  //     }
-  //     return throwError(() => new Error(error.error.data.error));
-  //   }))
+    // Define the request body
+  const requestBody = {
+    "PAYMENT_ID":payment.PAYMENT_ID,
+    "PAYMENT_METHOD": "STRIPE",
+    "AMOUNT":payment.AMOUNT,
+    "TIME_CREATION":payment.TIME_CREATION,
+    "USER_ID":payment.USER_ID,
+    "ENTRY_USER_ID":payment.ENTRY_USER_ID,
+    "ENTRY_DATE":payment.ENTRY_DATE,
+    "OWNER_ID": 1
+  };
+
+  return this.httpClient.post<any>(this.apiUrl + '/EDIT_PAYMENT', requestBody, { headers });
 }
 
 }

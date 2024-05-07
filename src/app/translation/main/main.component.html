@@ -1,3 +1,9 @@
 <main>
-    <app-translation-table></app-translation-table>
+<app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+      
+<div *ngIf="!showShimmer">
+    <app-translation-table
+    [translationArray]="translationARRAY">
+    </app-translation-table>
+</div>
 </main>
