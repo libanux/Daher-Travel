@@ -1,0 +1,13 @@
+<main>
+    
+    <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+      
+    <div *ngIf="!showShimmer">
+        <app-transaction-table
+        [transactionArray]="transArray"
+        [showTitle]="false"
+        ></app-transaction-table>
+    </div>
+    
+</main>
+            

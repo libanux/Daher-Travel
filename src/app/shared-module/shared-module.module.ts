@@ -29,6 +29,7 @@ import { TransactionTableComponent } from './transaction-table/transaction-table
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ProofreadingTableComponent } from './proofreading-table/proofreading-table.component';
 import { AdminsTableComponent } from './admins-table/admins-table.component';
+import { MainTransactionComponent } from './main-transaction/main-transaction.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ declarations: [
   TransactionTableComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
-  AdminsTableComponent 
+  AdminsTableComponent,
+  MainTransactionComponent 
 ],
 
 imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -77,12 +79,12 @@ exports: [
   CountBoxComponent,
   TopicsComponent,
   ProgressBarComponent,
-  TranscriptionTableComponent,
+  MainTransactionComponent,
   CaptionTableComponent,
   TranslationTableComponent,
   SubtitlesTableComponent,
   NotFoundComponent,
-  TransactionTableComponent,
+  TranscriptionTableComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
   AdminsTableComponent

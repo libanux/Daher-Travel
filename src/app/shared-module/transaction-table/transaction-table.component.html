@@ -18,21 +18,23 @@
 <!-- table Titles -->
 <tr class="highlight-header">
 <ng-container>
-    <th class="col-xs-3">id</th>
-    <th class="col-xs-3">paymentMethod</th>
-    <th class="col-xs-3">amount</th>
-    <th class="col-xs-3">datetimeOfCreation</th>
+    <th class="col-xs-3">Id</th>
+    <th class="col-xs-3">PaymentMethod</th>
+    <th class="col-xs-3">Amount</th>
+    <th class="col-xs-3">Entry Date</th>
+    <th class="col-xs-3">Creation Time</th>
     <th class="col-xs-3">userId</th>
 </ng-container>
 </tr>
 
 <!-- table Body -->
 <tr *ngFor="let trans of transactionArray">
-    <td>{{trans.id}}</td>
-    <td>{{trans.paymentMethod}}</td>
+    <td>{{trans.payment_ID}}</td>
+    <td>{{trans.payment_METHOD}}</td>
     <td>{{trans.amount}} $</td>
-    <td>{{trans.datetimeOfCreation}} min</td>
-    <td>{{trans.userId}}</td>
+    <td>{{trans.entry_DATE}}</td>
+    <td>{{trans.entry_DATE}}</td>
+    <td>{{trans.user_ID}}</td>
 </tr>
        
 </table>

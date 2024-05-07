@@ -5,7 +5,7 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'] // Corrected from styleUrl to styleUrls
 })
 export class AppComponent{
   title = 'servSmart';
@@ -48,11 +48,4 @@ export class AppComponent{
         });
       });
   }
-  }
-  
-  
-  
-  
-  
-  
-  
+}
