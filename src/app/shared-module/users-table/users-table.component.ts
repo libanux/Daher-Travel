@@ -30,7 +30,7 @@ export class UsersTableComponent {
   showShimmer: boolean = true;
   currentPage = 0;
   ngOnInit(): void {
-    this.userService.getUsers(this.currentPage).subscribe({
+    this.userService.GET_USERS(this.currentPage).subscribe({
       next: (response: any) => {
         this.userArray = response.my_Users.first;
       },
@@ -46,7 +46,6 @@ export class UsersTableComponent {
 
   // function for viewing a specific item
   moveToRouteWithIndex(route: string, id: number) {
-    console.log("Raw id value:", id);
     this.router.navigate([route], { queryParams: { id: id } }).then(() => {
       window.scrollTo(0, 0);
     });

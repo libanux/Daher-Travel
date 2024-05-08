@@ -37,6 +37,13 @@
     background: #203269;
     padding: 10px 15px;
 }
+.row3 .submit-disable{
+    border-radius: 5px;
+    border-style: none;
+    color: white;
+    background: #20326971;
+    padding: 10px 15px;
+}
 
 .forInput{
     display: flex;
@@ -62,3 +69,23 @@
     box-shadow: 0 0 0 4px rgba(244, 218, 190, 0.1);
     border-color: rgba(25, 98, 154, 0.778);
 }
+
+.loader {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #fff;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
