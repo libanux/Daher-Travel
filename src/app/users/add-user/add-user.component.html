@@ -31,7 +31,10 @@
     <br>
 
     <div class="row3">
-        <button class="submit" (click)="addUser()">Save</button>
+        <button class="submit" (click)="addUser()">
+            <span *ngIf="!isAdding" >Save</span>
+            <span *ngIf="isAdding" class="loader"></span>
+        </button>
     </div>
 
 </div>

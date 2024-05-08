@@ -17,18 +17,18 @@ export class AuthService {
   //VALIDATE TOKEN
   isTokenExpired1(): boolean {
     const token = this.getToken();
-    if (!token) return true; // Token doesn't exist or is invalid
+    if (!token) return true;
     const tokenParts = token.split('.');
-    if (tokenParts.length !== 3) return true; // Invalid token format
+    if (tokenParts.length !== 3) return true;
     const payload = JSON.parse(atob(tokenParts[1]));
-    if (!payload.exp) return true; // Expiration time not found in payload
+    if (!payload.exp) return true;
     const expirationTime = payload.exp * 1000;
     const currentTime = new Date().getTime();
     return expirationTime < currentTime;
   }
 
   //GET TOKEN FROM LOCAL STORAGE
-  getToken(): string | null { // Adjusting return type to allow null
+  getToken(): string | null {
     return localStorage.getItem('TICKET');
   }
 
@@ -44,6 +44,6 @@ export class AuthService {
 export class Params_Authenticate {
   EMAIL?: string;
   PASSWORD?: string;
-  IS_ACTIVE?:boolean;
-  PLATFORM?:string;
+  IS_ACTIVE?: boolean;
+  PLATFORM?: string;
 }

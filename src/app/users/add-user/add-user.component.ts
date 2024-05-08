@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { User } from '../../classes/User';
 import { UserService } from '../../service-folder/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -17,8 +18,9 @@ usernameError: string = '';
 emailError: string = '';
 passwordError: string = '';
 message: string ="";
+isAdding: boolean = false;
 
-constructor(private userSevice: UserService){
+constructor(private userSevice: UserService,private router: Router){
   this.user = new User();
   this.user.user_TYPE_CODE='001';
   this.user.user_LANG_CODE='001';
@@ -29,13 +31,17 @@ constructor(private userSevice: UserService){
 }
 //ADD USER
 addUser(){
+  this.isAdding=true;
   if (this.isValidUser()) {
-    this.userSevice.addUser(this.user).subscribe({
+    this.userSevice.ADD_USER(this.user).subscribe({
       next: (response: any) => {
       this.message="";
+      this.isAdding=false;
       },
       error: (error: any) => { console.log(error);
         this.message = error.error.exceptionMsg;
+        this.isAdding=false;
+        this.router.navigate(['/users']);
        },
       complete: () => { }
     });
