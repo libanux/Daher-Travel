@@ -61,11 +61,12 @@ main{
   
   th
    {
-    text-align: left;
+    text-align: center;
     padding: 8px;
+    
   }
   td{
-    text-align: left;
+    text-align: center;
     padding: 8px;
     align-items: flex-start;
   }
@@ -85,4 +86,52 @@ main{
       display: flex;
       flex-direction: column;
     }
+  }
+
+  .Completed-class p,
+  .DECLINED-class p,
+  .pending-class p,
+  .InProgress-class p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    padding: 5px 10px;
+    margin: auto 0;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 7px;
+  }
+  
+  .InProgress-class p {
+    background: #1665c061;
+    color: #005bb0;
+    border-color: #0078b0;
+    text-transform: uppercase;
+  }
+
+  .DECLINED-class p {
+    background: #ffc5c5;
+    color: #df0404;
+    border-color: #df0404;
+    text-transform: uppercase;
+  }
+  .status-values {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .Completed-class p {
+    background: #16c09861;
+    color: #00b087;
+    border-color: #00b087;
+    text-transform: uppercase;
+  }
+  
+  .pending-class p {
+    background: #f3e78261;
+    color: #d6b306;
+    border-color: #d6b306;
+    text-transform: uppercase;
   }

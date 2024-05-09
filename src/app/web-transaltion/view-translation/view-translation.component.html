@@ -1,0 +1,24 @@
+<div class="main">
+    <div class="title">View Website Translation</div>
+
+    <div>
+
+    <div class="row1">
+        <div class="forInput">Quote ID<input class="input" type="text"  [(ngModel)]="selectedTranslation.quote_TRANSLATION_ID" readonly></div>
+        <div class="forInput">URL Source<input class="input" type="text"  [(ngModel)]="selectedTranslation.url_SOURCE" readonly></div>
+        <div class="forInput">Source Language<input class="input" type="text" [(ngModel)]="selectedTranslation.source_LANGUAGE" readonly></div>
+        <div class="forInput">Target Language<input class="input" type="text" [(ngModel)]="selectedTranslation.target_LANGUAGE" readonly></div>
+        <div class="forInput">Client First Name<input class="input" type="text" [(ngModel)]="translationUser.first_NAME" readonly></div>
+        <div class="forInput">Client Last Name<input class="input" type="text" [(ngModel)]="translationUser.last_NAME" readonly></div>
+        <div class="forInput">Email<input class="input" type="text" [(ngModel)]="translationUser.email" readonly></div>
+    </div>
+
+<br>
+    <br>
+
+    <div class="row3">
+        <button class="submit" (click)="back()">Go back</button>
+    </div>
+
+</div>
+

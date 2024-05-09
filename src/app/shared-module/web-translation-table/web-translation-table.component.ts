@@ -35,7 +35,6 @@ export class WebTranslationTableComponent {
     this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
       next: (response: any) => {
         this.webTranslationArray = response.my_QUOTE_TRANSLATIONS.first;
-        console.log("RESPONSE:",response)
       },
       error: (error: any) => { this.showShimmer = false; console.log(error); },
       complete: () => { this.showShimmer = false; }

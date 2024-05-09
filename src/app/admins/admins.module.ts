@@ -7,6 +7,7 @@ import { SharedModuleModule } from '../shared-module/shared-module.module';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { EditAdminComponent } from './edit-admin/edit-admin.component';
 import { DeleteAdminComponent } from './delete-admin/delete-admin.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { DeleteAdminComponent } from './delete-admin/delete-admin.component';
   imports: [
     CommonModule,
     AdminsRoutingModule,
-    SharedModuleModule
+    SharedModuleModule,
+    FormsModule 
   ]
 })
 export class AdminsModule { }

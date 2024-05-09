@@ -37,6 +37,13 @@
     background: #203269;
     padding: 10px 15px;
 }
+.row3 .submit-disable{
+    border-radius: 5px;
+    border-style: none;
+    color: white;
+    background: #20326971;
+    padding: 10px 15px;
+}
 
 .forInput{
     display: flex;
@@ -61,11 +68,6 @@
     outline: none;
     box-shadow: 0 0 0 4px rgba(244, 218, 190, 0.1);
     border-color: rgba(25, 98, 154, 0.778);
-}
-
-.error{
-    color: red;
-    font-size: 12px;
 }
 
 .loader {
