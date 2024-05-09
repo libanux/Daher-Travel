@@ -19,6 +19,7 @@ export class SidebarComponent {
   logout() {
     localStorage.removeItem('TICKET');
     localStorage.removeItem('userId');
+    // localStorage.removeItem('userId');
     this.router.navigate(['']);
   }
 
