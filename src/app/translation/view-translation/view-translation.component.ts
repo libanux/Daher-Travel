@@ -18,7 +18,7 @@ export class ViewTranslationComponent implements OnInit{
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
 
-  constructor(private signalService : BreadcrumbService, private translationService : TranslationService, private route: ActivatedRoute) { }
+  constructor(private signalService : BreadcrumbService) { }
 
 ngOnInit(): void {
   this.routeCurrently = this.signalService.routeCurrently

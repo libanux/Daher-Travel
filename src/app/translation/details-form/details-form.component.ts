@@ -1,9 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbService } from '../../signals/breadcrumb.service';
 import { TranslationService } from '../../service-folder/translation.service';
 import { ViewedObjectService } from '../../signals/viewed-object.service';
-
 @Component({
   selector: 'app-details-form',
   templateUrl: './details-form.component.html',
@@ -22,7 +20,6 @@ export class DetailsFormComponent implements OnInit{
 ngOnInit(): void {
 
   this.selected_Translation = this.viewedObj_Service.selected_Translation
-
 
   this.translationService.GET_FILES_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.FileArray = response.my_ORDER_FILES;},

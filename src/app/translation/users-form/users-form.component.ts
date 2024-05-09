@@ -1,6 +1,4 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbService } from '../../signals/breadcrumb.service';
 import { TranslationService } from '../../service-folder/translation.service';
 import { ViewedObjectService } from '../../signals/viewed-object.service';
 @Component({
