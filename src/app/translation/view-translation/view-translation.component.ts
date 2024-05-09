@@ -18,11 +18,7 @@ export class ViewTranslationComponent implements OnInit{
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
 
-  selected_Translation =  signal(0);
-
-  translation_ID = 0
-
-  constructor(private viewedObj_Service : ViewedObjectService, private signalService : BreadcrumbService, private translationService : TranslationService, private route: ActivatedRoute) { }
+  constructor(private signalService : BreadcrumbService, private translationService : TranslationService, private route: ActivatedRoute) { }
 
 ngOnInit(): void {
   this.routeCurrently = this.signalService.routeCurrently
@@ -39,17 +35,6 @@ ngOnInit(): void {
   this.BCbeforeLastOneRoute.set('')
   this.BCbeforeLastOne.set('')
 
-  this.selected_Translation = this.viewedObj_Service.selected_Translation
-
-    console.log(this.selected_Translation())
-
-  this.translationService.GET_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
-    next : (response: string) => {
-      console.log(response)
-        },
-    error: (error) => {console.log(error)},
-    complete: () => {}
-  });
   
 }
 }

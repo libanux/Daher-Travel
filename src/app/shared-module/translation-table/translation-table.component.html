@@ -13,7 +13,7 @@
             <tr class="highlight-header">
                 <ng-container>
                     <th class="col-xs-3">file_ID</th>
-                    <th class="col-xs-3">Cost</th>
+                    <th class="col-xs-3">Cost+Curreny</th>
                     <th class="col-xs-3">source</th>
                     <th class="col-xs-3">original_LANGUAGE</th>
                     <th class="col-xs-3">translated_LANGUAGE</th>
@@ -23,12 +23,12 @@
             
             <!-- table Body -->
             <tr class="body" *ngFor="let trans of translationArray" (click)="moveToRouteWithIndex('/translation/details',trans.translation_ORDER_ID )">
-                <td>{{trans.file_ID}}</td>
+                <td>{{trans.translation_ORDER_ID}}</td>
                 <td>{{trans.price}} {{trans.currency}}</td>
                 <td>{{trans.source}}</td>
                 <td>{{trans.original_LANGUAGE}}</td>
                 <td>{{trans.translated_LANGUAGE}}</td>
-                <td class="status-values" [ngClass]="{'active-class': trans.status === 'ACCEPTED','nonActive-class': trans.status === 'DECLINED','pending-class': trans.status === 'In Progress'}">
+                <td class="status-values" [ngClass]="{'Completed-class': trans.status === 'Completed','InProgress-class': trans.status === 'InProgress','DECLINED-class': trans.status === 'DECLINED','pending-class': trans.status === 'Pending'}">
                     <p>{{trans.status}}</p>
                 </td>
             </tr>
