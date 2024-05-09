@@ -18,8 +18,6 @@ export class LoginComponent {
 
   constructor(private router: Router, private authserivece: AuthService) { }
 
-
-
   //EMAIL VALIDATION
   validateEmail() {
     this.emailError = '';
