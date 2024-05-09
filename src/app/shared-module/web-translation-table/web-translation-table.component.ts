@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from '../../service-folder/user.service';
 import { User } from '../../classes/User';
 import { Router } from '@angular/router';
+import { TranslationService } from '../../service-folder/translation.service';
 
 @Component({
   selector: 'app-web-translation-table',
@@ -23,17 +24,18 @@ export class WebTranslationTableComponent {
   dropOptions2: string[] = ["Option1", "Option2", "Option3"];
   dropOptions3: string[] = ["Option1", "Option2", "Option3"];
 
-  user!: User
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private translationsService: TranslationService) { }
 
-  userArray: any[] = [];
+  webTranslationArray: any[] = [];
   showShimmer: boolean = true;
   currentPage = 0;
+
   ngOnInit(): void {
-    this.userService.GET_USERS(this.currentPage).subscribe({
+    this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
       next: (response: any) => {
-        this.userArray = response.my_Users.first;
+        this.webTranslationArray = response.my_QUOTE_TRANSLATIONS.first;
+        console.log("RESPONSE:",response)
       },
       error: (error: any) => { this.showShimmer = false; console.log(error); },
       complete: () => { this.showShimmer = false; }

@@ -27,13 +27,13 @@
     </tr>
         
     <!-- table Body -->
-    <tr *ngFor="let users of userArray" (click)="moveToRouteWithIndex('/users/view', users.user_ID)">
-        <td>{{users.user_ID}}</td>
-        <td>{{users.first_NAME}}</td>
-        <td>{{users.last_NAME}}</td>
-        <td>{{users.username}}</td>
-        <td>{{users.email}}</td>
-        <td>{{users.is_ACTIVE}}</td>
+    <tr *ngFor="let translation of webTranslationArray" (click)="moveToRouteWithIndex('/users/view', translation.user_ID)">
+        <td>{{translation.user_ID}}</td>
+        <td>{{translation.first_NAME}}</td>
+        <td>{{translation.last_NAME}}</td>
+        <td>{{translation.username}}</td>
+        <td>{{translation.email}}</td>
+        <td>{{translation.is_ACTIVE}}</td>
     </tr>
                
         </table>
