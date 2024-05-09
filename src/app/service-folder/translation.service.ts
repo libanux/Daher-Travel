@@ -124,7 +124,6 @@ GET_PAYMENT_TRANSLATION_BY_ID(ID : number):Observable<any>{
 EDIT_FILE(file :any, userid: any):Observable<any>{
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`, 
-    'Content-Type': 'application/json' // Set content type to JSON
   });
 
     // Define the request body
@@ -147,14 +146,14 @@ EDIT_FILE(file :any, userid: any):Observable<any>{
   };
 
   const formData = new FormData()
-  
   formData.append('file', file)
   formData.append('i_File', JSON.stringify(requestBody));
 
   console.log(file)
-  console.log(userid)
+  console.log(formData)
 
-  return this.httpClient.post<any>(this.apiUrl + '/EDIT_FILE', formData, { headers });
+  return this.httpClient.post<any>(this.apiUrl + '/EDIT_FILE', formData, { headers })
+
 }
 
 // GET ALL WEBSITE TRANSLATIONS (QUOTATIONS) 

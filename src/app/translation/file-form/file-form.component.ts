@@ -16,9 +16,17 @@ export class FileFormComponent{
   }
   
   onFileChange(event: any) {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedFile = inputElement.files ? inputElement.files[0] : null;
+
     const file: File = event.target.files[0];
+
+
+    console.log(selectedFile)
+    console.log('fileeee ',file)
+
     const files: FileList = event.target.files;
-    this.ADD_FILE(file);
+    this.ADD_FILE(selectedFile);
 
     for (let i = 0; i < files.length; i++) {
       this.uploadedFiles.push(files[i]);
@@ -28,7 +36,7 @@ export class FileFormComponent{
   ADD_FILE(files: any){
     this.translationService.EDIT_FILE(files, this.userId).subscribe({
       next : (response: any) => {console.log(response)},
-      error: (error) => {console.log(error)},
+      error: (error:any) => {console.log(error)},
       complete: () => {}
     });
   }
