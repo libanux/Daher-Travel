@@ -14,16 +14,22 @@ export class SidebarComponent {
 
   constructor(private router: Router, private sanitizer: DomSanitizer) { }
 
-logout() {
-  localStorage.removeItem('accessToken');
-  this.router.navigate(['']);
-}
 
-// function for routing
-moveToRoute(route: string) {
-  this.router.navigate([route]).then(() => {window.scrollTo(0, 0)});
-}
+  //LOGOUT FUNCTION 
+  logout() {
+    localStorage.removeItem('TICKET');
+    localStorage.removeItem('userId');
+    // localStorage.removeItem('userId');
+    this.router.navigate(['']);
+  }
 
+  // ROUTING FUNCTION
+  moveToRoute(route: string) {
+    this.router.navigate([route]).then(() => { window.scrollTo(0, 0) });
+  }
+
+
+  //ACTIVE ROUTE
   isActive3(route1: string, route2: string, route3: string): boolean {
     const currentRoute = this.router.url;
     // Define an array of routes you want to consider for activation
@@ -31,10 +37,10 @@ moveToRoute(route: string) {
     return desiredRoutes.some(desiredRoute => currentRoute.includes(desiredRoute));
   }
 
-
   show = false;
-  showMore()
-{
-this.show = ! this.show
-}
+  showMore() {
+    this.show = !this.show
+  }
+
+
 }
