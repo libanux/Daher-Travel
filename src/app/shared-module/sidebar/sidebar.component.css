@@ -69,7 +69,7 @@ aside .BELOWsidebarLists {
 }
 
 /* li link */
-aside .BELOWsidebarLists .listItemss {
+aside .listItemss {
   width: 200px;
   cursor: pointer;
   list-style: none;
@@ -85,7 +85,7 @@ aside .BELOWsidebarLists .listItemss {
 }
 
 /* li link */
-aside .BELOWsidebarLists .showmoreUL li{
+aside .showmoreUL li{
   width: 200px;
   cursor: pointer;
   list-style: none;
@@ -100,7 +100,7 @@ aside .BELOWsidebarLists .showmoreUL li{
 }
 
 /* li hover */
-aside .BELOWsidebarLists .showmoreUL li:hover {
+aside .showmoreUL li:hover {
   background-color: #20326933;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -148,33 +148,28 @@ aside .sidebarLists li.active .svg-image path {
 
 
 /* li hover */
-aside .BELOWsidebarLists .listItemss:hover {
+aside .listItemss:hover {
   background-color: #20326933;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-aside .BELOWsidebarLists .listItemss.active{
+aside .listItemss.active{
  background-color: #1B59F81A;
  color: #203269;
 }
 
-aside .BELOWsidebarLists .services {
+aside .services {
   display: flex;
   padding: auto 0;
   justify-content: space-between;
 }
 
-aside .BELOWsidebarLists .services .div1 {
+aside .services .div1 {
   display: flex;
   padding: 0;
   column-gap: 10px;
 
 }
-
-aside .BELOWsidebarLists .listItemss.active .svg-image path {
-  stroke: #203269; /* Change SVG color to desired color when the li is active */
-}
-
 
 .forhr{
   width: 220px;
