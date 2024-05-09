@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddUserComponent } from './add-user.component';
+import { ViewTranslationComponent } from './view-translation.component';
 
-describe('AddUserComponent', () => {
-  let component: AddUserComponent;
-  let fixture: ComponentFixture<AddUserComponent>;
+describe('ViewTranslationComponent', () => {
+  let component: ViewTranslationComponent;
+  let fixture: ComponentFixture<ViewTranslationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddUserComponent]
+      declarations: [ViewTranslationComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddUserComponent);
+    fixture = TestBed.createComponent(ViewTranslationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

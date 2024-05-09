@@ -69,12 +69,6 @@
     border-color: rgba(25, 98, 154, 0.778);
 }
 
-
-
-
-
-
-
 .input-text{
     border: 2px solid #EFF0F6;
     line-height: 6ex;
@@ -90,6 +84,31 @@
 .dropdown option {
     height: 30px;
 }
+
+.error{
+    color: red;
+    font-size: 12px;
+}
+
+.loader {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #fff;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 
 

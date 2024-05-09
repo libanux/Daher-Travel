@@ -1,7 +1,6 @@
 <main>
 
 <div *ngIf="showTitle"><h3>Users Table</h3></div>
-<button (click)="addUser()">Add</button>
 <div class="forDrop" *ngIf="showDropdowns">
     <div><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1"></app-dropdown-filter></div>
     <div><app-dropdown-filter [dropTitle]="dropTitle2" [dropOptions]="dropOptions2"></app-dropdown-filter></div>

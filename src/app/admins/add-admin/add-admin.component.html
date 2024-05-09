@@ -1,31 +1,40 @@
 <div class="main">
-    <div class="title">Add new Admin</div>
+    <div class="title">Add Admin</div>
 
     <div>
 
     <div class="row1">
-        <div class="forInput">First Name<input class="input" type="text" readonly></div>
-        <div class="forInput">Last Name<input class="input" type="text" readonly></div>
-
-        <div class="forInput">Phone number
-            <textarea class="input" name="" id="" cols="30" rows="10"></textarea>
+        <div class="forInput">First Name<input class="input" type="text"  [(ngModel)]="user.first_NAME" placeholder="First Name">
+        <p class="error">{{this.firstNameError}}</p>
         </div>
-        <div class="forInput">Email<input class="input" type="text" readonly></div>
+        <div class="forInput">Last Name<input class="input" type="text" [(ngModel)]="user.last_NAME" placeholder="Last Name">
+            <p class="error">{{this.lastNameError}}</p>
+        </div>
+        <div class="forInput">Username<input class="input" type="text" [(ngModel)]="user.username" placeholder="Username">
+            <p class="error">{{this.usernameError}}</p>
+        </div>
     </div>
+    <div class="row1">
+        <div class="forInput">Email<input class="input" type="text"  [(ngModel)]="user.email" placeholder="Email">
+            <p class="error">{{this.emailError}}</p>
+        </div>
+        <div class="forInput">Password<input class="input" type="password" [(ngModel)]="user.password" placeholder="Password">
+            <p class="error">{{this.passwordError}}</p>
+        </div>
+    </div>
+
+    <p class="error">{{this.message}}</p>
 
 <br>
 
-    <div class="row2">
-        <select class="input-text dropdown">
-            <option [value]="option" *ngFor="let option of arrayDropDown">{{option}}</option>
-          </select>
-          
-    </div>
 
     <br>
 
     <div class="row3">
-        <button>submit</button>
+        <button class="submit" (click)="addUser()">
+            <span *ngIf="!isAdding" >Save</span>
+            <span *ngIf="isAdding" class="loader"></span>
+        </button>
     </div>
 
 </div>

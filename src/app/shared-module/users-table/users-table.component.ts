@@ -39,11 +39,6 @@ export class UsersTableComponent {
     });
   }
 
-  //ADD USER FUNCTION
-  addUser() {
-    this.router.navigate(['/users/add']);
-  }
-
   // function for viewing a specific item
   moveToRouteWithIndex(route: string, id: number) {
     this.router.navigate([route], { queryParams: { id: id } }).then(() => {
