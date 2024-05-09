@@ -121,4 +121,53 @@ EDIT_TRANSLATION(translation :any):Observable<any>{
   return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER', requestBody, { headers });
 }
 
+
+// GET ALL WEBSITE TRANSLATIONS (QUOTATIONS) 
+GET_WEB_TRANSLATION_PER_PAGE(page_Number:number):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
+
+let startRow = page_Number * this.pagingSize
+let endRow = this.pagingSize + (page_Number * this.pagingSize)
+
+    // Define the request body
+  const requestBody = {
+    "OWNER_ID": 1,
+    "QUOTE_TYPE": "",
+    "SOURCE_LANGUAGE": "",
+    "TARGET_LANGUAGE": "",
+    "URL_SOURCE": "",
+    "QUOTE_STATUS": "",
+    "START_ROW": startRow,
+    "END_ROW": endRow,
+    "TOTAL_COUNT": 0
+  };
+
+  return this.httpClient.post<any>(this.apiUrl + '/GET_QUOTE_TRANSLATION_BY_CRITERIA_ADV', requestBody, { headers });
+}
+
+
+
+// GET ALL WEBSITE TRANSLATIONS (QUOTATIONS) 
+GET_WEB_TRANSLATION_BY_ID(translationID: number):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
+
+    // Define the request body
+  const requestBody = {
+    "QUOTE_TRANSLATION_ID":translationID
+  };
+
+  return this.httpClient.post<any>(this.apiUrl + '/GET_QUOTE_TRANSLATION_BY_QUOTE_TRANSLATION_ID_ADV', requestBody, { headers });
+}
+
+
+
+
 }
