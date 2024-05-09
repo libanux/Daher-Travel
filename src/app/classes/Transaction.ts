@@ -1,10 +1,10 @@
-class Transaction {
-    PAYMENT_ID: string = '';
-    PAYMENT_METHOD: string = '';
-    AMOUNT: number = 0;
-    TIME_CREATION: string = '';
-    USER_ID: number = 0;
-    ENTRY_USER_ID: string = '';
-    ENTRY_DATE: string = '';
-    OWNER_ID: number = 0;
+export class Transaction {
+    payment_ID: string = '';
+    payment_METHOD: string = '';
+    amount: number = 0;
+    time_CREATION: string = '';
+    user_ID: number = 0;
+    entry_USER_ID: string = '';
+    entry_DATE: string = '';
+    owner_ID: number = 0;
 }

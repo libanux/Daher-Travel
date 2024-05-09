@@ -1,24 +1,46 @@
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, OnInit, effect, signal } from '@angular/core';
 import { UserService } from '../../service-folder/user.service';
 import { User } from '../../classes/User';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreadcrumbService } from '../../signals/breadcrumb.service';
 @Component({
   selector: 'app-view-user',
   templateUrl: './view-user.component.html',
   styleUrls: ['./view-user.component.css']
 })
 export class ViewUserComponent implements OnInit {
+  routeCurrently = signal('');
+  breadCrumb1 =  signal('');
+  breadCrumb1Route =  signal('');
+  breadCrumb2 =  signal('');
+  BCbeforeLastOneRoute=  signal('');
+  BCbeforeLastOne =  signal('');
+  
   selectedUser !: User
   editedUser: User
   userId: number = 0;
   userChanged: boolean = false;
   isEditing: boolean = false;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router, private signalService: BreadcrumbService) {
     this.editedUser = new User();
   }
 
   ngOnInit(): void {
+
+    this.routeCurrently = this.signalService.routeCurrently
+    this.breadCrumb1 = this.signalService.breadCrumb1
+    this.breadCrumb1Route = this.signalService.breadCrumb1Route
+    this.breadCrumb2 = this.signalService.breadCrumb2
+    this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
+    this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
+  
+    this.routeCurrently.set('Edit User')
+    this.breadCrumb1.set(' / Users')
+    this.breadCrumb1Route.set('/users')
+    this.breadCrumb2.set(' / Edit User')
+    this.BCbeforeLastOneRoute.set('')
+    this.BCbeforeLastOne.set('')
     this.route.queryParams.subscribe(params => {
       this.userId = params['id'];
     });

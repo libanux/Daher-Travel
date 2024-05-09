@@ -19,7 +19,7 @@ export class PaymentService {
     this.storedToken = this.generalService.storedToken
   }
 
-// get all users per page  
+//GET ALL PAYMENTS PER PAGE
 GET_PAYMENTS_PER_PAGE(page_Number:number):Observable<any>{
   
   const headers = new HttpHeaders({
@@ -42,6 +42,7 @@ let endRow = this.pagingSize + (page_Number * this.pagingSize)
   return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_CRITERIA', requestBody, { headers });
 }
 
+//EDIT PAYMENT
 EDIT_PAYMENT(payment: any):Observable<any>{
   
   const headers = new HttpHeaders({
@@ -51,17 +52,33 @@ EDIT_PAYMENT(payment: any):Observable<any>{
 
     // Define the request body
   const requestBody = {
-    "PAYMENT_ID":payment.PAYMENT_ID,
-    "PAYMENT_METHOD": "STRIPE",
-    "AMOUNT":payment.AMOUNT,
-    "TIME_CREATION":payment.TIME_CREATION,
-    "USER_ID":payment.USER_ID,
-    "ENTRY_USER_ID":payment.ENTRY_USER_ID,
-    "ENTRY_DATE":payment.ENTRY_DATE,
+    "PAYMENT_ID":payment.payment_ID,
+    "PAYMENT_METHOD":"STRIPE",
+    "AMOUNT":payment.amount,
+    "TIME_CREATION":payment.time_CREATION,
+    "USER_ID":payment.user_ID,
+    "ENTRY_USER_ID":payment.entry_USER_ID,
+    "ENTRY_DATE":payment.entry_DATE,
     "OWNER_ID": 1
   };
 
   return this.httpClient.post<any>(this.apiUrl + '/EDIT_PAYMENT', requestBody, { headers });
 }
+
+
+   //GET PAYMENT BY ID
+   GET_PAYMENT_BY_ID(paymentID: number): Observable<any> {
+    const jwt = this.generalService.storedToken;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`, 
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      PAYMENT_ID: paymentID
+    };
+
+      return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_PAYMENT_ID_ADV', requestBody, { headers });
+  }
 
 }

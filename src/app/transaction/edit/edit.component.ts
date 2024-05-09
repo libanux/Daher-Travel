@@ -1,6 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from '../../signals/breadcrumb.service';
+import { PaymentService } from '../../service-folder/payment.service';
+import { Transaction } from '../../classes/Transaction';
 
 @Component({
   selector: 'app-edit',
@@ -14,8 +16,17 @@ export class EditComponent implements OnInit{
   breadCrumb2 =  signal('');
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
-  
-  constructor(private signalService : BreadcrumbService, private route: ActivatedRoute) { }
+
+  selectedPayment: Transaction;
+  editedPayment: Transaction;
+  paymentId: number =0;
+  paymentChanged: boolean = false;
+  isEditing : boolean = false;
+
+  constructor(private signalService : BreadcrumbService, private route: ActivatedRoute, private paymentService: PaymentService,private router: Router) { 
+    this.selectedPayment = new Transaction();
+    this.editedPayment = new Transaction();
+  }
 
 ngOnInit(): void {
   this.routeCurrently = this.signalService.routeCurrently
@@ -32,15 +43,59 @@ ngOnInit(): void {
   this.BCbeforeLastOneRoute.set('')
   this.BCbeforeLastOne.set('')
 
-  this.route.queryParams.subscribe((params: { [x: string]: number; }) => {
-    const productID = params['id'];
+
+  this.route.queryParams.subscribe(params => {
+    this.paymentId = params['id'];
+    console.log("Payment id:", this.paymentId)
+  });
+
+  this.paymentService.GET_PAYMENT_BY_ID(this.paymentId).subscribe({
+    next: (response: any) => {
+      this.selectedPayment = response.my_Payment;
+      this.editedPayment = { ...response.my_Payment };
+      console.log("Payment id:", this.paymentId)
+      console.log("response:",response)
+    },
+    error: (error: any) => { console.log(error); },
+    complete: () => { }
   });
 
 }
 
-
-Edit(Payment: any){
-  
+//COMPARE SELECTED AND EDITED PAYMENTS
+comparePayments(): void {
+  this.paymentChanged =
+    this.selectedPayment.payment_ID !== this.editedPayment.payment_ID ||
+    this.selectedPayment.payment_METHOD !== this.editedPayment.payment_METHOD ||
+    this.selectedPayment.amount !== this.editedPayment.amount ||
+    this.selectedPayment.time_CREATION !== this.editedPayment.time_CREATION ||
+    this.selectedPayment.user_ID !== this.editedPayment.user_ID ||
+    this.selectedPayment.entry_USER_ID !== this.editedPayment.entry_USER_ID ||
+    this.selectedPayment.entry_DATE !== this.editedPayment.entry_DATE ||
+    this.selectedPayment.owner_ID !== this.editedPayment.owner_ID;
+    console.log(this.paymentChanged)
 }
+
+
+Edit(){
+  this.isEditing=true;
+    this.paymentService.EDIT_PAYMENT(this.editedPayment).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.isEditing=false;
+        this.back();
+      },
+      error: (error: any) => {
+        console.log(error);
+        this.isEditing=false;
+      },
+      complete: () => { }
+    });
+}
+
+  //GO BACK FUNCTION
+  back() {
+    this.router.navigate(['/transaction']);
+  }
 
 }
