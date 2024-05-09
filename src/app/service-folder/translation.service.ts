@@ -46,6 +46,20 @@ let endRow = this.pagingSize + (page_Number * this.pagingSize)
   return this.httpClient.post<any>(this.apiUrl + '/GET_TRANSLATION_ORDER_BY_CRITERIA_ADV', requestBody, { headers });
 }
 
+GET_TRANSLATION_BY_ID(ID : number):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
+
+  // Define the request body
+  const requestBody = {
+    "TRANSLATION_ORDER_ID": ID
+  };
+  return this.httpClient.post<any>(this.apiUrl + '/GET_ORDER_FILE_BY_TRANSLATION_ORDER_ID_ADV', requestBody, { headers });
+}
+
 EDIT_TRANSLATION(translation :any):Observable<any>{
   
   const headers = new HttpHeaders({

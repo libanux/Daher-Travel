@@ -1,0 +1,37 @@
+section {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0 20px;
+    column-gap: 15px;
+}
+
+section div {
+    width: 100%;
+}
+
+section .fileform {
+margin-right: 40px;
+}
+
+@media screen and (max-width: 800px){
+    section {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        margin: 0 auto;
+        row-gap: 15px;
+    }
+}
+
+@media screen and (max-width: 1300px){
+    .firstSection {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        margin: 0 auto;
+        row-gap: 15px;
+    }
+}
+
+

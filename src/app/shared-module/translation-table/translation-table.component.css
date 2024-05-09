@@ -69,15 +69,12 @@ main{
   
   th{
     color: #B5B7C0;
-  }
-  
-  th
-   {
-    text-align: left;
+    text-align: center;
     padding: 8px;
   }
+
   td{
-    text-align: left;
+    text-align: center;
     padding: 8px;
     align-items: flex-start;
   }
@@ -152,7 +149,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
+    width: 130px;
     padding: 5px 10px;
     margin: auto 0;
     border-style: solid;
