@@ -5,6 +5,7 @@ import { TransactionRoutingModule } from './transaction-routing.module';
 import { MainComponent } from './main/main.component';
 import { SharedModuleModule } from '../shared-module/shared-module.module';
 import { EditComponent } from './edit/edit.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { EditComponent } from './edit/edit.component';
   imports: [
     CommonModule,
     TransactionRoutingModule,
-    SharedModuleModule
+    SharedModuleModule,
+    FormsModule 
   ]
 })
 export class TransactionModule { }
