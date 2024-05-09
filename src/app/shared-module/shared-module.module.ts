@@ -30,6 +30,7 @@ import { UsersTableComponent } from './users-table/users-table.component';
 import { ProofreadingTableComponent } from './proofreading-table/proofreading-table.component';
 import { AdminsTableComponent } from './admins-table/admins-table.component';
 import { MainTransactionComponent } from './main-transaction/main-transaction.component';
+import { WebTranslationTableComponent } from './web-translation-table/web-translation-table.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ declarations: [
   UsersTableComponent,
   ProofreadingTableComponent,
   AdminsTableComponent,
-  MainTransactionComponent 
+  MainTransactionComponent,
+  WebTranslationTableComponent 
 ],
 
 imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -87,7 +89,8 @@ exports: [
   TranscriptionTableComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
-  AdminsTableComponent
+  AdminsTableComponent,
+  WebTranslationTableComponent
 ],
 
 providers: [],

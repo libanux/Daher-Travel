@@ -16,7 +16,8 @@ export const routes: Routes = [
   {path:'transcription', loadChildren: () => import('./transcription/transcription.module').then(m => m.HomeModule)},
   {path:'translation', loadChildren: () => import('./translation/translation.module').then(m => m.TranslationModule)},
   {path:'transaction', loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)},
-  {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)}
+  {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
+  {path:'website-translation', loadChildren: () => import('./web-transaltion/web-transaltion.module').then(m => m.WebTransaltionModule)}
 ];
 
 @NgModule({

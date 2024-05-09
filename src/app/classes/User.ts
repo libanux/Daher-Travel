@@ -7,8 +7,8 @@ export class User {
     username: string = '';
     email: string = '';
     password: string = '';
-    user_TYPE_CODE: string = '';
-    user_LANG_CODE: string = '';
+    user_TYPE_CODE: string = '002';
+    user_LANG_CODE: string = '001';
     is_ACTIVE: boolean = true;
     is_DELETED: boolean = false;
     profile_COMPLETED: boolean = true;
