@@ -34,7 +34,6 @@ export class TranslationTableComponent implements OnInit{
     this.selected_Translation.set(id);
     this.router.navigate([route]).then(() => {
       window.scrollTo(0, 0);
-      console.log(this.selected_Translation())
     });
   }
 

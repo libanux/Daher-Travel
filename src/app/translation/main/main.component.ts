@@ -38,10 +38,8 @@ export class MainComponent implements OnInit{
 
     this.translationService.GET_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
       next: (response: any) => {
-        console.log(response.my_TranslationsOrders.first)
         this.translationARRAY = response.my_TranslationsOrders.first;
         this.length = response.my_TranslationsOrders.second;
-        // this.pageNumber = Math.ceil(this.length / this.apiService.PAGING_SIZE);
       },
       error: (error) => {this.showShimmer = false; },
       complete: () => {this.showShimmer = false;}
