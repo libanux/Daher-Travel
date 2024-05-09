@@ -46,15 +46,12 @@ ngOnInit(): void {
 
   this.route.queryParams.subscribe(params => {
     this.paymentId = params['id'];
-    console.log("Payment id:", this.paymentId)
   });
 
   this.paymentService.GET_PAYMENT_BY_ID(this.paymentId).subscribe({
     next: (response: any) => {
       this.selectedPayment = response.my_Payment;
       this.editedPayment = { ...response.my_Payment };
-      console.log("Payment id:", this.paymentId)
-      console.log("response:",response)
     },
     error: (error: any) => { console.log(error); },
     complete: () => { }
@@ -76,7 +73,7 @@ comparePayments(): void {
     console.log(this.paymentChanged)
 }
 
-
+//EDIT PAYMENT (NOT USED CURRENTLY)
 Edit(){
   this.isEditing=true;
     this.paymentService.EDIT_PAYMENT(this.editedPayment).subscribe({
