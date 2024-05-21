@@ -3,6 +3,7 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
+import { SearchService } from '../../signals/search.service';
 
 
 @Component({
@@ -16,25 +17,13 @@ export class SearchBarComponent {
 
   @Input() seachPosition: string = '';
   @Input() searchBy: string = '';
+  searchKey: string = ''
 
-constructor(
-  // private fb: UntypedFormBuilder,
-   private router: Router){
-     
-// this.myForm  = this.fb.group({
-//   searchKey: [''],
-// });
-    
-// this.myForm.get('searchKey')?.valueChanges.pipe(debounceTime(1000)).subscribe((searchValue: string) => {
-//   // if(this.seachPosition=='ADMIN'){ this.subjectsService.sendAdminSearchKey(searchValue); }
-//   // if(this.seachPosition=='ORDER'){ this.subjectsService.sendOrderSearchKey(searchValue); }
-//   // if(this.seachPosition=='DRIVER'){ this.subjectsService. sendDriverSearchKey(searchValue);  }
+  constructor(private router: Router, private searchService: SearchService) {
 
-//   if(this.seachPosition=='WINNERS'){   }
-//   if(this.seachPosition=='USER'){  }
-//   if(this.seachPosition=='PRODUCTS'){   }
-// });
-// }
-  
-
-}}
+  }
+  onSearchKeyChange(value: string): void {
+    this.searchKey = value;
+    this.searchService.searchKey.set(this.searchKey)
+  }
+}

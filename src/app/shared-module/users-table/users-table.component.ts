@@ -1,14 +1,15 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { UserService } from '../../service-folder/user.service';
 import { User } from '../../classes/User';
+import { SearchService } from '../../signals/search.service';
+
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.css']
 })
-export class UsersTableComponent {
+export class UsersTableComponent implements OnInit {
 
   @Input() showDropdowns = true;
   @Input() showTitle = true;
@@ -22,14 +23,31 @@ export class UsersTableComponent {
   dropOptions2: string[] = ["Option1", "Option2", "Option3"];
   dropOptions3: string[] = ["Option1", "Option2", "Option3"];
 
-  user!: User
-
-  constructor(private cdr: ChangeDetectorRef, private router: Router, private userService: UserService) { }
-
   userArray: any[] = [];
   showShimmer: boolean = true;
   currentPage = 0;
+  searchKey: string = '';
+
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private searchService: SearchService
+  ) {
+
+    effect(() => {
+      this.searchKey = this.searchService.searchKey();
+      this.fetchUsers();
+    });
+  }
+
+
   ngOnInit(): void {
+    this.searchKey = this.searchService.searchKey();
+    this.fetchUsers();
+  }
+
+  // Function to fetch users
+  fetchUsers(): void {
     this.userService.GET_USERS(this.currentPage).subscribe({
       next: (response: any) => {
         this.userArray = response.my_Users.first;
@@ -39,12 +57,10 @@ export class UsersTableComponent {
     });
   }
 
-  // function for viewing a specific item
-  moveToRouteWithIndex(route: string, id: number) {
+  // Function for viewing a specific item
+  moveToRouteWithIndex(route: string, id: number): void {
     this.router.navigate([route], { queryParams: { id: id } }).then(() => {
       window.scrollTo(0, 0);
     });
   }
-
 }
-
