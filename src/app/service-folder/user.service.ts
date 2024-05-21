@@ -4,6 +4,7 @@ import { environment } from '../../enviroments/enviroment.prod';
 import { Observable, catchError, throwError } from 'rxjs';
 import { GeneralService } from './general.service';
 import { User } from '../classes/User';
+import { SearchService } from '../signals/search.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,17 @@ export class UserService {
   private apiUrl = '';
   private pagingSize = 10;
   private storedToken = '';
-
-  constructor(private httpClient: HttpClient, private generalService : GeneralService) {
+  searchKey: string = ''
+  constructor(private httpClient: HttpClient, private generalService : GeneralService,private searchService : SearchService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
     this.storedToken = this.generalService.storedToken
   }
 
+  ngOnInit(): void {
+this.searchKey = this.searchService.searchKey();
+console.log("Search key in user service:", this.searchKey)
+}
 
   //GET USERS
   GET_USERS(page_Number: number): Observable<any> {
@@ -39,7 +44,7 @@ export class UserService {
       "GOOGLE_U": "",
       "FIRST_NAME": "",
       "LAST_NAME": "",
-      "USERNAME": "",
+      "USERNAME":this.searchService.searchKey(),
       "EMAIL": "",
       "PASSWORD": "",
       "USER_TYPE_CODE": "",
