@@ -5,9 +5,7 @@ export const routes: Routes = [
   {path:'admins', loadChildren: () => import('./admins/admins.module').then(m => m.AdminsModule)},
   {path:'', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
   {path:'caption', loadChildren: () => import('./caption/caption.module').then(m => m.CaptionModule)},
-
   {path:'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)},
-  
   {path:'noti', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
   {path:'proofreading', loadChildren: () => import('./proofreading/proofreading.module').then(m => m.ProofreadingModule)},
   {path:'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)},
@@ -25,3 +23,4 @@ export const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+   
