@@ -26,7 +26,7 @@
     </tr>
         
     <!-- table Body -->
-    <tr *ngFor="let translation of webTranslationArray" (click)="moveToRouteWithIndex('/website-translation/view', translation.user_ID)">
+    <tr *ngFor="let translation of webTranslationArray" (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation.user_ID)">
         <td>{{translation. quote_TRANSLATION_ID}}</td>
         <td>{{translation.quote_TYPE}}</td>
         <td>{{translation.source_LANGUAGE }}</td>

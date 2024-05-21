@@ -37,10 +37,30 @@ export class SidebarComponent {
     return desiredRoutes.some(desiredRoute => currentRoute.includes(desiredRoute));
   }
 
-  show = false;
-  showMore() {
-    this.show = !this.show
+  showTranslation = false;
+  showAudioVisual = false
+  showMore(value : string) {
+
+    switch (value) {
+      case "translation":
+        this.showTranslation=!this.showTranslation;
+        break;
+  
+      case "showAudioVisual":
+        this.showAudioVisual=!this.showAudioVisual;
+        break;
+  
+      // case "Size":
+      //   this.showSizes=!this.showSizes;
+      //   break;
+  
+      // case "Category":
+      //   this.showCategories=!this.showCategories;
+      //   break;
+  
+      // case "Price":
+      //   this.showPrices=!this.showPrices;
+      //   break;
   }
-
-
+  }
 }
