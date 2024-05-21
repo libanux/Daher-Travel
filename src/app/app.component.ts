@@ -28,10 +28,6 @@ export class AppComponent{
             this.showHeader = false;
             this.showSidebar = false;
           } else {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            // if (isLoggedIn) {
-              // this.showloadingOnLogin = true;
-  
               setTimeout(() => {
                 this.showloadingOnLogin = false;
                 this.showHeader = true;
