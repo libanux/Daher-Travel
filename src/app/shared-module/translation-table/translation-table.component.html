@@ -22,7 +22,7 @@
             </tr>
             
             <!-- table Body -->
-            <tr class="body" *ngFor="let trans of translationArray" (click)="moveToRouteWithIndex('/translation/details',trans.translation_ORDER_ID )">
+            <tr class="body" *ngFor="let trans of translationArray" (click)="moveToRouteWithIndex('/translation/documentTranslation',trans.translation_ORDER_ID )">
                 <td>{{trans.translation_ORDER_ID}}</td>
                 <td>{{trans.price}} {{trans.currency}}</td>
                 <td>{{trans.source}}</td>

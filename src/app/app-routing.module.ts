@@ -2,20 +2,36 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
+  // a
   {path:'admins', loadChildren: () => import('./admins/admins.module').then(m => m.AdminsModule)},
+  {path:'analytics', loadChildren: () => import('./analytics/analytics.module').then(m => m.AnalyticsModule)},
+  {path:'audioVisual', loadChildren: () => import('./audio-visual/audio-visual.module').then(m => m.AudioVisualModule)},
   {path:'', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+
+  // c
   {path:'caption', loadChildren: () => import('./caption/caption.module').then(m => m.CaptionModule)},
+  {path:'content-services', loadChildren: () => import('./content-services/content-services.module').then(m => m.ContentServicesModule)},
+
+  // d
   {path:'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)},
-  {path:'noti', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
+
+  // n
+  {path:'notification', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
+
+  // p
   {path:'proofreading', loadChildren: () => import('./proofreading/proofreading.module').then(m => m.ProofreadingModule)},
+
+  // s
   {path:'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)},
   {path:'shared', loadChildren: () => import('./shared-module/shared-module.module').then(m => m.SharedModuleModule)},
-  {path:'subtitles', loadChildren: () => import('./subtitles/subtitles.module').then(m => m.SubtitlesModule)},
+
+  // t
+  {path:'transaction', loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)},
   {path:'transcription', loadChildren: () => import('./transcription/transcription.module').then(m => m.HomeModule)},
   {path:'translation', loadChildren: () => import('./translation/translation.module').then(m => m.TranslationModule)},
-  {path:'transaction', loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule)},
+
+  // u
   {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
-  {path:'website-translation', loadChildren: () => import('./web-transaltion/web-transaltion.module').then(m => m.WebTransaltionModule)}
 ];
 
 @NgModule({
