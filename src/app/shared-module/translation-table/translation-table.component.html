@@ -34,12 +34,15 @@
             </tr>
                
             </table>
-    <!-- </div> -->
-    
-    <!-- <div class="form" *ngIf="showform">
-        <app-form></app-form>
-    </div> -->
-    
+
+            
+        <!-- Pagination Component -->
+<app-pagination
+*ngIf="showPaging"
+(currentPageEvent)="receivePageSize($event)"
+[pageSize]="translationArrayLength"
+></app-pagination>
+
     </section> 
     </main>
     
