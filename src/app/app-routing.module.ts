@@ -10,7 +10,7 @@ export const routes: Routes = [
 
   // c
   {path:'caption', loadChildren: () => import('./caption/caption.module').then(m => m.CaptionModule)},
-  {path:'content-services', loadChildren: () => import('./content-services/content-services.module').then(m => m.ContentServicesModule)},
+  {path:'contentServices', loadChildren: () => import('./content-services/content-services.module').then(m => m.ContentServicesModule)},
 
   // d
   {path:'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)},

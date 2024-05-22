@@ -6,12 +6,11 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
   styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent implements OnChanges , OnInit{
-  data: any [] = [];
-
   @Input() currentPage: number = 0;
   @Input() pageSize = 0;
-  
   @Output() currentPageEvent = new EventEmitter<number>();
+  
+  data: any [] = [];
 
 constructor(){}
 
@@ -49,8 +48,6 @@ ngOnInit(): void {
 
 ngOnChanges(changes: SimpleChanges): void {
   if ('pageSize' in changes || 'currentPage' in changes) {
-
-    console.log(this.pageSize)
     this.generatePageArray(this.pageSize);
 
     if(this.currentPage>0){this.disabelBackBtn = false}
@@ -60,9 +57,7 @@ ngOnChanges(changes: SimpleChanges): void {
     else {this.disabelNextBtn = false}
 
     if(this.pageSize==0){this.disabelBackBtn = true; this.disabelNextBtn = true}
-
   }
-
 }
 
 generatePageArray(pageSize: number){
@@ -93,7 +88,6 @@ getPageNumbers(): number[] {
     }
   }
 }
-
 
 goToPage(page: number): void {
   this.currentPage = page - 1;
@@ -148,5 +142,4 @@ goToNextPage(): void {
 
   this.currentPageEvent.emit(this.currentPage);
 }
-
 }

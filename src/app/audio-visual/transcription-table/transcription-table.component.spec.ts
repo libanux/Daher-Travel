@@ -8,10 +8,10 @@ describe('TranscriptionTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TranscriptionTableComponent ]
+      declarations: [TranscriptionTableComponent]
     })
     .compileComponents();
-
+    
     fixture = TestBed.createComponent(TranscriptionTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
