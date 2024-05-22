@@ -6,8 +6,8 @@
 
 <div class="forDrop" *ngIf="showDropdowns">
 <div><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1"></app-dropdown-filter></div>
-<div><app-dropdown-filter [dropTitle]="dropTitle2" [dropOptions]="dropOptions2"></app-dropdown-filter></div>
-<div> <app-dropdown-filter [dropTitle]="dropTitle3" [dropOptions]="dropOptions3"></app-dropdown-filter></div>
+<!-- <div><app-dropdown-filter [dropTitle]="dropTitle2" [dropOptions]="dropOptions2"></app-dropdown-filter></div>
+<div> <app-dropdown-filter [dropTitle]="dropTitle3" [dropOptions]="dropOptions3"></app-dropdown-filter></div> -->
 </div>
     
 <section>
@@ -19,24 +19,28 @@
 <tr class="highlight-header">
 <ng-container>
     <th class="col-xs-3">Id</th>
-    <th class="col-xs-3">PaymentMethod</th>
+    <th class="col-xs-3">First name</th>
+    <th class="col-xs-3">Last name</th>
+    <th class="col-xs-3">Payment Method</th>
     <th class="col-xs-3">Amount</th>
     <th class="col-xs-3">Entry Date</th>
     <th class="col-xs-3">Creation Time</th>
-    <th class="col-xs-3">userId</th>
-    <!-- <th class="col-xs-3">Username</th> -->
+  
+
 </ng-container>
 </tr>
 
 <!-- table Body -->
 <tr *ngFor="let trans of transactionArray" (click)="moveToRouteWithIndex('/transaction/edit', trans.payment_ID)">
     <td>{{trans.payment_ID}}</td>
+    <td>{{trans.my_USER.first_NAME}}</td>
+    <td>{{trans.my_USER.last_NAME}}</td>
     <td>{{trans.payment_METHOD}}</td>
     <td>{{trans.amount}} $</td>
     <td>{{trans.entry_DATE}}</td>
     <td>{{trans.entry_DATE}}</td>
-    <td>{{trans.user_ID}}</td>
-    <!-- <td>{{trans.my_USER.username}}</td> -->
+
+
 </tr>
        
 </table>
