@@ -1,1 +1,48 @@
-<p>document-trans-table works!</p>
+<main>
+    
+    <div class="forDrop">
+        <div class="w-100"><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1" [dropTitle1]="dropTitle2" [dropOptions1]="dropOptions2" [dropTitle2]="dropTitle3" [dropOptions2]="dropOptions3"></app-dropdown-filter></div>
+        <!-- <div><app-dropdown-filter [dropTitle]="dropTitle2" [dropOptions]="dropOptions2"></app-dropdown-filter></div>
+        <div> <app-dropdown-filter [dropTitle]="dropTitle3" [dropOptions]="dropOptions3"></app-dropdown-filter></div> -->
+    </div>
+    
+    <section>
+    <!-- <div class="table"> -->
+        <table>
+            <!-- table Titles -->
+            <tr class="highlight-header">
+                <ng-container>
+                    <th class="col-xs-3">file_ID</th>
+                    <th class="col-xs-3">Cost+Curreny</th>
+                    <th class="col-xs-3">source</th>
+                    <th class="col-xs-3">original_LANGUAGE</th>
+                    <th class="col-xs-3">translated_LANGUAGE</th>
+                    <th class="col-xs-3">Status</th>
+                </ng-container>
+            </tr>
+            
+            <!-- table Body -->
+            <tr class="body" *ngFor="let trans of translationArray" (click)="moveToRouteWithIndex('/translation/documentTranslation',trans.translation_ORDER_ID )">
+                <td>{{trans.translation_ORDER_ID}}</td>
+                <td>{{trans.price}} {{trans.currency}}</td>
+                <td>{{trans.source}}</td>
+                <td>{{trans.original_LANGUAGE}}</td>
+                <td>{{trans.translated_LANGUAGE}}</td>
+                <td class="status-values" [ngClass]="{'Completed-class': trans.status === 'Completed','InProgress-class': trans.status === 'InProgress','DECLINED-class': trans.status === 'DECLINED','pending-class': trans.status === 'Pending'}">
+                    <p>{{trans.status}}</p>
+                </td>
+            </tr>
+               
+            </table>
+
+            
+        <!-- Pagination Component -->
+<app-pagination
+*ngIf="showPaging"
+(currentPageEvent)="receivePageSize($event)"
+[pageSize]="translationArrayLength"
+></app-pagination>
+
+    </section> 
+    </main>
+    
