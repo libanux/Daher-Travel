@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service-folder/user.service';
 import { User } from '../../classes/User';
 import { SearchService } from '../../signals/search.service';
+import { GeneralService } from '../../service-folder/general.service';
 
 @Component({
   selector: 'app-users-table',
@@ -27,8 +28,11 @@ export class UsersTableComponent implements OnInit {
   showShimmer: boolean = true;
   currentPage = 0;
   searchKey: string = '';
-
+  @Input() showPaging: boolean = true;
+  @Output() currentPageChoosen = new EventEmitter<number>();
+  UsersArrayLength: number = 0;
   constructor(
+    private apiService: GeneralService,
     private router: Router,
     private userService: UserService,
     private searchService: SearchService
@@ -36,25 +40,34 @@ export class UsersTableComponent implements OnInit {
 
     effect(() => {
       this.searchKey = this.searchService.UserSearchKey();
-      this.fetchUsers();
+      this.fetchUsers(this.currentPage);
     });
   }
 
 
   ngOnInit(): void {
     this.searchKey = this.searchService.UserSearchKey();
-    this.fetchUsers();
+    this.fetchUsers(this.currentPage);
   }
 
   // Function to fetch users
-  fetchUsers(): void {
-    this.userService.GET_USERS(this.currentPage).subscribe({
+  fetchUsers(currentPage: number): void {
+    this.userService.GET_USERS(currentPage).subscribe({
       next: (response: any) => {
         this.userArray = response.my_Users.first;
+        this.UsersArrayLength = Math.ceil(response.my_Users.second / this.apiService.PageSizing);
       },
       error: (error: any) => { this.showShimmer = false; console.log(error); },
       complete: () => { this.showShimmer = false; }
     });
+  }
+
+
+  receivePageSize($event: any) {
+    this.currentPage = $event;
+    console.log(this.currentPage)
+    this.currentPageChoosen.emit(this.currentPage)
+    this.fetchUsers(this.currentPage)
   }
 
   // Function for viewing a specific item
