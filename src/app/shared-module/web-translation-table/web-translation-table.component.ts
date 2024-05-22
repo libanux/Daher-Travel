@@ -11,7 +11,7 @@ import { GeneralService } from '../../service-folder/general.service';
   templateUrl: './web-translation-table.component.html',
   styleUrl: './web-translation-table.component.css'
 })
-export class WebTranslationTableComponent implements OnInit, OnChanges{
+export class WebTranslationTableComponent implements OnInit {
 
   @Input() showDropdowns = true;
   @Input() showTitle = true;
@@ -34,14 +34,6 @@ export class WebTranslationTableComponent implements OnInit, OnChanges{
   currentPage = 0;
 
   constructor(private apiService : GeneralService, private router: Router, private translationsService: TranslationService) { }
-  
-  ngOnChanges(changes: SimpleChanges): void {
-      if(changes['currentPage']){
-        console.log(' on changes : ', this.currentPage)
-      }
-  }
-
-
 
   ngOnInit(): void {
     this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(this.currentPage).subscribe({

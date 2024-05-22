@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './transcription-main.component.css'
 })
 export class TranscriptionMainComponent {
+  currentPage = 0
+  receivePageSize($event: any) {
+    this.currentPage = $event;
+  }
+  
 
 }

@@ -20,7 +20,6 @@ import { DropdownFilterComponent } from './dropdown-filter/dropdown-filter.compo
 import { CountBoxComponent } from './count-box/count-box.component';
 import { TopicsComponent } from './topics/topics.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { TranscriptionTableComponent } from './transcription-table/transcription-table.component';
 import { CaptionTableComponent } from './caption-table/caption-table.component';
 import { TranslationTableComponent } from './translation-table/translation-table.component';
 import { SubtitlesTableComponent } from './subtitles-table/subtitles-table.component';
@@ -52,7 +51,6 @@ declarations: [
   CountBoxComponent,
   TopicsComponent,
   ProgressBarComponent,
-  TranscriptionTableComponent,
   CaptionTableComponent,
   TranslationTableComponent,
   SubtitlesTableComponent,
@@ -86,7 +84,6 @@ exports: [
   TranslationTableComponent,
   SubtitlesTableComponent,
   NotFoundComponent,
-  TranscriptionTableComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
   AdminsTableComponent,

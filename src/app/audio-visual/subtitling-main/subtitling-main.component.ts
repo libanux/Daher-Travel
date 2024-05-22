@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './subtitling-main.component.css'
 })
 export class SubtitlingMainComponent {
-
+  currentPage = 0
+  receivePageSize($event: any) {
+    this.currentPage = $event;
+  }
+  
 }

@@ -6,13 +6,19 @@ import { TranslationMainComponent } from './translation-main/translation-main.co
 import { TranscriptionMainComponent } from './transcription-main/transcription-main.component';
 import { SubtitlingMainComponent } from './subtitling-main/subtitling-main.component';
 import { SharedModuleModule } from '../shared-module/shared-module.module';
+import { TranscriptionTableComponent } from './transcription-table/transcription-table.component';
+import { TranslationTableComponent } from './translation-table/translation-table.component';
+import { SubtitlingTableComponent } from './subtitling-table/subtitling-table.component';
 
 
 @NgModule({
   declarations: [
     TranslationMainComponent,
     TranscriptionMainComponent,
-    SubtitlingMainComponent
+    SubtitlingMainComponent,
+    TranscriptionTableComponent,
+    TranslationTableComponent,
+    SubtitlingTableComponent
   ],
   imports: [
     CommonModule,
