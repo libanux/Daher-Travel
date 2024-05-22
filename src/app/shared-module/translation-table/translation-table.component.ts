@@ -23,12 +23,14 @@ export class TranslationTableComponent implements OnInit{
 
   status: string = "ACCEPTED"
 
-  dropTitle1: string = 'SPEAKERS';
-  dropTitle2: string = 'TYPE';
-  dropTitle3: string = 'STATUS';
-  dropOptions1: string[] = ["All", "1-2", "3 or more"];
-  dropOptions2: string[] = ["All", "Human", "AI"];
-  dropOptions3: string[] = ["All", "ACCEPTED", "IN PROGRESS"];
+
+  dropTitle1: string = 'Original';
+  dropTitle2: string = 'Translated';
+  dropTitle3: string = 'Status';
+  
+  dropOptions1: string[] = ["All", "Arabic", "English","French"];
+  dropOptions2: string[] = ["All", "Arabic", "English","French"];
+  dropOptions3: string[] = ["All", "Completed", "Inprogress","Pending"];
 
   constructor(private apiService : GeneralService, private translationService : TranslationService, private signalService: ViewedObjectService, private router: Router) { }
  

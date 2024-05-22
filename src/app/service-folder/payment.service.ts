@@ -40,7 +40,7 @@ export class PaymentService {
       "TOTAL_COUNT": 0
     };
 
-    return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_CRITERIA', requestBody, { headers });
+    return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_CRITERIA_ADV', requestBody, { headers });
   }
 
   //EDIT PAYMENT

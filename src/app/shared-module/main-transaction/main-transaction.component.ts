@@ -30,7 +30,6 @@ ngOnDestroy(): void {
       next: (response: any) => {
         this.transArray = response.my_Payments.first;
         this.length = response.my_Payments.second;
-        console.log("Resposne transaction:", this.transArray)
         // this.pageNumber = Math.ceil(this.length / this.apiService.PAGING_SIZE);
       },
       error: (error) => {this.showShimmer = false;},
