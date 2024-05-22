@@ -14,12 +14,7 @@ export class DocumentMainComponent  implements OnInit{
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
 
-  showShimmer = true;
-  translationARRAY = [];
-  length = 0;
-  currentPage = 0;
-
-  constructor(private signalService : BreadcrumbService, private translationService : TranslationService) { }
+  constructor(private signalService : BreadcrumbService) { }
 
   ngOnInit(): void {
     this.routeCurrently = this.signalService.routeCurrently
@@ -36,15 +31,7 @@ export class DocumentMainComponent  implements OnInit{
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
 
-    this.translationService.GET_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
-      next: (response: any) => {
-        this.translationARRAY = response.my_TranslationsOrders.first;
-        this.length = response.my_TranslationsOrders.second;
-      },
-      error: (error) => {this.showShimmer = false; },
-      complete: () => {this.showShimmer = false;}
-    });
-
+  
     }
   }
 
