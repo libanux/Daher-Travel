@@ -35,14 +35,14 @@ export class UsersTableComponent implements OnInit {
   ) {
 
     effect(() => {
-      this.searchKey = this.searchService.searchKey();
+      this.searchKey = this.searchService.UserSearchKey();
       this.fetchUsers();
     });
   }
 
 
   ngOnInit(): void {
-    this.searchKey = this.searchService.searchKey();
+    this.searchKey = this.searchService.UserSearchKey();
     this.fetchUsers();
   }
 

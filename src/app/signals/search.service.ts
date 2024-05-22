@@ -6,6 +6,7 @@ import { Injectable, SimpleChanges, signal } from '@angular/core';
 export class SearchService {
 
   constructor() { }
-  searchKey = signal<string>('');
- 
+  UserSearchKey = signal<string>('');
+  TranslationSearchKey = signal<string>('');
+  TransactionSearchKey = signal<string>('');
 }
