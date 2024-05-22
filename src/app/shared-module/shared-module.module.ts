@@ -20,14 +20,11 @@ import { DropdownFilterComponent } from './dropdown-filter/dropdown-filter.compo
 import { CountBoxComponent } from './count-box/count-box.component';
 import { TopicsComponent } from './topics/topics.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { TranslationTableComponent } from './translation-table/translation-table.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ProofreadingTableComponent } from './proofreading-table/proofreading-table.component';
 import { MainTransactionComponent } from './main-transaction/main-transaction.component';
-import { WebTranslationTableComponent } from './web-translation-table/web-translation-table.component';
-
 
 @NgModule({
 declarations: [
@@ -48,13 +45,11 @@ declarations: [
   CountBoxComponent,
   TopicsComponent,
   ProgressBarComponent,
-  TranslationTableComponent,
   NotFoundComponent,
   TransactionTableComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
-  MainTransactionComponent,
-  WebTranslationTableComponent 
+  MainTransactionComponent
 ],
 
 imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -74,11 +69,10 @@ exports: [
   TopicsComponent,
   ProgressBarComponent,
   MainTransactionComponent,
-  TranslationTableComponent,
   NotFoundComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
-  WebTranslationTableComponent
+  PaginationComponent
 ],
 
 providers: [],
