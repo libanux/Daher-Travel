@@ -8,6 +8,7 @@ import { AddAdminComponent } from './add-admin/add-admin.component';
 import { EditAdminComponent } from './edit-admin/edit-admin.component';
 import { DeleteAdminComponent } from './delete-admin/delete-admin.component';
 import { FormsModule } from '@angular/forms';
+import { AdminsTableComponent } from './admins-table/admins-table.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     MainComponent,
     AddAdminComponent,
     EditAdminComponent,
-    DeleteAdminComponent
+    DeleteAdminComponent,
+    AdminsTableComponent
   ],
   imports: [
     CommonModule,

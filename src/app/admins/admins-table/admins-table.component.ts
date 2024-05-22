@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admins-table',
   templateUrl: './admins-table.component.html',
-  styleUrls: ['./admins-table.component.css']
+  styleUrl: './admins-table.component.css'
 })
 export class AdminsTableComponent {
  

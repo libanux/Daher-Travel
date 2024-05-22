@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubtitlesTableComponent } from './subtitles-table.component';
+import { AdminsTableComponent } from './admins-table.component';
 
-describe('SubtitlesTableComponent', () => {
-  let component: SubtitlesTableComponent;
-  let fixture: ComponentFixture<SubtitlesTableComponent>;
+describe('AdminsTableComponent', () => {
+  let component: AdminsTableComponent;
+  let fixture: ComponentFixture<AdminsTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SubtitlesTableComponent ]
+      declarations: [AdminsTableComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(SubtitlesTableComponent);
+    
+    fixture = TestBed.createComponent(AdminsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

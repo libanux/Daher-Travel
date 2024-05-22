@@ -20,14 +20,11 @@ import { DropdownFilterComponent } from './dropdown-filter/dropdown-filter.compo
 import { CountBoxComponent } from './count-box/count-box.component';
 import { TopicsComponent } from './topics/topics.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { CaptionTableComponent } from './caption-table/caption-table.component';
 import { TranslationTableComponent } from './translation-table/translation-table.component';
-import { SubtitlesTableComponent } from './subtitles-table/subtitles-table.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ProofreadingTableComponent } from './proofreading-table/proofreading-table.component';
-import { AdminsTableComponent } from './admins-table/admins-table.component';
 import { MainTransactionComponent } from './main-transaction/main-transaction.component';
 import { WebTranslationTableComponent } from './web-translation-table/web-translation-table.component';
 
@@ -51,14 +48,11 @@ declarations: [
   CountBoxComponent,
   TopicsComponent,
   ProgressBarComponent,
-  CaptionTableComponent,
   TranslationTableComponent,
-  SubtitlesTableComponent,
   NotFoundComponent,
   TransactionTableComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
-  AdminsTableComponent,
   MainTransactionComponent,
   WebTranslationTableComponent 
 ],
@@ -80,13 +74,10 @@ exports: [
   TopicsComponent,
   ProgressBarComponent,
   MainTransactionComponent,
-  CaptionTableComponent,
   TranslationTableComponent,
-  SubtitlesTableComponent,
   NotFoundComponent,
   UsersTableComponent,
   ProofreadingTableComponent,
-  AdminsTableComponent,
   WebTranslationTableComponent
 ],
 
