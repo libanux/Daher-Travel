@@ -5,6 +5,13 @@ import { Component } from '@angular/core';
   templateUrl: './website-main.component.html',
   styleUrl: './website-main.component.css'
 })
+
 export class WebsiteMainComponent {
+  
+  currentPage = 0
+  receivePageSize($event: any) {
+    this.currentPage = $event;
+  }
+  
 
 }

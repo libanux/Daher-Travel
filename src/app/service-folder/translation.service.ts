@@ -11,7 +11,7 @@ import { stringify } from 'querystring';
 export class TranslationService {
 
   private apiUrl = '';
-  private pagingSize = 10;
+  private pagingSize = 0;
   private storedToken = '';
 
   constructor(private httpClient: HttpClient, private generalService : GeneralService) {
