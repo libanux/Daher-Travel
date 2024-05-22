@@ -15,12 +15,12 @@ export class GeneralService  {
       // runs on client / browser
       const token = localStorage.getItem('TICKET');
       this.storedToken = token !== null ? token : '';
-      console.log("prints only in browser not in server");
+      // console.log("prints only in browser not in server");
     }
-    if (isPlatformServer(platformId)) {
-      // runs on server / node
-      console.log("prints only in server not in browser");
-    }
+    // if (isPlatformServer(platformId)) {
+    //   // runs on server / node
+    //   console.log("prints only in server not in browser");
+    // }
   }
 
 

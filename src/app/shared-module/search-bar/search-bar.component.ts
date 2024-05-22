@@ -24,6 +24,11 @@ export class SearchBarComponent {
   }
   onSearchKeyChange(value: string): void {
     this.searchKey = value;
-    this.searchService.searchKey.set(this.searchKey)
+
+    if (this.router.url.startsWith('/users')) {
+      this.searchService.UserSearchKey.set(this.searchKey);
+    } else if (this.router.url.startsWith('/transaction')) {
+      this.searchService.TransactionSearchKey.set(this.searchKey);
+    }
   }
 }
