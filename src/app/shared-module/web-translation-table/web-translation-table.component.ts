@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { UserService } from '../../service-folder/user.service';
 import { User } from '../../classes/User';
@@ -11,11 +11,13 @@ import { GeneralService } from '../../service-folder/general.service';
   templateUrl: './web-translation-table.component.html',
   styleUrl: './web-translation-table.component.css'
 })
-export class WebTranslationTableComponent {
+export class WebTranslationTableComponent implements OnInit, OnChanges{
 
   @Input() showDropdowns = true;
   @Input() showTitle = true;
   @Input() showPaging: boolean = true ;
+
+  @Output() currentPageChoosen = new EventEmitter<number>();
 
   status: string = "ACCEPTED"
 
@@ -26,12 +28,20 @@ export class WebTranslationTableComponent {
   dropOptions2: string[] = ["Option1", "Option2", "Option3"];
   dropOptions3: string[] = ["Option1", "Option2", "Option3"];
   private apiUrl = '';
-
-  constructor(private apiService : GeneralService, private router: Router, private translationsService: TranslationService) { }
   webTranslationArrayLength = 0
   webTranslationArray: any[] = [];
   showShimmer: boolean = true;
   currentPage = 0;
+
+  constructor(private apiService : GeneralService, private router: Router, private translationsService: TranslationService) { }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+      if(changes['currentPage']){
+        console.log(' on changes : ', this.currentPage)
+      }
+  }
+
+
 
   ngOnInit(): void {
     this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
@@ -44,11 +54,23 @@ export class WebTranslationTableComponent {
     });
   }
 
-  @Output() currentPageChoosen = new EventEmitter<number>();
 
   receivePageSize($event: any) {
     this.currentPage = $event;
+    console.log(this.currentPage)
     this.currentPageChoosen.emit(this.currentPage)
+    this.GET_WEB_TRANSLATION(this.currentPage)
+  }
+
+  GET_WEB_TRANSLATION(page: number){
+    this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(page).subscribe({
+      next: (response: any) => {
+        this.webTranslationArray = response.my_QUOTE_TRANSLATIONS.first;
+        this.webTranslationArrayLength = Math.ceil(response.my_QUOTE_TRANSLATIONS.second / this.apiService.PageSizing);
+      },
+      error: (error: any) => { this.showShimmer = false; },
+      complete: () => { this.showShimmer = false; }
+    });
   }
   
 

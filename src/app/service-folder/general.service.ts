@@ -6,7 +6,7 @@ import { Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
 })
 export class GeneralService  {
 
-  PageSizing = 10;
+  PageSizing = 5;
   storedToken: string = '';  // Initialize with an empty string
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
