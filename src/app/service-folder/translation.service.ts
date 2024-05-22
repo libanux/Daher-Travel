@@ -4,6 +4,7 @@ import { environment } from '../../enviroments/enviroment.prod';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { GeneralService } from './general.service';
 import { stringify } from 'querystring';
+import { DropdownService } from '../signals/dropdown.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class TranslationService {
   private pagingSize = 0;
   private storedToken = '';
 
-  constructor(private httpClient: HttpClient, private generalService : GeneralService) {
+  constructor(private httpClient: HttpClient, private generalService : GeneralService, private dropService: DropdownService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
     this.storedToken = this.generalService.storedToken
@@ -34,10 +35,10 @@ let endRow = this.pagingSize + (page_Number * this.pagingSize)
     // Define the request body
   const requestBody = {
     "owner_ID": 1,
-    "original_LANGUAGE": "",
-    "translated_LANGUAGE": "",
+    "original_LANGUAGE": this.dropService.DropDown1(),
+    "translated_LANGUAGE": this.dropService.DropDown2(),
     "currency": "",
-    "status": "",
+    "status": this.dropService.DropDown3(),
     "start_ROW": startRow,
     "end_ROW": endRow,
     "total_COUNT": 0,
