@@ -29,11 +29,23 @@ export class FileFormComponent{
     }
   }
 
+  SAVE_CHANGES(){
+
+  }
+
   ADD_FILE(files: any){
     this.translationService.EDIT_FILE(files, this.userId).subscribe({
       next : (response: any) => {console.log(response)},
       error: (error:any) => {console.log(error)},
       complete: () => {}
     });
+  }
+
+  SAVE_ALL_FILES(files: any){
+    // this.translationService.EDIT_FILE(files, this.userId).subscribe({
+    //   next : (response: any) => {console.log(response)},
+    //   error: (error:any) => {console.log(error)},
+    //   complete: () => {}
+    // });
   }
 }
