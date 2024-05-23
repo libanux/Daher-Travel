@@ -2,13 +2,16 @@
 
 <div>
     <header *ngIf="showSidebar() && !showloadingOnLogin  " class="sidebar" [ngClass]="{'showSidebar': showHeader()}">
-        <app-sidebar *ngIf="showHeader"></app-sidebar>
+        <app-sidebar></app-sidebar>
     </header>
+
     <main>
-        <section>
-            <app-navbar class="navbar" *ngIf="showHeader()" [ngClass]="{'showHeader': showHeader()}"></app-navbar>
-            <app-header [showSearchbar]="showSearchBar" class="header" *ngIf="showHeader()" [ngClass]="{'showHeader': showHeader()}"></app-header>
+
+        <section *ngIf="showHeader()">
+            <app-navbar class="navbar" [ngClass]="{'showHeader': showHeader()}"></app-navbar>
+            <app-header [showSearchbar]="showSearchBar" class="header" [ngClass]="{'showHeader': showHeader()}"></app-header>
         </section>
+
         <router-outlet></router-outlet>
     </main>
 </div>
