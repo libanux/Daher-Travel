@@ -8,6 +8,8 @@
             <tr class="highlight-header">
                 <ng-container>
                     <th class="col-xs-3">Quote ID</th>
+                    <th class="col-xs-3">First Name</th>
+                    <th class="col-xs-3">Last Name</th>
                     <th class="col-xs-3">Quote Type</th>
                     <th class="col-xs-3">Source Language</th>
                     <th class="col-xs-3">Traget Language</th>
@@ -21,6 +23,8 @@
             <tr *ngFor="let translation of webTranslationArray"
                 (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation.user_ID)">
                 <td>{{translation. quote_TRANSLATION_ID}}</td>
+                <td>{{translation.my_USER.first_NAME}}</td>
+                <td>{{translation.my_USER.last_NAME}}</td>
                 <td>{{translation.quote_TYPE}}</td>
                 <td>{{translation.source_LANGUAGE }}</td>
                 <td>{{translation.target_LANGUAGE }}</td>

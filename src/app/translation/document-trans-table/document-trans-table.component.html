@@ -14,11 +14,13 @@
             <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">file_ID</th>
+                    <th class="col-xs-3">File ID</th>
+                    <th class="col-xs-3">First Name</th>
+                    <th class="col-xs-3">Last Name</th>
                     <th class="col-xs-3">Cost+Curreny</th>
-                    <th class="col-xs-3">source</th>
-                    <th class="col-xs-3">original_LANGUAGE</th>
-                    <th class="col-xs-3">translated_LANGUAGE</th>
+                    <th class="col-xs-3">Source</th>
+                    <th class="col-xs-3">Original LANGUAGE</th>
+                    <th class="col-xs-3">Translated LANGUAGE</th>
                     <th class="col-xs-3">Status</th>
                 </ng-container>
             </tr>
@@ -27,6 +29,8 @@
             <tr class="body" *ngFor="let trans of translationArray"
                 (click)="moveToRouteWithIndex('/translation/documentTranslation',trans.translation_ORDER_ID )">
                 <td>{{trans.translation_ORDER_ID}}</td>
+                <td>{{trans.my_USER.first_NAME}}</td>
+                <td>{{trans.my_USER.last_NAME}}</td>
                 <td>{{trans.price}} {{trans.currency}}</td>
                 <td>{{trans.source}}</td>
                 <td>{{trans.original_LANGUAGE}}</td>
