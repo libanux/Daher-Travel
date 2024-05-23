@@ -1,55 +1,47 @@
 <div class="full-div">
 
-    <div class="form-container">
+  <div class="form-container">
 
-      <div class="logo">
-        <div class="logo-image">
-          <img src="./assets/ServSmart-Logo1.png" alt="">
-      </div>      
+    <div class="logo">
+      <div class="logo-image">
+        <img src="./assets/ServSmart-Logo1.png" alt="">
       </div>
+    </div>
 
-<div class="form" >
-      
-  <!-- <div class="input-group">
-    <label class="label">Email address</label>
-    <input autocomplete="off" name="Email" id="Email" class="input" type="email">
-    <div></div></div> -->
+    <div class="form">
+      <section>
+        <main>
+          <label class="label">Email</label>
+          <input type="email" class="input" [(ngModel)]="email" (ngModelChange)="validateEmail()"
+            (keydown)="handleKeydown($event)" />
+          <div class="input-error">
+            <div class="for-error">{{ emailError }}</div>
+          </div>
+        </main>
+      </section>
 
-<section>
-    <main>
-        <label class="label">Email</label>
-        <input type="email" class="input"  [(ngModel)]="email" (ngModelChange)="validateEmail()" />
-        <div class="input-error">
-        <div class="for-error">{{ emailError }}</div>
+      <section>
+        <main>
+          <label class="label">Password</label>
+          <input type="password" class="input" [(ngModel)]="password" (ngModelChange)="validatePassword()"
+            (keydown)="handleKeydown($event)" />
+          <div class="input-error">
+            <div class="for-error">{{ passwordError }}</div>
+          </div>
+        </main>
+      </section>
+
+
+      <section>
+        <div class="submit-btn">
+          <button type="submit" (click)="login()" class="button-91">
+            <span *ngIf="!loading">Sign In</span>
+            <span *ngIf="loading" class="loader"></span>
+          </button>
         </div>
-  </main>
-</section>
+      </section>
 
-<section>
-  <main>
-  <label class="label">Password</label>
-    <input type="password" class="input"  [(ngModel)]="password" (ngModelChange)="validatePassword()" />
-    <div class="input-error">
-    <div class="for-error">{{ passwordError }}</div>  
+    </div>
+
   </div>
-</main>
-</section>
-
-<!-- <button type="submit" (click)="login()" class="form-btn">Log in</button> -->
-<section>
-<div class="submit-btn">
-  <button type="submit" (click)="login()" class="button-91">
-    <span *ngIf="!loading">Sign In</span>
-    <!-- <p *ngIf="!loading">  Sign In</p> -->
-    <span *ngIf="loading" class="loader"></span>
-  </button>
-</div>
-</section>
-
-</div>
-
-</div>
-
-
-  <!-- <div class="div3">Developed By Libanux Software Solutions.</div> -->
 </div>

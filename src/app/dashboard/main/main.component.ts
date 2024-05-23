@@ -13,6 +13,7 @@ export class MainComponent implements OnInit{
   breadCrumb2 =  signal('');
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
+  showloadingOnLogin: boolean = true
   
   constructor(private signalService : BreadcrumbService) { }
 

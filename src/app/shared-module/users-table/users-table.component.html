@@ -5,10 +5,10 @@
     </div>
     <section>
 
-        <!-- Table -->
+        <!-- TABLE -->
         <table>
 
-            <!-- table Titles -->
+            <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
                     <th class="col-xs-3">ID</th>
@@ -21,7 +21,8 @@
                 </ng-container>
             </tr>
 
-            <!-- table Body -->
+            <!-- TABLE BODY -->
+
             <ng-container *ngIf="userArray.length > 0; else noUsers">
                 <tr *ngFor="let user of userArray" (click)="moveToRouteWithIndex('/users/view', user.user_ID)">
                     <td>{{user.user_ID}}</td>
@@ -32,16 +33,21 @@
                     <td>{{user.is_ACTIVE}}</td>
                 </tr>
             </ng-container>
+
             <ng-template #noUsers>
-                <tr>
+                <tr *ngIf="!showShimmer">
                     <td colspan="6" style="text-align: center;">No Users Found</td>
                 </tr>
             </ng-template>
+
         </table>
+
+        <!-- TABLE SHIMMER -->
         <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
 
-        <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)"
-            [pageSize]="UsersArrayLength"></app-pagination>
+        <!-- TABLE PAGING -->
+        <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="UsersArrayLength">
+        </app-pagination>
 
     </section>
 </main>

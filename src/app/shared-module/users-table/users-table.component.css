@@ -43,7 +43,7 @@ main{
   /* table rows and hr lines */
   table tr {
     border-bottom: 1px solid #e9edf7;
-    height: 45px;
+    height: 25px;
     cursor: pointer;
   }
   
