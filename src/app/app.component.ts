@@ -1,6 +1,7 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, effect, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { LoginService } from './signals/login.service';
 
 @Component({
   selector: 'app-root',
@@ -10,32 +11,52 @@ import { filter } from 'rxjs';
 export class AppComponent {
   title = 'servSmart';
   showloadingOnLogin = false;
-  showSidebar = false;
-  showHeader: boolean = false;
-  showSearchBar: boolean = true;
 
-  constructor(private router: Router, private zone: NgZone) { }
+  showSearchBar = false;
+  // showHeader: boolean = false;
+  // showSidebar: boolean = true;
+
+  showHeader =  signal(false);
+  showSidebar =  signal(false);
+
+  constructor(private signalLoginService : LoginService, private router: Router, private zone: NgZone) {
+
+   }
 
 
-  ngOnInit(): void {
+ngOnInit(): void {
+  this.showHeader = this.signalLoginService.showHeader;
+  this.showSidebar = this.signalLoginService.showSidebar
 
     this.router.events
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.zone.run(() => {
           if (event.url === '/') {
-            this.showHeader = false;
-            this.showSidebar = false;
+            // this.showHeader = false;
+            // this.showSidebar = false;
+
+            this.showHeader.set(false)
+            this.showSidebar.set(false)
+
           } else {
             setTimeout(() => {
               this.showloadingOnLogin = false;
-              this.showHeader = true;
-              this.showSidebar = true;
+              // this.showHeader = true;
+            // this.showSidebar = true;
+
+              this.showHeader.set(true)
+              this.showSidebar.set(true)
+
             }, 1000);
           }
 
           if (event.url === '/dashboard') {
             this.showSearchBar = false;
+          }
+
+          if (event.url === '/dashboard' && this.showSidebar() == false) {
+            this.showloadingOnLogin = true;
           }
         });
       });

@@ -30,7 +30,6 @@ export class TranslationTableComponent implements OnInit {
 
   receivePageSize($event: any) {
     this.currentPage = $event;
-    console.log(this.currentPage)
     this.currentPageChoosen.emit(this.currentPage)
     this.FETCH_TRANSLATION(this.currentPage)
   }

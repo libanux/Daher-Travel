@@ -21,10 +21,6 @@ export class FileFormComponent{
 
     const file: File = event.target.files[0];
 
-
-    console.log(selectedFile)
-    console.log('fileeee ',file)
-
     const files: FileList = event.target.files;
     this.ADD_FILE(selectedFile);
 

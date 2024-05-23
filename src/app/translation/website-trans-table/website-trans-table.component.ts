@@ -30,7 +30,6 @@ export class WebsiteTransTableComponent implements OnInit {
 
   receivePageSize($event: any) {
     this.currentPage = $event;
-    console.log(this.currentPage)
     this.currentPageChoosen.emit(this.currentPage)
     this.FETCH_WEB_TRANSLATION(this.currentPage)
   }

@@ -150,9 +150,6 @@ EDIT_FILE(file :any, userid: any):Observable<any>{
   formData.append('file', file)
   formData.append('i_File', JSON.stringify(requestBody));
 
-  console.log(file)
-  console.log(formData)
-
   return this.httpClient.post<any>(this.apiUrl + '/EDIT_FILE', formData, { headers })
 
 }
