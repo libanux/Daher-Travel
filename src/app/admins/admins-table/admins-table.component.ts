@@ -9,7 +9,7 @@ export class AdminsTableComponent {
  
   @Input() showDropdowns = true;
   @Input() showTitle = true;
-
+   showShimmer: boolean = false;
   status: string = "ACCEPTED"
 
   dropTitle1: string = 'Timeframe';
