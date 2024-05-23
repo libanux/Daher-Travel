@@ -66,8 +66,10 @@ export class DocumentTransTableComponent implements OnInit {
 
   receivePageSize($event: any) {
     this.currentPage = $event;
-    this.currentPageChoosen.emit(this.currentPage)
+    this.currentPageChoosen.emit(this.currentPage);
+    this.fetchTranslations();
   }
+
 
   // function for viewing a specific item
   moveToRouteWithIndex(route: string, id: number) {

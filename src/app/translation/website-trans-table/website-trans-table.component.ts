@@ -17,13 +17,6 @@ export class WebsiteTransTableComponent implements OnInit {
 
   status: string = "ACCEPTED"
 
-  dropTitle1: string = 'Timeframe';
-  dropTitle2: string = 'People';
-  dropTitle3: string = 'Time';
-  dropOptions1: string[] = ["Option1", "Option2", "Option3"];
-  dropOptions2: string[] = ["Option1", "Option2", "Option3"];
-  dropOptions3: string[] = ["Option1", "Option2", "Option3"];
-  private apiUrl = '';
   webTranslationArrayLength = 0
   webTranslationArray: any[] = [];
   showShimmer: boolean = true;
@@ -32,25 +25,17 @@ export class WebsiteTransTableComponent implements OnInit {
   constructor(private apiService : GeneralService, private router: Router, private translationsService: TranslationService) { }
 
   ngOnInit(): void {
-    this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
-      next: (response: any) => {
-        this.webTranslationArray = response.my_QUOTE_TRANSLATIONS.first;
-        this.webTranslationArrayLength = Math.ceil(response.my_QUOTE_TRANSLATIONS.second / this.apiService.PageSizing);
-      },
-      error: (error: any) => { this.showShimmer = false; },
-      complete: () => { this.showShimmer = false; }
-    });
+   this.FETCH_WEB_TRANSLATION(0);
   }
-
 
   receivePageSize($event: any) {
     this.currentPage = $event;
     console.log(this.currentPage)
     this.currentPageChoosen.emit(this.currentPage)
-    this.GET_WEB_TRANSLATION(this.currentPage)
+    this.FETCH_WEB_TRANSLATION(this.currentPage)
   }
 
-  GET_WEB_TRANSLATION(page: number){
+  FETCH_WEB_TRANSLATION(page: number){
     this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(page).subscribe({
       next: (response: any) => {
         this.webTranslationArray = response.my_QUOTE_TRANSLATIONS.first;
