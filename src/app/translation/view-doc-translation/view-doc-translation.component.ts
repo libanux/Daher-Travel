@@ -26,7 +26,7 @@ ngOnInit(): void {
   this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
   this.routeCurrently.set('View Translation')
-  this.breadCrumb1.set('/ Translation')
+  this.breadCrumb1.set('/Document Translation')
   this.breadCrumb1Route.set('/translation')
   this.breadCrumb2.set(' / View Translation')
   this.BCbeforeLastOneRoute.set('')

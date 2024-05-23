@@ -30,7 +30,7 @@
     </tr>
         
     <!-- table Body -->
-    <tr *ngFor="let users of userArray" (click)="moveToRouteWithIndex('/admins/edit', users.id)">
+    <tr *ngFor="let users of Admins_Array" (click)="moveToRouteWithIndex('/admins/edit', users.id)">
         <td>{{users.id}}</td>
         <td>{{users.GOOGLE_U}}</td>
         <td>{{users.email}}</td>
@@ -41,6 +41,16 @@
     </tr>
                
         </table>
+        
+<!-- Shimmer Component -->
+<app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+
+<!-- Pagination Component -->
+<app-pagination
+(currentPageEvent)="receivePageSize($event)"
+[pageSize]="ArrayLength"
+></app-pagination>
+
         </section>
         </main>
             

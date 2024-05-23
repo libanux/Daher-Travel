@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-admins-table',
@@ -7,19 +7,14 @@ import { Router } from '@angular/router';
 })
 export class AdminsTableComponent {
  
-  @Input() showDropdowns = true;
   @Input() showTitle = true;
+  @Output() currentPageChoosen = new EventEmitter<number>();
 
-  status: string = "ACCEPTED"
+  currentPage = 0;
+  ArrayLength = 0;
+  showShimmer = false;
 
-  dropTitle1: string = 'Timeframe';
-  dropTitle2: string = 'People';
-  dropTitle3: string = 'Time';
-  dropOptions1: string[] = ["Option1", "Option2", "Option3"];
-  dropOptions2: string[] = ["Option1", "Option2", "Option3"];
-  dropOptions3: string[] = ["Option1", "Option2", "Option3"];
-
- userArray = [
+ Admins_Array = [
     { id: 1, GOOGLE_U: null, email: 'user1@example.com', password: 'password1', IS_ACTIVE: true, FirstNAME: 'John', lastName: 'Doe', datetimeCreated: '2024-04-16T08:00:00Z' },
     { id: 2, GOOGLE_U: null, email: 'user2@example.com', password: 'password2', IS_ACTIVE: true, FirstNAME: 'Jane', lastName: 'Smith', datetimeCreated: '2024-04-16T08:10:00Z' },
     { id: 3, GOOGLE_U: null, email: 'user3@example.com', password: 'password3', IS_ACTIVE: true, FirstNAME: 'Alice', lastName: 'Johnson', datetimeCreated: '2024-04-16T08:20:00Z' },
@@ -27,20 +22,37 @@ export class AdminsTableComponent {
     { id: 5, GOOGLE_U: null, email: 'user5@example.com', password: 'password5', IS_ACTIVE: true, FirstNAME: 'Eva',lastName: 'Williams', datetimeCreated: '2024-04-16T08:40:00Z' }
   ];
   
-  constructor(private cdr: ChangeDetectorRef, private router: Router) { }
+constructor(private router: Router) { }
 
-  ngOnInit() {
+ngOnInit(): void {
+  this.FETCH_ADMINS(0);
+}
+ 
+receivePageSize($event: any) {
+  this.currentPage = $event;
+  this.currentPageChoosen.emit(this.currentPage)
+  this.FETCH_ADMINS(this.currentPage)
+}
+ 
+FETCH_ADMINS(page: number){
+    //  this.translationsService.GET_WEB_TRANSLATION_PER_PAGE(page).subscribe({
+    //    next: (response: any) => {
+    //      this.webTranslationArray = response.my_QUOTE_TRANSLATIONS.first;
+    //      this.webTranslationArrayLength = Math.ceil(response.my_QUOTE_TRANSLATIONS.second / this.apiService.PageSizing);
+    //    },
+    //    error: (error: any) => { this.showShimmer = false; },
+    //    complete: () => { this.showShimmer = false; }
+    //  });
+}
 
-  }
+// function for viewing a specific item
+moveToRouteWithIndex(route: string, id: number) {
+  this.router.navigate([route], { queryParams: { id: id } }).then(() => {
+    window.scrollTo(0, 0);
+  });
+}
 
-  // function for viewing a specific item
-  moveToRouteWithIndex(route: string, id: number) {
-    this.router.navigate([route], { queryParams: { id: id } }).then(() => {
-      window.scrollTo(0, 0);
-    });
-  }
-
-  // function for viewing a specific item
+// function for routing
 moveToRoute(route: string) {
   this.router.navigate([route]).then(() => {window.scrollTo(0, 0);});
 }

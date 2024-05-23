@@ -31,7 +31,7 @@
 </tr>
 
 <!-- table Body -->
-<tr *ngFor="let trans of transactionArray" (click)="moveToRouteWithIndex('/transaction/edit', trans.payment_ID)">
+<tr *ngFor="let trans of transArray" (click)="moveToRouteWithIndex('/transaction/edit', trans.payment_ID)">
     <td>{{trans.payment_ID}}</td>
     <td>{{trans.my_USER.first_NAME}}</td>
     <td>{{trans.my_USER.last_NAME}}</td>
@@ -44,6 +44,14 @@
 </tr>
        
 </table>
+
+<app-pagination
+*ngIf="showPaging"
+(currentPageEvent)="receivePageSize($event)"
+[pageSize]="ArrayLength">
+</app-pagination>
+
+
 </section>
 </main>
     
