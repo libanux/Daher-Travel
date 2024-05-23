@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, Params_Authenticate } from '../../service-folder/auth.service';
+import { LoginService } from '../../signals/login.service';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService, Params_Authenticate } from '../../service-folder/auth.serv
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   email: string = '';
   password: string = '';
   emailError: string = '';
@@ -16,7 +17,18 @@ export class LoginComponent {
   loginError: string = '';
   loading: boolean = false;
 
-  constructor(private router: Router, private authserivece: AuthService) { }
+  showHeader =  signal(false);
+  showSidebar =  signal(false);
+
+  constructor(private signalLoginService : LoginService,  private router: Router, private authserivece: AuthService) { }
+ 
+  ngOnInit(): void {
+    this.showHeader = this.signalLoginService.showHeader;
+    this.showSidebar = this.signalLoginService.showSidebar
+  
+    this.showHeader.set(false)
+    this.showSidebar.set(false)      
+  }
 
   //EMAIL VALIDATION
   validateEmail() {
