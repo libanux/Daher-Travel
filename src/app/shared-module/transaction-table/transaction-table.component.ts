@@ -21,14 +21,6 @@ export class TransactionTableComponent {
   currentPage = 0;
   showPaging = true;
   
-  dropTitle1: string = 'Timeframe';
-  dropTitle2: string = 'People';
-  dropTitle3: string = 'Time';
-  
-  dropOptions1: string[] = ["Option1", "Option2", "Option3"];
-  dropOptions2: string[] = ["Option1", "Option2", "Option3"];
-  dropOptions3: string[] = ["Option1", "Option2", "Option3"];
-
   constructor(private router:Router, private apiService : GeneralService, private transactionService : PaymentService){ }
 
   ngOnInit() {
