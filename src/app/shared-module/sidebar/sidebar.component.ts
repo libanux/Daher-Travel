@@ -1,18 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { LoginService } from '../../signals/login.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
 
   @Input() showCloseButton = false;
   @Input() logo = './assets/ServSmart-Logo1.png'
 
-  constructor(private router: Router, private sanitizer: DomSanitizer) { }
+  showHeader =  signal(false);
+  showSidebar =  signal(false);
+  
+  constructor(private signalLoginService : LoginService, private router: Router, private sanitizer: DomSanitizer) { }
+ 
+  ngOnInit(): void {
+    this.showHeader = this.signalLoginService.showHeader;
+    this.showSidebar = this.signalLoginService.showSidebar
+  }
 
 
   //LOGOUT FUNCTION 
@@ -21,6 +30,9 @@ export class SidebarComponent {
     localStorage.removeItem('userId');
     // localStorage.removeItem('userId');
     this.router.navigate(['']);
+
+    this.showHeader.set(false)
+    this.showSidebar.set(false)
   }
 
   // ROUTING FUNCTION

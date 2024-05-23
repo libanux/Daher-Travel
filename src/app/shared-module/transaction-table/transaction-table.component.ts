@@ -29,7 +29,6 @@ export class TransactionTableComponent {
 
   receivePageSize($event: any) {
     this.currentPage = $event;
-    console.log(this.currentPage)
     this.currentPageChoosen.emit(this.currentPage)
     this.FETCH_TRANSACTION(this.currentPage)
   }

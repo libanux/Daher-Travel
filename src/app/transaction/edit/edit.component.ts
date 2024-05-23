@@ -70,7 +70,6 @@ comparePayments(): void {
     this.selectedPayment.entry_USER_ID !== this.editedPayment.entry_USER_ID ||
     this.selectedPayment.entry_DATE !== this.editedPayment.entry_DATE ||
     this.selectedPayment.owner_ID !== this.editedPayment.owner_ID;
-    console.log(this.paymentChanged)
 }
 
 //EDIT PAYMENT (NOT USED CURRENTLY)
@@ -78,7 +77,6 @@ Edit(){
   this.isEditing=true;
     this.paymentService.EDIT_PAYMENT(this.editedPayment).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.isEditing=false;
         this.back();
       },

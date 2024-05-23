@@ -5,9 +5,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./homepage.component.css'],
 })
 export class HomepageComponent {
-  currentPage = 0
-  receivePageSize($event: any) {
-    this.currentPage = $event;
-  }
-  
+
 }

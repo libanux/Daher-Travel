@@ -65,7 +65,6 @@ export class UsersTableComponent implements OnInit {
 
   receivePageSize($event: any) {
     this.currentPage = $event;
-    console.log(this.currentPage)
     this.currentPageChoosen.emit(this.currentPage)
     this.fetchUsers(this.currentPage)
   }
