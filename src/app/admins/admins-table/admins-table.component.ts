@@ -13,6 +13,7 @@ export class AdminsTableComponent {
   currentPage = 0;
   ArrayLength = 0;
   showShimmer = false;
+  status: string = "ACCEPTED"
 
  Admins_Array = [
     { id: 1, GOOGLE_U: null, email: 'user1@example.com', password: 'password1', IS_ACTIVE: true, FirstNAME: 'John', lastName: 'Doe', datetimeCreated: '2024-04-16T08:00:00Z' },

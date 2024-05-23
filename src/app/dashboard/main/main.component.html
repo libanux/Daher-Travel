@@ -1,4 +1,5 @@
 <main>
+
   <div class="column1">
     <app-count-box [onlyString]="false" [firstNb]="27" [secondNb]="80" [title]="'Active Users'"></app-count-box>
     <app-count-box [onlyString]="true" [stringValue]="'3,298'" [title]="'Questioned Answers'"></app-count-box>
@@ -7,7 +8,7 @@
     <app-count-box [onlyString]="true" [stringValue]="'86%'" [title]="'Current Knowledge'"></app-count-box>
     <app-count-box [onlyString]="true" [stringValue]="'34%'" [title]="'Knowledge Gain'"></app-count-box>
   </div>
-  
+
   <div class="topics">
     <app-topics [title]="'Weakest Topics'" class="app-topics" [weakest]="true"></app-topics>
     <app-topics [title]="'Strongest Topics'" class="app-topics" [weakest]="false"></app-topics>
@@ -19,10 +20,8 @@
   ></app-main-transaction> -->
 </div>
 
-<div>
-  <app-users-table
-  [showDropdowns]="false"
-  ></app-users-table>
-</div>
+  <div>
+    <app-users-table [showDropdowns]="false"></app-users-table>
+  </div>
 
 </main>

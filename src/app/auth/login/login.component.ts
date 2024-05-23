@@ -50,8 +50,8 @@ export class LoginComponent {
       const authenticationParams: Params_Authenticate = {
         EMAIL: this.email,
         PASSWORD: this.password,
-        IS_ACTIVE:true,
-        PLATFORM:"DASH"
+        IS_ACTIVE: true,
+        PLATFORM: "DASH"
       };
 
       this.authserivece.authenticate(authenticationParams).subscribe({
@@ -72,7 +72,7 @@ export class LoginComponent {
         error: (error: any) => {
           this.loading = false;
           this.loginError = 'Authentication failed. Please check your credentials.';
-          this.passwordError= 'Incorrect Email or password';
+          this.passwordError = 'Incorrect Email or password';
         }
       });
     }
@@ -80,6 +80,16 @@ export class LoginComponent {
       this.loading = false;
     }
   }
+
+
+  //LOGIN WHEN CLICK ENTER KEY
+  handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.login();
+    }
+  }
+
+  
 }
 
 
