@@ -40,6 +40,7 @@ export class UsersTableComponent implements OnInit {
 
     effect(() => {
       this.searchKey = this.searchService.UserSearchKey();
+      this.currentPage = 0;
       this.fetchUsers(this.currentPage);
     });
   }

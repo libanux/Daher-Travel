@@ -11,6 +11,20 @@ section {
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(226, 236, 249, 0.5);
 }
+
+.firstDiv {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10px;
+  }
+
+  .firstDiv button {
+    border-radius: 5px;
+    border-style: none;
+    color: white;
+    background: #203269;
+    padding: 10px 15px;
+  }
   
 .forDrop{
 display: flex;
