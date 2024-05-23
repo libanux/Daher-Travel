@@ -12,7 +12,6 @@
         <th class="col-xs-3">Traget Language</th>
         <th class="col-xs-3">URL Source</th>
         <th class="col-xs-3">User ID</th>
-        <th class="col-xs-3">Status</th>
         </ng-container>
     </tr>
         
@@ -24,9 +23,6 @@
         <td>{{translation.target_LANGUAGE }}</td>
         <td>{{translation.url_SOURCE}}</td>
         <td>{{translation.user_ID}}</td>
-        <td class="status-values" [ngClass]="{'Completed-class': translation.quote_STATUS === 'Completed','InProgress-class': translation.quote_STATUS === 'InProgress','DECLINED-class': translation.quote_STATUS === 'DECLINED','pending-class': translation.quote_STATUS === 'Pending'}">
-            <p>{{translation.quote_STATUS}}</p>
-        </td>
     </tr>          
 </table>
 
