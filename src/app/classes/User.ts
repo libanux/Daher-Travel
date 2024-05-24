@@ -7,6 +7,8 @@ export class User {
     username: string = '';
     email: string = '';
     password: string = '';
+    phone_NUMBER: string = '';
+    country: string ='';
     user_TYPE_CODE: string = '002';
     user_LANG_CODE: string = '001';
     is_ACTIVE: boolean = true;
