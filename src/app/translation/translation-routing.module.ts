@@ -6,13 +6,14 @@ import { DocumentMainComponent } from './document-main/document-main.component';
 import { WebsiteTranslationComponent } from './website-translation/website-translation.component';
 import { WebsiteMainComponent } from './website-main/website-main.component';
 import { EditingProofreadingMaimComponent } from './editing-proofreading-maim/editing-proofreading-maim.component';
+import { ViewWebTranslationComponent } from './view-web-translation/view-web-translation.component';
 
 const routes: Routes = [
   {path: 'documentMain', component:DocumentMainComponent},
   {path: 'WebsiteMain', component:WebsiteMainComponent},
 
   {path: 'documentTranslation', component:ViewDocTranslationComponent},
-  {path: 'websiteTranslation', component:WebsiteTranslationComponent},
+  {path: 'websiteTranslation', component:ViewWebTranslationComponent},
   {path: 'EditingAndProofreading', component:EditingProofreadingMaimComponent}
 
 ];
