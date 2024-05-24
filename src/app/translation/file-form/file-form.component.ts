@@ -29,23 +29,24 @@ export class FileFormComponent{
     }
   }
 
+  All_Files_Array: any [] = [];
   SAVE_CHANGES(){
 
   }
 
   ADD_FILE(files: any){
-    this.translationService.EDIT_FILE(files, this.userId).subscribe({
+    this.translationService.EDIT_TRANSLATION_FILE(files, this.userId).subscribe({
       next : (response: any) => {console.log(response)},
       error: (error:any) => {console.log(error)},
       complete: () => {}
     });
   }
 
-  SAVE_ALL_FILES(files: any){
-    // this.translationService.EDIT_FILE(files, this.userId).subscribe({
-    //   next : (response: any) => {console.log(response)},
-    //   error: (error:any) => {console.log(error)},
-    //   complete: () => {}
-    // });
+  SAVE_ALL_FILES(files:any [], userID: any){
+    this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(files, userID).subscribe({
+      next : (response: any) => {console.log(response)},
+      error: (error:any) => {console.log(error)},
+      complete: () => {}
+    });
   }
 }

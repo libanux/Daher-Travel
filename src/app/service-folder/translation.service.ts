@@ -122,7 +122,7 @@ GET_PAYMENT_TRANSLATION_BY_ID(ID : number):Observable<any>{
 //   return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER', requestBody, { headers });
 // }
 
-EDIT_FILE(file :any, userid: any):Observable<any>{
+EDIT_TRANSLATION_FILE(file :any, userid: any):Observable<any>{
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`, 
   });
@@ -198,6 +198,50 @@ GET_WEB_TRANSLATION_BY_ID(translationID: number):Observable<any>{
 }
 
 
+// EDIT_TRANSLATION_ORDER_FILE_LIST(file :any, userid: any):Observable<any>{
+//   const headers = new HttpHeaders({
+//     'Authorization': `Bearer ${this.storedToken}`, 
+//   });
+
+//     // Define the request body
+//   const requestBody =  {
+//     "TRANSLATION_ORDER_FILE_ID": -1,
+//     "TYPE":"RES", // request or response
+//     "FILE_ID": file.id,
+//     "TRANSLATION_ORDER_ID": 12,
+//     "USER_ID": userid,
+//     "COMMENT": file.comment,
+//     "TIME_CREATION": "",
+//     "ENTRY_USER_ID": userid,
+//     "ENTRY_DATE": "",
+//     "OWNER_ID": 1
+// };
+
+//   return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER_FILE_LIST', requestBody, { headers })
+
+// }
+
+EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+  });
+
+  // Define the request body as an array of objects
+  const requestBody = files.map(file => ({
+    "TRANSLATION_ORDER_FILE_ID": -1,
+    "TYPE": "RES", // request or response
+    "FILE_ID": file.id,
+    "TRANSLATION_ORDER_ID": 12,
+    "USER_ID": userId,
+    "COMMENT": file.comment,
+    "TIME_CREATION": "",
+    "ENTRY_USER_ID": userId,
+    "ENTRY_DATE": "",
+    "OWNER_ID": 1
+  }));
+
+  return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER_FILE_LIST', requestBody, { headers });
+}
 
 
 }
