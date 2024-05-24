@@ -20,7 +20,7 @@ ngOnInit(): void {
 
   this.translationService.GET_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.user_Info = response.my_TRANSLATION_ORDER.my_USER;},
-    error: (error) => {console.log(error)},
+    error: (error) => {console.error(error)},
     complete: () => {}
   });
   

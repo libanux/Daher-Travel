@@ -22,7 +22,7 @@ ngOnInit(): void {
 
   this.translationService.GET_PAYMENT_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.payment_Info = response.my_Payment[0];},
-    error: (error) => {console.log(error)},
+    error: (error) => {console.error(error)},
     complete: () => {}
   });
   

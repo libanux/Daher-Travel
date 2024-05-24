@@ -21,8 +21,8 @@ export class AppComponent {
 
   constructor(private signalLoginService : LoginService, private router: Router, private zone: NgZone) {
     effect(() => {
-      console.log(`show header is: `, this.showHeader());
-      console.log(`show sidebar is: `, this.showSidebar());
+      // console.log(`show header is: `, this.showHeader());
+      // console.log(`show sidebar is: `, this.showSidebar());
     });
     
    }

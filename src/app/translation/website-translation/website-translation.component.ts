@@ -54,7 +54,7 @@ export class WebsiteTranslationComponent  {
         this.selectedTranslation = response.my_QUOTE_TRANSLATION;
         this.translationUser = response.my_QUOTE_TRANSLATION.my_USER;
       },
-      error: (error: any) => { console.log(error); },
+      error: (error: any) => { console.error(error); },
       complete: () => { }
     });
   }

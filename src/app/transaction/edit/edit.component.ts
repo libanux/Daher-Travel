@@ -53,7 +53,7 @@ ngOnInit(): void {
       this.selectedPayment = response.my_Payment;
       this.editedPayment = { ...response.my_Payment };
     },
-    error: (error: any) => { console.log(error); },
+    error: (error: any) => { console.error(error); },
     complete: () => { }
   });
 
@@ -81,7 +81,7 @@ Edit(){
         this.back();
       },
       error: (error: any) => {
-        console.log(error);
+        console.error(error);
         this.isEditing=false;
       },
       complete: () => { }

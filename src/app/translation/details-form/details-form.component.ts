@@ -23,13 +23,13 @@ ngOnInit(): void {
 
   this.translationService.GET_FILES_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.FileArray = response.my_ORDER_FILES;},
-    error: (error) => {console.log(error)},
+    error: (error) => {console.error(error)},
     complete: () => {}
   });
 
   this.translationService.GET_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.translation_Info = response.my_TRANSLATION_ORDER;},
-    error: (error) => {console.log(error)},
+    error: (error) => {console.error(error)},
     complete: () => {}
   });
   
