@@ -50,7 +50,7 @@ export class ViewUserComponent implements OnInit {
         this.selectedUser = response.my_User;
         this.editedUser = { ...response.my_User };
       },
-      error: (error: any) => { console.log(error); },
+      error: (error: any) => { console.error(error); },
       complete: () => { }
     });
   }
@@ -65,7 +65,7 @@ export class ViewUserComponent implements OnInit {
         this.back();
       },
       error: (error: any) => {
-        console.log(error);
+        console.error(error);
         this.isEditing=false;
       },
       complete: () => { }

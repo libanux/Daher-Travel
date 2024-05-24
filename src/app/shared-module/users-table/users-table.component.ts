@@ -58,7 +58,7 @@ export class UsersTableComponent implements OnInit {
         this.userArray = response.my_Users.first;
         this.UsersArrayLength = Math.ceil(response.my_Users.second / this.apiService.PageSizing);
       },
-      error: (error: any) => { this.showShimmer = false; console.log(error); },
+      error: (error: any) => { this.showShimmer = false; console.error(error); },
       complete: () => { this.showShimmer = false; }
     });
   }

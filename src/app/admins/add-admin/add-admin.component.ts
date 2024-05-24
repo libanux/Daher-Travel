@@ -65,7 +65,7 @@ addUser(){
       this.isAdding=false;
       this.router.navigate(['/admins']);
       },
-      error: (error: any) => { console.log(error);
+      error: (error: any) => { console.error(error);
         this.message = error.error.exceptionMsg;
         this.isAdding=false;
        },

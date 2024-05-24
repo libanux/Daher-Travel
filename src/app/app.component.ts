@@ -22,13 +22,11 @@ export class AppComponent {
  
 
   constructor(private signalLoginService : LoginService, private router: Router, private zone: NgZone, private searchService: SearchService) {
-    effect(() => {
-      console.log(`show header is: `, this.showHeader());
-      console.log(`show sidebar is: `, this.showSidebar());
-    
-    });
-    
-   }
+effect(() => {
+   // console.log(`show header is: `, this.showHeader());
+  // console.log(`show sidebar is: `, this.showSidebar());
+});
+}
 
 
 ngOnInit(): void {
