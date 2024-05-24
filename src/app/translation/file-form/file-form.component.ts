@@ -34,7 +34,11 @@ export class FileFormComponent{
     this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(this.All_Files_Array, this.userId).subscribe({
       next : (response: any) => {console.log(response);},
       error: (error:any) => {console.error(error)},
-      complete: () => {}
+      complete: () => { 
+        // Clear the uploadedFiles array
+        this.uploadedFiles = [];
+      
+      }
     });
   }
 
