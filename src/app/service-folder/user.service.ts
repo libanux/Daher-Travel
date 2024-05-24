@@ -75,6 +75,11 @@ export class UserService {
 
   // ADD USER
   ADD_USER(user: User): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+
     const requestBody = {
       USER_ID: user.user_ID,
       OWNER_ID: user.owner_ID,
@@ -91,7 +96,7 @@ export class UserService {
       PROFILE_COMPLETED: user.profile_COMPLETED,
       ENTRY_DATE: user.entry_DATE
     };
-    return this.httpClient.post<any>(this.apiUrl + '/SIGN_UP', requestBody)
+    return this.httpClient.post<any>(this.apiUrl + '/EDIT_USER', requestBody, { headers })
   }
 
   // ADD USER

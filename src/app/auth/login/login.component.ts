@@ -77,14 +77,15 @@ export class LoginComponent implements OnInit{
               localStorage.setItem('userId', response.myResult.userID)
           }
           else {
-            this.loginError = 'Incorrect Email or password';
+            // this.loginError = 'Incorrect Email or password';
             this.loading = false;
           }
         },
         error: (error: any) => {
           this.loading = false;
-          this.loginError = 'Authentication failed. Please check your credentials.';
-          this.passwordError = 'Incorrect Email or password';
+          // this.loginError = 'Authentication failed. Please check your credentials.';
+           this.passwordError = error.error.exceptionMsg;
+          // this.passwordError = 'Incorrect Email or password';
         }
       });
     }
