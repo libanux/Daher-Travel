@@ -26,6 +26,7 @@
             </tr>
 
             <!-- TABLE BODY -->
+            <ng-container *ngIf="translationArray.length > 0; else noRecords">
             <tr class="body" *ngFor="let trans of translationArray"
                 (click)="moveToRouteWithIndex('/translation/documentTranslation',trans.translation_ORDER_ID )">
                 <td>{{trans.translation_ORDER_ID}}</td>
@@ -39,6 +40,12 @@
                     [ngClass]="{'Completed-class': trans.status === 'Completed','InProgress-class': trans.status === 'InProgress','DECLINED-class': trans.status === 'DECLINED','pending-class': trans.status === 'Pending'}">
                     <p>{{trans.status}}</p></td>
             </tr>
+        </ng-container>
+            <ng-template #noRecords>
+                <tr *ngIf="!showShimmer">
+                    <td colspan="8" style="text-align: center;">No Records Found</td>
+                </tr>
+            </ng-template>
 
         </table>
 

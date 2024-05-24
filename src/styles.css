@@ -8,7 +8,7 @@ body {
   height: 100vh;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
-  font-family: 'Inter' ; 
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Custom styles for success snackbar */

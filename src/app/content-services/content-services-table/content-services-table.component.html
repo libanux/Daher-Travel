@@ -1,11 +1,18 @@
 <main>
-
-      <!-- DROPDOWN -->
-      <!-- <div class="forDrop">
-        <div class="w-100"><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1"
-                [dropTitle1]="dropTitle2" [dropOptions1]="dropOptions2" [dropTitle2]="dropTitle3"
-                [dropOptions2]="dropOptions3"></app-dropdown-filter></div>
-    </div> -->
+    <div class="firstDiv">
+        <h3>Content Services Table</h3>
+    </div>
+    <!-- DROPDOWN -->
+    <div class="forDrop">
+        <div class="w-100">
+            <app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1" [dropTitle1]="dropTitle2"
+                [dropOptions1]="dropOptions2" [dropTitle2]="dropTitle3"
+                [dropOptions2]="dropOptions3"
+                [showDrop2]="false"
+                [showDrop3]="false"
+                ></app-dropdown-filter>
+        </div>
+    </div>
     <section>
 
         <!-- Table -->
@@ -21,6 +28,15 @@
                     <th class="col-xs-3">Phone Number</th>
                     <th class="col-xs-3">Country</th>
                 </ng-container>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Blog posts</td>
+                <td>Ali</td>
+                <td>Mrad</td>
+                <td>3 days</td>
+                <td>09999999</td>
+                <td>Lebanon</td>
             </tr>
 
             <!-- table Body -->

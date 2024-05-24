@@ -1,75 +1,60 @@
 .main-dropdown{
-    height: 40px;
-    /* width: 300px; */
-    width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
     gap: 30px;
-    
+     width: 100%;
+     margin-bottom: 30px;
 }
-
-.drop-down{
-    height: 40px;
-    border-radius: 15px;
-    border: 1px solid #EFF0F6;
-    padding-left: 15px;
-    padding-right: 10px;
-    background-color: white;
+.custom-select-wrapper {
+    /* position: relative;
+    display: inline-block; */
     width: 100%;
     display: flex;
-    align-items: center;
-    
 }
 
-
-.title{
-font-weight: 500;
-}
-
-.forSelect{
-    width: 100%;
-    border: none;
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 0 10px rgba(226, 236, 249, 0.5);
+    border-radius: 15px;
     font-weight: 600;
+    width: 100%;
 }
 
-.forSelect:focus:not(:focus-visible),
-.forSelect::-ms-value {
-    border: none;
-    outline: none;
+.custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 999;
+    max-height: 200px; /* Adjust as needed */
+    overflow-y: auto;
 }
 
-@media (max-width:425px) {
-    .main-dropdown{
-        flex-direction: column;
-        gap: 5px;
-        margin-bottom: 60px;
-    }
+.custom-option {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.1s;
+    width: 100%;
 }
 
-/* @media (max-width:1272px) {
-    .main-dropdown{
-        width: 200px;
-    }
+.custom-option:hover {
+    background: #203269;
+    color: white;
 }
-@media (max-width:670px) {
-    .main-dropdown{
-        width: 150px;
-        margin-right: 5px;
-    }
-}
-
-
-
-@media (max-width:674px) {
-    .main-dropdown{
-        width: 100%;
-        align-items: flex-start;
-    }
-} */
-
-
