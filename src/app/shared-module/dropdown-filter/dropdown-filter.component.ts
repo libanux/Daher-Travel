@@ -17,9 +17,9 @@ export class DropdownFilterComponent {
   @Input() dropOptions2: string[] = []
 
 
-  selectedOption1: string = '';
-  selectedOption2: string = '';
-  selectedOption3: string = '';
+  selectedOption1: string = 'All';
+  selectedOption2: string = 'All';
+  selectedOption3: string = 'All';
 
   constructor(private dropService: DropdownService) { }
 

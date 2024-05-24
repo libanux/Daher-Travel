@@ -2,6 +2,7 @@ import { Component, NgZone, effect, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { LoginService } from './signals/login.service';
+import { SearchService } from './signals/search.service';
 
 @Component({
   selector: 'app-root',
@@ -18,14 +19,14 @@ export class AppComponent {
 
   showHeader =  signal(false);
   showSidebar =  signal(false);
+ 
 
-  constructor(private signalLoginService : LoginService, private router: Router, private zone: NgZone) {
-    effect(() => {
-      // console.log(`show header is: `, this.showHeader());
-      // console.log(`show sidebar is: `, this.showSidebar());
-    });
-    
-   }
+  constructor(private signalLoginService : LoginService, private router: Router, private zone: NgZone, private searchService: SearchService) {
+effect(() => {
+   // console.log(`show header is: `, this.showHeader());
+  // console.log(`show sidebar is: `, this.showSidebar());
+});
+}
 
 
 ngOnInit(): void {
@@ -55,9 +56,9 @@ ngOnInit(): void {
             }, 1000);
           }
 
-          if (event.url === '/dashboard') {
-            this.showSearchBar = false;
-          }
+          // if (event.url === '/dashboard') {
+          //   this.showSearchBar = false;
+          // }
 
           if (event.url === '/dashboard' && this.showSidebar() == false) {
             this.showloadingOnLogin = true;

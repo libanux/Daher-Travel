@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, effect, signal } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { SearchService } from '../../signals/search.service';
+import { LoginService } from '../../signals/login.service';
 
 
 @Component({
@@ -19,7 +20,10 @@ export class SearchBarComponent {
   @Input() searchBy: string = '';
   searchKey: string = ''
 
-  constructor(private router: Router, private searchService: SearchService) {
+
+
+
+  constructor( private searchService: SearchService, private router: Router) {
 
   }
   onSearchKeyChange(value: string): void {

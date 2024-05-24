@@ -16,6 +16,11 @@ import { EditingProofreadingMaimComponent } from './editing-proofreading-maim/ed
 import { ViewEditProofreadingComponent } from './view-edit-proofreading/view-edit-proofreading.component';
 import { WebsiteTransTableComponent } from './website-trans-table/website-trans-table.component';
 import { DocumentTransTableComponent } from './document-trans-table/document-trans-table.component';
+import { ViewWebTranslationComponent } from './view-web-translation/view-web-translation.component';
+import { WebTransUrlformComponent } from './web-trans-urlform/web-trans-urlform.component';
+import { EditProofreadingTableComponent } from './edit-proofreading-table/edit-proofreading-table.component';
+
+
 
 
 @NgModule({
@@ -32,7 +37,12 @@ import { DocumentTransTableComponent } from './document-trans-table/document-tra
     EditingProofreadingMaimComponent,
     ViewEditProofreadingComponent,
     WebsiteTransTableComponent,
-    DocumentTransTableComponent
+    DocumentTransTableComponent,
+    ViewWebTranslationComponent,
+    WebTransUrlformComponent,
+    EditProofreadingTableComponent,
+
+
     ],
   imports: [
     CommonModule,

@@ -1,21 +1,22 @@
 <div class="main-dropdown">
-    <!-- <span class="title">{{ dropTitle }}:</span>
-    <select class="forSelect" style="background: none; color:black; outline: none;">
-        <option *ngFor="let option of dropOptions">{{ option }}</option>
-    </select> -->
+  <div class="drop-down">
     <span class="title">{{ dropTitle }}:</span>
     <select [(ngModel)]="selectedOption1" (ngModelChange)="onDrop1Change( $event)" class="forSelect" style="background: none; color:black; outline: none;">
       <option *ngFor="let option of dropOptions">{{ option }}</option>
     </select>
-    
+  </div>
+
+  <div class="drop-down">
     <span class="title">{{ dropTitle1 }}:</span>
     <select [(ngModel)]="selectedOption2" (ngModelChange)="onDrop2Change($event)" class="forSelect" style="background: none; color:black; outline: none;">
       <option *ngFor="let option of dropOptions1">{{ option }}</option>
     </select>
-    
+  </div>
+
+  <div class="drop-down">
     <span class="title">{{ dropTitle2 }}:</span>
     <select [(ngModel)]="selectedOption3" (ngModelChange)="onDrop3Change( $event)" class="forSelect" style="background: none; color:black; outline: none;">
       <option *ngFor="let option of dropOptions2">{{ option }}</option>
     </select>
-    
+  </div>
 </div>
