@@ -1,72 +1,44 @@
-
-<div class="main-dropdown">
-  <!-- <div class="drop-down" *ngIf="showDrop1"> -->
-    <div class="custom-select-wrapper" *ngIf="showDrop1" #dropdownContainer1>
-      <div class="custom-select" (click)="toggleDropdown1()">
-      
-          <div class="custom-select-trigger">
-            {{dropTitle}}:
-              {{ selectedOption1 || 'Select an option' }}
-          </div>
-          <div class="custom-options" *ngIf="dropdownOpen1">
-              <div class="custom-option" *ngFor="let option of dropOptions"
-                    (click)="onDrop1Change(option)">
-                  {{ option }}
-              </div>
-          </div>
+<div class="main-dropdown" #dropdownContainer1>
+  <div class="custom-select-wrapper" *ngIf="showDrop1">
+    <div class="custom-select" (click)="toggleDropdown1()">
+      <div class="custom-select-trigger">
+        {{dropTitle}}:
+        {{ selectedOption1 || 'Select an option' }}
       </div>
-  <!-- </div> -->
-  
-  </div>
-
-
-  <!-- <div class="drop-down" *ngIf="showDrop1"> -->
-    <div class="custom-select-wrapper" *ngIf="showDrop2" #dropdownContainer2>
-      <div class="custom-select" (click)="toggleDropdown2()">
-          <div class="custom-select-trigger">
-            {{dropTitle1}}:
-              {{ selectedOption2 || 'Select an option' }}
-          </div>
-          <div class="custom-options" *ngIf="dropdownOpen2">
-              <div class="custom-option" *ngFor="let option of dropOptions1"
-                    (click)="onDrop2Change(option)">
-                  {{ option }}
-              </div>
-          </div>
+      <div class="custom-options" *ngIf="dropdownOpen1">
+        <div class="custom-option" *ngFor="let option of dropOptions" (click)="onDrop1Change(option)">
+          {{ option }}
+        </div>
       </div>
-  <!-- </div> -->
-  
+    </div>
   </div>
 
-  <!-- <div class="drop-down" *ngIf="showDrop1"> -->
-    <div class="custom-select-wrapper" *ngIf="showDrop3" #dropdownContainer3>
-      <div class="custom-select" (click)="toggleDropdown3()">
-          <div class="custom-select-trigger">
-            {{dropTitle2}}:
-              {{ selectedOption3 || 'Select an option' }}
-          </div>
-          <div class="custom-options" *ngIf="dropdownOpen3">
-              <div class="custom-option" *ngFor="let option of dropOptions2"
-                    (click)="onDrop3Change(option)">
-                  {{ option }}
-              </div>
-          </div>
+  <div class="custom-select-wrapper" *ngIf="showDrop2">
+    <div class="custom-select" (click)="toggleDropdown2()">
+      <div class="custom-select-trigger">
+        {{dropTitle1}}:
+        {{ selectedOption2 || 'Select an option' }}
       </div>
-  <!-- </div> -->
-  
+      <div class="custom-options" *ngIf="dropdownOpen2">
+        <div class="custom-option" *ngFor="let option of dropOptions1" (click)="onDrop2Change(option)">
+          {{ option }}
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- <div class="drop-down"  *ngIf="showDrop2">
-    <span class="title">{{ dropTitle1 }}:</span>
-    <select [(ngModel)]="selectedOption2" (ngModelChange)="onDrop2Change($event)" class="forSelect" style="background: none; color:black; outline: none;">
-      <option *ngFor="let option of dropOptions1" class="option">{{ option }}</option>
-    </select>
-  </div>
 
-  <div class="drop-down"  *ngIf="showDrop3">
-    <span class="title">{{ dropTitle2 }}:</span>
-    <select [(ngModel)]="selectedOption3" (ngModelChange)="onDrop3Change( $event)" class="forSelect" style="background: none; color:black; outline: none;">
-      <option *ngFor="let option of dropOptions2" class="option">{{ option }}</option>
-    </select>
-  </div> -->
+  <div class="custom-select-wrapper" *ngIf="showDrop3">
+    <div class="custom-select" (click)="toggleDropdown3()">
+      <div class="custom-select-trigger">
+        {{dropTitle2}}:
+        {{ selectedOption3 || 'Select an option' }}
+      </div>
+      <div class="custom-options" *ngIf="dropdownOpen3">
+        <div class="custom-option" *ngFor="let option of dropOptions2" (click)="onDrop3Change(option)">
+          {{ option }}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

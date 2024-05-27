@@ -3,6 +3,7 @@ import { BreadcrumbService } from '../../signals/breadcrumb.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../service-folder/user.service';
 import { User } from '../../classes/User';
+import { AdminService } from '../../service-folder/admin.service';
 @Component({
   selector: 'app-add-admin',
   templateUrl: './add-admin.component.html',
@@ -28,7 +29,7 @@ export class AddAdminComponent implements OnInit{
   message: string ="";
   isAdding: boolean = false;
   
-  constructor(private userSevice: UserService,private router: Router,private signalService : BreadcrumbService){
+  constructor(private adminService: AdminService,private router: Router,private signalService : BreadcrumbService){
     this.user = new User();
     this.user.user_TYPE_CODE='001';
     this.user.user_LANG_CODE='001';
@@ -59,7 +60,7 @@ export class AddAdminComponent implements OnInit{
 addUser(){
   this.isAdding=true;
   if (this.isValidUser()) {
-    this.userSevice.ADD_USER(this.user).subscribe({
+    this.adminService.ADD_ADMIN(this.user).subscribe({
       next: (response: any) => {
       this.message="";
       this.isAdding=false;

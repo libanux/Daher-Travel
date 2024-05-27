@@ -40,20 +40,15 @@ export class DropdownFilterComponent implements OnInit {
   @ViewChild('dropdownContainer1', { static: true })
   dropdownContainer1!: ElementRef<HTMLElement>;
 
-  @ViewChild('dropdownContainer2', { static: true })
-  dropdownContainer2!: ElementRef<HTMLElement>;
-
-  @ViewChild('dropdownContainer3', { static: true })
-  dropdownContainer3!: ElementRef<HTMLElement>;
-
-
   constructor(private dropService: DropdownService) { }
-  
+
   ngOnInit(): void {
     this.dropService.DropDown1.set('');
     this.dropService.DropDown2.set('');
     this.dropService.DropDown3.set('');
   }
+
+
 
 
   //TOGGLE DROPDOWN 1
@@ -76,20 +71,14 @@ export class DropdownFilterComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent) {
 
-    if (!this.dropdownContainer1.nativeElement.contains((event.target as Node)) && event.target !== this.dropdownContainer1.nativeElement) {
+    // Check if clicked outside dropdown 1 container
+    if (!(this.dropdownContainer1?.nativeElement?.contains(event.target as Node) || event.target === this.dropdownContainer1?.nativeElement)) {
       this.dropdownOpen1 = false;
-    }
-
-    if (!this.dropdownContainer2.nativeElement.contains((event.target as Node)) && event.target !== this.dropdownContainer2.nativeElement) {
       this.dropdownOpen2 = false;
-    }
-    if (!this.dropdownContainer3.nativeElement.contains((event.target as Node)) && event.target !== this.dropdownContainer3.nativeElement) {
       this.dropdownOpen3 = false;
+
     }
-
-
   }
-
 
   //DROPDOWN 1 CHANGE
   onDrop1Change(option: string) {

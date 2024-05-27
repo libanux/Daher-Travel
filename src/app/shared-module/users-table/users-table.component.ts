@@ -28,9 +28,13 @@ export class UsersTableComponent implements OnInit {
   showShimmer: boolean = true;
   currentPage = 0;
   searchKey: string = '';
+  
   @Input() showPaging: boolean = true;
   @Output() currentPageChoosen = new EventEmitter<number>();
+
+
   UsersArrayLength: number = 0;
+
   constructor(
     private apiService: GeneralService,
     private router: Router,
@@ -44,14 +48,12 @@ export class UsersTableComponent implements OnInit {
       this.fetchUsers(this.currentPage);
     });
   }
-
-
   ngOnInit(): void {
     this.searchKey = this.searchService.UserSearchKey();
     this.fetchUsers(this.currentPage);
   }
 
-  // Function to fetch users
+  // FUNCTION TO FETCH USERS
   fetchUsers(currentPage: number): void {
     this.userService.GET_USERS(currentPage).subscribe({
       next: (response: any) => {
@@ -63,7 +65,7 @@ export class UsersTableComponent implements OnInit {
     });
   }
 
-
+  //RECIEVE THE PAGE SIZE
   receivePageSize($event: any) {
     this.currentPage = $event;
     this.currentPageChoosen.emit(this.currentPage)
