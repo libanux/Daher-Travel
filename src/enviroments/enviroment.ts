@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
     apiLocalBaseUrl: "https://libanux.xyz/servsmart/api/data",
+    ws_url: "http://localhost:5000"
   };
   /*
    * For easier debugging in development mode, you can import the following file
