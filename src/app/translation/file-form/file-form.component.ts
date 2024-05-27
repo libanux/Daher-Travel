@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslationService } from '../../service-folder/translation.service';
-
 @Component({
   selector: 'app-file-form',
   templateUrl: './file-form.component.html',
@@ -14,7 +13,7 @@ export class FileFormComponent{
     this.userId = localStorage.getItem('userId')
   }
   
-  onFileChange(event: any) {
+onFileChange(event: any) {
     const inputElement = event.target as HTMLInputElement;
     const selectedFile = inputElement.files ? inputElement.files[0] : null;
 
@@ -27,23 +26,25 @@ export class FileFormComponent{
       this.uploadedFiles.push(files[i]);
     }     
 
-  }
+}
 
-  All_Files_Array: any [] = [];
-  SAVE_CHANGES(){
+onCommentChange(event: any){
+    console.log(event)
+}
+
+All_Files_Array: any [] = [];
+SAVE_CHANGES(){
     this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(this.All_Files_Array, this.userId).subscribe({
       next : (response: any) => {console.log(response);},
       error: (error:any) => {console.error(error)},
       complete: () => { 
         // Clear the uploadedFiles array
-        this.uploadedFiles = [];
-      
-      }
+        this.uploadedFiles = [];  }
     });
-  }
+}
 
-  file_added: any = { id: 0, comment: '' };
-  ADD_FILE(files: any){
+file_added: any = { id: 0, comment: '' };
+ADD_FILE(files: any){
     this.translationService.EDIT_TRANSLATION_FILE(files, this.userId).subscribe({
       next : (response: any) => {
       this.file_added = {
@@ -59,13 +60,15 @@ export class FileFormComponent{
         console.log('completed ', this.All_Files_Array)
       }
     });
-  }
+}
 
-  SAVE_ALL_FILES(files:any [], userID: any){
+SAVE_ALL_FILES(files:any [], userID: any){
     this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(files, userID).subscribe({
       next : (response: any) => {console.log(response)},
       error: (error:any) => {console.error(error)},
       complete: () => {}
     });
-  }
+}
+
+
 }
