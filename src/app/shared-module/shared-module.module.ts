@@ -24,6 +24,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ProofreadingTableComponent } from './proofreading-table/proofreading-table.component';
+import { ChattingComponent } from './chatting/chatting.component';
 
 @NgModule({
 declarations: [
@@ -47,7 +48,8 @@ declarations: [
   NotFoundComponent,
   TransactionTableComponent,
   UsersTableComponent,
-  ProofreadingTableComponent
+  ProofreadingTableComponent,
+  ChattingComponent
 ],
 
 imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -70,7 +72,8 @@ exports: [
   UsersTableComponent,
   ProofreadingTableComponent,
   PaginationComponent,
-  TransactionTableComponent
+  TransactionTableComponent,
+  ChattingComponent
 ],
 
 providers: [],
