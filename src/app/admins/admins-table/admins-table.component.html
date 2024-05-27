@@ -13,34 +13,45 @@
             <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">id</th>
-                    <th class="col-xs-3">GOOGLE_U</th>
-                    <th class="col-xs-3">email</th>
-                    <th class="col-xs-3">IS_ACTIVE</th>
-                    <th class="col-xs-3">FirstNAME</th>
-                    <th class="col-xs-3">lastName</th>
-                    <th class="col-xs-3">datetimeCreated</th>
+                    <th class="col-xs-3">ID</th>
+                    <th class="col-xs-3">First Name</th>
+                    <th class="col-xs-3">Last Name</th>
+                    <th class="col-xs-3">Email</th>
+                    <th class="col-xs-3">Phone Number</th>
+                    <th class="col-xs-3">Google ID</th>
+                    <th class="col-xs-3">Is Active</th>
+                    <th class="col-xs-3">Join Date</th>
                 </ng-container>
             </tr>
 
             <!-- TABLE BODY -->
-            <tr *ngFor="let users of Admins_Array" (click)="moveToRouteWithIndex('/admins/edit', users.id)">
-                <td>{{users.id}}</td>
-                <td>{{users.GOOGLE_U}}</td>
+            <ng-container *ngIf="Admins_Array.length > 0; else noAdmins">
+            <tr *ngFor="let users of Admins_Array" (click)="moveToRouteWithIndex('/admins/edit', users.user_ID)">
+                <td>{{users.user_ID}}</td>
+                <td>{{users.first_NAME}}</td>
+                <td>{{users.last_NAME}}</td>
                 <td>{{users.email}}</td>
-                <td>{{users.IS_ACTIVE}}</td>
-                <td>{{users.FirstNAME}}</td>
-                <td>{{users.lastName}}</td>
-                <td>{{users.datetimeCreated}}</td>
+                <td>{{users.phone_NUMBER}}</td>
+                <td>{{users.google_U}}</td>
+                <td>{{users.is_ACTIVE}}</td>
+                <td>{{users.entry_DATE}}</td>
             </tr>
+        </ng-container>
+
+            <ng-template #noAdmins>
+                <tr *ngIf="!showShimmer">
+                    <td colspan="8" style="text-align: center;">No Admins Found</td>
+                </tr>
+            </ng-template>
 
         </table>
 
         <!-- TABLE SHIMMER -->
         <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
 
-        <!-- PTABLE PAGING -->
-        <app-pagination (currentPageEvent)="receivePageSize($event)" [pageSize]="ArrayLength"></app-pagination>
+         <!-- TABLE PAGING -->
+         <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="AdminsArrayLength">
+        </app-pagination>
 
 
     </section>

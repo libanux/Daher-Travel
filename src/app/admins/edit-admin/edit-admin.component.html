@@ -4,23 +4,23 @@
     <div>
 
     <div class="row1">
-        <div class="forInput">First Name<input class="input" type="text" readonly></div>
-        <div class="forInput">Last Name<input class="input" type="text" readonly></div>
+        <div class="forInput">First Name<input class="input" type="text" [(ngModel)]="selectedAdmin.first_NAME" readonly ></div>
+        <div class="forInput">Last Name<input class="input" type="text" [(ngModel)]="selectedAdmin.last_NAME" readonly></div>
 
         <div class="forInput">Phone number
-            <textarea class="input" name="" id="" cols="30" rows="10"></textarea>
+            <textarea class="input" name="" id="" cols="30" rows="10" [(ngModel)]="selectedAdmin.phone_NUMBER"></textarea>
         </div>
-        <div class="forInput">Email<input class="input" type="text" readonly></div>
+        <div class="forInput">Email<input class="input" type="text" [(ngModel)]="selectedAdmin.email" readonly></div>
     </div>
 
 <br>
 
-    <div class="row2">
+    <!-- <div class="row2">
         <select class="input-text dropdown">
             <option [value]="option" *ngFor="let option of arrayDropDown">{{option}}</option>
           </select>
           
-    </div>
+    </div> -->
 
     <br>
 

@@ -34,5 +34,8 @@ export class SearchBarComponent {
     } else if (this.router.url.startsWith('/transaction')) {
       this.searchService.TransactionSearchKey.set(this.searchKey);
     }
+    else if (this.router.url.startsWith('/admins')) {
+      this.searchService.AdminSearchKey.set(this.searchKey);
+    }
   }
 }

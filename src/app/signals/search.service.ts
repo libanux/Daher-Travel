@@ -9,4 +9,5 @@ export class SearchService {
   UserSearchKey = signal<string>('');
   TranslationSearchKey = signal<string>('');
   TransactionSearchKey = signal<string>('');
+  AdminSearchKey= signal<string>('');
 }
