@@ -10,7 +10,8 @@
 
         <div *ngFor="let msg of msgArray">
            <div class="message stark"> {{msg}}</div>
-          </div>
+        </div>
+
     </div>
     <div class="input">
         <input id="file" type="file" (change)="onFileChange($event)" />
@@ -31,9 +32,9 @@
             </svg>
         </label>
 
-        <input type="text" placeholder="Type your message here!" [(ngModel)]="input">
+        <input type="text" placeholder={{FILE_NAME}} [(ngModel)]="message">
 
-        <button (click)="sendMessage()"> send</button>
+        <button (click)="sendMessage()">send</button>
 
     </div>
 </div>

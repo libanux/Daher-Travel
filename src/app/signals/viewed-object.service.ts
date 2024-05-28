@@ -5,7 +5,7 @@ import { Injectable, signal } from '@angular/core';
 })
 export class ViewedObjectService {
 
-  selected_Translation =  signal(0);
+  selected_Translation_ID =  signal(0);
 
   constructor() { }
 }

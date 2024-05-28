@@ -10,6 +10,8 @@ import { ViewedObjectService } from '../../signals/viewed-object.service';
 export class DetailsFormComponent implements OnInit{
 
   selected_Translation =  signal(0);
+  
+
   translation_ID = 0;
 
   FileArray : any [] =[]
@@ -19,10 +21,12 @@ export class DetailsFormComponent implements OnInit{
 
 ngOnInit(): void {
 
-  this.selected_Translation = this.viewedObj_Service.selected_Translation
+  this.selected_Translation = this.viewedObj_Service.selected_Translation_ID
 
   this.translationService.GET_FILES_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
-    next : (response: any) => {this.FileArray = response.my_ORDER_FILES;},
+    next : (response: any) => {
+      console.log(response.my_Translation_ORDER_FILES)
+      this.FileArray = response.my_Translation_ORDER_FILES;},
     error: (error) => {console.error(error)},
     complete: () => {}
   });
