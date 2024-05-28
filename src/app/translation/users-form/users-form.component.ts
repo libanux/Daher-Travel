@@ -16,7 +16,7 @@ export class UsersFormComponent implements OnInit{
 
 ngOnInit(): void {
 
-  this.selected_Translation = this.viewedObj_Service.selected_Translation
+  this.selected_Translation = this.viewedObj_Service.selected_Translation_ID
 
   this.translationService.GET_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.user_Info = response.my_TRANSLATION_ORDER.my_USER;},

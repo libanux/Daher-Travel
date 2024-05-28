@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { GeneralService } from './general.service';
+import { ViewedObjectService } from '../signals/viewed-object.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,15 @@ export class ChatService {
   public socket ?: WebSocket
   token: string =''
 
-  constructor(private general: GeneralService) {
+  TRANSLATION_ID = signal(0);
+  USER_ID = signal(0)
+
+  constructor(private general: GeneralService, private viewedObj_Service : ViewedObjectService) {
     this.token = this.general.storedToken
     this.initializeWebSocketConnection();
+
+    this.TRANSLATION_ID = this.viewedObj_Service.selected_Translation_ID;
+    this.USER_ID = this.general.userId
   }
 
   initializeWebSocketConnection() {
@@ -25,33 +32,48 @@ export class ChatService {
       Authorization: "Bearer " + this.general.storedToken
     }, (frame:any) => {
       console.log("connection established: " + frame);
+
       this.stompClient?.subscribe('/topic/public', (item: Stomp.Message) => {
         let notifications = JSON.parse(item.body);
-        console.log(notifications)
+        // console.log(notifications)
+
+      var topic= `/topic/translationOrder/${this.TRANSLATION_ID()}/user_${this.USER_ID()}/entry_${this.USER_ID()}`
+      this.stompClient?.connect({}, (frame) => {
+      this.stompClient?.subscribe(topic, function(message) {
+        console.log(JSON.parse(message.body));
+    });
+
+});
       });
       // this.stompClient?.send('/ws/chat.register', { Authorization: authToken });
       // this.scheduleMessages();
     })
   }
 
-  sendMessage(message: any) {
+  SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: any) {
+
     const exampleParamsEditTranslationOrderFile = {
-      TRANSLATION_ORDER_FILE_ID: 12345,
-      TYPE: "type1",
-      FILE_ID: 67890,
-      TRANSLATION_ORDER_ID: 11223,
-      USER_ID: 44556,
-      COMMENT: "This is a comment.",
+      TRANSLATION_ORDER_FILE_ID: -1,
+      TYPE: "RES",
+      FILE_ID: FILE_ID,
+      TRANSLATION_ORDER_ID: TRANSLATION_ID,
+      USER_ID: USER_ID,
+      COMMENT: MESSAGE,
       TIME_CREATION: "2024-05-28T14:00:00Z",
-      ENTRY_USER_ID: 78901,
+      ENTRY_USER_ID: USER_ID,
       ENTRY_DATE: "2024-05-28",
-      OWNER_ID: 5
+      OWNER_ID: 1
   };
+  console.log('before stringify : ', exampleParamsEditTranslationOrderFile)
+
+
   var body = JSON.stringify(exampleParamsEditTranslationOrderFile)
-    this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
-    if (this.stompClient && this.stompClient.connected) {
+
+  this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
+   
+  if (this.stompClient && this.stompClient.connected) {
       // this.stompClient.send('/chat.register', {}, message);
-      this.msg.push(message)
+      this.msg.push(MESSAGE)
     } else {
       console.error('STOMP client is not connected.');
     }

@@ -1,9 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../enviroments/enviroment.prod';
-import { Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GeneralService } from './general.service';
-import { stringify } from 'querystring';
 import { DropdownService } from '../signals/dropdown.service';
 
 @Injectable({
@@ -59,7 +58,7 @@ GET_FILES_TRANSLATION_BY_ID(ID : number):Observable<any>{
   const requestBody = {
     "TRANSLATION_ORDER_ID": ID
   };
-  return this.httpClient.post<any>(this.apiUrl + '/GET_ORDER_FILE_BY_TRANSLATION_ORDER_ID_ADV', requestBody, { headers });
+  return this.httpClient.post<any>(this.apiUrl + '/GET_TRANSLATION_ORDER_FILE_BY_TRANSLATION_ORDER_ID_ADV', requestBody, { headers });
 }
 
 GET_TRANSLATION_BY_ID(ID : number):Observable<any>{
@@ -151,7 +150,6 @@ EDIT_TRANSLATION_FILE(file :any, userid: any):Observable<any>{
   formData.append('i_File', JSON.stringify(requestBody));
 
   return this.httpClient.post<any>(this.apiUrl + '/EDIT_FILE', formData, { headers })
-
 }
 
 // GET ALL WEBSITE TRANSLATIONS (QUOTATIONS) 
@@ -197,7 +195,6 @@ GET_WEB_TRANSLATION_BY_ID(translationID: number):Observable<any>{
   return this.httpClient.post<any>(this.apiUrl + '/GET_QUOTE_TRANSLATION_BY_QUOTE_TRANSLATION_ID_ADV', requestBody, { headers });
 }
 
-
 // EDIT_TRANSLATION_ORDER_FILE_LIST(file :any, userid: any):Observable<any>{
 //   const headers = new HttpHeaders({
 //     'Authorization': `Bearer ${this.storedToken}`, 
@@ -221,7 +218,7 @@ GET_WEB_TRANSLATION_BY_ID(translationID: number):Observable<any>{
 
 // }
 
-EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any): Observable<any> {
+EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any, TRANSLATION_ID: number): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`, 
   });
@@ -231,7 +228,7 @@ EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any): Observable<any> {
     "TRANSLATION_ORDER_FILE_ID": -1,
     "TYPE": "RES", // request or response
     "FILE_ID": file.id,
-    "TRANSLATION_ORDER_ID": 12,
+    "TRANSLATION_ORDER_ID": TRANSLATION_ID,
     "USER_ID": userId,
     "COMMENT": file.comment,
     "TIME_CREATION": "",

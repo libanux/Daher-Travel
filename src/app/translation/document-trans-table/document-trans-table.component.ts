@@ -46,7 +46,7 @@ export class DocumentTransTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selected_Translation = this.signalService.selected_Translation;
+    this.selected_Translation = this.signalService.selected_Translation_ID;
     this.fetchTranslations();
   }
 

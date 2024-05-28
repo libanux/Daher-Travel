@@ -18,7 +18,7 @@ export class PaymentFormComponent implements OnInit{
 
 ngOnInit(): void {
 
-  this.selected_Translation = this.viewedObj_Service.selected_Translation
+  this.selected_Translation = this.viewedObj_Service.selected_Translation_ID
 
   this.translationService.GET_PAYMENT_TRANSLATION_BY_ID(this.selected_Translation()).subscribe({
     next : (response: any) => {this.payment_Info = response.my_Payment[0];},

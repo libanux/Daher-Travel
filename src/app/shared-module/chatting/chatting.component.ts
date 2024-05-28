@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ChatService } from '../../service-folder/chat.service';
 import { TranslationService } from '../../service-folder/translation.service';
+import { GeneralService } from '../../service-folder/general.service';
+import { ViewedObjectService } from '../../signals/viewed-object.service';
+import { AnyCnameRecord } from 'dns';
 
 
 @Component({
@@ -9,36 +12,45 @@ import { TranslationService } from '../../service-folder/translation.service';
   styleUrl: './chatting.component.css'
 })
 export class ChattingComponent implements OnInit {
-  input: string = '';
+  // two inputs : either message or file 
+  message: string = '';
+  fileID: number = 0;
+  TRANSLATION_ID  = signal(0);
+  FILE_NAME? = "Type your message here!"
+
   msgArray: string[] = []
-  file?: any
   uploadedFiles: File[] = [];
   userId: any = 0
-  fileID: number = 0;
 
-  constructor(private translationService: TranslationService, private chatService: ChatService) {
-    this.userId = localStorage.getItem('userId')
+  constructor(private viewedObj_Service: ViewedObjectService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
+    this.userId = this.generalService.userId
   }
 
   ngOnInit(): void {
-    this.msgArray = this.chatService.msg
+    this.msgArray = this.chatService.msg;
+    this.TRANSLATION_ID = this.viewedObj_Service.selected_Translation_ID
+
   }
 
   sendMessage() {
-    this.chatService.sendMessage(this.fileID);
-    this.input = '';
-  }
+    console.log('message is: ',this.message)
+    console.log('fileID is: ',this.fileID)
+    console.log('Translation ID is: ',this.TRANSLATION_ID());
 
+    this.chatService.SEND_MESSAGE(this.message, this.fileID, this.userId, this.TRANSLATION_ID());
+    this.message = '';
+    this.FILE_NAME = "Type your message here!"
+
+  }
 
   onFileChange(event: any) {
     const inputElement = event.target as HTMLInputElement;
     const selectedFile = inputElement.files ? inputElement.files[0] : null;
-
     const file: File = event.target.files[0];
-
     const files: FileList = event.target.files;
+
     this.ADD_FILE(selectedFile);
-    this.file = selectedFile
+    this.FILE_NAME = selectedFile?.name
 
     for (let i = 0; i < files.length; i++) {
       this.uploadedFiles.push(files[i]);
@@ -52,8 +64,8 @@ export class ChattingComponent implements OnInit {
 
   All_Files_Array: any[] = [];
   SAVE_CHANGES() {
-    this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(this.All_Files_Array, this.userId).subscribe({
-      next: (response: any) => { console.log(response); },
+    this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(this.All_Files_Array, this.userId, this.TRANSLATION_ID()).subscribe({
+      next: (response: any) => { console.log('save changes ', response); },
       error: (error: any) => { console.error(error) },
       complete: () => {
         // Clear the uploadedFiles array
@@ -77,7 +89,8 @@ export class ChattingComponent implements OnInit {
 
       complete: () => {
         this.All_Files_Array.push(this.file_added);
-        console.log('completed ', this.All_Files_Array)
+        console.log('completed ', this.All_Files_Array);
+        this.SAVE_CHANGES();
       }
     });
   }
