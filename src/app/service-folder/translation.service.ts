@@ -131,7 +131,7 @@ EDIT_TRANSLATION_FILE(file :any, userid: any):Observable<any>{
     "file_ID": -1,
     "file_NAME": file.name,
     "file_URL": "",
-    "file_SIZE": 0,
+    "file_SIZE": file.size,
     "file_TYPE": file.type,
     "file_WORD_COUNT": 0,
     "file_DURATION": null,
@@ -240,5 +240,19 @@ EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any, TRANSLATION_ID: numb
   return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER_FILE_LIST', requestBody, { headers });
 }
 
+DELETE_FILE_BY_TRANSLATION_ORDER_FILE_ID(TRANSLATION_ORDER_FILE_ID: number):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
+
+    // Define the request body
+  const requestBody = {
+    "TRANSLATION_ORDER_FILE_ID":TRANSLATION_ORDER_FILE_ID
+  };
+
+  return this.httpClient.post<any>(this.apiUrl + '/DELETE_TRANSLATION_ORDER_FILE', requestBody, { headers });
+}
 
 }
