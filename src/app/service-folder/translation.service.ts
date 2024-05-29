@@ -47,7 +47,7 @@ let endRow = this.pagingSize + (page_Number * this.pagingSize)
   return this.httpClient.post<any>(this.apiUrl + '/GET_TRANSLATION_ORDER_BY_CRITERIA_ADV', requestBody, { headers });
 }
 
-GET_FILES_TRANSLATION_BY_ID(ID : number):Observable<any>{
+ GET_FILES_TRANSLATION_BY_ID(ID : number):Observable<any>{
   
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`, 
@@ -211,28 +211,6 @@ GET_WEB_TRANSLATION_BY_ID(translationID: number):Observable<any>{
   return this.httpClient.post<any>(this.apiUrl + '/GET_QUOTE_TRANSLATION_BY_QUOTE_TRANSLATION_ID_ADV', requestBody, { headers });
 }
 
-// EDIT_TRANSLATION_ORDER_FILE_LIST(file :any, userid: any):Observable<any>{
-//   const headers = new HttpHeaders({
-//     'Authorization': `Bearer ${this.storedToken}`, 
-//   });
-
-//     // Define the request body
-//   const requestBody =  {
-//     "TRANSLATION_ORDER_FILE_ID": -1,
-//     "TYPE":"RES", // request or response
-//     "FILE_ID": file.id,
-//     "TRANSLATION_ORDER_ID": 12,
-//     "USER_ID": userid,
-//     "COMMENT": file.comment,
-//     "TIME_CREATION": "",
-//     "ENTRY_USER_ID": userid,
-//     "ENTRY_DATE": "",
-//     "OWNER_ID": 1
-// };
-
-//   return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER_FILE_LIST', requestBody, { headers })
-
-// }
 
 EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any, TRANSLATION_ID: number): Observable<any> {
   const headers = new HttpHeaders({
@@ -271,7 +249,6 @@ DELETE_FILE_BY_TRANSLATION_ORDER_FILE_ID(TRANSLATION_ORDER_FILE_ID: number):Obse
   return this.httpClient.post<any>(this.apiUrl + '/DELETE_TRANSLATION_ORDER_FILE', requestBody, { headers });
 }
 
-
 GET_TRANSLATION_ORDER_BY_WHERE_IN_LIST_ADV1(page_Number: number):Observable<any>{
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`, 
@@ -302,6 +279,21 @@ let endRow = this.pagingSize + (page_Number * this.pagingSize)
 
 
   return this.httpClient.post<any>(this.apiUrl + '/GET_TRANSLATION_ORDER_BY_WHERE_IN_LIST_ADV',requestBody, { headers })
+}
+
+GET_FILE_BY_FILE_ID(file_id : number):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
+
+    // Define the request body
+  const requestBody = {
+    "FILE_ID":file_id
+  };
+
+  return this.httpClient.post<any>(this.apiUrl + '/GET_FILE_BY_FILE_ID', requestBody, { headers });
 }
 
 
