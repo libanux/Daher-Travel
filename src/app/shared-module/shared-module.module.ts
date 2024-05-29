@@ -23,8 +23,13 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
-import { ProofreadingTableComponent } from './proofreading-table/proofreading-table.component';
 import { ChattingComponent } from './chatting/chatting.component';
+import { ChartComponent } from './chart/chart.component';
+import { ChartModule } from 'primeng/chart';
+import { AgChartsAngularModule } from 'ag-charts-angular';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { RoundChartComponent } from './round-chart/round-chart.component';
+
 
 @NgModule({
 declarations: [
@@ -48,11 +53,14 @@ declarations: [
   NotFoundComponent,
   TransactionTableComponent,
   UsersTableComponent,
-  ProofreadingTableComponent,
-  ChattingComponent
+  ChattingComponent,
+  ChartComponent,
+  BarChartComponent,
+  RoundChartComponent,
+
 ],
 
-imports: [CommonModule, FormsModule, ReactiveFormsModule],
+imports: [CommonModule, FormsModule, ReactiveFormsModule, ChartModule,AgChartsAngularModule,],
 
 exports: [
   HeaderComponent,
@@ -70,10 +78,12 @@ exports: [
   ProgressBarComponent,
   NotFoundComponent,
   UsersTableComponent,
-  ProofreadingTableComponent,
   PaginationComponent,
   TransactionTableComponent,
-  ChattingComponent
+  ChattingComponent,
+  ChartComponent,
+  BarChartComponent,
+  RoundChartComponent
 ],
 
 providers: [],

@@ -1,0 +1,17 @@
+<div class="w-full overflow-auto flex flex-col gap-4 pl-5 pb-8">
+
+  <div class="flex border border-neutral-500 rounded-lg w-full bg-white  mt-5 op" >
+    <p-chart type="bar" [data]="data1" [options]="option1"  style="width: 100%;height: 100%;" class="op"/>
+  </div>
+  <div class="flex gap-4 ">
+    <div class="flex border border-neutral-500 rounded-lg w-[50%] bg-white p-3 justify-center h-full op">
+      <p-chart type="radar" [data]="data2" [options]="option2" height="500px" width="500px" class="op"/>
+  </div>
+  <div class="flex border border-neutral-500 rounded-lg w-[50%] bg-white p-3 justify-center h-full op">
+      <p-chart type="doughnut" [data]="data3" [options]="option3"  height="500px" width="400px" class="op"/>
+  </div>
+</div>
+
+
+</div>
+

@@ -7,14 +7,17 @@ import { WebsiteTranslationComponent } from './website-translation/website-trans
 import { WebsiteMainComponent } from './website-main/website-main.component';
 import { EditingProofreadingMaimComponent } from './editing-proofreading-maim/editing-proofreading-maim.component';
 import { ViewWebTranslationComponent } from './view-web-translation/view-web-translation.component';
+import { ViewEditProofreadingComponent } from './view-edit-proofreading/view-edit-proofreading.component';
+
 
 const routes: Routes = [
   {path: 'documentMain', component:DocumentMainComponent},
   {path: 'WebsiteMain', component:WebsiteMainComponent},
-
   {path: 'documentTranslation', component:ViewDocTranslationComponent},
   {path: 'websiteTranslation', component:ViewWebTranslationComponent},
-  {path: 'EditingAndProofreading', component:EditingProofreadingMaimComponent}
+  {path: 'EditingAndProofreadingMain', component:EditingProofreadingMaimComponent},
+  {path: 'documentTranslation', component:ViewDocTranslationComponent},
+  {path: 'EditingAndProofreading', component:ViewEditProofreadingComponent},
 
 ];
 

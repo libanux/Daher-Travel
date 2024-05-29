@@ -19,8 +19,6 @@ export const routes: Routes = [
   // n
   {path:'notification',canActivate: [AuthGuard], loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
 
-  // p
-  {path:'proofreading',canActivate: [AuthGuard], loadChildren: () => import('./proofreading/proofreading.module').then(m => m.ProofreadingModule)},
 
   // s
   {path:'services',canActivate: [AuthGuard], loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)},

@@ -1,20 +1,20 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { BreadcrumbService } from '../../signals/breadcrumb.service';
-@Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
-}) 
-export class MainComponent implements OnInit{
 
+@Component({
+  selector: 'app-analytics-main',
+  templateUrl: './analytics-main.component.html',
+  styleUrl: './analytics-main.component.css'
+})
+export class AnalyticsMainComponent {
   routeCurrently = signal('');
-  breadCrumb1 =  signal('');
-  breadCrumb1Route =  signal('');
-  breadCrumb2 =  signal('');
-  BCbeforeLastOneRoute=  signal('');
-  BCbeforeLastOne =  signal('');
-  
-  constructor(private signalService : BreadcrumbService) { }
+  breadCrumb1 = signal('');
+  breadCrumb1Route = signal('');
+  breadCrumb2 = signal('');
+  BCbeforeLastOneRoute = signal('');
+  BCbeforeLastOne = signal('');
+
+  constructor(private signalService: BreadcrumbService) { }
 
   ngOnInit(): void {
     this.routeCurrently = this.signalService.routeCurrently
@@ -24,12 +24,11 @@ export class MainComponent implements OnInit{
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-    this.routeCurrently.set('Proofreading')
+    this.routeCurrently.set('Analytics')
     this.breadCrumb1.set('')
     this.breadCrumb1Route.set('')
-    this.breadCrumb2.set(' / Proofreading')
+    this.breadCrumb2.set(' / Analitics')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
-
-    }
   }
+}
