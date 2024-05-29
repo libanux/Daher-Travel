@@ -9,9 +9,8 @@ import { TranslationSignalService } from '../signals/translation-signal.service'
 })
 export class ChatService {
   public stompClient: Stomp.Client | null = null;
-  public msg: string[] = [];
-  public socket ?: WebSocket
-  token: string =''
+  public socket ?: WebSocket;
+  public token: string =''
 
   TRANSLATION_ID = signal(0);
   USER_ID = signal(0)
@@ -28,6 +27,9 @@ export class ChatService {
     let socketUrl = `https://libanux.xyz/servsmart/websocket?Ticket=Bearer ${this.token}`;
     this.socket = new SockJS(socketUrl);
     this.stompClient = Stomp.over(this.socket!);
+
+    console.log("Here In initializeWebSocketConnection");
+
     this.stompClient.connect({
       Authorization: "Bearer " + this.general.storedToken
     }, (frame:any) => {
@@ -36,21 +38,25 @@ export class ChatService {
       this.stompClient?.subscribe('/topic/public', (item: Stomp.Message) => {
         let notifications = JSON.parse(item.body);
         // console.log(notifications)
+      });
 
-      var topic= `/topic/translationOrder/${this.TRANSLATION_ID()}/user_${this.USER_ID()}/entry_${this.USER_ID()}`
+      var topic= `/topic/translationOrder/${this.TRANSLATION_ID()}/user_${this.USER_ID()}/entry_${this.USER_ID()}`;
+      
       this.stompClient?.connect({}, (frame) => {
       this.stompClient?.subscribe(topic, function(message) {
-        console.log(JSON.parse(message.body));
+        console.log('Message Sent : ', JSON.parse(message.body));
     });
 
 });
-      });
+
       // this.stompClient?.send('/ws/chat.register', { Authorization: authToken });
       // this.scheduleMessages();
     })
   }
 
-  SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: any) {
+SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: any) {
+
+  console.log('message sent : ', MESSAGE)
 
     const exampleParamsEditTranslationOrderFile = {
       TRANSLATION_ORDER_FILE_ID: -1,
@@ -65,19 +71,17 @@ export class ChatService {
       OWNER_ID: 1
   };
 
-  var body = JSON.stringify(exampleParamsEditTranslationOrderFile)
-
+  var body = JSON.stringify(exampleParamsEditTranslationOrderFile);
   this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
    
   if (this.stompClient && this.stompClient.connected) {
       // this.stompClient.send('/chat.register', {}, message);
-      this.msg.push(MESSAGE)
+      this.stompClient?.send('/ws/chat.send', { Authorization: "Bearer " + this.token }, body);
+      
     } else {
       console.error('STOMP client is not connected.');
     }
-  }
+}
 
-  private onError(error: string | Stomp.Frame) {
-    console.error('Error with STOMP client:', error);
-  }
+
 }

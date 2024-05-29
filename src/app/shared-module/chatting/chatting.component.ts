@@ -18,8 +18,6 @@ export class ChattingComponent implements OnInit {
   TRANSLATION_ID  = signal(0);
 
   Files_Array: any [] = []
-
-  msgArray: string[] = []
   uploadedFiles: File[] = [];
   userId: any = 0
 
@@ -28,36 +26,45 @@ export class ChattingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.msgArray = this.chatService.msg;
     this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID
-  
-    this.GET_FILES_ARRAY()
+    // this.Messages_Array = this.chatService.msg
+
+    this.GET_FILES_ARRAY();
   
   }
 
-  openFile(fileUrl: string, fileName:string) {
-    const newWindow = window.open();
-    newWindow?.document.write('<html><body><img src="' + fileUrl + '" alt="' + fileName + '"></body></html>');
+  openFile(file_ID: number) {
+    // const newWindow = window.open();
+
+    this.translationService.GET_FILE_BY_FILE_ID(file_ID).subscribe({
+      next: (response: any) => {
+        console.log(response.my_File.file_URL)
+         window.open(response.my_File.file_URL, '_blank');
+    },
+      error: (error: any) => { console.error(error);},
+    //   complete: (){    window.open(this.fileUrl, '_blank');
+    // }
+
+    });
+    // newWindow?.document.write('<html><body><img src="' + file_URL + '" alt="' + fileName + '"></body></html>');
+
   }
 
-  sendMessage() {
+  SEND_MESSAGE() {
 
     if(this.FILE_NAME != "Type your message here!")
-      { this.SAVE_CHANGES(); console.log('sending file')
-        this.message = '';
-        this.FILE_NAME = "Type your message here!"
-      }
+      { this.SAVE_CHANGES(); }
 
     else if(this.message!=''){
-      console.log('sending message')
+      this.file_added = {
+        id: null,
+        comment: this.message
+      };
+      this.SAVE_CHANGES(); 
       this.chatService.SEND_MESSAGE(this.message, this.FILE_ID, this.userId, this.TRANSLATION_ID());
-      this.message = '';
-      this.FILE_NAME = "Type your message here!"
     }
 
-    else(
-      console.error('empty message')
-    )
+    else( console.error('empty message')  )
 
   }
 
@@ -76,12 +83,9 @@ export class ChattingComponent implements OnInit {
     }
   }
 
-
   All_Files_Array: any[] = [];
   SAVE_CHANGES() {
     this.All_Files_Array.push(this.file_added);
-    console.log(this.All_Files_Array)
-
     this.translationService.EDIT_TRANSLATION_ORDER_FILE_LIST(this.All_Files_Array, this.userId, this.TRANSLATION_ID()).subscribe({
       next: (response: any) => { },
       error: (error: any) => { console.error(error) },
@@ -89,6 +93,8 @@ export class ChattingComponent implements OnInit {
         // Clear the uploadedFiles array
         this.All_Files_Array = [];
         this.GET_FILES_ARRAY();
+        this.message = '';
+        this.FILE_NAME = "Type your message here!"
       }
     });
   }
@@ -110,12 +116,11 @@ export class ChattingComponent implements OnInit {
     });
   }
 
-
   GET_FILES_ARRAY(){
     this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
       next : (response: any) => {this.Files_Array = response.my_Translation_ORDER_FILES.filter((file: any) => file.type === 'RES');   },
       error: (error) => {console.error(error)},
-      complete: () => {console.log(this.Files_Array);}
+      complete: () => {}
     });
   }
   

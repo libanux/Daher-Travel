@@ -8,18 +8,23 @@
         <div class="time">Today at 11:41</div>
 
 
-        <div *ngFor="let msg of Files_Array">
-           <!-- <div class="message stark"> k: {{msg}}
-            <div><span class="bold">name:</span> <span>{{file.my_FILE.file_NAME}}</span></div>
-        </div> -->
+        <div *ngFor="let file of Files_Array">
 
-        <div class="message parker">
+
+        <div *ngIf="file.file_ID==0" class="message parker">
+            <div><span class="bold">{{file.comment}}</span></div>
+        </div>
+
+        <div *ngIf="file.file_ID!=0" class="message parker">
             <!-- <div><span class="bold">{{msg.my_FILE.file_NAME}}</span></div> -->
             <!-- <a (click)="openFile(msg.my_FILE.type, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a> -->
-            <a (click)="openFile(msg.my_FILE.file_URL, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a>
+            <a (click)="openFile(file.file_ID)" class="file-link">{{file.my_FILE.file_NAME}}</a>
 
         </div>
+
+
         </div>
+
 
     </div>
     <div class="input">
@@ -43,7 +48,7 @@
 
         <input type="text" placeholder={{FILE_NAME}} [(ngModel)]="message">
 
-        <button (click)="sendMessage()">send</button>
+        <button (click)="SEND_MESSAGE()">send</button>
 
     </div>
 </div>
