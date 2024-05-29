@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { GeneralService } from './general.service';
-import { ViewedObjectService } from '../signals/viewed-object.service';
+import { TranslationSignalService } from '../signals/translation-signal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,11 @@ export class ChatService {
   TRANSLATION_ID = signal(0);
   USER_ID = signal(0)
 
-  constructor(private general: GeneralService, private viewedObj_Service : ViewedObjectService) {
+  constructor(private general: GeneralService, private translationSignal : TranslationSignalService) {
     this.token = this.general.storedToken
     this.initializeWebSocketConnection();
 
-    this.TRANSLATION_ID = this.viewedObj_Service.selected_Translation_ID;
+    this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID;
     this.USER_ID = this.general.userId
   }
 

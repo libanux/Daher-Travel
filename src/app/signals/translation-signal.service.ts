@@ -3,8 +3,7 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class ViewedObjectService {
-
+export class TranslationSignalService {
   selected_Translation_ID =  signal(0);
 
   constructor() { }

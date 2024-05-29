@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, effect, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ViewedObjectService } from '../../signals/viewed-object.service';
 import { GeneralService } from '../../service-folder/general.service';
 import { TranslationService } from '../../service-folder/translation.service';
 import { DropdownService } from '../../signals/dropdown.service';
+import { TranslationSignalService } from '../../signals/translation-signal.service';
 @Component({
   selector: 'app-document-trans-table',
   templateUrl: './document-trans-table.component.html',
@@ -36,7 +36,7 @@ export class DocumentTransTableComponent implements OnInit {
   filter2: string = ''
   filter3: string = ''
 
-  constructor(private apiService: GeneralService, private dropService: DropdownService, private translationService: TranslationService, private signalService: ViewedObjectService, private router: Router) {
+  constructor(private apiService: GeneralService, private dropService: DropdownService, private translationService: TranslationService, private translationSignal: TranslationSignalService, private router: Router) {
     effect(() => {
       this.filter1 = this.dropService.DropDown1();
       this.filter2 = this.dropService.DropDown2();
@@ -46,7 +46,7 @@ export class DocumentTransTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selected_Translation = this.signalService.selected_Translation_ID;
+    this.selected_Translation = this.translationSignal.selected_Translation_ID;
     this.fetchTranslations();
   }
 
