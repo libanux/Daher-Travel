@@ -19,6 +19,7 @@ import { DocumentTransTableComponent } from './document-trans-table/document-tra
 import { ViewWebTranslationComponent } from './view-web-translation/view-web-translation.component';
 import { WebTransUrlformComponent } from './web-trans-urlform/web-trans-urlform.component';
 import { EditProofreadingTableComponent } from './edit-proofreading-table/edit-proofreading-table.component';
+import { EditProofreadinFormComponent } from './edit-proofreadin-form/edit-proofreadin-form.component';
 
 
 
@@ -41,6 +42,7 @@ import { EditProofreadingTableComponent } from './edit-proofreading-table/edit-p
     ViewWebTranslationComponent,
     WebTransUrlformComponent,
     EditProofreadingTableComponent,
+    EditProofreadinFormComponent,
 
 
     ],

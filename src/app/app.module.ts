@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,6 +7,7 @@ import { SharedModuleModule } from './shared-module/shared-module.module';
 // import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { ChartModule } from 'primeng/chart';
 
 
 @NgModule({
@@ -19,11 +20,14 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModuleModule,
     // MatSnackBarModule,
     BrowserAnimationsModule,
-    HttpClientModule 
+    HttpClientModule,
+    ChartModule
   ],
   providers: [
     provideClientHydration()
+
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
