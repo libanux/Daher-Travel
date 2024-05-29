@@ -10,4 +10,5 @@ export class SearchService {
   TranslationSearchKey = signal<string>('');
   TransactionSearchKey = signal<string>('');
   AdminSearchKey= signal<string>('');
+  EditAndProofReadingSearchKey = signal<string>('');
 }

@@ -89,6 +89,22 @@ GET_PAYMENT_TRANSLATION_BY_ID(ID : number):Observable<any>{
   return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_TRANSLATION_ORDER_ID', requestBody, { headers });
 }
 
+
+GET_TRANSLATION_ORDER_BY_WHERE_IN_LIST_ADV(ID : number):Observable<any>{
+  
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+    'Content-Type': 'application/json' // Set content type to JSON
+  });
+
+  // Define the request body
+  const requestBody = {
+    "TRANSLATION_ORDER_ID": ID
+  };
+  return this.httpClient.post<any>(this.apiUrl + '/GET_TRANSLATION_ORDER_BY_WHERE_IN_LIST_ADV', requestBody, { headers });
+}
+
+
 // EDIT_TRANSLATION(translation :any):Observable<any>{
   
 //   const headers = new HttpHeaders({
@@ -238,6 +254,40 @@ EDIT_TRANSLATION_ORDER_FILE_LIST(files: any[], userId: any, TRANSLATION_ID: numb
   }));
 
   return this.httpClient.post<any>(this.apiUrl + '/EDIT_TRANSLATION_ORDER_FILE_LIST', requestBody, { headers });
+}
+
+
+
+GET_TRANSLATION_ORDER_BY_WHERE_IN_LIST_ADV1(page_Number: number):Observable<any>{
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.storedToken}`, 
+  });
+
+  let startRow = page_Number * this.pagingSize
+let endRow = this.pagingSize + (page_Number * this.pagingSize)
+
+    // Define the request body
+  const requestBody = {
+    "OWNER_ID": 1,
+    "ORIGINAL_LANGUAGE": "",
+    "TRANSLATED_LANGUAGE": "",
+    "CURRENCY": "",
+    "STATUS": "",
+    "SOURCE": "",
+    "USER_ID_LIST": "",
+    "SERVICE_ID_LIST": "",
+    "SUB_SERVICE_ID_LIST": "3",
+    "TYPE_ID_LIST": "",
+    "SUB_TYPE_ID_LIST": "",
+    "START_ROW": startRow,
+    "END_ROW": endRow,
+    "TOTAL_COUNT": 0,
+    "IS_EXECUTE_NOW": true
+  };
+
+
+
+  return this.httpClient.post<any>(this.apiUrl + '/GET_TRANSLATION_ORDER_BY_WHERE_IN_LIST_ADV',requestBody, { headers })
 }
 
 
