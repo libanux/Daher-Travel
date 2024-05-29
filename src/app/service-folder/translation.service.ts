@@ -129,10 +129,10 @@ EDIT_TRANSLATION_FILE(file :any, userid: any):Observable<any>{
     // Define the request body
   const requestBody = {
     "file_ID": -1,
-    "file_NAME": "",
+    "file_NAME": file.name,
     "file_URL": "",
     "file_SIZE": 0,
-    "file_TYPE": "",
+    "file_TYPE": file.type,
     "file_WORD_COUNT": 0,
     "file_DURATION": null,
     "trim_START_TIME": null,

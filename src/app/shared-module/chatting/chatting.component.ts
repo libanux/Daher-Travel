@@ -2,10 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { ChatService } from '../../service-folder/chat.service';
 import { TranslationService } from '../../service-folder/translation.service';
 import { GeneralService } from '../../service-folder/general.service';
-import { ViewedObjectService } from '../../signals/viewed-object.service';
-import { AnyCnameRecord } from 'dns';
-
-
+import { TranslationSignalService } from '../../signals/translation-signal.service';
 @Component({
   selector: 'app-chatting',
   templateUrl: './chatting.component.html',
@@ -22,13 +19,13 @@ export class ChattingComponent implements OnInit {
   uploadedFiles: File[] = [];
   userId: any = 0
 
-  constructor(private viewedObj_Service: ViewedObjectService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
+  constructor(private translationSignal: TranslationSignalService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
     this.userId = this.generalService.userId
   }
 
   ngOnInit(): void {
     this.msgArray = this.chatService.msg;
-    this.TRANSLATION_ID = this.viewedObj_Service.selected_Translation_ID
+    this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID
 
   }
 
