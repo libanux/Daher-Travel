@@ -37,7 +37,7 @@
                 <td>{{trans.original_LANGUAGE}}</td>
                 <td>{{trans.translated_LANGUAGE}}</td>
                 <td class="status-values"
-                    [ngClass]="{'Completed-class': trans.status === 'Completed','InProgress-class': trans.status === 'InProgress','DECLINED-class': trans.status === 'DECLINED','pending-class': trans.status === 'Pending'}">
+                    [ngClass]="{'Completed-class': trans.status === 'Completed','InProgress-class': trans.status === 'In Progress' || trans.status === 'InProgress','DECLINED-class': trans.status === 'DECLINED','pending-class': trans.status === 'Pending'}">
                     <p>{{trans.status}}</p></td>
             </tr>
         </ng-container>

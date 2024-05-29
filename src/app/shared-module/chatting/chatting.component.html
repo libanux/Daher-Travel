@@ -8,8 +8,17 @@
         <div class="time">Today at 11:41</div>
 
 
-        <div *ngFor="let msg of msgArray">
-           <div class="message stark"> {{msg}}</div>
+        <div *ngFor="let msg of Files_Array">
+           <!-- <div class="message stark"> k: {{msg}}
+            <div><span class="bold">name:</span> <span>{{file.my_FILE.file_NAME}}</span></div>
+        </div> -->
+
+        <div class="message parker">
+            <!-- <div><span class="bold">{{msg.my_FILE.file_NAME}}</span></div> -->
+            <!-- <a (click)="openFile(msg.my_FILE.type, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a> -->
+            <a (click)="openFile(msg.my_FILE.file_URL, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a>
+
+        </div>
         </div>
 
     </div>

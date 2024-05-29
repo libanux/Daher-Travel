@@ -64,8 +64,6 @@ export class ChatService {
       ENTRY_DATE: "2024-05-28",
       OWNER_ID: 1
   };
-  console.log('before stringify : ', exampleParamsEditTranslationOrderFile)
-
 
   var body = JSON.stringify(exampleParamsEditTranslationOrderFile)
 
