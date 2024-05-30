@@ -29,6 +29,8 @@ import { ChartModule } from 'primeng/chart';
 import { AgChartsAngularModule } from 'ag-charts-angular';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { RoundChartComponent } from './round-chart/round-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { AreaChartComponent } from './area-chart/area-chart.component';
 
 
 @NgModule({
@@ -57,6 +59,8 @@ declarations: [
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,
+  LineChartComponent,
+  AreaChartComponent,
 
 ],
 
@@ -83,7 +87,9 @@ exports: [
   ChattingComponent,
   ChartComponent,
   BarChartComponent,
-  RoundChartComponent
+  RoundChartComponent,
+  LineChartComponent,
+  AreaChartComponent
 ],
 
 providers: [],
