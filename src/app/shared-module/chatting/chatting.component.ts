@@ -17,7 +17,7 @@ export class ChattingComponent implements OnInit {
 
   // signals
   TRANSLATION_ID  = signal(0);
-  chatSent = signal(0);
+  NEW_ARRAY = signal([]);
 
   Files_Array: any [] = []
   uploadedFiles: File[] = [];
@@ -27,29 +27,15 @@ export class ChattingComponent implements OnInit {
     this.userId = this.generalService.userId;
 
     effect(()=>{
-      // this.GET_FILES_ARRAY();
-      console.log('a chat was sent ', this.chatSent());
-
-      this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
-        next : (response: any) => {
-          console.log(response); 
-          console.log(this.TRANSLATION_ID());
-           this.Files_Array = response.my_Translation_ORDER_FILES.filter((file: any) => file.type === 'RES');   
-          },
-        error: (error) => {console.error(error)},
-        complete: () => {}
-      });
+      console.log('a chat was sent ', this.NEW_ARRAY());
+      this.Files_Array = this.NEW_ARRAY();
     });
   }
 
   ngOnInit(): void {
     this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID
-    this.chatSent = this.chatSignal.chatSent
-
+    this.NEW_ARRAY = this.chatSignal.NEW_ARRAY
     this.GET_FILES_ARRAY();
-
-    console.log('chatSent signal value on init:', this.chatSent());
-  
   }
 
   openFile(file_ID: number) {
@@ -70,7 +56,6 @@ export class ChattingComponent implements OnInit {
     if(this.FILE_NAME != "Type your message here!")
       {
          this.SAVE_CHANGES();
-        this.chatService.SEND_MESSAGE('', this.FILE_ID, this.userId, this.TRANSLATION_ID());
        }
 
     else if(this.message!=''){
@@ -79,7 +64,6 @@ export class ChattingComponent implements OnInit {
         comment: this.message
       };
       this.SAVE_CHANGES(); 
-      this.chatService.SEND_MESSAGE(this.message, this.FILE_ID, this.userId, this.TRANSLATION_ID());
     }
 
     else( console.error('empty message')  )
@@ -112,7 +96,9 @@ export class ChattingComponent implements OnInit {
         // this.GET_FILES_ARRAY()
         this.All_Files_Array = [];
         this.message = '';
-        this.FILE_NAME = "Type your message here!"
+        this.FILE_NAME = "Type your message here!";
+        this.chatService.SEND_MESSAGE(this.message, this.FILE_ID, this.userId, this.TRANSLATION_ID());
+
       }
     });
   }
