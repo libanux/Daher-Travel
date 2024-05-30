@@ -3,6 +3,7 @@ import SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { GeneralService } from './general.service';
 import { TranslationSignalService } from '../signals/translation-signal.service';
+import { ChatSignalService } from '../signals/chat-signal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,17 @@ export class ChatService {
   public token: string =''
 
   TRANSLATION_ID = signal(0);
-  USER_ID = signal(0)
+  USER_ID = signal(0);
 
-  constructor(private general: GeneralService, private translationSignal : TranslationSignalService) {
+  chatSent = signal(0);
+
+  constructor(private general: GeneralService, private translationSignal : TranslationSignalService, private chatSIGNAL : ChatSignalService) {
     this.token = this.general.storedToken
     this.initializeWebSocketConnection();
 
     this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID;
-    this.USER_ID = this.general.userId
+    this.USER_ID = this.general.userId;
+    this.chatSent = chatSIGNAL.chatSent
   }
 
   initializeWebSocketConnection() {
@@ -77,6 +81,8 @@ SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: 
   if (this.stompClient && this.stompClient.connected) {
       // this.stompClient.send('/chat.register', {}, message);
       this.stompClient?.send('/ws/chat.send', { Authorization: "Bearer " + this.token }, body);
+      this.chatSent.set(this.chatSent()+1);
+      console.log(this.chatSent())
       
     } else {
       console.error('STOMP client is not connected.');
