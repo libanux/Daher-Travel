@@ -3,6 +3,7 @@ import { ChatService } from '../../service-folder/chat.service';
 import { TranslationService } from '../../service-folder/translation.service';
 import { GeneralService } from '../../service-folder/general.service';
 import { TranslationSignalService } from '../../signals/translation-signal.service';
+import { ChatSignalService } from '../../signals/chat-signal.service';
 @Component({
   selector: 'app-chatting',
   templateUrl: './chatting.component.html',
@@ -16,37 +17,41 @@ export class ChattingComponent implements OnInit {
 
   // signals
   TRANSLATION_ID  = signal(0);
+  chatSent = signal(0);
 
   Files_Array: any [] = []
   uploadedFiles: File[] = [];
   userId: any = 0
 
-  constructor(private translationSignal: TranslationSignalService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
+  constructor(private chatSignal : ChatSignalService ,private translationSignal: TranslationSignalService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
     this.userId = this.generalService.userId;
+
+    effect(()=>{
+      console.log('a chat was sent ', this.chatSent());
+      this.GET_FILES_ARRAY();
+    });
   }
 
   ngOnInit(): void {
     this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID
-    // this.Messages_Array = this.chatService.msg
+    this.chatSent = this.chatSignal.chatSent
 
     this.GET_FILES_ARRAY();
+
+    console.log('chatSent signal value on init:', this.chatSent());
   
   }
 
   openFile(file_ID: number) {
-    // const newWindow = window.open();
-
     this.translationService.GET_FILE_BY_FILE_ID(file_ID).subscribe({
       next: (response: any) => {
         console.log(response.my_File.file_URL)
          window.open(response.my_File.file_URL, '_blank');
     },
       error: (error: any) => { console.error(error);},
-    //   complete: (){    window.open(this.fileUrl, '_blank');
-    // }
+      complete: ()=> { }
 
     });
-    // newWindow?.document.write('<html><body><img src="' + file_URL + '" alt="' + fileName + '"></body></html>');
 
   }
 
@@ -91,8 +96,8 @@ export class ChattingComponent implements OnInit {
       error: (error: any) => { console.error(error) },
       complete: () => {
         // Clear the uploadedFiles array
+        // this.GET_FILES_ARRAY()
         this.All_Files_Array = [];
-        this.GET_FILES_ARRAY();
         this.message = '';
         this.FILE_NAME = "Type your message here!"
       }
@@ -116,7 +121,7 @@ export class ChattingComponent implements OnInit {
     });
   }
 
-  GET_FILES_ARRAY(){
+  GET_FILES_ARRAY = () => {
     this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
       next : (response: any) => {this.Files_Array = response.my_Translation_ORDER_FILES.filter((file: any) => file.type === 'RES');   },
       error: (error) => {console.error(error)},
