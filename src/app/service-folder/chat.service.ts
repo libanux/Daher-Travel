@@ -17,7 +17,7 @@ export class ChatService {
   TRANSLATION_ID = signal(0);
   USER_ID = signal(0);
 
-  chatSent = signal(0);
+  newArray = signal([]);
 
   constructor(private translationService: TranslationService ,private general: GeneralService, private translationSignal : TranslationSignalService, private chatSIGNAL : ChatSignalService) {
     this.token = this.general.storedToken
@@ -25,7 +25,7 @@ export class ChatService {
 
     this.TRANSLATION_ID = this.translationSignal.selected_Translation_ID;
     this.USER_ID = this.general.userId;
-    this.chatSent = chatSIGNAL.chatSent
+    this.newArray = chatSIGNAL.NEW_ARRAY
   }
 
   initializeWebSocketConnection() {
@@ -42,7 +42,8 @@ export class ChatService {
 
       this.stompClient?.subscribe('/topic/public', (item: Stomp.Message) => {
         let notifications = JSON.parse(item.body);
-        // console.log(notifications)
+        console.log(notifications)
+        this.call()
       });
 
       var topic= `/topic/translationOrder/${this.TRANSLATION_ID()}/user_${this.USER_ID()}/entry_${this.USER_ID()}`;
@@ -50,13 +51,26 @@ export class ChatService {
       this.stompClient?.connect({}, (frame) => {
       this.stompClient?.subscribe(topic, function(message) {
         console.log('Message Sent : ', JSON.parse(message.body));
-    });
+ });
 
 });
 
       // this.stompClient?.send('/ws/chat.register', { Authorization: authToken });
       // this.scheduleMessages();
     })
+  }
+
+  call(){
+    this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
+      next : (response: any) => {
+        console.log(response.my_Translation_ORDER_FILES)   
+        this.newArray.set(response.my_Translation_ORDER_FILES);
+      },
+      error: () => {},
+      complete: () => {
+
+      }
+    });
   }
 
 SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: any) {
@@ -82,23 +96,14 @@ SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: 
   this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
    
   if (this.stompClient && this.stompClient.connected) {
-
       // this.stompClient.send('/chat.register', {}, message);
     this.stompClient?.send('/ws/chat.send', { Authorization: "Bearer " + this.token }, body);
-
-    this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
-      next : (response: any) => {console.log(response)   },
-      error: () => {},
-      complete: () => {
-        this.chatSent.set(this.chatSent()+1);
-        console.log(this.chatSent())
-      }
-    });
-
-    } 
-    else {
+  } 
+  else {
       console.error('STOMP client is not connected.');
-    }
+  }
+
+    
 }
 
 
