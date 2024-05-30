@@ -79,12 +79,12 @@ SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: 
   this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
    
   if (this.stompClient && this.stompClient.connected) {
+    this.chatSent.set(this.chatSent()+1);
+    console.log(this.chatSent())
       // this.stompClient.send('/chat.register', {}, message);
-      this.stompClient?.send('/ws/chat.send', { Authorization: "Bearer " + this.token }, body);
-      this.chatSent.set(this.chatSent()+1);
-      console.log(this.chatSent())
-      
-    } else {
+    this.stompClient?.send('/ws/chat.send', { Authorization: "Bearer " + this.token }, body);
+    } 
+    else {
       console.error('STOMP client is not connected.');
     }
 }
