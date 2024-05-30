@@ -4,6 +4,7 @@ import * as Stomp from 'stompjs';
 import { GeneralService } from './general.service';
 import { TranslationSignalService } from '../signals/translation-signal.service';
 import { ChatSignalService } from '../signals/chat-signal.service';
+import { TranslationService } from './translation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class ChatService {
 
   chatSent = signal(0);
 
-  constructor(private general: GeneralService, private translationSignal : TranslationSignalService, private chatSIGNAL : ChatSignalService) {
+  constructor(private translationService: TranslationService ,private general: GeneralService, private translationSignal : TranslationSignalService, private chatSIGNAL : ChatSignalService) {
     this.token = this.general.storedToken
     this.initializeWebSocketConnection();
 
@@ -75,14 +76,25 @@ SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: 
       OWNER_ID: 1
   };
 
+  console.log(exampleParamsEditTranslationOrderFile)
+
   var body = JSON.stringify(exampleParamsEditTranslationOrderFile);
   this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
    
   if (this.stompClient && this.stompClient.connected) {
-    this.chatSent.set(this.chatSent()+1);
-    console.log(this.chatSent())
+
       // this.stompClient.send('/chat.register', {}, message);
     this.stompClient?.send('/ws/chat.send', { Authorization: "Bearer " + this.token }, body);
+
+    this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
+      next : (response: any) => {console.log(response)   },
+      error: () => {},
+      complete: () => {
+        this.chatSent.set(this.chatSent()+1);
+        console.log(this.chatSent())
+      }
+    });
+
     } 
     else {
       console.error('STOMP client is not connected.');

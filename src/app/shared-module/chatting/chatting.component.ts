@@ -27,8 +27,18 @@ export class ChattingComponent implements OnInit {
     this.userId = this.generalService.userId;
 
     effect(()=>{
+      // this.GET_FILES_ARRAY();
       console.log('a chat was sent ', this.chatSent());
-      this.GET_FILES_ARRAY();
+
+      this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
+        next : (response: any) => {
+          console.log(response); 
+          console.log(this.TRANSLATION_ID());
+           this.Files_Array = response.my_Translation_ORDER_FILES.filter((file: any) => file.type === 'RES');   
+          },
+        error: (error) => {console.error(error)},
+        complete: () => {}
+      });
     });
   }
 
@@ -58,7 +68,10 @@ export class ChattingComponent implements OnInit {
   SEND_MESSAGE() {
 
     if(this.FILE_NAME != "Type your message here!")
-      { this.SAVE_CHANGES(); }
+      {
+         this.SAVE_CHANGES();
+        this.chatService.SEND_MESSAGE('', this.FILE_ID, this.userId, this.TRANSLATION_ID());
+       }
 
     else if(this.message!=''){
       this.file_added = {
@@ -121,7 +134,7 @@ export class ChattingComponent implements OnInit {
     });
   }
 
-  GET_FILES_ARRAY = () => {
+  GET_FILES_ARRAY() {
     this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
       next : (response: any) => {this.Files_Array = response.my_Translation_ORDER_FILES.filter((file: any) => file.type === 'RES');   },
       error: (error) => {console.error(error)},
