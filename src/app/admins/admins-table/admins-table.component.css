@@ -4,7 +4,7 @@ main{
 
   .firstDiv {
     display: flex;
-    justify-content: space-between;
+    justify-content:flex-end;
     padding: 20px 10px;
   }
 
