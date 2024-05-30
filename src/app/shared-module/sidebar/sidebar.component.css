@@ -8,6 +8,7 @@ aside {
   z-index: 1000;
   top: 0;
   left: 0;
+  font-size: 13px;
   position: fixed;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -15,16 +16,16 @@ aside {
 }
 
 header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    margin: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin: 15px;
 }
 
 aside .sidebarLists .svg-image {
   width: 24px;
   height: 24px;
-  fill: #000000B2;
+  fill: #000000b2;
 }
 
 .LogoIcon {
@@ -41,20 +42,20 @@ aside .sidebarLists .svg-image {
 
 /* divider below logo */
 .divider {
-    width: 100%;
-    padding: 10px 0;
-    color: #dde2ef;
+  width: 100%;
+  padding: 10px 0;
+  color: #dde2ef;
 }
 
 aside .sidebarLists {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 5px;
-    padding: 0px;
-    margin-left: 2px;
-    align-items: center;
-    justify-content: center;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  padding: 0px;
+  margin-left: 2px;
+  align-items: center;
+  justify-content: center;
 }
 
 aside .BELOWsidebarLists {
@@ -74,29 +75,29 @@ aside .listItemss {
   cursor: pointer;
   list-style: none;
   display: flex;
-    align-items: center;
-    column-gap: 10px;
-    padding: 15px;
-    color: #000000B2;
-    font-weight: 500;
-    padding-left: 20px;
-    border-radius: 10px;
-
+  align-items: center;
+  column-gap: 10px;
+  padding: 15px;
+  color: #000000b2;
+  font-weight: 500;
+  padding-left: 20px;
+  border-radius: 10px;
+  
 }
 
 /* li link */
-aside .showmoreUL li{
+aside .showmoreUL li {
   width: 200px;
   cursor: pointer;
   list-style: none;
   display: flex;
-    align-items: center;
-    column-gap: 3px;
-    padding: 5px;
-    color: #000000B2;
-    font-weight: 500;
-    padding-left: 20px;
-    border-radius: 10px;
+  align-items: center;
+  column-gap: 3px;
+  padding: 5px;
+  color: #000000b2;
+  font-weight: 500;
+  padding-left: 20px;
+  border-radius: 10px;
 }
 
 /* li hover */
@@ -105,28 +106,26 @@ aside .showmoreUL li:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
-aside .BELOWsidebarLists ul li a{
+aside .BELOWsidebarLists ul li a {
   cursor: pointer;
 }
 
 /* li link */
 aside .sidebarLists li {
   width: 200px;
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-    padding: 15px;
-    color: #000000B2;
-    font-weight: 500;
-    padding-left: 20px;
-    border-radius: 10px;
-
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 15px;
+  color: #000000b2;
+  font-weight: 500;
+  padding-left: 20px;
+  border-radius: 10px;
 }
 
-.logout{
+.logout {
   fill: #ffffff;
   stroke: #ffffff;
 }
@@ -137,15 +136,14 @@ aside .sidebarLists li:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-aside .sidebarLists li.active{
- background-color: #1B59F81A;
- color: #203269;
+aside .sidebarLists li.active {
+  background-color: #1b59f81a;
+  color: #203269;
 }
 
 aside .sidebarLists li.active .svg-image path {
   fill: #203269; /* Change SVG color to desired color when the li is active */
 }
-
 
 /* li hover */
 aside .listItemss:hover {
@@ -153,9 +151,9 @@ aside .listItemss:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-aside .listItemss.active{
- background-color: #1B59F81A;
- color: #203269;
+aside .listItemss.active {
+  background-color: #1b59f81a;
+  color: #203269;
 }
 
 aside .services {
@@ -168,30 +166,28 @@ aside .services .div1 {
   display: flex;
   padding: 0;
   column-gap: 10px;
-
 }
 
-.forhr{
+.forhr {
   width: 220px;
 }
 
 /* Styles for screens with a width between 600 and 900 pixels (inclusive) */
-@media screen and (min-width: 949px)  and (max-width: 1200px) {
-    aside {
-        width: 220px;
-    }
-    .LogoIcon{
-      margin-left: 20px;
-    }
+@media screen and (min-width: 949px) and (max-width: 1200px) {
+  aside {
+    width: 220px;
   }
+  .LogoIcon {
+    margin-left: 20px;
+  }
+}
 
 @media screen and (max-width: 950px) {
- aside {
-     width:300px;
-    }
-    .LogoIcon {
-        padding-top: 0px;
-        padding-bottom: 0px;
-        
-    }
+  aside {
+    width: 300px;
+  }
+  .LogoIcon {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
 }

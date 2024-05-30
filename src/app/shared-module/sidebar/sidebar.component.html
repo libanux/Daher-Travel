@@ -33,8 +33,8 @@ Transaction
 </li>
 
 <ul *ngIf="showTranslation" class="showmoreUL">
-  <li (click)="moveToRoute('translation/documentMain')"  [class.active]="isActive3('translation/documentMain','translation/documentTranslation','translation/documentTranslation')" class="dropdown-item">Document Translation</li>
-  <li (click)="moveToRoute('translation/WebsiteMain')" [class.active]="isActive3('translation/WebsiteMain','translation/websiteTranslation','translation/websiteTranslation')" class="dropdown-item">Website Translation</li>
+  <li (click)="moveToRoute('translation/documentMain')"  [class.active]="isActive3('translation/documentMain','translation/documentTranslation','translation/documentTranslation')" >Document Translation</li>
+  <li (click)="moveToRoute('translation/WebsiteMain')" [class.active]="isActive3('translation/WebsiteMain','translation/websiteTranslation','translation/websiteTranslation')" >Website Translation</li>
   <li (click)="moveToRoute('translation/EditingAndProofreadingMain')" class="dropdown-item" [class.active]="isActive3('translation/EditingAndProofreading','translation/EditingAndProofreading','translation/EditingAndProofreading')">Editing & Proofreading</li>
 </ul>
 
@@ -58,9 +58,9 @@ Content Services
 </li>
 
 <ul *ngIf="showAudioVisual" class="showmoreUL">
-  <li (click)="moveToRoute('audioVisual/TranslationMain')" [class.active]="isActive3('audioVisual/TranslationMain','audioVisual/TranslationMain','audioVisual/TranslationMain')" class="dropdown-item">Translation</li>
-  <li (click)="moveToRoute('audioVisual/TranscriptionMain')" [class.active]="isActive3('audioVisual/TranscriptionMain','audioVisual/TranscriptionMain','audioVisual/TranscriptionMain')" class="dropdown-item">Transcription </li>
-  <li (click)="moveToRoute('audioVisual/SubtitlingMain')" [class.active]="isActive3('audioVisual/SubtitlingMain','audioVisual/SubtitlingMain','audioVisual/SubtitlingMain')" class="dropdown-item">Subtitling</li>
+  <li (click)="moveToRoute('audioVisual/TranslationMain')" [class.active]="isActive3('audioVisual/TranslationMain','audioVisual/TranslationMain','audioVisual/TranslationMain')">Translation</li>
+  <li (click)="moveToRoute('audioVisual/TranscriptionMain')" [class.active]="isActive3('audioVisual/TranscriptionMain','audioVisual/TranscriptionMain','audioVisual/TranscriptionMain')" >Transcription </li>
+  <li (click)="moveToRoute('audioVisual/SubtitlingMain')" [class.active]="isActive3('audioVisual/SubtitlingMain','audioVisual/SubtitlingMain','audioVisual/SubtitlingMain')">Subtitling</li>
 </ul>
 
 
