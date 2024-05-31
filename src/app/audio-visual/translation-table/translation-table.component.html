@@ -6,23 +6,27 @@
     <!-- table Titles -->
     <tr class="highlight-header">
         <ng-container>
-        <th class="col-xs-3">Quote ID</th>
-        <th class="col-xs-3">Quote Type</th>
-        <th class="col-xs-3">Source Language</th>
-        <th class="col-xs-3">Traget Language</th>
-        <th class="col-xs-3">URL Source</th>
-        <th class="col-xs-3">User ID</th>
+            <th class="col-xs-3">Transaction ID</th>
+            <th class="col-xs-3">Transaction Type</th>
+            <th class="col-xs-3">Date</th>
+            <th class="col-xs-3">Due Date</th>
+            <th class="col-xs-3">Amount</th>
+            <th class="col-xs-3">Currency</th>
+            <th class="col-xs-3">Status</th>
+            <th class="col-xs-3">Customer/Payer</th>
+
         </ng-container>
     </tr>
         
     <!-- table Body -->
-    <tr *ngFor="let translation of Translation_Array" (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation.user_ID)">
-        <td>{{translation. quote_TRANSLATION_ID}}</td>
-        <td>{{translation.quote_TYPE}}</td>
-        <td>{{translation.source_LANGUAGE }}</td>
-        <td>{{translation.target_LANGUAGE }}</td>
-        <td>{{translation.url_SOURCE}}</td>
-        <td>{{translation.user_ID}}</td>
+    <tr *ngFor="let translation of transactions" (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation.transactionId)">
+        <td>{{translation. transactionId}}</td>
+        <td>{{translation.transactionType}}</td>
+        <td>{{translation.dueDate}}</td>
+        <td>{{translation.amount }}</td>
+        <td>{{translation.currency}}</td>
+        <td>{{translation.status}}</td>
+        <td>{{translation.customerPayer}}</td>
     </tr>          
 </table>
 
