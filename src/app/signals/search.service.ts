@@ -1,4 +1,4 @@
-import { Injectable, SimpleChanges, signal } from '@angular/core';
+import { Injectable, SimpleChanges, effect, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -6,9 +6,12 @@ import { Injectable, SimpleChanges, signal } from '@angular/core';
 export class SearchService {
 
   constructor() { }
+
+
+  ShowSearchBar = signal<boolean>(false);
   UserSearchKey = signal<string>('');
   TranslationSearchKey = signal<string>('');
   TransactionSearchKey = signal<string>('');
-  AdminSearchKey= signal<string>('');
+  AdminSearchKey = signal<string>('');
   EditAndProofReadingSearchKey = signal<string>('');
 }

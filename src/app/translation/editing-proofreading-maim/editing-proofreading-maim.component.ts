@@ -19,11 +19,11 @@ export class EditingProofreadingMaimComponent {
   BCbeforeLastOne = signal('');
   showSearchBar = signal(false)
 
-  constructor(private signalService: BreadcrumbService) {
+  constructor(private signalService: BreadcrumbService, private SearchService: SearchService ) {
   }
 
   ngOnInit(): void {
-
+    this.SearchService.ShowSearchBar.set(false);
     this.routeCurrently = this.signalService.routeCurrently
     this.breadCrumb1 = this.signalService.breadCrumb1
     this.breadCrumb1Route = this.signalService.breadCrumb1Route
