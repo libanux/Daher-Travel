@@ -4,11 +4,11 @@
 
 <div class="row1">
 
-    <div class="forInput">original_LANGUAGE<input class="input" placeholder={{translation_Info.original_LANGUAGE}} type="text" readonly></div>
-    <div class="forInput">translated_LANGUAGE<input placeholder={{translation_Info.translated_LANGUAGE}} class="input" type="text" readonly></div>
-    <div class="forInput">source<input placeholder={{translation_Info.source}} class="input" type="text" readonly></div>
-    <div class="forInput">entry_DATE<input placeholder={{translation_Info.entry_DATE}} class="input" type="text" readonly></div>
-    <div class="forInput">delivery_DATE<input placeholder={{translation_Info.delivery_DATE}} class="input" type="text" readonly></div>
+    <div class="forInput">Original Language<input class="input" placeholder={{translation_Info.original_LANGUAGE}} type="text" readonly></div>
+    <div class="forInput">Translated Language<input placeholder={{translation_Info.translated_LANGUAGE}} class="input" type="text" readonly></div>
+    <div class="forInput">Source<input placeholder={{translation_Info.source}} class="input" type="text" readonly></div>
+    <div class="forInput">Entry Date<input placeholder={{translation_Info.entry_DATE}} class="input" type="text" readonly></div>
+    <div class="forInput">Delivery Date<input placeholder={{translation_Info.delivery_DATE}} class="input" type="text" readonly></div>
 
 
 <div *ngIf="FileArray.length>0">
@@ -18,9 +18,9 @@ files:<hr>
         <!-- <span  class="bold">File 1 :</span>   -->
 
         <div class="inputsDiv">
-            <div><span class="bold">name:</span> <span>{{file.my_FILE.file_NAME}}</span></div>
-            <div><span class="bold">type:</span> <span>{{file.my_FILE.file_TYPE}}</span> </div>
-            <div><span class="bold">duration:</span><span>2s</span></div>
+            <div><span class="bold">Name:</span> <span>{{file.my_FILE.file_NAME}}</span></div>
+            <div><span class="bold">Type:</span> <span>{{file.my_FILE.file_TYPE}}</span> </div>
+            <div><span class="bold">Duration:</span><span>2s</span></div>
         </div>
        
         <div class="buttonsEnd">

@@ -224,8 +224,8 @@ body {
   .file-link {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
+    background-color: #1b59f81a;
+    color: #203269;
     text-decoration: none;
     border-radius: 5px;
     cursor: pointer;

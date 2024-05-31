@@ -27,7 +27,7 @@ export class BarChartComponent {
       datasets: [
         {
           label: 'Requests',
-          backgroundColor: '#000000B2',
+          backgroundColor: '#1b59f81a',
           borderColor: documentStyle.getPropertyValue('--blue-400'),
           data: [65, 59, 80, 81, 56, 55, 40, 87, 63, 53, 73, 34]
         },
