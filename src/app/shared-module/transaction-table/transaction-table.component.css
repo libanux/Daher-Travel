@@ -7,7 +7,7 @@ section {
     overflow-x: auto;
     border-style: solid;
     border-color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(226, 236, 249, 0.5);
 }
@@ -76,7 +76,7 @@ th{
 
 td{
     text-align: left;
-    padding: 8px;
+    padding: 4px;
     align-items: flex-start;
 }
 

@@ -28,12 +28,14 @@ this.data3 = {
       {
           data: [300, 50, 100,50],
           backgroundColor:'#203269',
-          hoverBackgroundColor: [documentStyle.getPropertyValue('--gray-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--pink-400')]
+          hoverBackgroundColor: '#1b59f81a'
       }
   ]
 };
 
 this.option3 = {
+  responsive: true,  // Ensure the chart is responsive
+  maintainAspectRatio: false, 
   plugins: {
     title: {
       display: true,
