@@ -25,10 +25,10 @@ export class MainComponent implements OnInit{
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-    this.routeCurrently.set('Users')
+    this.routeCurrently.set('Tasks')
     this.breadCrumb1.set('')
     this.breadCrumb1Route.set('')
-    this.breadCrumb2.set(' / Users')
+    this.breadCrumb2.set(' / Tasks')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
 

@@ -7,25 +7,34 @@
             <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">#</th>
-                    <th class="col-xs-3">First name</th>
-                    <th class="col-xs-3">Last name</th>
-                    <th class="col-xs-3">Payment Method</th>
-                    <th class="col-xs-3">Amount</th>
-                    <th class="col-xs-3">Entry Date</th>
-                    <th class="col-xs-3">Creation Time</th>
+                    
+                    <th class="col-xs-3">Full Name</th>
+                    <th class="col-xs-3">Profession</th>
+                    <th class="col-xs-3">Nationality</th>
+                    <th class="col-xs-3">Desired Country</th>
+                    <th class="col-xs-3">Gender</th>
+                    <th class="col-xs-3">Created At</th>
+                    <th class="col-xs-3">Note</th>
+                    <th class="col-xs-3">Result</th>
+                    <th class="col-xs-3">Download File</th>
+                    <th class="col-xs-3">Status</th>
+                    <th class="col-xs-3">Action</th>
                 </ng-container>
             </tr>
 
             <!-- TABLE BODY -->
-            <tr *ngFor="let trans of transArray" (click)="moveToRouteWithIndex('/transaction/edit', trans.payment_ID)">
-                <td>{{trans.payment_ID}}</td>
-                <td>{{trans.my_USER.first_NAME}}</td>
-                <td>{{trans.my_USER.last_NAME}}</td>
-                <td>{{trans.payment_METHOD}}</td>
-                <td>{{trans.amount}} $</td>
-                <td>{{trans.entry_DATE}}</td>
-                <td>{{trans.entry_DATE}}</td>
+            <tr *ngFor="let trans of travelData" >
+                <td>{{trans.fullName}}</td>
+                <td>{{trans.profession}}</td>
+                <td>{{trans.nationality}}</td>
+                <td>{{trans.desiredCountry}}</td>
+                <td>{{trans.gender}} </td>
+                <td>{{trans.createdAt}}</td>
+                <td>{{trans.note}}</td>
+                <td>{{trans.result}}</td>
+                <td>{{trans.downloadFile}}</td>
+                <td>{{trans.status}}</td>
+                <td>{{trans.action}}</td>
             </tr>
 
         </table>

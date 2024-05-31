@@ -26,10 +26,10 @@ export class MainComponent implements OnInit{
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-    this.routeCurrently.set('Transactions')
+    this.routeCurrently.set('Immigration')
     this.breadCrumb1.set('')
     this.breadCrumb1Route.set('')
-    this.breadCrumb2.set(' / Transactions')
+    this.breadCrumb2.set(' / Immigration')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
 

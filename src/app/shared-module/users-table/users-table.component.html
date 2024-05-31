@@ -7,30 +7,37 @@
             <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">ID</th>
-                    <th class="col-xs-3">First Name</th>
-                    <th class="col-xs-3">Last Name</th>
-                    <th class="col-xs-3">Username</th>
-                    <th class="col-xs-3">Email</th>
-                    <th class="col-xs-3">Phone Number</th>
-                    <th class="col-xs-3">Country</th>
-                    <th class="col-xs-3">Status</th>
-
+                    <th class="col-xs-1">Task ID</th>
+                    <th class="col-xs-1">Client</th>
+                    <th class="col-xs-1">Date Created</th>
+                    <th class="col-xs-1">Phone Number</th>
+                    <th class="col-xs-1">Assigned To</th>
+                    <th class="col-xs-1">Task Type</th>
+                    <th class="col-xs-1">Supplier</th>
+                    <th class="col-xs-1">Cost Price</th>
+                    <th class="col-xs-1">Selling Price</th>
+                    <th class="col-xs-1">Payment</th>
+                    <th class="col-xs-1">Net Profit</th>
+                    <th class="col-xs-1">Status</th>
                 </ng-container>
             </tr>
 
             <!-- TABLE BODY -->
 
-            <ng-container *ngIf="userArray.length > 0; else noUsers">
-                <tr *ngFor="let user of userArray" (click)="moveToRouteWithIndex('/users/view', user.user_ID)">
-                    <td>{{user.user_ID}}</td>
-                    <td>{{user.first_NAME}}</td>
-                    <td>{{user.last_NAME}}</td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.phone_NUMBER}}</td>
-                    <td>{{user.country}}</td>
-                    <td>{{user.is_ACTIVE}}</td>
+            <ng-container *ngIf="taskData.length > 0; else noUsers">
+                <tr *ngFor="let user of taskData" (click)="moveToRouteWithIndex('/users/view', user.taskId)">
+                    <td>{{user.taskId}}</td>
+                    <td>{{user.client}}</td>
+                    <td>{{user.dateCreated}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td>{{user.assignedTo}}</td>
+                    <td>{{user.taskType}}</td>
+                    <td>{{user.supplier}}</td>
+                    <td>{{user.costPrice}}</td>
+                    <td>{{user.sellingPrice}}</td>
+                    <td>{{user.payment}}</td>
+                    <td>{{user.netProfit}}</td>
+                    <td>{{user.status}}</td>
                 </tr>
             </ng-container>
 
