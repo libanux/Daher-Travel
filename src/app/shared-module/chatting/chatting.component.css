@@ -212,15 +212,6 @@ body {
   }
   
 
-
-
-
-
-
-
-
-
-
   .file-link {
     display: inline-block;
     padding: 10px 20px;
@@ -233,5 +224,45 @@ body {
   
   .file-link:hover {
     background-color: #0056b3;
+  }
+
+  .sendButton{
+    cursor: pointer;
+  }
+  
+
+
+  .input-container {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Ensure it fits the parent container */
+  }
+  
+  input[type="text"] {
+    width: 100%; /* Ensure the input field takes the full width */
+    padding-right: 30px;  /* Adjust to make space for spinner */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+  }
+  
+  .spinner {
+    position: absolute;
+    top: 50%;
+    right: 10px;  /* Adjust based on your input padding */
+    transform: translateY(-50%);
+    pointer-events: none; /* Allow clicks to pass through the spinner */
+  }
+  
+  .loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   

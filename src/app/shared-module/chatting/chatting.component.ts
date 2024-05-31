@@ -22,7 +22,7 @@ export class ChattingComponent implements OnInit {
   Files_Array: any [] = []
   uploadedFiles: File[] = [];
   userId: any = 0
-
+  isLoading: boolean = false;;
   constructor(private chatSignal : ChatSignalService ,private translationSignal: TranslationSignalService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
     this.userId = this.generalService.userId;
 
@@ -70,6 +70,13 @@ SEND_MESSAGE() {
 
 }
 
+  //LOGIN WHEN CLICK ENTER KEY
+  handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.SEND_MESSAGE();
+    }
+  }
+
 onFileChange(event: any) {
     const inputElement = event.target as HTMLInputElement;
     console.log(inputElement.files)
@@ -102,6 +109,7 @@ SAVE_CHANGES() {
 
 file_added: any = { id: 0, comment: '' };
 ADD_FILE(files: any) {
+  this.isLoading = true;
     this.translationService.EDIT_TRANSLATION_FILE(files, this.userId).subscribe({
       next: (response: any) => {
         this.FILE_ID = response.my_FILE.file_ID
@@ -109,6 +117,7 @@ ADD_FILE(files: any) {
           id: response.my_FILE.file_ID,
           comment: response.my_FILE.comment
         };
+        this.isLoading = false;
       },
       error: (error: any) => { 
       console.error(error);       
