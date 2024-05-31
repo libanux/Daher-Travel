@@ -31,6 +31,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { RoundChartComponent } from './round-chart/round-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { AreaChartComponent } from './area-chart/area-chart.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -64,7 +65,7 @@ declarations: [
 
 ],
 
-imports: [CommonModule, FormsModule, ReactiveFormsModule, ChartModule,AgChartsAngularModule,],
+imports: [CommonModule, FormsModule, ReactiveFormsModule, ChartModule,AgChartsAngularModule,HttpClientModule],
 
 exports: [
   HeaderComponent,
