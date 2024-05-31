@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { LoginService } from './signals/login.service';
 import { SearchService } from './signals/search.service';
+import { sign } from 'crypto';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,12 @@ export class AppComponent {
   showloadingOnLogin = false;
 
   showSearchBar = false;
+  showAnalytics = false;
   // showHeader: boolean = false;
   // showSidebar: boolean = true;
 
   showHeader =  signal(false);
   showSidebar =  signal(false);
- 
 
   constructor(private signalLoginService : LoginService, private router: Router, private zone: NgZone, private searchService: SearchService) {
 effect(() => {

@@ -1,7 +1,168 @@
 <section>
-<!-- bread crumb component -->
-<app-bread-crumbs></app-bread-crumbs>
-<app-search-bar ></app-search-bar>
+    <div class="ROUTE">
+        <app-bread-crumbs></app-bread-crumbs>
+        <app-search-bar ></app-search-bar>
+    </div>
+
+
+<div *ngIf="showAnalytics" class="head bg-white text-gray p-3 px-5 d-flex   justify-content-around">
+    <div class="iconandtext">
+      <div class="iconTextAndcol">
+        <div class="imageBack rounded-circle d-flex align-items-center justify-content-center">
+          <svg class="svgImg"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 42 42"
+               fill="none">
+            <path d="M39.375 36.75C39.375 36.75 42 36.75 42 34.125C42 31.5 39.375 23.625 28.875 23.625C18.375 23.625 15.75 31.5 15.75 34.125C15.75 36.75 18.375 36.75 18.375 36.75H39.375ZM18.4337 34.125C18.4246 34.1239 18.4118 34.1223 18.3964 34.1197C18.3891 34.1185 18.382 34.1172 18.375 34.1159C18.3788 33.4228 18.813 31.4131 20.368 29.599C21.8225 27.9021 24.3671 26.25 28.875 26.25C33.3829 26.25 35.9275 27.9021 37.382 29.599C38.937 31.4131 39.3712 33.4228 39.375 34.1159C39.368 34.1172 39.3609 34.1185 39.3536 34.1197C39.3382 34.1223 39.3254 34.1239 39.3163 34.125H18.4337Z"
+                  fill="#F8D413" />
+            <path d="M28.875 18.375C31.7745 18.375 34.125 16.0245 34.125 13.125C34.125 10.2255 31.7745 7.875 28.875 7.875C25.9755 7.875 23.625 10.2255 23.625 13.125C23.625 16.0245 25.9755 18.375 28.875 18.375ZM36.75 13.125C36.75 17.4742 33.2242 21 28.875 21C24.5258 21 21 17.4742 21 13.125C21 8.77576 24.5258 5.25 28.875 5.25C33.2242 5.25 36.75 8.77576 36.75 13.125Z"
+                  fill="#F8D413" />
+            <path d="M18.2068 24.3599C17.2413 24.0511 16.1688 23.8266 14.979 23.7118C14.3901 23.655 13.7725 23.625 13.125 23.625C2.625 23.625 0 31.5 0 34.125C0 35.875 0.875 36.75 2.625 36.75H13.6929C13.3234 36.0043 13.125 35.1202 13.125 34.125C13.125 31.473 14.1153 28.7648 15.9858 26.5025C16.6248 25.7296 17.3666 25.0087 18.2068 24.3599ZM12.9151 26.2512C11.3467 28.6482 10.5 31.381 10.5 34.125H2.625C2.625 33.4406 3.05614 31.4212 4.61805 29.599C6.0498 27.9286 8.53779 26.3016 12.9151 26.2512Z"
+                  fill="#F8D413" />
+            <path d="M3.9375 14.4375C3.9375 10.0883 7.46326 6.5625 11.8125 6.5625C16.1617 6.5625 19.6875 10.0883 19.6875 14.4375C19.6875 18.7867 16.1617 22.3125 11.8125 22.3125C7.46326 22.3125 3.9375 18.7867 3.9375 14.4375ZM11.8125 9.1875C8.913 9.1875 6.5625 11.538 6.5625 14.4375C6.5625 17.337 8.913 19.6875 11.8125 19.6875C14.712 19.6875 17.0625 17.337 17.0625 14.4375C17.0625 11.538 14.712 9.1875 11.8125 9.1875Z"
+                  fill="#F8D413" />
+          </svg>
+        </div>
+      </div>
+      <div class="col">
+        <div class="forCol p-2">
+          <div class="smallTitle">Total Records</div>
+          <!-- <app-item-shimmer [loadingData1]="loadingData4"></app-item-shimmer> -->
+  
+          <span class="bold">{{totalImmigrations}}</span>
+          <div>
+            <span classtyle="color: #00ac4f;">
+              <svg class="svgImg2 mb-1"
+                   xmlns="http://www.w3.org/2000/svg"
+                   width="20"
+                   height="20"
+                   viewBox="0 0 20 20"
+                   fill="none">
+                <path d="M10 17L10 5"
+                      stroke="#00AC4F"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                <path d="M4.16666 9.99999L10 4.16666L15.8333 9.99999"
+                      stroke="#00AC4F"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+              </svg>
+              {{percentage_all}}%
+            </span>this month
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="vr" *ngIf="NotHideCounts"></div>
+  
+    <div class="iconandtext" *ngIf="NotHideCounts">
+      <div class="iconTextAndcol">
+        <div class="imageBack rounded-circle d-flex align-items-center justify-content-center">
+          <svg class="svgImg"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 42 42"
+               fill="none">
+            <path d="M32.8125 42C37.8866 42 42 37.8866 42 32.8125C42 27.7384 37.8866 23.625 32.8125 23.625C27.7384 23.625 23.625 27.7384 23.625 32.8125C23.625 37.8866 27.7384 42 32.8125 42ZM37.2192 30.2065L33.7141 36.0483C33.0552 37.1466 31.5395 37.3332 30.6338 36.4275L28.6032 34.3968C28.0906 33.8843 28.0906 33.0532 28.6032 32.5407C29.1157 32.0281 29.9468 32.0281 30.4593 32.5407L31.8957 33.977L34.9683 28.856C35.3412 28.2344 36.1475 28.0328 36.769 28.4058C37.3906 28.7787 37.5922 29.585 37.2192 30.2065Z"
+                  fill="#F8D413" />
+            <path d="M28.875 13.125C28.875 17.4742 25.3492 21 21 21C16.6508 21 13.125 17.4742 13.125 13.125C13.125 8.77576 16.6508 5.25 21 5.25C25.3492 5.25 28.875 8.77576 28.875 13.125ZM21 18.375C23.8995 18.375 26.25 16.0245 26.25 13.125C26.25 10.2255 23.8995 7.875 21 7.875C18.1005 7.875 15.75 10.2255 15.75 13.125C15.75 16.0245 18.1005 18.375 21 18.375Z"
+                  fill="#F8D413" />
+            <path d="M21.6722 36.75C21.3757 35.9114 21.1713 35.0293 21.0711 34.1159H7.875C7.87874 33.468 8.27861 31.5274 10.0593 29.7468C11.7714 28.0346 14.9911 26.25 21 26.25C21.6838 26.25 22.3315 26.2731 22.9449 26.3166C23.536 25.4206 24.2458 24.6098 25.0519 23.9067C23.8273 23.7252 22.4805 23.625 21 23.625C7.875 23.625 5.25 31.5 5.25 34.125C5.25 36.75 7.875 36.75 7.875 36.75H21.6722Z"
+                  fill="#F8D413" />
+          </svg>
+        </div>
+      </div>
+      <div class="col">
+        <div class="forCol p-2">
+          <div class="smallTitle smallTitlepro">Accepted</div>
+  
+          <!-- <app-item-shimmer [loadingData1]="loadingData4"></app-item-shimmer> -->
+  
+          <span class="bold">{{acceptedImmigration}}</span>
+          <div>
+            <span style="color: #d0004b">
+              <svg class="svgImg2"
+                   xmlns="http://www.w3.org/2000/svg"
+                   width="20"
+                   height="20"
+                   viewBox="0 0 20 20"
+                   fill="none">
+                <path d="M10 3L10 15"
+                      stroke="#D0004B"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                <path d="M15.8333 10L10 15.8333L4.16668 10"
+                      stroke="#D0004B"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+              </svg>
+              1%
+            </span>this month
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="vr" *ngIf="NotHideCounts"></div>
+  
+    <div class="iconandtext" *ngIf="NotHideCounts">
+      <div class="iconTextAndcol">
+        <div class="imageBack rounded-circle d-flex align-items-center justify-content-center">
+          <svg class="svgImg"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 42 42"
+               fill="none">
+            <path d="M28.875 13.125C28.875 17.4742 25.3492 21 21 21C16.6508 21 13.125 17.4742 13.125 13.125C13.125 8.77576 16.6508 5.25 21 5.25C25.3492 5.25 28.875 8.77576 28.875 13.125ZM21 18.375C23.8995 18.375 26.25 16.0245 26.25 13.125C26.25 10.2255 23.8995 7.875 21 7.875C18.1005 7.875 15.75 10.2255 15.75 13.125C15.75 16.0245 18.1005 18.375 21 18.375Z"
+                  fill="#F8D413" />
+            <path d="M21.6722 36.75C21.3757 35.9114 21.1713 35.0293 21.0711 34.1159H7.875C7.87874 33.468 8.27861 31.5274 10.0593 29.7468C11.7714 28.0346 14.9911 26.25 21 26.25C21.6838 26.25 22.3315 26.2731 22.9449 26.3166C23.536 25.4206 24.2458 24.6098 25.0519 23.9067C23.8273 23.7252 22.4805 23.625 21 23.625C7.875 23.625 5.25 31.5 5.25 34.125C5.25 36.75 7.875 36.75 7.875 36.75H21.6722Z"
+                  fill="#F8D413" />
+            <path d="M32.8125 42C37.8866 42 42 37.8866 42 32.8125C42 27.7384 37.8866 23.625 32.8125 23.625C27.7384 23.625 23.625 27.7384 23.625 32.8125C23.625 37.8866 27.7384 42 32.8125 42ZM31.1156 29.2594L32.8125 30.9563L34.5094 29.2594C35.022 28.7469 35.853 28.7469 36.3656 29.2594C36.8781 29.772 36.8781 30.603 36.3656 31.1156L34.6687 32.8125L36.3656 34.5094C36.8781 35.022 36.8781 35.853 36.3656 36.3656C35.853 36.8781 35.022 36.8781 34.5094 36.3656L32.8125 34.6687L31.1156 36.3656C30.603 36.8781 29.772 36.8781 29.2594 36.3656C28.7469 35.853 28.7469 35.022 29.2594 34.5094L30.9563 32.8125L29.2594 31.1156C28.7469 30.603 28.7469 29.772 29.2594 29.2594C29.772 28.7469 30.603 28.7469 31.1156 29.2594Z"
+                  fill="#F8D413" />
+          </svg>
+        </div>
+      </div>
+      <div class="col">
+        <div class="forCol p-2">
+          <div class="smallTitle smallTitlepro1">Rejected</div>
+          <!-- <app-item-shimmer [loadingData1]="loadingData4"></app-item-shimmer> -->
+  
+          <span class="bold">{{rejectedImmigration}}</span>
+          <div>
+            <span style="color: #d0004b">
+              <svg class="svgImg2"
+                   xmlns="http://www.w3.org/2000/svg"
+                   width="20"
+                   height="20"
+                   viewBox="0 0 20 20"
+                   fill="none">
+                <path d="M10 3L10 15"
+                      stroke="#D0004B"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                <path d="M15.8333 10L10 15.8333L4.16668 10"
+                      stroke="#D0004B"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+              </svg>
+              1%
+            </span>this month
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 
 </section>
 <div class="forLine"><hr></div>

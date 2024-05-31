@@ -18,7 +18,9 @@ export class MainComponent implements OnInit{
   constructor(private signalService : BreadcrumbService, private SearchService : SearchService) { }
 
   ngOnInit(): void {
+    this.SearchService.ShowAnalytics.set(true);
     this.SearchService.ShowSearchBar.set(false);
+    
     this.routeCurrently = this.signalService.routeCurrently
     this.breadCrumb1 = this.signalService.breadCrumb1
     this.breadCrumb1Route = this.signalService.breadCrumb1Route

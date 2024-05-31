@@ -42,8 +42,9 @@ main{
   /* table rows and hr lines */
   table tr {
     border-bottom: 1px solid #e9edf7;
-    height: 25px;
+    height: 15px;
     cursor: pointer;
+    font-size: 13px;
   }
   
   table tr:not(:first-child):hover {

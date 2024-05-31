@@ -9,6 +9,9 @@ export class SearchService {
 
 
   ShowSearchBar = signal<boolean>(false);
+  ShowAnalytics = signal<boolean>(false);
+
+
   UserSearchKey = signal<string>('');
   TranslationSearchKey = signal<string>('');
   TransactionSearchKey = signal<string>('');
