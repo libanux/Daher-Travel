@@ -137,12 +137,12 @@ aside .sidebarLists li:hover {
 }
 
 aside .sidebarLists li.active {
-  background-color: #1b59f81a;
-  color: #203269;
+  background-color: #1e2e62;
+  color: white;
 }
 
 aside .sidebarLists li.active .svg-image path {
-  fill: #203269; /* Change SVG color to desired color when the li is active */
+  fill: white; /* Change SVG color to desired color when the li is active */
 }
 
 /* li hover */

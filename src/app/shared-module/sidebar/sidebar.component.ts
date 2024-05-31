@@ -11,7 +11,7 @@ import { LoginService } from '../../signals/login.service';
 export class SidebarComponent implements OnInit{
 
   @Input() showCloseButton = false;
-  @Input() logo = './assets/ServSmart-Logo1.png'
+  @Input() logo = './assets/daher-trave-ma2sous.png'
 
   showHeader =  signal(false);
   showSidebar =  signal(false);
