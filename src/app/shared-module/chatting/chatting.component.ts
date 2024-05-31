@@ -79,17 +79,35 @@ SEND_MESSAGE() {
 
 onFileChange(event: any) {
     const inputElement = event.target as HTMLInputElement;
-    console.log(inputElement.files)
     const selectedFile = inputElement.files ? inputElement.files[0] : null;
     const file: File = event.target.files[0];
     const files: FileList = event.target.files;
 
-    this.ADD_FILE(selectedFile);
-    this.FILE_NAME = selectedFile?.name
+    console.log(selectedFile?.type)
 
-    for (let i = 0; i < files.length; i++) {
-      this.uploadedFiles.push(files[i]);
+    if(selectedFile?.type != 'application/pdf' && selectedFile?.type != 'image/png' && selectedFile?.type != 'image/jpeg'){
+      this.ADD_FILE(selectedFile);
+      this.FILE_NAME = selectedFile?.name;
+      for (let i = 0; i < files.length; i++) {
+        this.uploadedFiles.push(files[i]);
+      }
     }
+
+    else {
+      console.log('cant add image or pdf')
+    }
+
+
+    // text/plain
+    // application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+    // image/png
+    // image/jpeg
+    // application/pdf
+
+
+
+
 }
 
 All_Files_Array: any[] = [];
@@ -109,7 +127,7 @@ SAVE_CHANGES() {
 
 file_added: any = { id: 0, comment: '' };
 ADD_FILE(files: any) {
-  this.isLoading = true;
+  // this.isLoading = true;
     this.translationService.EDIT_TRANSLATION_FILE(files, this.userId).subscribe({
       next: (response: any) => {
         this.FILE_ID = response.my_FILE.file_ID
@@ -130,7 +148,7 @@ GET_FILES_ARRAY() {
   this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
     next : (response: any) => {this.Files_Array = response.my_Translation_ORDER_FILES.filter((file: any) => file.type === 'RES');   },
     error: (error) => {console.error(error)},
-    complete: () => {}
+    complete: () => {console.log(this.Files_Array)}
   });
 }
   
