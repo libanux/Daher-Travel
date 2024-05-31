@@ -26,10 +26,10 @@ export class DocumentMainComponent  implements OnInit{
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-    this.routeCurrently.set('Document Translation')
+    this.routeCurrently.set('Students')
     this.breadCrumb1.set('')
     this.breadCrumb1Route.set('')
-    this.breadCrumb2.set(' / Translation')
+    this.breadCrumb2.set(' / Students')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
 

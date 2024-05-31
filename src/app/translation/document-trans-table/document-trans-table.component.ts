@@ -24,17 +24,121 @@ export class DocumentTransTableComponent implements OnInit {
   status: string = "ACCEPTED"
 
 
-  dropTitle1: string = 'Original';
-  dropTitle2: string = 'Translated';
+  dropTitle1: string = 'Nationalty';
+  dropTitle2: string = 'Gender';
   dropTitle3: string = 'Status';
 
-  dropOptions1: string[] = ["All", "Arabic", "English", "French"];
-  dropOptions2: string[] = ["All", "Arabic", "English", "French"];
+  dropOptions1: string[] = ["All", "Lebanese", "Other",];
+  dropOptions2: string[] = ["All", "Male", "Female"];
   dropOptions3: string[] = ["All", "Completed", "Inprogress", "Pending"];
 
   filter1: string = ''
   filter2: string = ''
   filter3: string = ''
+
+   students= [
+    {
+      fullName: "John Doe",
+      nationality: "American",
+      desiredCountry: "Canada",
+      gender: "Male",
+      createdAt: "2024-05-31", // Sample date format
+      note: "Excellent student",
+      result: "Accepted",
+      studentId: 1,
+    },
+    {
+      fullName: "Alice Smith",
+      nationality: "British",
+      desiredCountry: "Australia",
+      gender: "Female",
+      createdAt: "2024-05-30", // Sample date format
+      note: "Good student",
+      result: "Rejected",
+      studentId: 2,
+    },
+    {
+      fullName: "Michael Johnson",
+      nationality: "Canadian",
+      desiredCountry: "United States",
+      gender: "Male",
+      createdAt: "2024-05-29", // Sample date format
+      note: "Hardworking student",
+      result: "Accepted",
+      studentId: 3,
+    },
+    {
+      fullName: "Emma Brown",
+      nationality: "American",
+      desiredCountry: "Germany",
+      gender: "Female",
+      createdAt: "2024-05-28", // Sample date format
+      note: "Average student",
+      result: "Rejected",
+      studentId: 4,
+    },
+    {
+      fullName: "William Wilson",
+      nationality: "Australian",
+      desiredCountry: "France",
+      gender: "Male",
+      createdAt: "2024-05-27", // Sample date format
+      note: "Talented student",
+      result: "Accepted",
+      studentId: 5,
+    },
+    {
+      fullName: "Sophia Taylor",
+      nationality: "Canadian",
+      desiredCountry: "Italy",
+      gender: "Female",
+      createdAt: "2024-05-26", // Sample date format
+      note: "Dedicated student",
+      result: "Rejected",
+      studentId: 6,
+    },
+    {
+      fullName: "James Miller",
+      nationality: "British",
+      desiredCountry: "Spain",
+      gender: "Male",
+      createdAt: "2024-05-25", // Sample date format
+      note: "Creative student",
+      result: "Accepted",
+      studentId: 7,
+    },
+    {
+      fullName: "Olivia Martinez",
+      nationality: "American",
+      desiredCountry: "Japan",
+      gender: "Female",
+      createdAt: "2024-05-24", // Sample date format
+      note: "Energetic student",
+      result: "Rejected",
+      studentId: 8,
+    },
+    {
+      fullName: "Benjamin Garcia",
+      nationality: "Mexican",
+      desiredCountry: "Switzerland",
+      gender: "Male",
+      createdAt: "2024-05-23", // Sample date format
+      note: "Friendly student",
+      result: "Accepted",
+      studentId: 9,
+    },
+    {
+      fullName: "Charlotte Rodriguez",
+      nationality: "Spanish",
+      desiredCountry: "Netherlands",
+      gender: "Female",
+      createdAt: "2024-05-22", // Sample date format
+      note: "Helpful student",
+      result: "Rejected",
+      studentId: 10,
+    },
+    // Add more records here
+  ];
 
   constructor(private apiService: GeneralService, private dropService: DropdownService, private translationService: TranslationService, private translationSignal: TranslationSignalService, private router: Router) {
     effect(() => {
@@ -46,6 +150,7 @@ export class DocumentTransTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.translationArrayLength = Math.ceil(this.students.length/ this.apiService.PageSizing);
     this.selected_Translation = this.translationSignal.selected_Translation_ID;
     this.fetchTranslations();
   }
