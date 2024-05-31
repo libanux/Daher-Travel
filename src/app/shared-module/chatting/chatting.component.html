@@ -15,12 +15,11 @@
             <div><span class="bold">{{file.comment}}</span></div>
         </div>
 
-        <div *ngIf="file.file_ID!=0" class="message parker">
-            <!-- <div><span class="bold">{{msg.my_FILE.file_NAME}}</span></div> -->
-            <!-- <a (click)="openFile(msg.my_FILE.type, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a> -->
-            <a (click)="openFile(file.file_ID)" class="file-link">{{file.my_FILE.file_NAME}}</a>
-
-        </div>
+    <div *ngIf="file.file_ID!=0" class="message parker">
+        <!-- <div><span class="bold">{{msg.my_FILE.file_NAME}}</span></div> -->
+        <!-- <a (click)="openFile(msg.my_FILE.type, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a> -->
+        <a (click)="OPEN_FILE(file.file_ID)" class="file-link">{{file.my_FILE.file_NAME}}</a>
+    </div>
 
 
         </div>

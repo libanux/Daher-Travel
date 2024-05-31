@@ -28,54 +28,45 @@ export class ChatService {
     this.newArray = chatSIGNAL.NEW_ARRAY
   }
 
-  initializeWebSocketConnection() {
+initializeWebSocketConnection() {
     let socketUrl = `https://libanux.xyz/servsmart/websocket?Ticket=Bearer ${this.token}`;
     this.socket = new SockJS(socketUrl);
     this.stompClient = Stomp.over(this.socket!);
-
-    console.log("Here In initializeWebSocketConnection");
+    // console.log("Here In initializeWebSocketConnection");
 
     this.stompClient.connect({
       Authorization: "Bearer " + this.general.storedToken
     }, (frame:any) => {
-      console.log("connection established: " + frame);
+      // console.log("connection established: " + frame);
 
       this.stompClient?.subscribe('/topic/public', (item: Stomp.Message) => {
         let notifications = JSON.parse(item.body);
-        console.log(notifications)
-        this.call()
+        // console.log(notifications)
+        this.FETCH_ARRAY_AFTER_CHAT_SENT()
       });
 
       var topic= `/topic/translationOrder/${this.TRANSLATION_ID()}/user_${this.USER_ID()}/entry_${this.USER_ID()}`;
       
       this.stompClient?.connect({}, (frame) => {
       this.stompClient?.subscribe(topic, function(message) {
-        console.log('Message Sent : ', JSON.parse(message.body));
+        // console.log('Message Sent : ', JSON.parse(message.body));
  });
 
 });
-
-      // this.stompClient?.send('/ws/chat.register', { Authorization: authToken });
-      // this.scheduleMessages();
     })
-  }
+}
 
-  call(){
+FETCH_ARRAY_AFTER_CHAT_SENT(){
     this.translationService.GET_FILES_TRANSLATION_BY_ID(this.TRANSLATION_ID()).subscribe({
-      next : (response: any) => {
-        console.log(response.my_Translation_ORDER_FILES)   
-        this.newArray.set(response.my_Translation_ORDER_FILES);
-      },
+      next : (response: any) => {this.newArray.set(response.my_Translation_ORDER_FILES);},
       error: () => {},
       complete: () => {
 
       }
     });
-  }
+}
 
 SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: any) {
-
-  console.log('message sent : ', MESSAGE)
 
     const exampleParamsEditTranslationOrderFile = {
       TRANSLATION_ORDER_FILE_ID: -1,
@@ -90,8 +81,6 @@ SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: 
       OWNER_ID: 1
   };
 
-  console.log(exampleParamsEditTranslationOrderFile)
-
   var body = JSON.stringify(exampleParamsEditTranslationOrderFile);
   this.stompClient?.send('/ws/chat.register', { Authorization: "Bearer " + this.token }, body);
    
@@ -105,6 +94,5 @@ SEND_MESSAGE(MESSAGE: string, FILE_ID: number, USER_ID: number, TRANSLATION_ID: 
 
     
 }
-
 
 }
