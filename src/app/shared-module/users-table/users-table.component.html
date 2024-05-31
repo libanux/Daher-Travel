@@ -53,7 +53,7 @@
         <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
 
         <!-- TABLE PAGING -->
-        <app-pagination *ngIf="userArray.length > 0"  (currentPageEvent)="receivePageSize($event)" [pageSize]="UsersArrayLength">
+        <app-pagination *ngIf="taskData.length > 0"  (currentPageEvent)="receivePageSize($event)" [pageSize]="UsersArrayLength">
         </app-pagination>
 
     </section>
