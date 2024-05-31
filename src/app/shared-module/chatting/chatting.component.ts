@@ -4,6 +4,7 @@ import { TranslationService } from '../../service-folder/translation.service';
 import { GeneralService } from '../../service-folder/general.service';
 import { TranslationSignalService } from '../../signals/translation-signal.service';
 import { ChatSignalService } from '../../signals/chat-signal.service';
+import { FileUploadService } from '../../service-folder/file-upload.service';
 @Component({
   selector: 'app-chatting',
   templateUrl: './chatting.component.html',
@@ -23,7 +24,7 @@ export class ChattingComponent implements OnInit {
   uploadedFiles: File[] = [];
   userId: any = 0
   isLoading: boolean = false;;
-  constructor(private chatSignal : ChatSignalService ,private translationSignal: TranslationSignalService ,private generalService:GeneralService, private translationService: TranslationService, private chatService: ChatService) {
+  constructor(private chatSignal : ChatSignalService ,private translationSignal: TranslationSignalService ,private generalService:GeneralService,private fileUploadService: FileUploadService, private translationService: TranslationService, private chatService: ChatService) {
     this.userId = this.generalService.userId;
 
     effect(()=>{
@@ -77,6 +78,8 @@ SEND_MESSAGE() {
     }
   }
 
+  uploadProgress: number=0;
+
 onFileChange(event: any) {
     const inputElement = event.target as HTMLInputElement;
     const selectedFile = inputElement.files ? inputElement.files[0] : null;
@@ -90,6 +93,14 @@ onFileChange(event: any) {
       this.FILE_NAME = selectedFile?.name;
       for (let i = 0; i < files.length; i++) {
         this.uploadedFiles.push(files[i]);
+        this.fileUploadService.uploadFile(file).subscribe(
+          (progress: number) => {
+            this.uploadProgress = progress;
+          },
+          (error) => {
+            console.error('Upload error:', error);
+          }
+        );
       }
     }
 
