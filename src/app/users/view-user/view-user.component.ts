@@ -49,6 +49,7 @@ export class ViewUserComponent implements OnInit {
       next: (response: any) => {
         this.selectedUser = response.my_User;
         this.editedUser = { ...response.my_User };
+        console.log("Users:",response)
       },
       error: (error: any) => { console.error(error); },
       complete: () => { }
