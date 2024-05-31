@@ -2,13 +2,13 @@ aside {
   background: white;
   width: 270px;
   height: 100vh;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
   margin: 0;
   padding: 0;
   z-index: 1000;
   top: 0;
   left: 0;
-  font-size: 13px;
+  font-size: 15px;
   position: fixed;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -52,7 +52,7 @@ aside .sidebarLists {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  padding: 0px;
+  padding: 15px 5px;
   margin-left: 2px;
   align-items: center;
   justify-content: center;
@@ -63,7 +63,7 @@ aside .BELOWsidebarLists {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  padding: 0px;
+  padding: 15px 5px;
   margin-left: 2px;
   align-items: center;
   justify-content: center;
@@ -118,10 +118,10 @@ aside .sidebarLists li {
   display: flex;
   align-items: center;
   column-gap: 10px;
-  padding: 5px;
+  padding: 10px 15px;
   color: #000000b2;
   font-weight: 500;
-  padding-left: 20px;
+  padding-left: 10px;
   border-radius: 10px;
 }
 
