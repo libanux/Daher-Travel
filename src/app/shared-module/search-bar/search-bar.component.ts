@@ -1,4 +1,4 @@
-import { Component, Input, effect, signal } from '@angular/core';
+import { Component, Input, OnInit, effect, signal } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,20 +12,25 @@ import { LoginService } from '../../signals/login.service';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
-export class SearchBarComponent {
-  // myForm: FormGroup;
-  enterClick = false;
+export class SearchBarComponent implements OnInit{
+
+
 
   @Input() seachPosition: string = '';
   @Input() searchBy: string = '';
   searchKey: string = ''
+  enterClick = false;
+  showSearchBar: boolean = false;
 
 
 
-
-  constructor( private searchService: SearchService, private router: Router) {
-
+  constructor(public searchService: SearchService, private router: Router) { }
+  ngOnInit(): void {
+    this.showSearchBar = this.searchService.ShowSearchBar();
   }
+
+
+  //SEND THE SEARCH KEY OF THE CURRENTLY SEARCHBAR
   onSearchKeyChange(value: string): void {
     this.searchKey = value;
 

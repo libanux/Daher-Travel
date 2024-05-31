@@ -36,7 +36,7 @@
 
             <ng-template #noUsers>
                 <tr *ngIf="!showShimmer">
-                    <td colspan="6" style="text-align: center;">No Users Found</td>
+                    <td colspan="8" style="text-align: center;">No Users Found</td>
                 </tr>
             </ng-template>
 
@@ -46,7 +46,7 @@
         <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
 
         <!-- TABLE PAGING -->
-        <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="UsersArrayLength">
+        <app-pagination *ngIf="userArray.length > 0"  (currentPageEvent)="receivePageSize($event)" [pageSize]="UsersArrayLength">
         </app-pagination>
 
     </section>

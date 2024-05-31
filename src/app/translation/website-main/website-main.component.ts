@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { BreadcrumbService } from '../../signals/breadcrumb.service';
+import { SearchService } from '../../signals/search.service';
 
 @Component({
   selector: 'app-website-main',
@@ -15,9 +16,10 @@ export class WebsiteMainComponent implements OnInit{
   BCbeforeLastOneRoute=  signal('');
   BCbeforeLastOne =  signal('');
 
-  constructor(private signalService : BreadcrumbService) { }
+  constructor(private signalService : BreadcrumbService, private SearchService: SearchService) { }
 
   ngOnInit(): void {
+    this.SearchService.ShowSearchBar.set(false);
     this.routeCurrently = this.signalService.routeCurrently
     this.breadCrumb1 = this.signalService.breadCrumb1
     this.breadCrumb1Route = this.signalService.breadCrumb1Route

@@ -10,12 +10,12 @@ import { BreadcrumbService } from '../../signals/breadcrumb.service';
 })
 export class ViewUserComponent implements OnInit {
   routeCurrently = signal('');
-  breadCrumb1 =  signal('');
-  breadCrumb1Route =  signal('');
-  breadCrumb2 =  signal('');
-  BCbeforeLastOneRoute=  signal('');
-  BCbeforeLastOne =  signal('');
-  
+  breadCrumb1 = signal('');
+  breadCrumb1Route = signal('');
+  breadCrumb2 = signal('');
+  BCbeforeLastOneRoute = signal('');
+  BCbeforeLastOne = signal('');
+
   selectedUser !: User
   editedUser: User
   userId: number = 0;
@@ -34,7 +34,7 @@ export class ViewUserComponent implements OnInit {
     this.breadCrumb2 = this.signalService.breadCrumb2
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
-  
+
     this.routeCurrently.set('Edit User')
     this.breadCrumb1.set(' / Users')
     this.breadCrumb1Route.set('/users')
@@ -57,16 +57,16 @@ export class ViewUserComponent implements OnInit {
 
 
   editUser() {
-    this.isEditing=true;
+    this.isEditing = true;
     this.userService.EDIT_USER(this.editedUser).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.isEditing=false;
+        this.isEditing = false;
         this.back();
       },
       error: (error: any) => {
         console.error(error);
-        this.isEditing=false;
+        this.isEditing = false;
       },
       complete: () => { }
     });
