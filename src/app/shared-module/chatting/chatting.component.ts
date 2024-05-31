@@ -88,7 +88,12 @@ onFileChange(event: any) {
 
     console.log(selectedFile?.type)
 
-    if(selectedFile?.type != 'application/pdf' && selectedFile?.type != 'image/png' && selectedFile?.type != 'image/jpeg'){
+    if(selectedFile?.type != 'application/pdf' 
+        && selectedFile?.type != 'image/png'
+        && selectedFile?.type != 'image/jpeg'
+        && selectedFile?.type != 'video/quicktime'
+        && selectedFile?.type != 'video/mp4'
+    ){
       this.ADD_FILE(selectedFile);
       this.FILE_NAME = selectedFile?.name;
       for (let i = 0; i < files.length; i++) {
@@ -111,13 +116,6 @@ onFileChange(event: any) {
 
     // text/plain
     // application/vnd.openxmlformats-officedocument.wordprocessingml.document
-
-    // image/png
-    // image/jpeg
-    // application/pdf
-
-
-
 
 }
 
