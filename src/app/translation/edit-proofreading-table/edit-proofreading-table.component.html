@@ -6,29 +6,31 @@
             <!-- table Titles -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">Order ID</th>
-                    <th class="col-xs-3"> First Name</th>
-                    <th class="col-xs-3">Last Name</th>
-                    <th class="col-xs-3">Quote Type</th>
-                    <th class="col-xs-3">Source Language</th>
-                    <th class="col-xs-3">Traget Language</th>
-                    <th class="col-xs-3">URL Source</th>
-                    <th class="col-xs-3"> Sub Type Name</th>
+                    <th class="col-xs-3">Booking ID</th>
+                    <th class="col-xs-3">Customer Name</th>
+                    <th class="col-xs-3">Hotel Name</th>
+                    <th class="col-xs-3">Check-in Date</th>
+                    <th class="col-xs-3">Check-out Date</th>
+                    <th class="col-xs-3">Room Type</th>
+                    <th class="col-xs-3">Booking Status</th>
+                    <th class="col-xs-3">Payment Status</th>
+                    <th class="col-xs-3">Total Price</th>
                 </ng-container>
             </tr>
 
             <!-- table Body -->
-            <ng-container *ngIf="editAndProofreadingArray.length > 0; else noRecords">
-                <tr *ngFor="let translation of editAndProofreadingArray"
-                    (click)="moveToRouteWithIndex('/translation/EditingAndProofreading', translation.translation_ORDER_ID)">
-                    <td>{{translation. translation_ORDER_ID}}</td>
-                    <td>{{translation. my_USER.first_NAME}}</td>
-                    <td>{{translation. my_USER.last_NAME}}</td>
-                    <td>{{translation.my_TYPE.type_NAME}}</td>
-                    <td>{{translation.original_LANGUAGE }}</td>
-                    <td>{{translation.translated_LANGUAGE }}</td>
-                    <td>{{translation.source}}</td>
-                    <td>{{translation.my_SUB_TYPE.sub_TYPE_NAME}}</td>
+            <ng-container *ngIf="bookings.length > 0; else noRecords">
+                <tr *ngFor="let translation of bookings"
+                    (click)="moveToRouteWithIndex('/translation/EditingAndProofreading', translation.bookingID)">
+                    <td>{{translation. bookingID}}</td>
+                    <td>{{translation.customerName}}</td>
+                    <td>{{translation. hotelName}}</td>
+                    <td>{{translation.checkInDate}}</td>
+                    <td>{{translation.checkOutDate }}</td>
+                    <td>{{translation.roomType }}</td>
+                    <td>{{translation.bookingStatus}}</td>
+                    <td>{{translation.paymentStatus}}</td>
+                    <td>{{translation.totalPrice}}$</td>
                 </tr>
             </ng-container>
             <ng-template #noRecords>
@@ -40,7 +42,7 @@
         </table>
 
         <!-- TABLE SHIMMER -->
-        <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
 
 
         <!-- Pagination Component -->

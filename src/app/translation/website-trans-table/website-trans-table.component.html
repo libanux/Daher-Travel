@@ -7,39 +7,40 @@
             <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">Quote ID</th>
-                    <th class="col-xs-3">First Name</th>
-                    <th class="col-xs-3">Last Name</th>
-                    <th class="col-xs-3">Quote Type</th>
-                    <th class="col-xs-3">Source Language</th>
-                    <th class="col-xs-3">Traget Language</th>
-                    <th class="col-xs-3">URL Source</th>
-                    <th class="col-xs-3">User ID</th>
+                    <th class="col-xs-3">Record ID</th>
+                    <th class="col-xs-3">Name</th>
+                    <th class="col-xs-3">Destination</th>
+                    <th class="col-xs-3">Travel/Application Date</th>
+                    <th class="col-xs-3">Package/Visa Type</th>
+                    <th class="col-xs-3">Accommodation Details/Visa Status</th>
+                    <th class="col-xs-3">Activities/Passport Number</th>
+                    <th class="col-xs-3">Total Cost/Visa Fees</th>
                     <th class="col-xs-3">Status</th>
                 </ng-container>
+                
             </tr>
 
             <!-- TABLE BODY -->
-            <tr *ngFor="let translation of webTranslationArray"
-                (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation. quote_TRANSLATION_ID)">
-                <td>{{translation. quote_TRANSLATION_ID}}</td>
-                <td>{{translation.my_USER.first_NAME}}</td>
-                <td>{{translation.my_USER.last_NAME}}</td>
-                <td>{{translation.quote_TYPE}}</td>
-                <td>{{translation.source_LANGUAGE }}</td>
-                <td>{{translation.target_LANGUAGE }}</td>
-                <td>{{translation.url_SOURCE}}</td>
-                <td>{{translation.user_ID}}</td>
+            <tr *ngFor="let translation of tourismVisaRecords"
+                (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation. recordID)">
+                <td>{{translation. recordID}}</td>
+                <td>{{translation.name}}</td>
+                <td>{{translation.destination}}</td>
+                <td>{{translation.travelOrApplicationDate}}</td>
+                <td>{{translation.packageOrVisaType}}</td>
+                <td>{{translation.accommodationOrVisaStatus}}</td>
+                <td>{{translation.activitiesOrPassportNumber}}</td>
+                <td>{{translation.totalCostOrVisaFees}}$</td>
                 <td class="status-values"
-                    [ngClass]="{'Completed-class': translation.quote_STATUS === 'Completed','InProgress-class': translation.quote_STATUS === 'InProgress','DECLINED-class': translation.quote_STATUS === 'DECLINED','pending-class': translation.quote_STATUS === 'Pending'}">
-                    <p>{{translation.quote_STATUS}}</p>
+                    [ngClass]="{'Completed-class': translation.status === 'Confirmed','InProgress-class': translation.status === 'Approved','DECLINED-class': translation.status === 'DECLINED','pending-class': translation.status === 'Pending'}">
+                    <p>{{translation.status}}</p>
                 </td>
             </tr>
 
         </table>
 
         <!-- TABLE SHIMMER -->
-        <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
 
         <!-- TABLE PAGING -->
         <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)"

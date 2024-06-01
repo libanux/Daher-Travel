@@ -27,10 +27,10 @@ export class WebsiteMainComponent implements OnInit{
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-    this.routeCurrently.set('Website Translation')
+    this.routeCurrently.set('Tourism  Visa')
     this.breadCrumb1.set('')
     this.breadCrumb1Route.set('')
-    this.breadCrumb2.set(' / Translation')
+    this.breadCrumb2.set(' / Tourism  Visa')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
 

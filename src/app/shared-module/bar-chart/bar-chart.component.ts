@@ -27,7 +27,7 @@ export class BarChartComponent {
       datasets: [
         {
           label: 'Requests',
-          backgroundColor: '#1b59f81a',
+          backgroundColor: '#f4ba19',
           borderColor: documentStyle.getPropertyValue('--blue-400'),
           data: [65, 59, 80, 81, 56, 55, 40, 87, 63, 53, 73, 34]
         },
@@ -46,8 +46,8 @@ export class BarChartComponent {
       plugins: {
         title: {
           display: true,
-          text: 'Percentage between requests and responses',
-          color: '#203269',
+          text: 'Percentage between accepted and rejected',
+          color: '#f4ba19',
           font: {
             size: 18,
             weight: 'bold'

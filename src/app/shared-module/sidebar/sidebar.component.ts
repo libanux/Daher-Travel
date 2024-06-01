@@ -43,6 +43,7 @@ export class SidebarComponent implements OnInit{
   admins_routes =['/admins', '/admins/add', '/admins/edit']
   settings_routes = ['/settings'];
   notifications_routes =['/notification','/notification','/notification'];
+  hotels_routes=['translation/EditingAndProofreadingMain']
 
 
   
