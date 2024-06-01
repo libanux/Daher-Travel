@@ -23,7 +23,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
-import { ChattingComponent } from './chatting/chatting.component';
+
 import { ChartComponent } from './chart/chart.component';
 import { ChartModule } from 'primeng/chart';
 import { AgChartsAngularModule } from 'ag-charts-angular';
@@ -56,7 +56,6 @@ declarations: [
   NotFoundComponent,
   TransactionTableComponent,
   UsersTableComponent,
-  ChattingComponent,
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,
@@ -85,7 +84,6 @@ exports: [
   UsersTableComponent,
   PaginationComponent,
   TransactionTableComponent,
-  ChattingComponent,
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,

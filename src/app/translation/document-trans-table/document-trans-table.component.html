@@ -28,8 +28,7 @@
 
             <!-- TABLE BODY -->
             <ng-container *ngIf="students.length > 0; else noRecords">
-            <tr class="body" *ngFor="let trans of students"
-                (click)="moveToRouteWithIndex('/translation/documentTranslation',trans.studentId )">
+            <tr class="body" *ngFor="let trans of students">
                 <td>{{trans.studentId}}</td>
                 <td>{{trans.fullName}}</td>
                 <td>{{trans.nationality}}</td>
@@ -52,7 +51,7 @@
         </table>
 
         <!-- TABLE SHIMMER -->
-        <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
 
 
         <!-- TABLE PAGING -->

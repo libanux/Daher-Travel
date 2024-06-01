@@ -21,8 +21,7 @@
             </tr>
 
             <!-- TABLE BODY -->
-            <tr *ngFor="let translation of tourismVisaRecords"
-                (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation. recordID)">
+            <tr *ngFor="let translation of tourismVisaRecords">
                 <td>{{translation. recordID}}</td>
                 <td>{{translation.name}}</td>
                 <td>{{translation.destination}}</td>

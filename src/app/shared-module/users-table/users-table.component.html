@@ -25,7 +25,7 @@
             <!-- TABLE BODY -->
 
             <ng-container *ngIf="taskData.length > 0; else noUsers">
-                <tr *ngFor="let user of taskData" (click)="moveToRouteWithIndex('/users/view', user.taskId)">
+                <tr *ngFor="let user of taskData" >
                     <td>{{user.taskId}}</td>
                     <td>{{user.client}}</td>
                     <td>{{user.dateCreated}}</td>

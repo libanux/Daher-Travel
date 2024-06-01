@@ -23,6 +23,7 @@ export class EditingProofreadingMaimComponent {
   }
 
   ngOnInit(): void {
+    this.SearchService.ShowAnalytics.set(false);
     this.SearchService.ShowSearchBar.set(false);
     this.routeCurrently = this.signalService.routeCurrently
     this.breadCrumb1 = this.signalService.breadCrumb1

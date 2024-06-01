@@ -1,57 +1,66 @@
 <main>
 
-    <div class="firstDiv" *ngIf="showTitle">
-        <button (click)="moveToRoute('/admins/add')">Add Admin</button>
-    </div>
+
+    <!-- DROPDOWN -->
+    <!-- <div class="forDrop">
+        <div class="w-100"><app-dropdown-filter [dropTitle]="dropTitle1" [dropOptions]="dropOptions1"
+                [dropTitle1]="dropTitle2" [dropOptions1]="dropOptions2" [dropTitle2]="dropTitle3"
+                [dropOptions2]="dropOptions3" [showDrop3]="false"></app-dropdown-filter></div>
+    </div> -->
 
     <section>
-
         <!-- TABLE -->
         <table>
-
             <!-- TABLE TITLES -->
             <tr class="highlight-header">
                 <ng-container>
-                    <th class="col-xs-3">ID</th>
-                    <th class="col-xs-3">First Name</th>
-                    <th class="col-xs-3">Last Name</th>
-                    <th class="col-xs-3">Email</th>
+                    <th class="col-xs-3">Admin ID</th>
+                    <th class="col-xs-3">Full Name</th>
                     <th class="col-xs-3">Phone Number</th>
-                    <th class="col-xs-3">Google ID</th>
-                    <th class="col-xs-3">Is Active</th>
+                    <th class="col-xs-3">Email</th>
                     <th class="col-xs-3">Join Date</th>
+                    <th class="col-xs-3">Is Active</th>
+                    
                 </ng-container>
             </tr>
 
             <!-- TABLE BODY -->
-            <ng-container *ngIf="Admins_Array.length > 0; else noAdmins">
-            <tr *ngFor="let users of Admins_Array" (click)="moveToRouteWithIndex('/admins/edit', users.user_ID)">
-                <td>{{users.user_ID}}</td>
-                <td>{{users.first_NAME}}</td>
-                <td>{{users.last_NAME}}</td>
-                <td>{{users.email}}</td>
-                <td>{{users.phone_NUMBER}}</td>
-                <td>{{users.google_U}}</td>
-                <td>{{users.is_ACTIVE}}</td>
-                <td>{{users.entry_DATE}}</td>
+       
+            <tr class="body" >
+                <td>1</td>
+                <td>Admin1 Admin</td>
+                <td>00889982828</td>
+                <td>admin1&#64;gmail.com</td>
+                <td>1-6-2024</td>
+                <td class="Completed-class"><p>Active</p></td>
+                
             </tr>
-        </ng-container>
 
-            <ng-template #noAdmins>
+            <tr class="body" >
+                <td>2</td>
+                <td>Admin2 Admin</td>
+                <td>00889982828</td>
+                <td>admin2&#64;gmail.com</td>
+                <td>1-6-2024</td>
+                <td class="DECLINED-class"><p>InActive</p></td>
+                
+            </tr>
+
+            <ng-template #noRecords>
                 <tr *ngIf="!showShimmer">
-                    <td colspan="8" style="text-align: center;">No Admins Found</td>
+                    <td colspan="8" style="text-align: center;">No Records Found</td>
                 </tr>
             </ng-template>
 
         </table>
 
         <!-- TABLE SHIMMER -->
-        <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
 
-         <!-- TABLE PAGING -->
-         <app-pagination *ngIf="Admins_Array.length > 0" (currentPageEvent)="receivePageSize($event)" [pageSize]="AdminsArrayLength">
-        </app-pagination>
 
+        <!-- TABLE PAGING -->
+        <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)"
+            [pageSize]="AdminsArrayLength"></app-pagination>
 
     </section>
 </main>

@@ -18,7 +18,7 @@ export class MainComponent implements OnInit{
 
   ngOnInit(): void {
     this.SearchService.ShowSearchBar.set(true);
-    this.SearchService.ShowAnalytics.set(true);
+    this.SearchService.ShowAnalytics.set(false);
 
     this.routeCurrently = this.signalService.routeCurrently
     this.breadCrumb1 = this.signalService.breadCrumb1

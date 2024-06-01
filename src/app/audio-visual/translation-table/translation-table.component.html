@@ -19,7 +19,7 @@
     </tr>
         
     <!-- table Body -->
-    <tr *ngFor="let translation of transactions" (click)="moveToRouteWithIndex('/translation/websiteTranslation', translation.transactionId)">
+    <tr *ngFor="let translation of transactions" >
         <td>{{translation. transactionId}}</td>
         <td>{{translation.transactionType}}</td>
         <td>{{translation.dueDate}}</td>
