@@ -31,10 +31,10 @@ export class EditingProofreadingMaimComponent {
     this.BCbeforeLastOneRoute = this.signalService.BCbeforeLastOneRoute
     this.BCbeforeLastOne = this.signalService.BCbeforeLastOne
 
-    this.routeCurrently.set('Editing & Proofreading')
+    this.routeCurrently.set('Hotels')
     this.breadCrumb1.set('')
     this.breadCrumb1Route.set('')
-    this.breadCrumb2.set(' / Translation')
+    this.breadCrumb2.set(' / Hotels')
     this.BCbeforeLastOneRoute.set('')
     this.BCbeforeLastOne.set('')
 

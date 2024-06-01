@@ -19,7 +19,7 @@ export class AreaChartComponent {
                     data: sineWavePoints.data,
                     fill: true,
                     borderColor: '#203269',
-                    backgroundColor: 'rgba(66, 165, 245, 0.4)',
+                    backgroundColor: '#f4ba19',
                     tension: 0.1
                 }
             ]

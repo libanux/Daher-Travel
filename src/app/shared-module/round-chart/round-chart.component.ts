@@ -23,10 +23,10 @@ updateChartTheme() {
 
 
 this.data3 = {
-  labels: ['Translation', 'Transaction', 'Audio-visual','Content services'],
+  labels: ['Tourism', 'Travel', 'Work'],
   datasets: [
       {
-          data: [300, 50, 100,50],
+          data: [300, 50, 100],
           backgroundColor:'#203269',
           hoverBackgroundColor: '#1b59f81a'
       }
@@ -39,8 +39,8 @@ this.option3 = {
   plugins: {
     title: {
       display: true,
-      text: 'Requests',
-      color: '#203269',
+      text: 'Visa Requests',
+      color: '#f4ba19',
       font: {
         size: 18,
         weight: 'bold'
@@ -48,7 +48,7 @@ this.option3 = {
     },
     legend: {
       labels: {
-        color: '#203269'
+        color: '#f4ba19'
       }
     }
   }
