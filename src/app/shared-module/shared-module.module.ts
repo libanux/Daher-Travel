@@ -18,11 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownFilterComponent } from './dropdown-filter/dropdown-filter.component';
 import { CountBoxComponent } from './count-box/count-box.component';
-import { TopicsComponent } from './topics/topics.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { TransactionTableComponent } from './transaction-table/transaction-table.component';
-import { UsersTableComponent } from './users-table/users-table.component';
 import { ChattingComponent } from './chatting/chatting.component';
 import { ChartComponent } from './chart/chart.component';
 import { ChartModule } from 'primeng/chart';
@@ -32,6 +29,7 @@ import { RoundChartComponent } from './round-chart/round-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { AreaChartComponent } from './area-chart/area-chart.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BaseTableComponent } from './base-table/base-table.component';
 
 
 @NgModule({
@@ -51,17 +49,15 @@ declarations: [
   DropdownComponent,
   DropdownFilterComponent,
   CountBoxComponent,
-  TopicsComponent,
   ProgressBarComponent,
   NotFoundComponent,
-  TransactionTableComponent,
-  UsersTableComponent,
   ChattingComponent,
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,
   LineChartComponent,
   AreaChartComponent,
+  BaseTableComponent,
 
 ],
 
@@ -79,18 +75,16 @@ exports: [
   DropdownComponent,
   DropdownFilterComponent,
   CountBoxComponent,
-  TopicsComponent,
   ProgressBarComponent,
   NotFoundComponent,
-  UsersTableComponent,
   PaginationComponent,
-  TransactionTableComponent,
   ChattingComponent,
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,
   LineChartComponent,
-  AreaChartComponent
+  AreaChartComponent,
+  BaseTableComponent
 ],
 
 providers: [],
