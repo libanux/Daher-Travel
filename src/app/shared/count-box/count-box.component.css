@@ -1,0 +1,100 @@
+.main {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    border: 1px solid rgb(238, 238, 238);
+  }
+  
+  .title{
+      color: #000000B2;
+      font-weight: 500;
+  }
+  
+  .spanClass1 {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  
+  .amountandBadge{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .badge-blue{
+    color:  rgb(22, 119, 255);
+    border: 1px solid  rgb(22, 119, 255);
+    width: 80px;
+    padding: 4px 8px;
+    height: 30px;
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    border-radius: 0px;
+    background-color: #E8F1FF;
+    margin-right: 10px;
+  }
+  
+  .badge-blue svg{
+    stroke: rgb(22, 119, 255);
+    fill:rgb(22, 119, 255) ;
+  }
+  
+  .badge-yellow{
+    color:  #FFC107;
+    border: 1px solid  #FFC107;
+    width: 80px;
+    padding: 4px 8px;
+    height: 30px;
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    border-radius: 0px;
+    background-color: #FFF9E6;
+    margin-right: 10px;
+  }
+  
+  .badge-yellow svg{
+    stroke: #FFC107;
+    fill:#FFC107 ;
+  }
+  
+  
+  
+  
+  .profits{
+    color: #1890FF;
+  }
+  
+  .profits1{
+    color: #FFC107;
+  }
+  
+  @media (max-width:550px) {
+    .main{
+      /* width: 100px; */
+      /* min-height: 75px; */
+      min-height: 30px;
+      flex-direction: row;
+      width: 100%;
+      height: 10px;
+      padding: 20px;
+      padding-bottom: 40px;
+    }
+    .title{
+      font-size: 12px;
+    }
+  
+    .spanClass1{
+      font-size: 13px;
+    }
+  
+    .spanClass{
+      font-size: 12px;
+    }
+  }

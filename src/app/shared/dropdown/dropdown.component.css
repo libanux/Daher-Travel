@@ -1,0 +1,23 @@
+.dropdown {
+    cursor: pointer;
+    background: #ed2028;
+    border-radius: 10px;
+    border-style: none;
+  }
+  
+  .dropdown .btn {
+    color: white;
+  }
+  
+  .dropdown-menu li.clicked {
+    background: #ed2028;
+    color: white;
+  }
+  
+  @media (max-width: 600px) {
+    .dropdown-menu li a,
+    .btn {
+      font-size: 14px;
+    }
+  }
+  

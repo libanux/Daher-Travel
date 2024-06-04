@@ -1,1 +1,17 @@
-<p>dropdown works!</p>
+<div class="dropdown" *ngIf="showDropDown">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      {{selecetedValue}}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li *ngFor="let item of DropDownArray"><a class="dropdown-item" (click)="selected(item)">{{item}}</a></li>
+    </ul>
+  </div>
+
+  <div class="dropdown" *ngIf="showDropDown2">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      {{selecetedValue2}}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li *ngFor="let item of DropDownArray2"><a class="dropdown-item" (click)="selected2(item)">{{item}}</a></li>
+    </ul>
+  </div>

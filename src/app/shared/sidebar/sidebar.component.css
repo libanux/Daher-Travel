@@ -1,0 +1,191 @@
+aside {
+    background: white;
+    width: 270px;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    font-size: 13px;
+    position: fixed;
+  }
+  
+  header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 15px;
+  }
+  
+  .LogoIcon {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 10px 0 0 10px;
+  }
+  
+  .LogoIcon .logo {
+    width: 150px;
+  }
+  
+  /* divider below logo */
+  .divider {
+    width: 100%;
+    padding: 10px 0;
+    color: #dde2ef;
+  }
+  
+  
+  /* TOP ARRAY */
+  aside .TopSidebarArray {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    padding: 0px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    color: #000000b2;
+  }
+  
+  aside .TopSidebarArray div,
+  aside .BOTTOMSidebarArray div{
+    width: 100%;
+  }
+  
+  aside .TopSidebarArray .svg-image,
+  aside .BOTTOMSidebarArray .svg-image  {
+    width: 18px;
+    height: 18px;
+    fill: #000000b2;
+  }
+  
+  aside .TopSidebarArray li , 
+  aside .BOTTOMSidebarArray .bottomLinks{
+    margin: 0;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 13px;
+    color: #000000b2;
+    font-weight: 500;
+  }
+  
+  /* li link */
+  aside .LiWithDropdown {
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    column-gap: 10px;
+    padding: 5px;
+    color: #000000b2;
+    font-weight: 500;
+  }
+  
+  aside .LiWithDropdown .div1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    column-gap: 10px;
+  }
+  
+  /* FOR BOTH */
+  aside .TopSidebarArray li:hover,
+  aside .showmoreUL li:hover,
+  aside .LiWithDropdown:hover,
+  aside .BOTTOMSidebarArray .bottomLinks:hover
+   {
+    background-color:  #e9f5fb;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  
+  aside .TopSidebarArray li.active,
+  aside .LiWithDropdown.active,
+  aside .BOTTOMSidebarArray .bottomLinks.active
+   {
+    background-color:  #e9f5fb;
+    border-right-style: solid;
+    border-color: #319bfc;
+    border-width: 3px;
+    color: #319bfc;
+    width: 100%;
+  }
+  
+  aside .TopSidebarArray li.active .svg-image path,
+  aside .BOTTOMSidebarArray li.active .svg-image path
+  {
+    stroke: #319bfc;
+    fill: #319bfc; /* Change SVG color to desired color when the li is active */
+  }
+  
+  
+  /* BOTTOM ARRAY */
+  aside .BOTTOMSidebarArray {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    padding: 0px;
+    margin-left: 2px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  aside .BOTTOMSidebarArray div div li {
+    text-decoration: none;
+  }
+  
+  aside .BOTTOMSidebarArray ul li a {
+    cursor: pointer;
+  }
+  
+  /* li link */
+  aside .showmoreUL li {
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+    padding: 5px;
+    color: #000000b2;
+    font-weight: 500;
+    padding-left: 20px;
+  }
+  
+  
+  .logout {
+    fill: #ffffff;
+    stroke: #ffffff;
+  }
+  
+  .forhr {
+    width: 220px;
+  }
+  
+  /* Styles for screens with a width between 600 and 900 pixels (inclusive) */
+  @media screen and (min-width: 949px) and (max-width: 1200px) {
+    aside {
+      width: 220px;
+    }
+  
+  }
+  
+  @media screen and (max-width: 950px) {
+    aside {
+      width: 300px;
+    }
+  
+  }
+  
