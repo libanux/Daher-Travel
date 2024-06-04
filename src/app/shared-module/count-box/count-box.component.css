@@ -22,12 +22,50 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+  width: 100%;
 }
 
-.badge{
-  color: black;
+.badge-blue{
+  color:  rgb(22, 119, 255);
+  border: 1px solid  rgb(22, 119, 255);
+  width: 80px;
+  padding: 4px 8px;
+  height: 30px;
+  display: flex;
+  justify-content:center ;
+  align-items: center;
+  border-radius: 0px;
+  background-color: #E8F1FF;
+  margin-right: 10px;
 }
+
+.badge-blue svg{
+  stroke: rgb(22, 119, 255);
+  fill:rgb(22, 119, 255) ;
+}
+
+.badge-yellow{
+  color:  #FFC107;
+  border: 1px solid  #FFC107;
+  width: 80px;
+  padding: 4px 8px;
+  height: 30px;
+  display: flex;
+  justify-content:center ;
+  align-items: center;
+  border-radius: 0px;
+  background-color: #FFF9E6;
+  margin-right: 10px;
+}
+
+.badge-yellow svg{
+  stroke: #FFC107;
+  fill:#FFC107 ;
+}
+
+
+
 
 .profits{
   color: #1890FF;
