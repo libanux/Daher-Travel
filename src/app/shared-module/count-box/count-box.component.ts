@@ -7,8 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CountBoxComponent {
   @Input() title: string = 'title'
-  @Input() onlyString: boolean = true;
-  @Input() stringValue: string = 'string here';
+  @Input() amountValue: string = 'amount here';
   @Input() firstNb: number = 0;
   @Input() secondNb: number = 0;
 }

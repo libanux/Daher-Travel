@@ -8,10 +8,11 @@ main {
   }
 
 .column1 {
-display: grid;
-grid-template-columns: repeat(6, minmax(0, 1fr)); /* Display 3 elements per row by default */
-grid-gap: 30px;
-margin-bottom: 20px;
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 30px;
+width: 100%;
 }
   
 /* Media query for screens narrower than 700px */
