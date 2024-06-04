@@ -12,7 +12,7 @@ import { SidebarElements, sidebarArray } from '../../classes/sidebarElements';
 export class SidebarComponent implements OnInit{
 
   @Input() showCloseButton = false;
-  @Input() logo = './assets/ServSmart-Logo1.png'
+  @Input() logo = './assets/logo.png'
 
   showHeader =  signal(false);
   showSidebar =  signal(false);

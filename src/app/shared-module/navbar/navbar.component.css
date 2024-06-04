@@ -18,6 +18,7 @@ header {
 .logo {
   max-width: 100%; 
 }
+
 .forlogo{
   display: flex;
   align-items: center;
