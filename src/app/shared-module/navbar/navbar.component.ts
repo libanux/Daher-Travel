@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit{
 
-@Input () logo = './assets/ServSmart-Logo1.png'
+@Input () logo = './assets/logo-noBG.png'
 
 uid : string =''
 showGenders=false;
