@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-table-shimmer',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./table-shimmer.component.css']
 })
 export class TableShimmerComponent {
+  pagedProducts: any[] = ['1', '2','3', '4', '5','6'];
+  @Input () arrayHead = ['driverId', 'name','vehicle', 'currentLocation', 'Phone'];
 
+  
+constructor() {}
 }

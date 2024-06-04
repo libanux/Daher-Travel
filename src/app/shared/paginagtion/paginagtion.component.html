@@ -1,1 +1,41 @@
-<p>paginagtion works!</p>
+<section>
+    <!-- <p>Showing data {{calculateStartIndex() + 1}} to {{calculateEndIndex()}} of {{lengthArray}} entries</p> -->
+    
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+  
+        <li *ngIf="!disabelBackBtn" class="page-item" (click)="goToPreviousPage()">
+          <a class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+  
+        <li *ngIf="disabelBackBtn" class="page-item" style="pointer-events: none;">
+          <a class="page-link">
+            <span aria-hidden="true">&laquo;</span>
+          </a>    
+        </li>
+    
+        <!-- Updated code for displaying page numbers and ellipsis -->
+        <li class="page-item " [ngClass]="{ 'active': currentPage + 1 === page }" *ngFor="let page of getPageNumbers()" (click)="goToPage(page)">
+          <a class="page-link " *ngIf="page !== -1">{{ page }}</a>
+          <div *ngIf="page === -1" style="margin-top: 5px;" >&hellip;</div>
+        </li>
+    
+        <li *ngIf="!disabelNextBtn" class="page-item" (click)="goToNextPage()">
+          <a class="page-link" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+  
+        <li *ngIf="disabelNextBtn" class="page-item"  style="pointer-events: none;">
+          <a class="page-link" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+  
+  
+      </ul>
+    </nav>
+    
+    </section>

@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar-button.component.css']
 })
 export class SidebarButtonComponent {
+  isOffcanvasOpen = false;
 
+  toggleOffcanvas() {
+    this.isOffcanvasOpen = !this.isOffcanvasOpen;
+  }
 }
