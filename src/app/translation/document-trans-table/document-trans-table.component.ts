@@ -9,20 +9,7 @@ import { TranslationSignalService } from '../../signals/translation-signal.servi
   templateUrl: './document-trans-table.component.html',
   styleUrl: './document-trans-table.component.css'
 })
-export class DocumentTransTableComponent implements OnInit {
-
-  @Input() showform = false;
-  @Input() showPaging: boolean = true;
-  @Input() currentPage = 0;
-
-  translationArray: any[] = [];
-  translationArrayLength = 0;
-  showShimmer: boolean = true;
-
-  selected_Translation = signal(0);
-
-  status: string = "ACCEPTED"
-
+export class DocumentTransTableComponent {
 
   dropTitle1: string = 'Original';
   dropTitle2: string = 'Translated';
@@ -36,47 +23,13 @@ export class DocumentTransTableComponent implements OnInit {
   filter2: string = ''
   filter3: string = ''
 
-  constructor(private apiService: GeneralService, private dropService: DropdownService, private translationService: TranslationService, private translationSignal: TranslationSignalService, private router: Router) {
-    effect(() => {
-      this.filter1 = this.dropService.DropDown1();
-      this.filter2 = this.dropService.DropDown2();
-      this.filter3 = this.dropService.DropDown3();
-      this.fetchTranslations();
-    });
-  }
 
-  ngOnInit(): void {
-    this.selected_Translation = this.translationSignal.selected_Translation_ID;
-    this.fetchTranslations();
-  }
-
-
-  fetchTranslations(): void {
-    this.translationService.GET_TRANSLATION_PER_PAGE(this.currentPage).subscribe({
-      next: (response: any) => {
-        this.translationArray = response.my_TranslationsOrders.first;
-        this.translationArrayLength = Math.ceil(response.my_TranslationsOrders.second / this.apiService.PageSizing);
-      },
-      error: (error) => { this.showShimmer = false; },
-      complete: () => { this.showShimmer = false; }
-    });
-  }
-
-  @Output() currentPageChoosen = new EventEmitter<number>();
-
-  receivePageSize($event: any) {
-    this.currentPage = $event;
-    this.currentPageChoosen.emit(this.currentPage);
-    this.fetchTranslations();
-  }
-
-
-  // function for viewing a specific item
+  //MOVE TO SPECIFIC ROUTE WITH ROW ID
   moveToRouteWithIndex(route: string, id: number) {
-    this.selected_Translation.set(id);
-    this.router.navigate([route]).then(() => {
-      window.scrollTo(0, 0);
-    });
+    // this.selected_Translation.set(id);
+    // this.router.navigate([route]).then(() => {
+    //   window.scrollTo(0, 0);
+    // });
   }
 
 }

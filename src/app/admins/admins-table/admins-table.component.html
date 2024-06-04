@@ -4,54 +4,5 @@
         <button (click)="moveToRoute('/admins/add')">Add Admin</button>
     </div>
 
-    <section>
-
-        <!-- TABLE -->
-        <table>
-
-            <!-- TABLE TITLES -->
-            <tr class="highlight-header">
-                <ng-container>
-                    <th class="col-xs-3">ID</th>
-                    <th class="col-xs-3">First Name</th>
-                    <th class="col-xs-3">Last Name</th>
-                    <th class="col-xs-3">Email</th>
-                    <th class="col-xs-3">Phone Number</th>
-                    <th class="col-xs-3">Google ID</th>
-                    <th class="col-xs-3">Is Active</th>
-                    <th class="col-xs-3">Join Date</th>
-                </ng-container>
-            </tr>
-
-            <!-- TABLE BODY -->
-            <ng-container *ngIf="Admins_Array.length > 0; else noAdmins">
-            <tr *ngFor="let users of Admins_Array" (click)="moveToRouteWithIndex('/admins/edit', users.user_ID)">
-                <td>{{users.user_ID}}</td>
-                <td>{{users.first_NAME}}</td>
-                <td>{{users.last_NAME}}</td>
-                <td>{{users.email}}</td>
-                <td>{{users.phone_NUMBER}}</td>
-                <td>{{users.google_U}}</td>
-                <td>{{users.is_ACTIVE}}</td>
-                <td>{{users.entry_DATE}}</td>
-            </tr>
-        </ng-container>
-
-            <ng-template #noAdmins>
-                <tr *ngIf="!showShimmer">
-                    <td colspan="8" style="text-align: center;">No Admins Found</td>
-                </tr>
-            </ng-template>
-
-        </table>
-
-        <!-- TABLE SHIMMER -->
-        <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer>
-
-         <!-- TABLE PAGING -->
-         <app-pagination *ngIf="Admins_Array.length > 0" (currentPageEvent)="receivePageSize($event)" [pageSize]="AdminsArrayLength">
-        </app-pagination>
-
-
-    </section>
+ <app-base-table></app-base-table>
 </main>
