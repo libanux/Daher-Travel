@@ -1,10 +1,10 @@
 <main>
 
   <div class="column1">
-    <div class="w-100"> <app-count-box [amountValue]="'4,42,236'" [title]="'Total page views'"></app-count-box></div>
-    <div class="w-100"> <app-count-box [amountValue]="'78,250'" [title]="'Total users'"></app-count-box></div>
-    <div class="w-100"><app-count-box [amountValue]="'18,800'" [title]="'Total orders'"></app-count-box></div>
-    <div class="w-100"> <app-count-box [amountValue]="'$ 35,078'" [title]="'Total sales'"></app-count-box></div>
+    <div class="w-100"> <app-count-box [amountValue]="'4,42,236'" [title]="'Total page views'" [profit]="'35,000'"></app-count-box></div>
+    <div class="w-100"> <app-count-box [amountValue]="'78,250'" [title]="'Total users'" [profit]="'8,900'" ></app-count-box></div>
+    <div class="w-100"><app-count-box [blue]="false" [amountValue]="'18,800'" [title]="'Total orders'" [profit]="'1,943'"></app-count-box></div>
+    <div class="w-100"> <app-count-box [blue]="false" [amountValue]="'$ 35,078'" [title]="'Total sales'" [profit]="'$ 20,395'"></app-count-box></div>
   </div>
 
   <div>
@@ -12,6 +12,7 @@
   </div>
 
   <div>
+    <app-base-table></app-base-table>
   </div>
 
 </main>

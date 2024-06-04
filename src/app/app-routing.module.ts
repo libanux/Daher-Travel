@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // authentication
+  {path:'analytics', loadChildren: () => import('./analytics/analytics.module').then(m => m.AnalyticsModule)},
+  {path:'audioVisual', loadChildren: () => import('./audio-visual/audio-visual.module').then(m => m.AudioVisualModule)},
+
   {path:'',loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
 
   // dashboard
