@@ -8,7 +8,7 @@ export const routes: Routes = [
   {path:'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)},
 
   // n
-  {path:'notification', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule)},
+  {path:'package', loadChildren: () => import('./package/package.module').then(m => m.PackageModule)},
 
   // s
   {path:'shared', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)},

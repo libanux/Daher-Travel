@@ -16,6 +16,7 @@
   
   .auth-main {
     position: relative;
+ 
   }
   
   .auth-main .auth-wrapper {
@@ -59,11 +60,12 @@
   
   .auth-main .auth-wrapper.v3 .auth-form {
     flex-direction: column;
-    background: url('/assets/img-auth-bg.svg');
+    background: url('/assets/background.png');
     min-height: 100vh;
     padding: 24px;
+    width: 100%;
     background-repeat: no-repeat;
-    background-size: auto 82%;
+    background-size: cover;
     background-position: left bottom;
     position: relative;
     justify-content: space-between;
@@ -139,3 +141,12 @@
     border: 1px solid rgb(238, 238, 238);
   }
   
+
+  .logo-img{
+    width: 120px;
+  }
+
+  .btn{
+    background-color: #1e2e62;
+    color: white;
+  }

@@ -116,17 +116,17 @@ aside {
    {
     background-color:  #e9f5fb;
     border-right-style: solid;
-    border-color: #319bfc;
+    border-color: #1e2e62;
     border-width: 3px;
-    color: #319bfc;
+    color: #1e2e62;
     width: 100%;
   }
   
   aside .TopSidebarArray li.active .svg-image path,
   aside .BOTTOMSidebarArray li.active .svg-image path
   {
-    stroke: #319bfc;
-    fill: #319bfc; /* Change SVG color to desired color when the li is active */
+    stroke: #1e2e62;
+    fill: #1e2e62; /* Change SVG color to desired color when the li is active */
   }
   
   

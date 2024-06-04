@@ -10,7 +10,7 @@ import { SidebarElements, sidebarArray } from 'src/app/classes/sidebarElements';
 })
 export class SidebarComponent {
   @Input() showCloseButton = false;
-  @Input() logo = './assets/logo.png'
+  @Input() logo = './assets/download.png'
 
   // Audio Visual
   AudioVisual_routes = ['audioVisual/TranslationMain','audioVisual/TranscriptionMain','audioVisual/SubtitlingMain']
