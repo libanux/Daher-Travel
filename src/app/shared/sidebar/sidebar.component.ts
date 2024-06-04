@@ -28,13 +28,11 @@ export class SidebarComponent {
 
   sidebarArray: SidebarElements [] = []
 
-  constructor( private router: Router, private sanitizer: DomSanitizer) { }
+  constructor( private router: Router) { }
  
   ngOnInit(): void {
     this.sidebarArray = sidebarArray;
-
   }
-
 
   //LOGOUT FUNCTION 
   logout() {
@@ -42,15 +40,12 @@ export class SidebarComponent {
     localStorage.removeItem('userId');
     // localStorage.removeItem('userId');
     this.router.navigate(['']);
-
-
   }
 
   // ROUTING FUNCTION
   moveToRoute(route: string) {
     this.router.navigate([route]).then(() => { window.scrollTo(0, 0) });
   }
-
 
   // ACTIVE ROUTE
 Active(routeArray: any[]): boolean {

@@ -10,10 +10,10 @@ export class AppComponent  {
   title = 'servSmart';
   showloadingOnLogin = false;
 
-  showSearchBar = false;
+  showSearchBar = true;
 
-  showHeader = false;
-  showSidebar = false;
+  showHeader = true;
+  showSidebar = true;
  
 
   constructor(private router: Router) {}

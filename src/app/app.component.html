@@ -1,4 +1,4 @@
-<app-loading *ngIf="showloadingOnLogin"></app-loading>
+<!-- <app-loading *ngIf="showloadingOnLogin"></app-loading> -->
 
 <div class="mainn">
     <header class="sidebar" [ngClass]="{'showSidebar': showHeader}">
@@ -7,9 +7,9 @@
 
     <main>
 
-        <section >
+        <section *ngIf="showHeader">
             <app-navbar class="navbar" [ngClass]="{'showHeader': showHeader}"></app-navbar>
-            <!-- <app-header [showSearchbar]="showSearchBar" class="header" [ngClass]="{'showHeader': showHeader}"></app-header> -->
+            <app-header [showSearchbar]="showSearchBar" class="header" [ngClass]="{'showHeader': showHeader}"></app-header>
         </section>
 
         <router-outlet></router-outlet>
