@@ -1,1 +1,93 @@
-<p>chatting works!</p>
+<div class="chat">
+    <!-- <div class="contact bar">
+        <div class="pic"></div>
+        <div class="name">Tony Stark</div>
+        <div class="seen">Today at 12:56</div>
+    </div> -->
+    <div id="chat-messages" class="messages">
+        <div class="time">Today at 11:41</div>
+
+
+        <div *ngFor="let file of Files_Array">
+
+
+        <div *ngIf="file.file_ID==0" class="message parker">
+            <div><span class="bold">{{file.comment}}</span></div>
+        </div>
+
+    <div *ngIf="file.file_ID!=0" class="message parker">
+
+        <div *ngIf="file.my_FILE.file_TYPE=='image/png' || file.my_FILE.file_TYPE=='image/jpeg'">
+            <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2639 15.9375L12.5958 14.2834C11.7909 13.4851 11.3884 13.086 10.9266 12.9401C10.5204 12.8118 10.0838 12.8165 9.68048 12.9536C9.22188 13.1095 8.82814 13.5172 8.04068 14.3326L4.04409 18.2801M14.2639 15.9375L14.6053 15.599C15.4112 14.7998 15.8141 14.4002 16.2765 14.2543C16.6831 14.126 17.12 14.1311 17.5236 14.2687C17.9824 14.4251 18.3761 14.8339 19.1634 15.6514L20 16.4934M14.2639 15.9375L18.275 19.9565M18.275 19.9565C17.9176 20 17.4543 20 16.8 20H7.2C6.07989 20 5.51984 20 5.09202 19.782C4.71569 19.5903 4.40973 19.2843 4.21799 18.908C4.12796 18.7313 4.07512 18.5321 4.04409 18.2801M18.275 19.9565C18.5293 19.9256 18.7301 19.8727 18.908 19.782C19.2843 19.5903 19.5903 19.2843 19.782 18.908C20 18.4802 20 17.9201 20 16.8V16.4934M4.04409 18.2801C4 17.9221 4 17.4575 4 16.8V7.2C4 6.0799 4 5.51984 4.21799 5.09202C4.40973 4.71569 4.71569 4.40973 5.09202 4.21799C5.51984 4 6.07989 4 7.2 4H16.8C17.9201 4 18.4802 4 18.908 4.21799C19.2843 4.40973 19.5903 4.71569 19.782 5.09202C20 5.51984 20 6.0799 20 7.2V16.4934M17 8.99989C17 10.1045 16.1046 10.9999 15 10.9999C13.8954 10.9999 13 10.1045 13 8.99989C13 7.89532 13.8954 6.99989 15 6.99989C16.1046 6.99989 17 7.89532 17 8.99989Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        </div>
+
+        <div *ngIf="file.my_FILE.file_TYPE=='application/pdf'">
+            <svg width="24" viewBox="0 0 48 48" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;}</style></defs><path class="cls-1" d="M7.45,5.5a2,2,0,0,0-1.95,2v33.1a2,2,0,0,0,2,2h33.1a2,2,0,0,0,2-2V7.45a2,2,0,0,0-2-1.95Z"></path><path class="cls-1" d="M20.09,30V18h2a6,6,0,0,1,6,6h0a6,6,0,0,1-6,6Z"></path><line class="cls-1" x1="32.48" y1="18.04" x2="38.46" y2="18.04"></line><line class="cls-1" x1="32.48" y1="24.02" x2="36.38" y2="24.02"></line><line class="cls-1" x1="32.48" y1="18.04" x2="32.48" y2="30"></line><path class="cls-1" d="M9.54,30V18h4a4,4,0,0,1,0,8h-4"></path></g></svg>        
+        </div>
+
+
+        <div *ngIf="file.my_FILE.file_TYPE=='video/quicktime' || file.my_FILE.file_TYPE=='video/mp4'">
+            <svg width="24" fill="#000000" viewBox="0 0 512 512" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="_x37_04_-video__x2C__media__x2C__mp4__x2C_"> <g> <g> <path d="M486.25,436.599H26.7c-3.705,0-6.708-3.003-6.708-6.708V83.063c0-3.705,3.003-6.708,6.708-6.708h459.55 c3.705,0,6.708,3.003,6.708,6.708v346.828C492.958,433.596,489.955,436.599,486.25,436.599z M33.408,423.183h446.134V89.771 H33.408V423.183z"></path> </g> <g> <path d="M154.69,378.506c-1.167,0-2.335-0.304-3.378-0.912c-2.062-1.202-3.33-3.409-3.33-5.796V141.155 c0-2.387,1.269-4.594,3.331-5.796c2.061-1.203,4.607-1.218,6.685-0.041l203.569,115.35c2.103,1.191,3.402,3.421,3.401,5.838 c0,2.416-1.3,4.646-3.402,5.836l-203.57,115.293C156.97,378.216,155.83,378.506,154.69,378.506z M161.398,152.667v207.622 l183.251-103.785L161.398,152.667z"></path> </g> </g> </g> <g id="Layer_1"></g> </g></svg>        
+        </div>
+
+
+        <!-- <div><span class="bold">{{msg.my_FILE.file_NAME}}</span></div> -->
+        <!-- <a (click)="openFile(msg.my_FILE.type, msg.my_FILE.file_NAME)" class="file-link">{{msg.my_FILE.file_NAME}}</a> -->
+        <a (click)="OPEN_FILE(file.file_ID)" class="file-link">{{file.my_FILE.file_NAME}}</a>
+    </div>
+
+</div>
+
+
+    </div>
+    <div class="input">
+        <input id="file" type="file" (change)="onFileChange($event)" />
+        <label for="file-input" class="custom-file-label">
+            <svg class="file" width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <g id="style=linear">
+                        <g id="attach">
+                            <path id="vector"
+                                d="M20.6475 10.6158L11.8855 19.3778C9.93289 21.3304 6.76706 21.3304 4.81444 19.3778C2.86182 17.4252 2.86182 14.2594 4.81444 12.3068L12.9462 4.17503C14.313 2.80819 16.5291 2.80819 17.8959 4.17503C19.2628 5.54186 19.2628 7.75794 17.8959 9.12478L10.1024 16.9183C9.32132 17.6994 8.05499 17.6994 7.27394 16.9183C6.4929 16.1373 6.49289 14.8709 7.27394 14.0899L14.468 6.89585"
+                                stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </label>
+        <!-- (keydown)="handleKeydown($event)"  -->
+        <div class="input-container">
+            <input 
+              type="text" 
+              [placeholder]="isLoading ? '' : FILE_NAME" 
+              [(ngModel)]="message" 
+            />
+            <div class="spinner" *ngIf="isLoading">
+              <div class="loader"></div>
+            </div>
+          </div>
+
+      
+          
+          
+
+        <svg class="sendButton"  (click)="SEND_MESSAGE()"   width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11.5003 12H5.41872M5.24634 12.7972L4.24158 15.7986C3.69128 17.4424 3.41613 18.2643 3.61359 18.7704C3.78506 19.21 4.15335 19.5432 4.6078 19.6701C5.13111 19.8161 5.92151 19.4604 7.50231 18.7491L17.6367 14.1886C19.1797 13.4942 19.9512 13.1471 20.1896 12.6648C20.3968 12.2458 20.3968 11.7541 20.1896 11.3351C19.9512 10.8529 19.1797 10.5057 17.6367 9.81135L7.48483 5.24303C5.90879 4.53382 5.12078 4.17921 4.59799 4.32468C4.14397 4.45101 3.77572 4.78336 3.60365 5.22209C3.40551 5.72728 3.67772 6.54741 4.22215 8.18767L5.24829 11.2793C5.34179 11.561 5.38855 11.7019 5.407 11.8459C5.42338 11.9738 5.42321 12.1032 5.40651 12.231C5.38768 12.375 5.34057 12.5157 5.24634 12.7972Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+
+    </div>
+    <div *ngIf="uploadProgress > 0">
+        <p>Upload Progress: {{ uploadProgress }}%</p>
+        <div class="progress-bar">
+          <div class="progress" [style.width]="uploadProgress + '%'"></div>
+        </div>
+</div>
+
+<!-- <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
+<button class="btn btn-success" (click)="sendMessage()">Send</button>
+<div class="content">
+  <div *ngFor="let msg of msgArray">
+    {{msg}}
+  </div>
+</div> -->

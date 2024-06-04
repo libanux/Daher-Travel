@@ -20,6 +20,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SidebarButtonComponent } from './sidebar-button/sidebar-button.component';
 import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -44,8 +45,30 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     TableShimmerComponent
   ],
   imports: [
-    CommonModule,
-    SharedRoutingModule
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule,
+
+  ],
+  exports: [
+    AddRowComponent,
+    BreadCrumbsComponent,
+    ButtonUsedComponent,
+    ChattingComponent,
+    CountBoxComponent,
+    DropdownComponent,
+    HeaderComponent,
+    LoadingComponent,
+    NavbarComponent,
+    PaginagtionComponent,
+    BaseTableComponent,
+    AreaChartComponent,
+    BarChartComponent,
+    RoundChartComponent,
+    SearchBarComponent,
+    SidebarComponent,
+    SidebarButtonComponent,
+    TableShimmerComponent
   ]
 })
 export class SharedModule { }
