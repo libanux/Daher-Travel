@@ -126,7 +126,7 @@ aside {
   aside .BOTTOMSidebarArray li.active .svg-image path
   {
     stroke: #1e2e62;
-    fill: #1e2e62; /* Change SVG color to desired color when the li is active */
+    fill: #1e2e62;
   }
   
   
