@@ -98,8 +98,11 @@ onFileChange(event: any) {
       this.FILE_NAME = selectedFile?.name;
       for (let i = 0; i < files.length; i++) {
         this.uploadedFiles.push(files[i]);
-        this.fileUploadService.uploadFile(file).subscribe(
+
+        // calculating the progress number
+        this.fileUploadService.uploadFile(file, this.userId).subscribe(
           (progress: number) => {
+            console.log(progress)
             this.uploadProgress = progress;
           },
           (error) => {

@@ -53,45 +53,49 @@ export class LoginComponent implements OnInit{
 
   //LOGIN FUNCTION
   login() {
-    this.validateEmail();
-    this.validatePassword();
-    this.loading = true;
-    this.loginError = '';
-    if (this.emailError === '' && this.passwordError === '') {
 
-      const authenticationParams: Params_Authenticate = {
-        EMAIL: this.email,
-        PASSWORD: this.password,
-        IS_ACTIVE: true,
-        PLATFORM: "DASH"
-      };
+    this.router.navigate(['/dashboard']).then(() => {
+                window.scrollTo(0, 0);
+              })
+    // this.validateEmail();
+    // this.validatePassword();
+    // this.loading = true;
+    // this.loginError = '';
+    // if (this.emailError === '' && this.passwordError === '') {
 
-      this.authserivece.authenticate(authenticationParams).subscribe({
-        next: (response: any) => {
-          if (response.myResult != null) {
-            this.loading = false;
-            this.router.navigate(['/dashboard']).then(() => {
-              window.scrollTo(0, 0);
-            }),
-              localStorage.setItem('TICKET', response.myResult.ticket),
-              localStorage.setItem('userId', response.myResult.userID)
-          }
-          else {
-            // this.loginError = 'Incorrect Email or password';
-            this.loading = false;
-          }
-        },
-        error: (error: any) => {
-          this.loading = false;
-          // this.loginError = 'Authentication failed. Please check your credentials.';
-           this.passwordError = error.error.exceptionMsg;
-          // this.passwordError = 'Incorrect Email or password';
-        }
-      });
-    }
-    else {
-      this.loading = false;
-    }
+    //   const authenticationParams: Params_Authenticate = {
+    //     EMAIL: this.email,
+    //     PASSWORD: this.password,
+    //     IS_ACTIVE: true,
+    //     PLATFORM: "DASH"
+    //   };
+
+    //   this.authserivece.authenticate(authenticationParams).subscribe({
+    //     next: (response: any) => {
+    //       if (response.myResult != null) {
+    //         this.loading = false;
+    //         this.router.navigate(['/dashboard']).then(() => {
+    //           window.scrollTo(0, 0);
+    //         }),
+    //           localStorage.setItem('TICKET', response.myResult.ticket),
+    //           localStorage.setItem('userId', response.myResult.userID)
+    //       }
+    //       else {
+    //         // this.loginError = 'Incorrect Email or password';
+    //         this.loading = false;
+    //       }
+    //     },
+    //     error: (error: any) => {
+    //       this.loading = false;
+    //       // this.loginError = 'Authentication failed. Please check your credentials.';
+    //        this.passwordError = error.error.exceptionMsg;
+    //       // this.passwordError = 'Incorrect Email or password';
+    //     }
+    //   });
+    // }
+    // else {
+    //   this.loading = false;
+    // }
   }
 
 
