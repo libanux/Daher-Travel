@@ -1,0 +1,102 @@
+main{
+    margin: 20px 0;
+    }
+    
+    section {
+        overflow-x: auto;
+        /* border-style: solid; */
+        border: 1px solid rgb(238, 238, 238);
+    }
+    
+    .firstDiv {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 10px;
+      }
+    
+      .firstDiv button {
+        border-radius: 5px;
+        border-style: none;
+        color: white;
+        background: #203269;
+        padding: 10px 15px;
+      }
+      
+    .forDrop{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    }
+      
+    .forDrop div{
+    width: 100%;
+    }
+      
+    .forLine{
+    border: 1px solid #0000001A;
+    }
+      
+    /* table rows and hr lines */
+    table tr {
+        border-bottom: 1px solid #e9edf7;
+        height: 25px;
+        cursor: pointer;
+    }
+      
+    table tr:not(:first-child):hover {
+        background-color: #f3f3f3;
+    }
+      
+      /* table head */
+    .highlight-header th {
+        color: black;
+        font-weight: 600;
+        text-transform: capitalize;
+        font-size: 12px;
+        padding: 14px 12px;
+        background-color: rgb(250, 250, 250);
+    }
+      
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        background: white;
+        justify-content: center;
+        align-items: center;
+    }
+      
+    th{
+    
+        text-align: left;
+        padding: 8px;
+    }
+    
+    td{
+        text-align: left;
+        padding: 14px 12px;
+        align-items: flex-start;
+    }
+    
+    .body:hover {
+        background: #efeeee;
+        cursor: pointer;
+    }
+        
+    .noItemsFound {
+        color: rgb(159, 154, 154);
+        font-size: 16px;
+    }
+    
+    @media (min-width:675px) {
+        .forDrop{
+          align-items: center;
+        }
+    }
+    
+    @media (max-width:674px) {
+        .forDrop{
+          display: flex;
+          flex-direction: column;
+        }
+    }
