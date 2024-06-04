@@ -8,10 +8,8 @@ aside {
   z-index: 1000;
   top: 0;
   left: 0;
-  font-size: 13px;
+  font-size: 15px;
   position: fixed;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
   box-shadow: 0 0 10px rgba(181, 186, 193, 0.5);
 }
 
