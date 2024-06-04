@@ -1,16 +1,14 @@
 aside {
   background: white;
-  width: 270px;
+  width: 290px;
   height: 100vh;
-  /* overflow-y: scroll; */
   margin: 0;
   padding: 0;
   z-index: 1000;
   top: 0;
   left: 0;
-  font-size: 15px;
+  font-size: 13px;
   position: fixed;
-  box-shadow: 0 0 10px rgba(181, 186, 193, 0.5);
 }
 
 header {
@@ -18,12 +16,6 @@ header {
   justify-content: flex-end;
   align-items: flex-end;
   margin: 15px;
-}
-
-aside .sidebarLists .svg-image {
-  width: 22px;
-  height: 22px;
-  fill: #000000b2;
 }
 
 .LogoIcon {
@@ -45,47 +37,120 @@ aside .sidebarLists .svg-image {
   color: #dde2ef;
 }
 
-aside .sidebarLists {
+
+/* TOP ARRAY */
+aside .TopSidebarArray {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   row-gap: 5px;
   padding: 0px;
-  margin-left: 2px;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  cursor: pointer;
+  color: #000000b2;
 }
 
-aside .BELOWsidebarLists {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-  padding: 0px;
-  margin-left: 2px;
-  align-items: center;
-  justify-content: center;
+aside .TopSidebarArray div, .BOTTOMSidebarArray div{
+  width: 100%;
 }
 
-/* li link */
-aside .listItemss {
-  width: 200px;
+aside .TopSidebarArray .svg-image {
+  width: 22px;
+  height: 22px;
+  fill: #000000b2;
+}
+
+aside .TopSidebarArray li , .BOTTOMSidebarArray .bottomLinks{
+  margin: 0;
   cursor: pointer;
   list-style: none;
   display: flex;
   align-items: center;
   column-gap: 10px;
+  padding: 13px;
+  color: #000000b2;
+  font-weight: 500;
+}
+
+/* li link */
+aside .LiWithDropdown {
+  width: fit-content;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  column-gap: 10px;
   padding: 5px;
   color: #000000b2;
   font-weight: 500;
-  padding-left: 20px;
-  border-radius: 10px;
-  
+}
+
+aside .LiWithDropdown .div1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  column-gap: 10px;
+}
+
+/* FOR BOTH */
+aside .TopSidebarArray li:hover,
+aside .showmoreUL li:hover,
+aside .LiWithDropdown:hover,
+aside .BOTTOMSidebarArray .bottomLinks:hover
+ {
+  background-color:  #e9f5fb;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+aside .TopSidebarArray li.active,
+aside .LiWithDropdown.active,
+aside .BOTTOMSidebarArray .bottomLinks.active
+ {
+  background-color:  #e9f5fb;
+  border-right-style: solid;
+  border-color: #319bfc;
+  border-width: 3px;
+  color: #319bfc;
+  width: 100%;
+}
+
+aside .TopSidebarArray li.active .svg-image path,
+aside .BOTTOMSidebarArray li.active .svg-image path
+{
+  stroke: #319bfc;
+  fill: #319bfc; /* Change SVG color to desired color when the li is active */
+}
+
+
+/* BOTTOM ARRAY */
+aside .BOTTOMSidebarArray {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  padding: 0px;
+  margin-left: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+aside .BOTTOMSidebarArray div div li {
+  text-decoration: none;
+}
+
+aside .BOTTOMSidebarArray ul li a {
+  cursor: pointer;
 }
 
 /* li link */
 aside .showmoreUL li {
-  width: 200px;
+  width: fit-content;
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -95,75 +160,12 @@ aside .showmoreUL li {
   color: #000000b2;
   font-weight: 500;
   padding-left: 20px;
-  border-radius: 10px;
 }
 
-/* li hover */
-aside .showmoreUL li:hover {
-  background-color: #20326933;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-aside .BELOWsidebarLists ul li a {
-  cursor: pointer;
-}
-
-/* li link */
-aside .sidebarLists li {
-  width: 200px;
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-  padding: 5px;
-  color: #000000b2;
-  font-weight: 500;
-  padding-left: 20px;
-  border-radius: 10px;
-}
 
 .logout {
   fill: #ffffff;
   stroke: #ffffff;
-}
-
-/* li hover */
-aside .sidebarLists li:hover {
-  background-color: #20326933;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-aside .sidebarLists li.active {
-  background-color: #1b59f81a;
-  color: #203269;
-}
-
-aside .sidebarLists li.active .svg-image path {
-  fill: #203269; /* Change SVG color to desired color when the li is active */
-}
-
-/* li hover */
-aside .listItemss:hover {
-  background-color: #20326933;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-aside .listItemss.active {
-  background-color: #1b59f81a;
-  color: #203269;
-}
-
-aside .services {
-  display: flex;
-  padding: auto 0;
-  justify-content: space-between;
-}
-
-aside .services .div1 {
-  display: flex;
-  padding: 0;
-  column-gap: 10px;
 }
 
 .forhr {
