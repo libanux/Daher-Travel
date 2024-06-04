@@ -1,0 +1,104 @@
+<p>login works!</p>
+<!-- <div class="full-div">
+
+  <div class="form-container"> -->
+
+<!-- <div class="logo">
+      <div class="logo-image">
+        <img src="./assets/ServSmart-Logo1.png" alt="">
+      </div>
+    </div> -->
+
+<!-- <div class="form">
+      <section>
+        <main>
+          <label class="label">Email Address</label>
+          <input type="email" class="input" [(ngModel)]="email" (ngModelChange)="validateEmail()"
+            (keydown)="handleKeydown($event)" />
+          <div class="input-error">
+            <div class="for-error">{{ emailError }}</div>
+          </div>
+        </main>
+      </section>
+
+      <section>
+        <main>
+          <label class="label">Password</label>
+          <input type="password" class="input" [(ngModel)]="password" (ngModelChange)="validatePassword()"
+            (keydown)="handleKeydown($event)" />
+          <div class="input-error">
+            <div class="for-error">{{ passwordError }}</div>
+          </div>
+        </main>
+      </section>
+
+
+      <section>
+        <div class="submit-btn">
+          <button type="submit" (click)="login()" class="button-91">
+            <span *ngIf="!loading">Sign In</span>
+            <span *ngIf="loading" class="loader"></span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+</div> -->
+
+<div class="auth-main">
+    <div class="auth-wrapper v3">
+      <div class="auth-form">
+        <div class="auth-header">
+          <a href="javascript:"><img src="/assets/logo-dark.svg" alt="logo" /></a>
+        </div>
+        <div class="card my-5">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+              <h3 class="mb-0"><b>Login</b></h3>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="email">Email Address</label>
+              <input type="email" class="form-control" id="email" placeholder="Email Address" [(ngModel)]="email"
+                (ngModelChange)="validateEmail()" (keydown)="handleKeydown($event)" />
+              <div class="input-error">
+                <div class="for-error">{{ emailError }}</div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password"
+                (ngModelChange)="validatePassword()" (keydown)="handleKeydown($event)" />
+              <div class="input-error">
+                <div class="for-error">{{ passwordError }}</div>
+              </div>
+            </div>
+            <div class="d-grid mt-4">
+              <button type="button" class="btn btn-primary" (click)="login()">
+                <span *ngIf="!loading"> Login</span>
+                <span *ngIf="loading" class="loader"></span></button>
+            </div>
+  
+            <!-- <div class="row">
+              @for (item of SignInOptions; track item) {
+                <div class="col-4">
+                  <div class="d-grid">
+                    <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted">
+                      <img src="{{ item.image }}" alt="google img" />
+                      <span class="d-none d-sm-inline-block"> {{ item.name }}</span>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div> -->
+          </div>
+        </div>
+        <div class="auth-footer row">
+          <div class="col my-1">
+            <p class="m-0">Copyright © <a href="" target="_blank">MANTIS DASHBOARD</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
