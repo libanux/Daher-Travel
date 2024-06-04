@@ -10,5 +10,6 @@ export class CountBoxComponent {
   @Input() amountValue: string = 'amount here';
   @Input() profit: string = 'profit here'
   @Input() blue: boolean = true;
+  @Input() badgeValue : string ="Badge here"
 
 }
