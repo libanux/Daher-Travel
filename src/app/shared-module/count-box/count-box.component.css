@@ -25,6 +25,18 @@
   gap: 10px;
 }
 
+.badge{
+  color: black;
+}
+
+.profits{
+  color: #1890FF;
+}
+
+.profits1{
+  color: #FFC107;
+}
+
 @media (max-width:550px) {
   .main{
     /* width: 100px; */
