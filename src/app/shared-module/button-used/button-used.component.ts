@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./button-used.component.css']
 })
 export class ButtonUsedComponent {
-  @Input() Red = true;
+  @Input() Blue = true;
   @Input() buttonValue = '';
   // @Input() isDisabled :boolean = false;
  

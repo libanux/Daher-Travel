@@ -28,6 +28,7 @@ import { LineChartComponent } from './line-chart/line-chart.component';
 import { AreaChartComponent } from './area-chart/area-chart.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BaseTableComponent } from './base-table/base-table.component';
+import { AddRowComponent } from './add-row/add-row.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ declarations: [
   LineChartComponent,
   AreaChartComponent,
   BaseTableComponent,
+  AddRowComponent,
 
 ],
 
@@ -80,7 +82,8 @@ exports: [
   RoundChartComponent,
   LineChartComponent,
   AreaChartComponent,
-  BaseTableComponent
+  BaseTableComponent,
+  AddRowComponent
 ],
 
 providers: [],
