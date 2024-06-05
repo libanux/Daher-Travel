@@ -5,7 +5,7 @@ main {
     width: 100%;
     flex-wrap: wrap;
     row-gap: 30px;
-  }
+}
 
 .column1 {
 display: flex;
