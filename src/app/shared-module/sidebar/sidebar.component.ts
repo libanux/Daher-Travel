@@ -9,31 +9,15 @@ import { SidebarElements, sidebarArray } from '../../classes/sidebarElements';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit{
-
+export class SidebarComponent implements OnInit {
   @Input() showCloseButton = false;
-  @Input() logo = './assets/logo.png'
+  @Input() logo = './assets/download.png'
 
-  showHeader =  signal(false);
-  showSidebar =  signal(false);
-
-  
-  // Audio Visual
-  // AudioVisual_routes = ['audioVisual/TranslationMain','audioVisual/TranscriptionMain','audioVisual/SubtitlingMain']
-  //       // 
-  //       Sub_AudioVisual_routes = ['audioVisual/SubtitlingMain']
-  //       // 
-  //       Transcription_AudioVisual_routes = ['audioVisual/TranscriptionMain']
-  //       // 
-  //       Translation_AudioVisual_routes = ['audioVisual/TranslationMain']
-
-  // contentServices_routes =['/contentServices','/contentServices','/contentServices'];
-  // analytics_routes = ['/analytics']
-  // users_routes = ['/users', '/users/view','/users'];
+  sidebarArray: SidebarElements [] = []
 
   logout_element: any = {  
     name: 'Log out', 
-   icon: './assets/notification.png', 
+   icon: './assets/logout.png', 
    route_array: ['/settings'],
    route: 'settings',
    group: 'bottom',
@@ -42,34 +26,22 @@ export class SidebarComponent implements OnInit{
    function: 'logout()'
 }
 
-  sidebarArray: SidebarElements [] = []
-
-  constructor(private signalLoginService : LoginService, private router: Router, private sanitizer: DomSanitizer) { }
+  constructor( private router: Router) { }
  
   ngOnInit(): void {
     this.sidebarArray = sidebarArray;
-
-    this.showHeader = this.signalLoginService.showHeader;
-    this.showSidebar = this.signalLoginService.showSidebar
   }
-
 
   //LOGOUT FUNCTION 
   logout() {
-    localStorage.removeItem('TICKET');
-    localStorage.removeItem('userId');
-    // localStorage.removeItem('userId');
-    this.router.navigate(['']);
 
-    this.showHeader.set(false)
-    this.showSidebar.set(false)
+    this.router.navigate(['']);
   }
 
   // ROUTING FUNCTION
   moveToRoute(route: string) {
     this.router.navigate([route]).then(() => { window.scrollTo(0, 0) });
   }
-
 
   // ACTIVE ROUTE
 Active(routeArray: any[]): boolean {

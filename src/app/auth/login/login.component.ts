@@ -1,6 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, Params_Authenticate } from '../../service-folder/auth.service';
 import { LoginService } from '../../signals/login.service';
 
 
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit{
   showHeader =  signal(false);
   showSidebar =  signal(false);
 
-  constructor(private signalLoginService : LoginService,  private router: Router, private authserivece: AuthService) { }
+  constructor(private signalLoginService : LoginService,  private router: Router) { }
  
   ngOnInit(): void {
     this.showHeader = this.signalLoginService.showHeader;
