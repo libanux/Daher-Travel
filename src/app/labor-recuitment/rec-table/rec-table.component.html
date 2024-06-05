@@ -1,1 +1,63 @@
-<p>rec-table works!</p>
+<main>
+    <section>
+
+        <!-- TABLE -->
+        <table>
+
+            <!-- TABLE TITLES -->
+            <tr class="highlight-header">
+                <ng-container>
+                    <th class="col-xs-3"> Booking ID</th>
+                    <th class="col-xs-3">Worker Type</th>
+                    <th class="col-xs-3">Worker Name</th>
+                    <th class="col-xs-3">Nationality</th>
+                    <th class="col-xs-3">Age </th>
+                    <th class="col-xs-3">Cost</th>
+                    <th class="col-xs-3">Note </th>
+                    <th class="col-xs-3">Status</th>
+                </ng-container>
+            </tr>
+
+            <!-- TABLE BODY -->
+            <tr>
+                <td>1</td>
+                <td>Nanny</td>
+                <td>John Doe</td>
+                <td>Lebanese</td>
+                <td>23 years</td>
+                <td>1200 $</td>
+                <td>This is an example note </td>
+                <td>Accepted</td>
+
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Nanny</td>
+                <td>John Doe</td>
+                <td>Lebanese</td>
+                <td>23 years</td>
+                <td>1200 $</td>
+                <td>This is an example note </td>
+                <td>Accepted</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Nanny</td>
+                <td>John Doe</td>
+                <td>Lebanese</td>
+                <td>23 years</td>
+                <td>1200 $</td>
+                <td>This is an example note </td>
+                <td>Accepted</td>
+            </tr>
+        </table>
+
+        <!-- TABLE SHIMMER -->
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
+
+    </section>
+
+    <!-- TABLE PAGING -->
+    <!-- <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="ArrayLength">
+    </app-pagination> -->
+</main>

@@ -1,1 +1,55 @@
-<p>visa-table works!</p>
+<main>
+    <section>
+
+        <!-- TABLE -->
+        <table>
+
+            <!-- TABLE TITLES -->
+            <tr class="highlight-header">
+                <ng-container>
+                    <th class="col-xs-3"> Booking ID</th>
+                    <th class="col-xs-3">Visa Type</th>
+                    <th class="col-xs-3">Client Name</th>
+                    <th class="col-xs-3">Cost</th>
+                    <th class="col-xs-3">Note</th>
+                    <th class="col-xs-3">Status</th>
+                </ng-container>
+            </tr>
+
+            <!-- TABLE BODY -->
+            <tr>
+                <td>1</td>
+                <td>Immigration</td>
+                <td>John Doe</td>
+                <td>450 $</td>
+                <td>This is an example note </td>
+                <td>Accepted</td>
+
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Immigration</td>
+                <td>John Doe</td>
+                <td>450 $</td>
+                <td>This is an example note </td>
+                <td>Accepted</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Immigration</td>
+                <td>John Doe</td>
+                <td>450 $</td>
+                <td>This is an example note </td>
+                <td>Accepted</td>
+            </tr>
+        </table>
+
+        <!-- TABLE SHIMMER -->
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
+
+    </section>
+
+    <!-- TABLE PAGING -->
+    <!-- <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="ArrayLength">
+    </app-pagination> -->
+</main>
