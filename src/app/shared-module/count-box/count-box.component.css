@@ -8,9 +8,9 @@
   border: 1px solid rgb(238, 238, 238);
 }
 
-.title{
-    color: #000000B2;
-    font-weight: 500;
+.title {
+  color: #000000b2;
+  font-weight: 500;
 }
 
 .spanClass1 {
@@ -18,7 +18,7 @@
   font-size: 20px;
 }
 
-.amountandBadge{
+.amountandBadge {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -26,59 +26,55 @@
   width: 100%;
 }
 
-.badge-blue{
-  color:  rgb(22, 119, 255);
-  border: 1px solid  rgb(22, 119, 255);
+.badge-blue {
+  color: rgb(22, 119, 255);
+  border: 1px solid rgb(22, 119, 255);
   width: 80px;
   padding: 4px 8px;
   height: 30px;
   display: flex;
-  justify-content:center ;
+  justify-content: center;
   align-items: center;
   border-radius: 0px;
-  background-color: #E8F1FF;
+  background-color: #e8f1ff;
   margin-right: 10px;
 }
 
-.badge-blue svg{
+.badge-blue svg {
   stroke: rgb(22, 119, 255);
-  fill:rgb(22, 119, 255) ;
+  fill: rgb(22, 119, 255);
 }
 
-.badge-yellow{
-  color:  #FFC107;
-  border: 1px solid  #FFC107;
+.badge-yellow {
+  color: #ffc107;
+  border: 1px solid #ffc107;
   width: 80px;
   padding: 4px 8px;
   height: 30px;
   display: flex;
-  justify-content:center ;
+  justify-content: center;
   align-items: center;
   border-radius: 0px;
-  background-color: #FFF9E6;
+  background-color: #fff9e6;
   margin-right: 10px;
 }
 
-.badge-yellow svg{
-  stroke: #FFC107;
-  fill:#FFC107 ;
+.badge-yellow svg {
+  stroke: #ffc107;
+  fill: #ffc107;
 }
 
-
-
-
-.profits{
-  color: #1890FF;
+.profits {
+  color: #1890ff;
 }
 
-.profits1{
-  color: #FFC107;
+.profits1 {
+  color: #ffc107;
 }
 
-@media (max-width:550px) {
+/* @media (max-width:550px) {
   .main{
-    /* width: 100px; */
-    /* min-height: 75px; */
+
     min-height: 30px;
     flex-direction: row;
     width: 100%;
@@ -97,4 +93,4 @@
   .spanClass{
     font-size: 12px;
   }
-}
+} */
