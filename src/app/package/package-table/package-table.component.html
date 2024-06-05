@@ -1,1 +1,178 @@
-<p>package-table works!</p>
+<main>
+    <section>
+
+        <!-- TABLE -->
+        <table>
+
+            <!-- TABLE TITLES -->
+            <tr class="highlight-header">
+                <ng-container>
+                    <th class="col-xs-3">Package Number</th>
+                    <th class="col-xs-3">Package Name</th>
+                    <th class="col-xs-3">Nb of seats</th>
+                    <th class="col-xs-3">Destination</th>
+                    <th class="col-xs-3">Duration</th>
+                    <th class="col-xs-3">Price</th>
+                    <th class="col-xs-3">Hotels</th>
+                    <th class="col-xs-3">Note</th>
+                    <th class="col-xs-3">Status</th>
+                </ng-container>
+            </tr>
+
+            <!-- TABLE BODY -->
+            <tr>
+                <td>1</td>
+                <td>Package 1</td>
+                <td>3</td>
+                <td>Istanbul</td>
+                <td>5 days</td>
+                <td>550 $</td>
+                <td>Hotel1 - Hotel 2</td>
+                <td>This is example note.</td>
+                <td>Confirmed</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Package 2</td>
+                <td>3</td>
+                <td>Istanbul</td>
+                <td>5 days</td>
+                <td>550 $</td>
+                <td>Hotel1 - Hotel 2</td>
+                <td>This is example note.</td>
+                <td>Confirmed</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Package 3</td>
+                <td>3</td>
+                <td>Istanbul</td>
+                <td>5 days</td>
+                <td>550 $</td>
+                <td>Hotel1 - Hotel 2</td>
+                <td>This is example note.</td>
+                <td>Confirmed</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>Package 4</td>
+                <td>3</td>
+                <td>Paris</td>
+                <td>7 days</td>
+                <td>800 $</td>
+                <td>Hotel3 - Hotel 4</td>
+                <td>This is another example note.</td>
+                <td>Confirmed</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Package 5</td>
+                <td>2</td>
+                <td>New York</td>
+                <td>4 days</td>
+                <td>650 $</td>
+                <td>Hotel5</td>
+                <td>Yet another example note.</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Package 6</td>
+                <td>4</td>
+                <td>London</td>
+                <td>6 days</td>
+                <td>700 $</td>
+                <td>Hotel6 - Hotel 7</td>
+                <td>Example note 3.</td>
+                <td>Confirmed</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Package 7</td>
+                <td>2</td>
+                <td>Tokyo</td>
+                <td>8 days</td>
+                <td>1000 $</td>
+                <td>Hotel8</td>
+                <td>Example note 4.</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>Package 8</td>
+                <td>3</td>
+                <td>Rome</td>
+                <td>5 days</td>
+                <td>600 $</td>
+                <td>Hotel9 - Hotel 10</td>
+                <td>Example note 5.</td>
+                <td>Confirmed</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>Package 9</td>
+                <td>2</td>
+                <td>Barcelona</td>
+                <td>4 days</td>
+                <td>500 $</td>
+                <td>Hotel11</td>
+                <td>Example note 6.</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>Package 10</td>
+                <td>4</td>
+                <td>Sydney</td>
+                <td>7 days</td>
+                <td>850 $</td>
+                <td>Hotel12 - Hotel 13</td>
+                <td>Example note 7.</td>
+                <td>Confirmed</td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td>Package 11</td>
+                <td>3</td>
+                <td>Dubai</td>
+                <td>5 days</td>
+                <td>700 $</td>
+                <td>Hotel14 - Hotel 15</td>
+                <td>Example note 8.</td>
+                <td>Confirmed</td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td>Package 12</td>
+                <td>2</td>
+                <td>Venice</td>
+                <td>4 days</td>
+                <td>600 $</td>
+                <td>Hotel16</td>
+                <td>Example note 9.</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td>Package 13</td>
+                <td>4</td>
+                <td>Bali</td>
+                <td>7 days</td>
+                <td>900 $</td>
+                <td>Hotel17 - Hotel 18</td>
+                <td>Example note 10.</td>
+                <td>Confirmed</td>
+              </tr>
+              
+        </table>
+
+        <!-- TABLE SHIMMER -->
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
+
+    </section>
+
+    <!-- TABLE PAGING -->
+    <!-- <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="ArrayLength">
+    </app-pagination> -->
+</main>
