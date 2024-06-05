@@ -16,14 +16,14 @@
             </tr>
 
             <!-- TABLE BODY -->
-            <tr>
-                <td>Data 1-1</td>
-                <td>Data 1-2</td>
-                <td>Data 1-3</td>
-                <td>Data 1-4</td>
-                <td>Data 1-5</td>
-                <td>Data 1-6</td>
-                <td>Data 1-7</td>
+            <tr *ngFor="let acc of AccountingArray">
+                <td>{{acc.record_id}}</td>
+                <td>{{acc.description}}</td>
+                <td>{{acc.amount}}</td>
+                <td>{{acc.date}}</td>
+                <td>{{acc.account_type}}</td>
+                <td>{{acc.status}}</td>
+                <td>{{acc.note}}</td>
             </tr>
 
         </table>
