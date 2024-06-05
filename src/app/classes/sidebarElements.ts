@@ -11,7 +11,7 @@ export class SidebarElements {
 
 export const sidebarArray: SidebarElements[] = [
     {   name: 'Dashboard', 
-        icon: '', 
+        icon: './assets/home.png', 
         route_array: ['/dashboard'],
         route: 'dashboard',
         group: 'top',
@@ -21,7 +21,7 @@ export const sidebarArray: SidebarElements[] = [
     },
 
     {   name: 'Transaction', 
-        icon: '', 
+        icon: './assets/transaction.png', 
         route_array: ['/transaction','/transaction/edit','/transaction'],
         route: 'transaction',
         group: 'top',
@@ -32,7 +32,7 @@ export const sidebarArray: SidebarElements[] = [
 
     {   
     name: 'Translation', 
-    icon: '', 
+    icon: './assets/translation.png', 
     route_array: ['/translation/EditingAndProofreadingMain','/translation/WebsiteMain','translation/documentMain','/translation/documentTranslation','translation/websiteTranslation','translation/EditingAndProofreading'],
     route: '/transaction',
     group: 'top',
@@ -75,7 +75,7 @@ export const sidebarArray: SidebarElements[] = [
 
     {  
      name: 'Notifications', 
-    icon: '', 
+    icon: './assets/notification.png', 
     route_array: ['/notification'],
     route: 'notification',
     group: 'bottom',
@@ -86,23 +86,12 @@ export const sidebarArray: SidebarElements[] = [
 
 {  
     name: 'Admins', 
-   icon: '', 
+   icon: './assets/admin.png', 
    route_array: ['/admins', '/admins/add', '/admins/edit'],
    route: 'admins',
    group: 'bottom',
    dropdown_Array: [],
    show: '',
    function: ''
-},
-
-{  
-    name: 'Log out', 
-   icon: '', 
-   route_array: ['/settings'],
-   route: 'settings',
-   group: 'bottom',
-   dropdown_Array: [],
-   show: '',
-   function: 'logout()'
-},
+}
 ]
