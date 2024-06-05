@@ -19,18 +19,28 @@ export class SidebarComponent implements OnInit{
 
   
   // Audio Visual
-  AudioVisual_routes = ['audioVisual/TranslationMain','audioVisual/TranscriptionMain','audioVisual/SubtitlingMain']
-        // 
-        Sub_AudioVisual_routes = ['audioVisual/SubtitlingMain']
-        // 
-        Transcription_AudioVisual_routes = ['audioVisual/TranscriptionMain']
-        // 
-        Translation_AudioVisual_routes = ['audioVisual/TranslationMain']
+  // AudioVisual_routes = ['audioVisual/TranslationMain','audioVisual/TranscriptionMain','audioVisual/SubtitlingMain']
+  //       // 
+  //       Sub_AudioVisual_routes = ['audioVisual/SubtitlingMain']
+  //       // 
+  //       Transcription_AudioVisual_routes = ['audioVisual/TranscriptionMain']
+  //       // 
+  //       Translation_AudioVisual_routes = ['audioVisual/TranslationMain']
 
-  contentServices_routes =['/contentServices','/contentServices','/contentServices'];
-  analytics_routes = ['/analytics']
-  users_routes = ['/users', '/users/view','/users'];
+  // contentServices_routes =['/contentServices','/contentServices','/contentServices'];
+  // analytics_routes = ['/analytics']
+  // users_routes = ['/users', '/users/view','/users'];
 
+  logout_element: any = {  
+    name: 'Log out', 
+   icon: './assets/notification.png', 
+   route_array: ['/settings'],
+   route: 'settings',
+   group: 'bottom',
+   dropdown_Array: [],
+   show: '',
+   function: 'logout()'
+}
 
   sidebarArray: SidebarElements [] = []
 

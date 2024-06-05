@@ -1,7 +1,7 @@
 <app-loading *ngIf="showloadingOnLogin"></app-loading>
 
 <div class="mainn">
-    <header class="sidebar" [ngClass]="{'showSidebar': showHeader()}">
+    <header class="sidebar" [ngClass]="{'showSidebar': !showHeader()}">
         <app-sidebar></app-sidebar>
     </header>
 
