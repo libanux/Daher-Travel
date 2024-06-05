@@ -18,25 +18,25 @@ showLogo: boolean = true;
 constructor(private router: Router, private renderer: Renderer2) { }
 
 ngOnInit(): void {
-  this.checkScreenWidth();
+  // this.checkScreenWidth();
   setTimeout(() => { this.showShimmer = false;}, 3000);
 }
 
 @HostListener('window:resize', ['$event'])
 onResize(event: Event): void {
-  this.checkScreenWidth();
+  // this.checkScreenWidth();
 }
 
-private checkScreenWidth(): void {
-  const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+// private checkScreenWidth(): void {
+//   const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-  if (screenWidth > 500) {
-    this.DontShowGender();
-  } 
-  else {
+//   if (screenWidth > 500) {
+//     this.DontShowGender();
+//   } 
+//   else {
    
-  }
-}
+//   }
+// }
 
 logout() {
   localStorage.removeItem('uid');
