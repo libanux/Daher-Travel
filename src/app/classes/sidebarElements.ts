@@ -44,8 +44,8 @@ export const sidebarArray: SidebarElements[] = [
     {  
      name: 'Labor Recruitment', 
     icon: './assets/admin.png', 
-    route_array: ['/recruitment'],
-    route: 'recruitment',
+    route_array: ['/recruting'],
+    route: 'recruting',
     group: 'top',
     dropdown_Array: [],
     show: '',
