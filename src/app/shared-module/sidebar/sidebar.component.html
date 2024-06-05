@@ -13,17 +13,17 @@
 <ul class="TopSidebarArray">
 
   <div *ngFor="let element of sidebarArray">
-    <div *ngIf="element.group=='top'">
+    <div *ngIf="element.group=='top'" [class.active]="Active(element.route_array)" >
       <div *ngIf="element.dropdown_Array.length==0">
-        <li (click)="moveToRoute(element.route)"  [class.active]="Active(element.route_array)" data-bs-dismiss="offcanvas" aria-label="Close">
+        <li (click)="moveToRoute(element.route)" data-bs-dismiss="offcanvas" aria-label="Close">
           <img class="svg-image" [src]="element.icon" alt="">
           {{ element.name }}
         </li>
       </div>
 
 
-      <div *ngIf="element.dropdown_Array.length>0">
-        <li class="LiWithDropdown" [class.active]="Active(element.route_array)" data-bs-dismiss="offcanvas" aria-label="Close" (click)="showMore(element.name)"> 
+      <div *ngIf="element.dropdown_Array.length>0" [class.active]="Active(element.route_array)">
+        <li class="LiWithDropdown" data-bs-dismiss="offcanvas" aria-label="Close" (click)="showMore(element.name)"> 
           <div class="div1">
             <img class="svg-image" [src]="element.icon" alt="">
             {{element.name}}
@@ -58,8 +58,8 @@
   <div *ngFor="let element of sidebarArray">
     <div *ngIf="element.group=='bottom'">
   
-      <div *ngIf="element.dropdown_Array.length==0">
-        <li (click)='element.function' class="bottomLinks" (click)="moveToRoute(element.route)"  [class.active]="Active(element.route_array)" data-bs-dismiss="offcanvas" aria-label="Close">
+      <div *ngIf="element.dropdown_Array.length==0" [class.active]="Active(element.route_array)" >
+        <li (click)='element.function' class="bottomLinks" (click)="moveToRoute(element.route)" data-bs-dismiss="offcanvas" aria-label="Close">
           <img class="svg-image" [src]="element.icon" alt="">
           {{ element.name }}
         </li>
@@ -69,8 +69,9 @@
   
   <div>
     <div>
-      <div>
-        <li (click)="logout() "class="bottomLinks" (click)="moveToRoute(logout_element.route)"  [class.active]="Active(logout_element.route_array)" data-bs-dismiss="offcanvas" aria-label="Close">
+
+      <div [class.active]="Active(logout_element.route_array)">
+        <li (click)="logout() "class="bottomLinks" (click)="moveToRoute(logout_element.route)" data-bs-dismiss="offcanvas" aria-label="Close">
           <img class="svg-image" [src]="logout_element.icon" alt="">
           {{ logout_element.name }}
         </li>

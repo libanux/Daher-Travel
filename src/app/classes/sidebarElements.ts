@@ -21,7 +21,7 @@ export const sidebarArray: SidebarElements[] = [
     },
 
     {   name: 'Package', 
-        icon: './assets/admin.png', 
+        icon: './assets/package.png', 
         route_array: ['/package'],
         route: 'package',
         group: 'top',
@@ -32,7 +32,7 @@ export const sidebarArray: SidebarElements[] = [
 
     {   
     name: 'Visa', 
-    icon: './assets/admin.png', 
+    icon: './assets/visa.png', 
     route_array: ['/visa','/visa/edit','/visa'],
     route: '/visa',
     group: 'top',
@@ -43,7 +43,7 @@ export const sidebarArray: SidebarElements[] = [
 
     {  
      name: 'Labor Recruitment', 
-    icon: './assets/admin.png', 
+    icon: './assets/labor.png', 
     route_array: ['/recruting'],
     route: 'recruting',
     group: 'top',
@@ -54,7 +54,7 @@ export const sidebarArray: SidebarElements[] = [
 
 {  
     name: 'Accounting', 
-   icon: './assets/admin.png', 
+   icon: './assets/acc.png', 
    route_array: ['/accounting'],
    route: 'accounting',
    group: 'top',

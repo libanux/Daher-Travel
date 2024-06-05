@@ -11,7 +11,7 @@ import { SidebarElements, sidebarArray } from '../../classes/sidebarElements';
 })
 export class SidebarComponent implements OnInit {
   @Input() showCloseButton = false;
-  @Input() logo = './assets/download.png'
+  @Input() logo = './assets/daher-trave-ma2sous.png'
 
   sidebarArray: SidebarElements [] = []
 

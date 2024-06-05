@@ -20,9 +20,9 @@ header {
 
 .LogoIcon {
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin: 10px 0 0 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
 }
 
 .LogoIcon .logo {
@@ -54,6 +54,12 @@ aside .TopSidebarArray {
 aside .TopSidebarArray div,
 aside .BOTTOMSidebarArray div{
   width: 100%;
+}
+
+aside .TopSidebarArray div div div,
+aside .BOTTOMSidebarArray div div div
+{
+  padding-left: 10px;
 }
 
 aside .TopSidebarArray .svg-image,
@@ -100,33 +106,23 @@ aside .LiWithDropdown .div1 {
 }
 
 /* FOR BOTH */
-aside .TopSidebarArray li:hover,
+aside .TopSidebarArray div:hover,
 aside .showmoreUL li:hover,
 aside .LiWithDropdown:hover,
-aside .BOTTOMSidebarArray .bottomLinks:hover
- {
+aside .BOTTOMSidebarArray div div div:hover{
   background-color:  #e9f5fb;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
-aside .TopSidebarArray li.active,
-aside .LiWithDropdown.active,
-aside .BOTTOMSidebarArray .bottomLinks.active
- {
+aside .TopSidebarArray div.active,
+aside .BOTTOMSidebarArray .bottomLinks.active{
   background-color:  #e9f5fb;
   border-right-style: solid;
   border-color: #1e2e62;
   border-width: 3px;
-  color: #1e2e62;
+  color: #d4c823;
   width: 100%;
-}
-
-aside .TopSidebarArray li.active .svg-image path,
-aside .BOTTOMSidebarArray li.active .svg-image path
-{
-  stroke: #1e2e62;
-  fill: #1e2e62;
 }
 
 
@@ -174,7 +170,6 @@ aside .showmoreUL li {
   width: 220px;
 }
 
-/* Styles for screens with a width between 600 and 900 pixels (inclusive) */
 @media screen and (min-width: 949px) and (max-width: 1200px) {
   aside {
     width: 220px;
