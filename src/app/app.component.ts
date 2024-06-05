@@ -38,27 +38,17 @@ ngOnInit(): void {
       .subscribe((event: NavigationEnd) => {
         this.zone.run(() => {
           if (event.url === '/') {
-            // this.showHeader = false;
-            // this.showSidebar = false;
-
             this.showHeader.set(false)
             this.showSidebar.set(false)
 
           } else {
             setTimeout(() => {
               this.showloadingOnLogin = false;
-              // this.showHeader = true;
-            // this.showSidebar = true;
-
               this.showHeader.set(true)
               this.showSidebar.set(true)
 
             }, 1000);
           }
-
-          // if (event.url === '/dashboard') {
-          //   this.showSearchBar = false;
-          // }
 
           if (event.url === '/dashboard' && this.showSidebar() == false) {
             this.showloadingOnLogin = true;

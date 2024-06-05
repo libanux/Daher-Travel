@@ -20,10 +20,10 @@ export const sidebarArray: SidebarElements[] = [
         function: ''
     },
 
-    {   name: 'Transaction', 
-        icon: './assets/transaction.png', 
-        route_array: ['/transaction','/transaction/edit','/transaction'],
-        route: 'transaction',
+    {   name: 'Package', 
+        icon: './assets/admin.png', 
+        route_array: ['/package'],
+        route: 'package',
         group: 'top',
         dropdown_Array: [],
         show: '',
@@ -31,57 +31,36 @@ export const sidebarArray: SidebarElements[] = [
     },
 
     {   
-    name: 'Translation', 
-    icon: './assets/translation.png', 
-    route_array: ['/translation/EditingAndProofreadingMain','/translation/WebsiteMain','translation/documentMain','/translation/documentTranslation','translation/websiteTranslation','translation/EditingAndProofreading'],
-    route: '/transaction',
+    name: 'Visa', 
+    icon: './assets/admin.png', 
+    route_array: ['/visa','/visa/edit','/visa'],
+    route: '/visa',
     group: 'top',
     show: 'showTranslation',
     function: '',
-    dropdown_Array: [
-        {   
-        name: 'Document Translation', 
-        icon: '', 
-        route_array: ['translation/documentMain','/translation/documentTranslation'],
-        route: 'translation/documentMain',
-        group: 'top',
-        dropdown_Array: [],
-        show: '',
-        function: ''
-    }
-    ,{   
-        name: 'Website Translation', 
-        icon: '', 
-        route_array: ['translation/WebsiteMain','/translation/websiteTranslation'],
-        route: 'translation/WebsiteMain',
-        group: 'top',
-        dropdown_Array: [],
-        show: '',
-        function: ''
-    }
-    ,{   
-        name: 'Editing & Proofreading', 
-        icon: '', 
-        route_array: ['translation/EditingAndProofreadingMain','/translation/EditingAndProofreading'],
-        route: 'translation/EditingAndProofreadingMain',
-        group: 'top',
-        dropdown_Array: [],
-        show: '',
-        function: ''
-    },
-    
-    ]
+    dropdown_Array: [],
     },
 
     {  
-     name: 'Notifications', 
-    icon: './assets/notification.png', 
-    route_array: ['/notification'],
-    route: 'notification',
-    group: 'bottom',
+     name: 'Labor Recruitment', 
+    icon: './assets/admin.png', 
+    route_array: ['/recruitment'],
+    route: 'recruitment',
+    group: 'top',
     dropdown_Array: [],
     show: '',
     function: ''
+},
+
+{  
+    name: 'Accounting', 
+   icon: './assets/admin.png', 
+   route_array: ['/accounting'],
+   route: 'accounting',
+   group: 'top',
+   dropdown_Array: [],
+   show: '',
+   function: ''
 },
 
 {  
@@ -94,4 +73,5 @@ export const sidebarArray: SidebarElements[] = [
    show: '',
    function: ''
 }
+
 ]

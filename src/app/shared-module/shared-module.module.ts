@@ -18,7 +18,6 @@ import { DropdownFilterComponent } from './dropdown-filter/dropdown-filter.compo
 import { CountBoxComponent } from './count-box/count-box.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ChattingComponent } from './chatting/chatting.component';
 import { ChartComponent } from './chart/chart.component';
 import { ChartModule } from 'primeng/chart';
 import { AgChartsAngularModule } from 'ag-charts-angular';
@@ -49,7 +48,6 @@ declarations: [
   CountBoxComponent,
   ProgressBarComponent,
   NotFoundComponent,
-  ChattingComponent,
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,
@@ -76,7 +74,6 @@ exports: [
   ProgressBarComponent,
   NotFoundComponent,
   PaginationComponent,
-  ChattingComponent,
   ChartComponent,
   BarChartComponent,
   RoundChartComponent,

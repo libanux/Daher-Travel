@@ -2,33 +2,27 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
-  //a
+  //auth
   { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  
+   // accounting
   { path: 'accounting', loadChildren: () => import('./accounting/accounting.module').then(m => m.AccountingModule) },
-
 
   // dashboard
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
 
-  // n
-  { path: 'notification', loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule) },
-
-  //p
+  //package
   { path: 'package', loadChildren: () => import('./package/package.module').then(m => m.PackageModule) },
 
-  //r
+  // labor rec
   { path: 'recruting', loadChildren: () => import('./recruiting/recruiting.module').then(m => m.RecruitingModule) },
 
-  // s
+  //shared
   { path: 'shared', loadChildren: () => import('./shared-module/shared-module.module').then(m => m.SharedModuleModule) },
 
-  // t
-  { path: 'transaction', loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionModule) },
-  { path: 'transcription', loadChildren: () => import('./transcription/transcription.module').then(m => m.HomeModule) },
-  { path: 'translation', loadChildren: () => import('./translation/translation.module').then(m => m.TranslationModule) },
-
-  //v
+  //visa
   { path: 'visa', loadChildren: () => import('./visa/visa.module').then(m => m.VisaModule) },
+
 ];
 
 @NgModule({
