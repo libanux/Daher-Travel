@@ -1,1 +1,38 @@
-<p>rec-table works!</p>
+<main>
+    <section>
+        <!-- TABLE -->
+        <table>
+
+            <!-- TABLE TITLES -->
+            <tr class="highlight-header">
+                <ng-container>
+                    <th class="col-xs-3">Booking ID</th>
+                    <th class="col-xs-3">Worker Type</th>
+                    <th class="col-xs-3">Number of Workers</th>
+                    <th class="col-xs-3">Nationality</th>
+                    <th class="col-xs-3">Age</th>
+                    <th class="col-xs-3">Cost</th>
+                    <th class="col-xs-3">Status</th>
+                    <th class="col-xs-3">Note</th>
+                </ng-container>
+            </tr>
+
+            <!-- TABLE BODY -->
+            <tr *ngFor="let labor of laborArray">
+                <td>{{labor.booking_id}}</td>
+                <td>{{labor.worker_type}}</td>
+                <td>{{labor.nb_of_workers}}</td>
+                <td>{{labor.nationality}}</td>
+                <td>{{labor.age}}</td>
+                <td>{{labor.cost}}</td>
+                <td>{{labor.status}}</td>
+                <td>{{labor.note}}</td>
+            </tr>
+    </table>
+        <!-- TABLE SHIMMER -->
+        <!-- <app-table-shimmer *ngIf="showShimmer"></app-table-shimmer> -->
+    </section>
+    <!-- TABLE PAGING -->
+    <!-- <app-pagination *ngIf="showPaging" (currentPageEvent)="receivePageSize($event)" [pageSize]="ArrayLength">
+    </app-pagination> -->
+</main>
