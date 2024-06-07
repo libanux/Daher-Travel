@@ -39,6 +39,12 @@ export const navItems: NavItem[] = [
     route: '/employee',
   },
   {
+    displayName: 'Admins',
+    iconName: 'user-plus',
+    route: '/admins',
+  },
+  
+  {
     displayName: 'logout',
     iconName: 'login',
     route: '/authentication/login',
