@@ -13,7 +13,7 @@ export class PackageService {
 
   private apiUrl = '';
 
-  constructor(private http: HttpClient,private dateSignal : DateSelectedSignal,) {
+  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
@@ -65,31 +65,55 @@ export class PackageService {
     return this.http.post<any>(this.apiUrl + '/ADD_PACKAGE', requestBody, { headers })
   }
 
-
-    // DELETE PACKAGE
-    DELETE_PACKAGE(delPackage: Package): Observable<any> {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.getToken()}`,
-        'Content-Type': 'application/json'
-      });
-      const requestBody = {
-       "id":delPackage._id
-      };
-      return this.http.post<any>(this.apiUrl + '/DELETE_PACKAGE', requestBody, { headers })
-    }
-
-
-      // FILTER PACKAGE BY DATE
-      FILTER_PACKAGE(filterType: string): Observable<any> {
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${this.getToken()}`,
-          'Content-Type': 'application/json'
-        });
-        const requestBody = {
-            "filterType": filterType,
-            "startDate": this.dateSignal.startDate(),
-            "endDate": this.dateSignal.endDate()
-        };
-        return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
+  // UPDATE PACKAGE
+  UPDATE_PACKAGE(editedPackage: Package): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "id": editedPackage._id,
+      "updateData": {
+        "name": editedPackage.name,
+        "destination": editedPackage.destination,
+        "numberOfPeople": editedPackage.numberOfPeople,
+        "duration": editedPackage.duration,
+        "price": editedPackage.price,
+        "hotels": editedPackage.hotels,
+        "status": editedPackage.status,
+        "sell": editedPackage.sell,
+        "note": editedPackage.note
       }
+
+    };
+    return this.http.post<any>(this.apiUrl + '/UPDATE_PACKAGE', requestBody, { headers })
+  }
+
+
+  // DELETE PACKAGE
+  DELETE_PACKAGE(delPackage: Package): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "id": delPackage._id
+    };
+    return this.http.post<any>(this.apiUrl + '/DELETE_PACKAGE', requestBody, { headers })
+  }
+
+
+  // FILTER PACKAGE BY DATE
+  FILTER_PACKAGE(filterType: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "filterType": filterType,
+      "startDate": this.dateSignal.startDate(),
+      "endDate": this.dateSignal.endDate()
+    };
+    return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
+  }
 }
