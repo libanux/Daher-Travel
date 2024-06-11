@@ -13,7 +13,7 @@
 
     <div>
       <mat-card class="shadow-none">
-        <div class="bg-light-warning text-center rounded" (click)="btnCategoryClick('InProgress')">
+        <div class="bg-light-warning text-center rounded" (click)="btnCategoryClick('pending')">
           <h3 class="text-warning">{{ Inprogress }}</h3>
           <p class="text-warning">In Progress</p>
         </div>
@@ -24,7 +24,7 @@
   <div class="two-sections-header">
     <div>
       <mat-card class="shadow-none">
-        <div class="bg-light-success text-center rounded" (click)="btnCategoryClick('complete')">
+        <div class="bg-light-success text-center rounded" (click)="btnCategoryClick('completed')">
           <h3 class="text-success">{{ Completed }}</h3>
           <p class="text-success">Completed</p>
         </div>
@@ -33,7 +33,7 @@
 
     <div>
       <mat-card class="shadow-none">
-        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('inactive')">
+        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('canceled')">
           <h3 class="text-error">{{ Cancelled }}</h3>
           <p class="text-error">Cancelled</p>
         </div>
@@ -53,45 +53,45 @@
 
         <section>
           <div>
-            <input type="text" placeholder="{{Name}}">
+            <input type="text" >
           </div>
           <div>
-            <input type="text" placeholder="{{Nationality}}">
-          </div>
-        </section>
-
-        <section>
-          <div>
-            <input type="text" placeholder="{{Gender}}">
-          </div>
-          <div>
-            <input type="text" placeholder="{{Type}}">
+            <input type="text" >
           </div>
         </section>
 
         <section>
           <div>
-            <input type="text" placeholder="{{Age}}">
+            <input type="text" >
           </div>
           <div>
-            <input type="text" placeholder="{{Note}}">
+            <input type="text">
+          </div>
+        </section>
+
+        <section>
+          <div>
+            <input type="text">
           </div>
           <div>
-            <input type="text" placeholder="{{Status}}">
+            <input type="text" >
+          </div>
+          <div>
+            <input type="text" >
           </div>
         </section>
 
 
         <section>
           <div>
-            <input type="text" placeholder="{{Note}}">
+            <input type="text">
           </div>
 
           <div>
             <select>
-              <option value="Pending">InProgress</option>
-              <option value="Approved">Active</option>
-              <option value="Rejected">Inactive</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="canceled">Cancelled</option>
             </select>
           </div>
         </section>
@@ -110,10 +110,6 @@
   </mat-card-content>
 </mat-card>
 
-
-
-
-
 <!-- MAIN TABLE -->
 <mat-card class="cardWithShadow">
   <!-- SEARCH BAR -->
@@ -121,7 +117,7 @@
    <header>
     <div class="col-sm-4 p-20 searchbar ">
       <mat-form-field appearance="outline" class="hide-hint custom-search ">
-        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Search labors" />
+        <input matInput  placeholder="Search labors" />
         <mat-icon matSuffix>
           <i-tabler name="search" class="icon-15"></i-tabler>
         </mat-icon>
@@ -145,7 +141,7 @@
   <mat-card-content>
     <!-- TABLE BODY -->
     <div class="table-responsive">
-      <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+      <table mat-table [dataSource]="recruitings" multiTemplateDataRows>
         @for( column of displayedColumns; track column) {
         <ng-container matColumnDef="{{ column }}">
           <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
