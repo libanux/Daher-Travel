@@ -55,7 +55,6 @@ import { AddedDialogComponent } from './invoice/add-invoice/added-dialog/added-d
 // labor
 import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
 
-
 // visa
 import { VisaComponentComponent } from './visa-component/visa-component.component';
 import { ViewticketComponent } from './ticketlist/viewticket/viewticket.component';

@@ -21,26 +21,14 @@ export class VisaService {
   }
 
   //GET ALL PAYMENTS PER PAGE
-  GET_VISA_PER_PAGE(page_Number: number): Observable<any> {
+  GET_ALL_VISA(): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
       'Content-Type': 'application/json' 
     });
 
-    let startRow = page_Number * this.pagingSize
-    let endRow = this.pagingSize + (page_Number * this.pagingSize)
-
-    // Define the request body
-    const requestBody = {
-      "OWNER_ID": 1,
-      "PAYMENT_METHOD": "",
-      "START_ROW": startRow,
-      "END_ROW": endRow,
-      "TOTAL_COUNT": 0
-    };
-
-    return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_CRITERIA_ADV', requestBody, { headers });
+    return this.httpClient.get<any>(this.apiUrl + '/GET_ALL_VISA', { headers });
   }
 
   //EDIT PAYMENT
