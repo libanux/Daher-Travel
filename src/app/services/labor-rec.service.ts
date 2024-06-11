@@ -66,24 +66,24 @@ export class LaborRecService {
     return this.http.post<any>(this.apiUrl + '/ADD_RECRUITING', requestBody, { headers })
   }
 
-  // UPDATE PACKAGE
+  // UPDATE RECRUITING RECORD
   UPDATE_RECRUITING(editedRecruitng: LaborList): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "id": editedRecruitng.id,
+      "id": editedRecruitng._id,
       "updateData": {
         "name": editedRecruitng.name,
-      "nationality": editedRecruitng.nationality,
-      "gender": editedRecruitng.gender,
-      "type": editedRecruitng.type,
-      "age": editedRecruitng.age,
-      "price": editedRecruitng.price,
-      "status": editedRecruitng.status,
-      "sell": editedRecruitng.sell,
-      "note": editedRecruitng.note
+        "nationality": editedRecruitng.nationality,
+        "gender": editedRecruitng.gender,
+        "type": editedRecruitng.type,
+        "age": editedRecruitng.age,
+        "price": editedRecruitng.price,
+        "status": editedRecruitng.status,
+        "sell": editedRecruitng.sell,
+        "note": editedRecruitng.note
       }
 
     };
@@ -92,29 +92,32 @@ export class LaborRecService {
 
 
   // DELETE RECRUITING RECORD
-  DELETE_RECRUITING(delRecruitinge: LaborList): Observable<any> {
+  DELETE_RECRUITING(delRecruiting: LaborList): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
+
     const requestBody = {
-      "id": delRecruitinge.id
+      "id": delRecruiting._id
     };
+
+    console.log("element to delete:", delRecruiting)
     return this.http.post<any>(this.apiUrl + '/DELETE_RECRUITING', requestBody, { headers })
   }
 
 
-//   // FILTER PACKAGE BY DATE
-//   FILTER_PACKAGE(filterType: string): Observable<any> {
-//     const headers = new HttpHeaders({
-//       'Authorization': `Bearer ${this.getToken()}`,
-//       'Content-Type': 'application/json'
-//     });
-//     const requestBody = {
-//       "filterType": filterType,
-//       "startDate": this.dateSignal.startDate(),
-//       "endDate": this.dateSignal.endDate()
-//     };
-//     return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
-//   }
+  //   // FILTER PACKAGE BY DATE
+  //   FILTER_PACKAGE(filterType: string): Observable<any> {
+  //     const headers = new HttpHeaders({
+  //       'Authorization': `Bearer ${this.getToken()}`,
+  //       'Content-Type': 'application/json'
+  //     });
+  //     const requestBody = {
+  //       "filterType": filterType,
+  //       "startDate": this.dateSignal.startDate(),
+  //       "endDate": this.dateSignal.endDate()
+  //     };
+  //     return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
+  //   }
 }

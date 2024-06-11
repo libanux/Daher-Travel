@@ -40,7 +40,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //RECRUITING ON EDIT
   viewPackage: LaborList
-  editedpackage: LaborList
+  editedrecruiting: LaborList
 
   //TABLE COLUMNS
   displayedColumns: string[] = [
@@ -80,7 +80,15 @@ export class LaborMainComponent implements AfterViewInit {
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
 
-  constructor(public dialog: MatDialog, private recruitingService: LaborRecService) { }
+  constructor(public dialog: MatDialog, private recruitingService: LaborRecService) {
+    this.viewPackage = new LaborList()
+    this.editedrecruiting = new LaborList()
+    this.editedrecruiting.status='pending'
+    this.editedrecruiting.sell =1
+    this.editedrecruiting.price =1
+    this.editedrecruiting.age =1
+    this.editedrecruiting.gender = 'female'
+   }
 
   ngOnInit(): void {
 this.FETCH_RECRUITINGS();
@@ -174,21 +182,42 @@ this.FETCH_RECRUITINGS();
 
 
 
+ // SET UPDATE VALUES
+ UPDATE(obj: LaborList): void {
+  this.ShowAddButoon  = false; 
+  this.editedrecruiting = { ...obj }; 
+}
 
-  //UPDATE ROW VALUES
-  Update(obj: any): void {
-    this.ShowAddButoon = false;
-    console.log("Hereee")
-    // this.Name = obj.name
-    // this.Nationality = obj.nationality
-    // this.Gender = obj.gender
-    // this.Type = obj.type
-    // this.Age = obj.age
-    // this.Cost = obj.cost
-    // this.Note = obj.note
-    // this.Status = obj.status
 
+//UPDATE RECRUITING RECORD
+UPDATE_RECRUITING(){
+this.recruitingService.UPDATE_RECRUITING(this.editedrecruiting).subscribe({
+  next: (response: any) => {
+    this.FETCH_RECRUITINGS();
+    this.CLEAR_VALUES(this.editedrecruiting)
+  },
+  error: (error: any) => {
+    console.error('Error:', error.error);
+  },
+  complete: () => { }
+});
+
+}
+
+  //CLEAR OBJECT VALUES
+  CLEAR_VALUES(obj: LaborList) {
+    obj._id = '';
+    obj.name = '';
+    obj.nationality = '';
+    obj.age = 0;
+    obj.type = '';
+    obj.sell = 0;
+    obj.price = 0;
+    obj.note = '';
+    obj.status = '';
   }
+
+
 
 
   
