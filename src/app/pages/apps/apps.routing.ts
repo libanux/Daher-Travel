@@ -12,7 +12,6 @@ import { AppInvoiceViewComponent } from './invoice/invoice-view/invoice-view.com
 import { AppEditInvoiceComponent } from './invoice/edit-invoice/edit-invoice.component';
 import { ViewticketComponent } from './ticketlist/viewticket/viewticket.component';
 import { LaborRecModule } from './labor-rec/labor-rec.module';
-import { ViewLaborComponent } from './labor-rec/view-labor/view-labor.component';
 import { VisaComponentComponent } from './visa-component/visa-component.component';
 import { LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
 import { TicketsComponent } from './tickets/tickets.component';
@@ -82,10 +81,7 @@ export const AppsRoutes: Routes = [
         path: 'viewPackage/:id',
         component:ViewticketComponent
       },
-      {
-        path: 'viewLabor/:id',
-        component:ViewLaborComponent
-      },
+ 
 
       {
         path: 'labors',

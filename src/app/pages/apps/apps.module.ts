@@ -53,8 +53,8 @@ import { OkDialogComponent } from './invoice/edit-invoice/ok-dialog/ok-dialog.co
 import { AddedDialogComponent } from './invoice/add-invoice/added-dialog/added-dialog.component';
 
 // labor
-import { LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
-import { ViewLaborComponent } from './labor-rec/view-labor/view-labor.component';
+import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
+
 
 // visa
 import { VisaComponentComponent } from './visa-component/visa-component.component';
@@ -108,13 +108,14 @@ import { AddComponent } from './admins/add-admin/add.component';
     OkDialogComponent,
     VisaComponentComponent,
     LaborMainComponent,
-    ViewLaborComponent,
     AppTicketlistComponent,
     ViewticketComponent,
     TicketsComponent,
     AdminsComponent,
     AdminDialogContentComponent,
-    AddComponent
+    AddComponent,
+    LaborMainComponent,
+    AppRecruitingDialogContentComponent
   ],
   providers: [DatePipe],
 })

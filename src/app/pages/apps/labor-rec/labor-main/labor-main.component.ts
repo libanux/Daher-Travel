@@ -2,9 +2,9 @@ import { AfterViewInit, Component, Inject, Optional, ViewChild } from '@angular/
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LaborList } from '../labor';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { labors } from '../labor-data';
+import {  MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { LaborRecService } from 'src/app/services/labor-rec.service';
 
 interface month {
   value: string;
@@ -29,27 +29,21 @@ interface month {
 
 export class LaborMainComponent implements AfterViewInit {
 
+
   ShowAddButoon = true;
+  selectedMonth: string = '';
 
+  //MAIN RECRUITING ARRAY
+  recruitings: any[] = []
+  showCalendar: boolean = false;
+  selectedDate: Date | null = null; 
 
-  Name = 'Name';
-  Nationality = 'Nationality';
-  Gender = 'Gender';
-  Type = 'Type';
-  Age = 'Age';
-  Cost = 'Cost';
-  Note = 'Note';
-  Status = 'Status';
-
-  months: month[] = [
-    { value: 'mar', viewValue: 'March 2023' },
-    { value: 'apr', viewValue: 'April 2023' },
-    { value: 'june', viewValue: 'June 2023' },
-  ];
+  //RECRUITING ON EDIT
+  viewPackage: LaborList
+  editedpackage: LaborList
 
   //TABLE COLUMNS
   displayedColumns: string[] = [
-    'id',
     'name',
     'nationality',
     'gender',
@@ -60,8 +54,10 @@ export class LaborMainComponent implements AfterViewInit {
     'status',
     'action',
   ];
+ 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: LaborList | null = null;
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -71,28 +67,50 @@ export class LaborMainComponent implements AfterViewInit {
   Inprogress = -1;
   Completed = -1;
 
-  //TICKETS
-  dataSource = new MatTableDataSource(labors);
+    //MONTHS FOR FILTER DROPDOWN
+    months: month[] = [
+      { value: 'today', viewValue: 'Today' },
+      { value: 'yesterday', viewValue: 'Yesterday' },
+      { value: 'last Week', viewValue: 'Last Week' },
+      { value: 'Last Month', viewValue: 'Last Month' },
+      { value: 'Last Year', viewValue: 'Last Year' },
+      { value: 'Calendar', viewValue: 'Custom' },
+    ];
 
-  constructor(public dialog: MatDialog) { }
+  //RECRUITINGS RECORDS
+  dataSource = new MatTableDataSource(this.recruitings);
+
+  constructor(public dialog: MatDialog, private recruitingService: LaborRecService) { }
 
   ngOnInit(): void {
-    this.totalCount = this.dataSource.data.length;
-    this.Completed = this.btnCategoryClick('complete');
-    this.Cancelled = this.btnCategoryClick('inactive');
-    this.Inprogress = this.btnCategoryClick('InProgress');
-    this.dataSource = new MatTableDataSource(labors);
+this.FETCH_RECRUITINGS();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  //FILTER DATA
-  applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+ 
 
+  
+  //FETCH PACKAGES FROM API
+  FETCH_RECRUITINGS(): void {
+    this.recruitingService.GET_RECRUITING().subscribe({
+      next: (response: any) => {
+        this.recruitings = response;
+        this.dataSource = new MatTableDataSource(this.recruitings);
+        this.Inprogress = this.btnCategoryClick('pending');
+        this.Completed = this.btnCategoryClick('completed');
+        this.Cancelled = this.btnCategoryClick('canceled');
+        this.totalCount = this.btnCategoryClick('');
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -108,14 +126,6 @@ export class LaborMainComponent implements AfterViewInit {
   CancelUpdate(): void {
     this.ShowAddButoon = true
 
-    this.Name = 'Name';
-    this.Nationality = 'Nationality';
-    this.Type = 'Type';
-    this.Gender = 'Gender';
-    this.Age = 'Age';
-    this.Cost = 'Cost'
-    this.Note = 'Note';
-    this.Status = 'Status';
   }
 
 
@@ -128,11 +138,11 @@ export class LaborMainComponent implements AfterViewInit {
   //GET THE STATUS CLASS
   getStatusClass(status: string): string {
     switch (status) {
-      case 'inprogress':
+      case 'pending':
         return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'complete':
+      case 'completed':
         return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'inactive':
+      case 'canceled':
         return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
       default:
         return '';
@@ -140,63 +150,81 @@ export class LaborMainComponent implements AfterViewInit {
   }
 
 
-  //OPEN UPDATE & DELETE DIALOGS
-  openDialog(action: string, obj: any): void {
-    // obj.action = action;
-    // const dialogRef = this.dialog.open(AppTicketDialogContentComponent, {
-    //   data: obj,
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result.event === 'Add') {
-    //     this.addRowData(result.data);
-    //   } 
-    //   else if (result.event === 'Delete') {
-    //     this.deleteRowData(result.data);
-    //   }
-    // });
-  }
-
-
-  //ADD ROW VALUES
-  addRowData(row_obj: LaborList): void {
-    const d = new Date();
-    this.dataSource.data.unshift({
-      id: d.getTime(),
-      name: row_obj.name,
-      nationality: row_obj.nationality,
-      gender: row_obj.gender,
-      type: row_obj.type,
-      cost: row_obj.cost,
-      age: row_obj.age,
-      note: row_obj.note,
-      status: row_obj.status,
+  // OPEN UPDATE & DELETE DIALOGS
+  openDialog(action: string, delRecruiting: LaborList): void {
+    const dialogRef = this.dialog.open(AppRecruitingDialogContentComponent, {
+      data: { action, delRecruiting }
     });
-    this.table.renderRows();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.event === 'Delete') {
+        this.recruitingService.DELETE_RECRUITING(delRecruiting).subscribe({
+          next: (response: any) => {
+            console.log('Response:', response);
+            this.FETCH_RECRUITINGS()
+          },
+          error: (error: any) => {
+            console.error('Error:', error);
+          },
+          complete: () => { }
+        });
+      }
+    });
   }
+
+
+
 
 
   //UPDATE ROW VALUES
   Update(obj: any): void {
     this.ShowAddButoon = false;
     console.log("Hereee")
-    this.Name = obj.name
-    this.Nationality = obj.nationality
-    this.Gender = obj.gender
-    this.Type = obj.type
-    this.Age = obj.age
-    this.Cost = obj.cost
-    this.Note = obj.note
-    this.Status = obj.status
+    // this.Name = obj.name
+    // this.Nationality = obj.nationality
+    // this.Gender = obj.gender
+    // this.Type = obj.type
+    // this.Age = obj.age
+    // this.Cost = obj.cost
+    // this.Note = obj.note
+    // this.Status = obj.status
 
   }
 
-  //DELETE ROW VALUES
-  deleteRowData(row_obj: LaborList): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value, key) => {
-      return value.id !== row_obj.id;
-    });
+
+  
+
+}
+
+
+@Component({
+  // tslint:disable-next-line - Disables all
+  selector: 'app-dialogRec-content',
+  templateUrl: './recruiting-dialog-content.html',
+})
+// tslint:disable-next-line - Disables all
+export class AppRecruitingDialogContentComponent {
+  action: string;
+  // tslint:disable-next-line - Disables all
+  local_data: any;
+  package: LaborList
+
+  constructor(
+    public dialogRef: MatDialogRef<AppRecruitingDialogContentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: LaborList
+  ) {
+    this.local_data = { ...data };
+    this.action = this.local_data.action;
+  }
+
+  doAction(): void {
+    this.dialogRef.close({ event: this.action, data: this.local_data });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close({ event: 'Cancel' });
   }
 }
+
 
 
 
