@@ -1,6 +1,6 @@
 export class LaborList {
     constructor(
-      public id: string = '',
+      public _id: string = '',
       public name: string ='',
       public nationality: string ='',
       public gender: string ='',
