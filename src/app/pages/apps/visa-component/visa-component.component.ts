@@ -1,57 +1,13 @@
-const ELEMENT_DATA: DateData[] = [
-  {
-    id: 1,
-    imagePath: 'assets/images/profile/user-1.jpg',
-    uname: 'Sunil Joshi',
-    productName: 'Elite Admin',
-    budget: 3.9,
-    priority: 'low'
-  },
-  {
-    id: 2,
-    imagePath: 'assets/images/profile/user-2.jpg',
-    uname: 'Andrew McDownland',
-    productName: 'Real Homes Theme',
-    budget: 24.5,
-    priority: 'medium'
-  },
-  {
-    id: 3,
-    imagePath: 'assets/images/profile/user-3.jpg',
-    uname: 'Christopher Jamil',
-    productName: 'MedicalPro Theme',
-    budget: 12.8,
-    priority: 'high'
-  },
-  {
-    id: 4,
-    imagePath: 'assets/images/profile/user-4.jpg',
-    uname: 'Nirav Joshi',
-    productName: 'Hosting Press HTML',
-    budget: 2.4,
-    priority: 'critical'
-  },
-  {
-    id: 5,
-    imagePath: 'assets/images/profile/user-5.jpg',
-    uname: 'Micheal Doe',
-    
-    productName: 'Helping Hands',
-    budget: 9.3,
-    priority: 'moderate'
-  },
-];
-
 import { Component, OnInit, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { VisaArray } from './visa-data';
 import { VisaClass } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { DateData, month } from 'src/app/classes/DateDropdownClass';
+import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
+import { VisaService } from 'src/app/services/Visa.service';
 
 
 @Component({
@@ -107,29 +63,56 @@ export class VisaComponentComponent implements OnInit {
   Completed = -1;
 
   displayedColumns: string[] = [
-    'id',
+    // '_id',
     'name',
-    'country',
-    'duration',
+    'destination',
+    'updatedAt',
     'sell',
-    'date',
-    'nbOfSeats',
+    'createdAt',
+    'source',
+    'price',
+    'type',
     'note',
     'status',
-    'action',  // If you still need an action column
+    'action'
   ];
+
+  VisaArray : VisaClass [] = []
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: VisaClass | null = null;
-  dataSource = new MatTableDataSource(VisaArray);
+  dataSource = new MatTableDataSource(this.VisaArray);
   valueDisplayed = ''
 
-  constructor(public dialog: MatDialog, private dateSignal : DateSelectedSignal) {
+  constructor(public dialog: MatDialog, private dateSignal : DateSelectedSignal, private visaService : VisaService) {
     effect(()=>(
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     )
     )
    }
+
+   ngOnInit(): void {
+    this.rangeEnd = this.dateSignal.endDate;
+    this.rangeStart = this.dateSignal.startDate;
+    this.dataSource = new MatTableDataSource(this.VisaArray);
+
+    this.FETCH_VISA();
+
+    this.totalCount = this.dataSource.data.length;
+    this.Completed = this.btnCategoryClick('Completed');
+    this.Cancelled = this.btnCategoryClick('Cancelled');
+    this.Inprogress = this.btnCategoryClick('InProgress');
+
+  }
+  
+  FETCH_VISA(){
+    this.visaService.GET_ALL_VISA().subscribe({
+      next: (response: any) => {this.VisaArray = response; console.log(response)},
+      error: (error) => {},
+      complete: () => {}
+    });
+  }
+
 
   onChange(value: string) {
     if (value === 'Calendar') {
@@ -161,16 +144,7 @@ export class VisaComponentComponent implements OnInit {
     });
   }
   
-  ngOnInit(): void {
-    this.rangeEnd = this.dateSignal.endDate;
-    this.rangeStart = this.dateSignal.startDate;
-  
-    this.totalCount = this.dataSource.data.length;
-    this.Completed = this.btnCategoryClick('Completed');
-    this.Cancelled = this.btnCategoryClick('Cancelled');
-    this.Inprogress = this.btnCategoryClick('InProgress');
-    this.dataSource = new MatTableDataSource(VisaArray);
-  }
+
 
   showCalendar: boolean = false;
   selectedMonth: string = '';
@@ -217,7 +191,12 @@ export class VisaComponentComponent implements OnInit {
   this.Status = obj.status
 
   }
- 
+  truncateText(text: string, limit: number): string {
+    if (text && text.length > limit) {
+      return text.substring(0, limit) + '...';
+    }
+    return text;
+  }
   
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
