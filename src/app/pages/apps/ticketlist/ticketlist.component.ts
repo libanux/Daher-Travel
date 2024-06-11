@@ -42,7 +42,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //PACKAGE ON EDIT
   viewPackage: Package
-
+   editedpackage: Package 
   //TABLE COLUMNS
   displayedColumns: string[] = [
     'name',
@@ -82,10 +82,18 @@ export class AppTicketlistComponent implements OnInit {
   dataSource = new MatTableDataSource(this.packages);
 
   packageExample = new Package();
-  editedpackage = new Package();
+
+ 
 
   constructor(public dialog: MatDialog, private packagesService: PackageService) {
     this.viewPackage = new Package()
+    this.editedpackage = new Package()
+    this.editedpackage.status='pending'
+    this.editedpackage.sell =1
+    this.editedpackage.price =1
+    this.editedpackage.numberOfPeople =1
+    this.editedpackage.duration =1
+
   }
 
   ngOnInit(): void {
@@ -122,10 +130,11 @@ export class AppTicketlistComponent implements OnInit {
       next: (response: any) => {
         this.packages = response;
         this.dataSource = new MatTableDataSource(this.packages);
-        this.totalCount = this.dataSource.data.length;
+        // this.totalCount = this.dataSource.data.length;
         this.Inprogress = this.btnCategoryClick('pending');
-        // this.Completed = this.btnCategoryClick('complete');
-        // this.Cancelled = this.btnCategoryClick('cancelled');
+        this.Completed = this.btnCategoryClick('completed');
+        this.Cancelled = this.btnCategoryClick('canceled');
+        this.totalCount = this.btnCategoryClick('');
       },
       error: (error: any) => {
         console.log("Error:", error)
@@ -133,6 +142,11 @@ export class AppTicketlistComponent implements OnInit {
       complete: () => {
       }
     });
+  }
+
+  CancelUpdate(): void {
+    this.ShowAddButoon = true;
+
   }
 
   //ADD USER
@@ -154,7 +168,7 @@ export class AppTicketlistComponent implements OnInit {
     if (value === 'Calendar') {
       this.openCalendarDialog();
     }
-    else{
+    else {
       this.packagesService.FILTER_PACKAGE(value).subscribe({
         next: (response: any) => {
           console.log("Response:", response)
@@ -205,13 +219,48 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-
-  //UPDATE ROW VALUES
-  Update(obj: any): void {
-    this.ShowAddButoon = false
-    this.viewPackage = obj;
-    this.editedpackage = obj;
+  // UPDATE ROW VALUES
+  UPDATE(obj: Package): void {
+    this.ShowAddButoon  = false; 
+    this.editedpackage = { ...obj }; 
   }
+
+UPDATE_PACKAGE(){
+  console.log("Edited pack",this.editedpackage)
+  this.packagesService.UPDATE_PACKAGE(this.editedpackage).subscribe({
+    next: (response: any) => {
+      console.log('Response:', response);
+      console.log("Edited pack after edit",this.editedpackage)
+      this.FETCH_PACKAGES();
+      this.CLEAR_VALUES(this.editedpackage)
+
+    },
+    error: (error: any) => {
+      console.error('Error:', error.error);
+    },
+    complete: () => { }
+  });
+
+  }
+
+    //CLEAR OBJECT VALUES
+    CLEAR_VALUES(obj: Package) {
+      console.log("Here")
+      obj._id = '';
+      obj.name = '';
+      obj.source = '';
+      obj.destination = '';
+      obj.duration = 0;
+      obj.hotels = '';
+      obj.numberOfPeople = 0;
+      obj.price = 0;
+      obj.sell = 0;
+      obj.netprofit = 0;
+      obj.note = '';
+      obj.status = '';
+      console.log("Edited cleared:", obj)
+    }
+  
 
 
   // OPEN UPDATE & DELETE DIALOGS
@@ -256,7 +305,7 @@ export class AppTicketlistComponent implements OnInit {
         return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
       case 'completed':
         return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'cancelled':
+      case 'canceled':
         return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
       default:
         return '';

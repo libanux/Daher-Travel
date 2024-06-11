@@ -33,7 +33,7 @@
 
     <div>
       <mat-card class="shadow-none">
-        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('cancelled')">
+        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('canceled')">
           <h3 class="text-error">{{ Cancelled }}</h3>
           <p class="text-error">Cancelled</p>
         </div>
@@ -51,45 +51,63 @@
       <div class="inputsInAdd">
         <section>
           <div>
-            <input type="text" [(ngModel)]="packageExample.name">
-
+            Name
+            <input type="text" [(ngModel)]="editedpackage.name" placeholder="Name">
           </div>
           <div>
-            <input type="text" [(ngModel)]="packageExample.destination">
-          </div>
-        </section>
-
-        <section>
-          <div>
-            <input type="number" [(ngModel)]="packageExample.duration">
+            Source
+            <input type="text" [(ngModel)]="editedpackage.source" placeholder="Source">
           </div>
           <div>
-            <input type="number" [(ngModel)]="packageExample.price">
-          </div>
-        </section>
-
-        <section>
-          <div>
-            <input type="number" [(ngModel)]="packageExample.sell">
-          </div>
-          <div>
-            <input type="text" [(ngModel)]="packageExample.note">
+            Destination
+            <input type="text" [(ngModel)]="editedpackage.destination" placeholder="Destination">
           </div>
         </section>
 
 
         <section>
           <div>
-            <input type="text" [(ngModel)]="packageExample.numberOfPeople">
+            Hotels
+            <input type="text" [(ngModel)]="editedpackage.hotels" placeholder="Hotels">
           </div>
 
+          
+        </section>
 
+        <section>
           <div>
-            <select [(ngModel)]="packageExample.status">
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+            Duration
+            <input type="number" [(ngModel)]="editedpackage.duration" min="1" placeholder="Duration">
+          </div>
+        
+          <div>
+            Seats
+            <input type="number" [(ngModel)]="editedpackage.numberOfPeople" min="1" placeholder="Seats">
+          </div>
+          <div>
+            Price
+            <input type="number" [(ngModel)]="editedpackage.price" min="1" placeholder="Price">
+          </div>
+          <div>
+            Sell
+            <input type="number" [(ngModel)]="editedpackage.sell" min="1" placeholder="Sell">
+          </div>
+        
+        </section>
+
+        <section>
+          <div>
+            Note
+            <textarea type="text" class="textarea" [(ngModel)]="editedpackage.note" placeholder="Note"></textarea>
+          </div>
+          <div>
+            Status
+            <select [(ngModel)]="editedpackage.status">
+              <option class="option-style" value="pending" >Pending</option>
+              <option class="option-style completed" value="completed">Completed</option>
+              <option class="option-style canceled" value="canceled" >Cancelled</option>
             </select>
+            
           </div>
         </section>
       </div>
@@ -99,8 +117,8 @@
       </div>
 
       <div class="TwoButtons" *ngIf="!ShowAddButoon">
-        <button mat-flat-button color="primary">Cancel</button>
-        <button mat-flat-button color="primary" (click)="Update(expandedElement)">Update</button>
+        <button mat-flat-button color="primary" (click)="CancelUpdate()">Cancel</button>
+        <button mat-flat-button color="primary" (click)="UPDATE_PACKAGE()">Update</button>
       </div>
 
     </div>
@@ -130,7 +148,7 @@
             <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
-        
+
       </mat-card-header>
     </div>
   </header>
@@ -185,7 +203,7 @@
 
               <ng-template #actionColumn>
                 <div class="action-link">
-                  <a (click)="Update(element)" class="m-r-10 cursor-pointer">
+                  <a (click)="UPDATE(element)" class="m-r-10 cursor-pointer">
                     <i-tabler name="edit" class="icon-18"></i-tabler>
                   </a>
                   <a class="m-r-10 cursor-pointer" (click)="openDialog('Delete',element)">
