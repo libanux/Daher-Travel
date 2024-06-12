@@ -128,7 +128,8 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES().subscribe({
       next: (response: any) => {
-        this.packages = response;
+        console.log("Response package:",response)
+        this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
         // this.totalCount = this.dataSource.data.length;
         this.Inprogress = this.btnCategoryClick('pending');
