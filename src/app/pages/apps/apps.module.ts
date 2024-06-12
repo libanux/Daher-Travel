@@ -62,6 +62,7 @@ import { AppTicketingDialogContentComponent, TicketsComponent } from './tickets/
 import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.component';
 import { AddComponent } from './admins/add-admin/add.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CustomersComponent } from './customers/customers.component';
 
 @NgModule({
   imports: [
@@ -118,7 +119,8 @@ import { ProfileComponent } from './profile/profile.component';
     AppRecruitingDialogContentComponent,
     ProfileComponent,
     AppTicketDialogContentComponent,
-    AppTicketingDialogContentComponent
+    AppTicketingDialogContentComponent,
+    CustomersComponent
     
   ],
   providers: [DatePipe],

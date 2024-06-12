@@ -16,19 +16,18 @@ import { id } from 'date-fns/locale';
   templateUrl: './visa-component.component.html',
   styleUrl: './visa-component.component.scss',
   animations: [
-      trigger('detailExpand', [
-        state('collapsed', style({ height: '0px', minHeight: '0' })),
-        state('expanded', style({ height: '*' })),
-        transition(
-          'expanded <=> collapsed',
-          animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-        ),
-      ]),
-    ],
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 
 export class VisaComponentComponent implements OnInit {
-
 
   months: month[] = [
     { value: 'Today', viewValue: 'Today' },
@@ -36,13 +35,11 @@ export class VisaComponentComponent implements OnInit {
     { value: 'Last Week', viewValue: 'Last Week' },
     { value: 'Last Month', viewValue: 'Last Month' },
     { value: 'Last Year', viewValue: 'Last Year' },
-    { value: 'Calendar', viewValue: 'Custom' },
+    { value: 'Calendar', viewValue: 'Custom' }
   ];
 
   rangeStart = signal('');
   rangeEnd = signal('');
-
-
   ShowAddButoon = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
@@ -55,7 +52,6 @@ export class VisaComponentComponent implements OnInit {
   Completed = -1;
 
   displayedColumns: string[] = [
-    // '_id',
     'name',
     'destination',
     'updatedAt',
@@ -74,7 +70,7 @@ export class VisaComponentComponent implements OnInit {
     name: '',
     source: '',
     destination: '',
-    sell: '',
+    sell: 0,
     type: '',
     price: 0,
     note: '',
@@ -88,52 +84,55 @@ export class VisaComponentComponent implements OnInit {
   VisaArray = new MatTableDataSource();
   valueDisplayed = ''
 
-  constructor(public dialog: MatDialog, private dateSignal : DateSelectedSignal, private visaService : VisaService) {
-    effect(()=>(
+  constructor(public dialog: MatDialog, private dateSignal: DateSelectedSignal, private visaService: VisaService) {
+    effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     )
     )
-   }
+  }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.rangeEnd = this.dateSignal.endDate;
     this.rangeStart = this.dateSignal.startDate;
-
     this.FETCH_VISA();
-
   }
-  
-// GET ALL VISA'S 
-FETCH_VISA(){
+
+  // GET ALL VISA'S 
+  FETCH_VISA() {
     this.visaService.GET_ALL_VISA().subscribe({
+
       next: (response: any) => {
         this.totalCount = response.length;
+
+        // Calculate status counts without filtering the array
+        this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
+        this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
+        this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
+
         this.VisaArray = new MatTableDataSource(response);
-        this.Completed = this.GET_STATUS_ARRAY_LENGTH('Completed');
-        this.Cancelled = this.GET_STATUS_ARRAY_LENGTH('Cancelled');
-        this.Inprogress = this.GET_STATUS_ARRAY_LENGTH('pending');
       },
-      error: (error) => {},
+      error: (error) => { },
       complete: () => {}
+
     });
-}
-
-onChange(value: string) {
-  if (value === 'Calendar') {
-    this.openCalendarDialog();
   }
 
-  else{
+  onChange(value: string) {
+    if (value === 'Calendar') {
+      this.openCalendarDialog();
+    }
 
+    else {
+
+    }
   }
-}
 
-openCalendarDialog(): void {
+  openCalendarDialog(): void {
     const dialogRef = this.dialog.open(CalendarDialogComponent, {
       width: '350px',
       data: { selectedDate: this.selectedDate }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result) {
@@ -146,8 +145,7 @@ openCalendarDialog(): void {
         // Do something with the selected date
       }
     });
-}
-  
+  }
 
   showCalendar: boolean = false;
   selectedMonth: string = '';
@@ -158,141 +156,126 @@ openCalendarDialog(): void {
     // Do something with the selected date
   }
 
-  cancelSelection() {
-    this.showCalendar = false;
-    this.selectedMonth = '';
-    this.selectedDate = null;
+  // cancelSelection() {
+  //     this.showCalendar = false;
+  //     this.selectedMonth = '';
+  //     this.selectedDate = null;
+  // }
+
+  ngAfterViewInit(): void {
+    this.VisaArray.paginator = this.paginator;
   }
 
-ngAfterViewInit(): void {
-  this.VisaArray.paginator = this.paginator;
-}
+  APPLY_SEARCH_FILTER(filterValue: string): void {
+    this.VisaArray.filter = filterValue.trim().toLowerCase();
+  }
 
-APPLY_SEARCH_FILTER(filterValue: string): void {
-  this.VisaArray.filter = filterValue.trim().toLowerCase();
-}
+  //STATUS FILTERATION
+  FILTER_ARRAY_BY_STATUS(val: any) {
+    this.VisaArray.filter = val.trim().toLowerCase();
+  }
 
-
-//STATUS FILTERATION
-FILTER_ARRAY_BY_STATUS(val: any){
-  this.VisaArray.filter = val.trim().toLowerCase();
-}
-
-GET_STATUS_ARRAY_LENGTH(val: string): number {
-  this.VisaArray.filter = val.trim().toLowerCase();
-  return this.VisaArray.filteredData.length;
-}
-
-truncateText(text: string, limit: number): string {
+  truncateText(text: string, limit: number): string {
     if (text && text.length > limit) {
       return text.substring(0, limit) + '...';
     }
     return text;
-}
-  
-//EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
-EXPAND_ROW(event: Event, element: any, column: string): void {
-  if (column === 'action') {
-    this.expandedElement = element;
   }
-    
-  else {
+
+  //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
+  EXPAND_ROW(event: Event, element: any, column: string): void {
+    if (column === 'action') {
+      this.expandedElement = element;
+    }
+
+    else {
       this.expandedElement = this.expandedElement === element ? null : element;
       event.stopPropagation();
     }
-}
-
-//GET THE STATUS CLASS
-GET_STATUS_CLASS(status: string): string {
-      switch (status) {
-        case 'pending':
-          return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-        case 'completed':
-          return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-        case 'cancelled':
-          return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-        default:
-          return '';
-      }
-}
-
-    
-// ACTION BUTTONS : ADD , UPDATE , CANCEL , DELETE 
-
-// DELETE 
-DELETE_VISA(obj: any): void {
-  
-}
-
-// ADD
-ADD_VISA(){
-
-}
-
-// CONFIRM UPDATE
-UPDATE_VISA(): void {
-  this.ShowAddButoon = false
-
-  // this.Name = obj.name
-  // this.source = obj.source
-  // this.destination = obj.destination
-  // this.sell = obj.sell
-  // this.Date = obj.date
-  // this.Seats = obj.nbOfSeats
-  // this.Note = obj.note
-  // this.Status = obj.status
-}
-
-// SELECT OBJECT TO UPDATE
-SELECTED_VISA(obj: any): void {
-  this.ShowAddButoon = false
-  // this.name = obj.name
-  // this.source = obj.source
-  // this.destination = obj.destination
-  // this.sell = obj.sell
-  // this.date = obj.date
-  // this.nbOfSeats = obj.nbOfSeats
-  // this.note = obj.note
-  // this.status = obj.status
-
-this.ADDED_VISA = {
-  _id: obj._id,
-  name: obj.name,
-  source: obj.source,
-  destination: obj.destination,
-  sell: obj.sell,
-  type: obj.type,
-  price: obj.date,
-  note: obj.note,
-  status: obj.status,
-}
- 
-}
-
-// CANCEL UPDATE
-CANCEL_UPDATE(): void {
-  this.ShowAddButoon = true
-
-  this.ADDED_VISA = {
-    _id: -1,
-    name: '',
-    source: '',
-    destination: '',
-    sell: '',
-    type: '',
-    price: 0,
-    note: '',
-    status: '',
   }
 
-  // this.name = 'Name';
-  // this.source = 'source';
-  // this.destination = 'destination';
-  // this.sell = 'sell';
-  // this.date = 'Date';
-  // this.nbOfSeats = 'Seats';
-  // this.note= 'Note';
-  // this.status = 'Status';
-}
+  //GET THE STATUS CLASS
+  GET_STATUS_CLASS(status: string): string {
+    switch (status) {
+      case 'pending':
+        return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
+      case 'approved':
+        return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
+      case 'rejected':
+        return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
+      default:
+        return '';
+    }
+  }
+
+  // ACTION BUTTONS : ADD , UPDATE , CANCEL , DELETE 
+
+  // DELETE 
+  DELETE_VISA(ID: number): void {
+    this.visaService.DELETE_VISA(ID).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => { this.FETCH_VISA(); }
+    });
+  }
+
+  // ADD
+  ADD_VISA(obj: VisaClass) {
+    console.log(obj)
+    this.visaService.ADD_VISA(obj).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => {
+        this.CANCEL_UPDATE();
+        this.FETCH_VISA();
+      }
+    });
+  }
+
+  // CONFIRM UPDATE
+  UPDATE_VISA(obj: VisaClass): void {
+    this.visaService.UPDATE_VISA(obj).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => {
+        this.CANCEL_UPDATE();
+        this.FETCH_VISA();
+      }
+    });
+  }
+
+  // SELECT OBJECT TO UPDATE
+  SELECTED_VISA(obj: any): void {
+    this.ShowAddButoon = false
+
+    this.ADDED_VISA = {
+      _id: obj._id,
+      name: obj.name,
+      source: obj.source,
+      destination: obj.destination,
+      sell: obj.sell,
+      type: obj.type,
+      price: obj.price,
+      note: obj.note,
+      status: obj.status,
+    }
+
+  }
+
+  // CANCEL UPDATE
+  CANCEL_UPDATE(): void {
+    this.ShowAddButoon = true
+    this.ADDED_VISA = {
+      _id: -1,
+      name: '',
+      source: '',
+      destination: '',
+      sell: 0,
+      type: '',
+      price: 0,
+      note: '',
+      status: '',
+    }
+  }
 
 }

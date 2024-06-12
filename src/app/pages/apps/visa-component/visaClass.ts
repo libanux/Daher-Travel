@@ -4,7 +4,7 @@ export class VisaClass {
       public name: string = '',
       public source: string = '',
       public destination: string = '',
-      public sell: string = '',
+      public sell: number = 0,
       public note: string = '',
       public status: string = '',
       public type: string = '',
