@@ -12,11 +12,29 @@ import { Admin } from 'src/app/classes/admin.class';
 })
 export class AdminsComponent implements AfterViewInit, OnInit {
 
-  admins : Admin [] = [];
-  
+  admins: Admin[] = [];
+
+ ADDED_ADMIN: Admin = {
+    _id: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    password: '',
+    permissions: {
+        packages: 'write',
+        visa: 'write',
+        recruitment: 'write',
+        accounting: 'write',
+        users: 'write',
+        notes: 'write'
+    },
+    token: ''
+};
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
- 
+
   displayedColumns: string[] = [
     'firstname',
     'lastname',
@@ -29,7 +47,7 @@ export class AdminsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe, private adminService : AdminService) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.FETCH_ADMINS()
@@ -40,94 +58,100 @@ export class AdminsComponent implements AfterViewInit, OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  FETCH_ADMINS(){
+  FETCH_ADMINS() {
     this.adminService.GET_ALL_ADMINS().subscribe({
       next: (response: any) => {
         console.log(response)
         this.admins = response
         console.log(this.dataSource)
       },
-      error: (error) => {},
-      complete: () => {}
+      error: (error) => { },
+      complete: () => { }
     });
   }
 
-  applyFilter(filterValue: string): void {
+  APPLY_SEARCH_FILTER(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openDialog(action: string, obj: any): void {
+  OPEN_DIALOG(action: string, obj: any): void {
+    console.log(obj)
+
+    this.ADDED_ADMIN = {
+      _id: obj._id,
+      firstname: obj.firstname,
+      lastname: obj.lastname,
+      email: obj.email,
+      phone: obj.phone,
+      password: obj.password,
+      permissions: {
+          packages: obj.packages,
+          visa: obj.visa,
+          recruitment: obj.recruitment,
+          accounting: obj.accounting,
+          users: obj.users,
+          notes:obj.notes,
+      },
+  
+      token: '',
+    }
+
     obj.action = action;
+
     const dialogRef = this.dialog.open(AdminDialogContentComponent, {
       data: obj,
     });
+
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Add') {
-        this.addRowData(result.data);
-      } else if (result.event === 'Update') {
-        this.updateRowData(result.data);
-      } else if (result.event === 'Delete') {
-        this.deleteRowData(result.data);
+        console.log(result.data)
+        this.ADD_ADMIN(result.data);
+      } 
+      else if (result.event === 'Update') {
+        this.UPDATE_ADMIN(result.data);
+      } 
+      else if (result.event === 'Delete') {
+        this.DELETE_ADMIN(result.data);
       }
     });
   }
 
-  // tslint:disable-next-line - Disables all
-  addRowData(row_obj: Admin): void {
-    // this.dataSource.data.unshift({
-    //   id: this.admins.length + 1,
-    //   Name: row_obj.Name,
-    //   Position: row_obj.Position,
-    //   Email: row_obj.Email,
-    //   Mobile: row_obj.Mobile,
+  ADD_ADMIN(object: Admin): void {
+    this.adminService.ADD_ADMIN(object).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => { this.FETCH_ADMINS(); }
+    });
+  }
 
-    //   DateOfJoining: new Date(),
-    //   Salary: row_obj.Salary,
-    //   Projects: row_obj.Projects,
-    //   imagePath: row_obj.imagePath,
-    // });
-    // this.dialog.open(AppAddEmployeeComponent);
+  UPDATE_ADMIN(row_obj: Admin): void {
     this.table.renderRows();
   }
 
-  // tslint:disable-next-line - Disables all
-  updateRowData(row_obj: Admin): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      // if (value.id === row_obj.id) {
-        // value.Name = row_obj.Name;
-        // value.Position = row_obj.Position;
-        // value.Email = row_obj.Email;
-        // value.Mobile = row_obj.Mobile;
-        // value.DateOfJoining = row_obj.DateOfJoining;
-        // value.Salary = row_obj.Salary;
-        // value.Projects = row_obj.Projects;
-        // value.imagePath = row_obj.imagePath;
-      // }
-      return true;
+  DELETE_ADMIN(ID: string): void {
+    this.adminService.DELETE_ADMIN(ID).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => { this.FETCH_ADMINS(); }
     });
   }
 
   expandedElement: Admin | null = null;
-      //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
-      expandRow(event: Event, element: any, column: string): void {
-        if (column === 'action') {
-          this.expandedElement = element;
-        }
-        else {
-          this.expandedElement = this.expandedElement === element ? null : element;
-          event.stopPropagation();
-        }
-      }
-
-
-  // tslint:disable-next-line - Disables all
-  deleteRowData(row_obj: Admin): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      // return value.id !== row_obj.id;
-    });
+  //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
+  EXPAND_ROW(event: Event, element: any, column: string): void {
+    if (column === 'action') {
+      this.expandedElement = element;
+    }
+    else {
+      this.expandedElement = this.expandedElement === element ? null : element;
+      event.stopPropagation();
+    }
   }
-}
 
+
+
+}
 
 
 
@@ -139,60 +163,37 @@ export class AdminsComponent implements AfterViewInit, OnInit {
 })
 // tslint:disable-next-line: component-class-suffix
 export class AdminDialogContentComponent {
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+  selectedPermission: string = '';
+
+
   action: string;
-  // tslint:disable-next-line - Disables all
-  local_data: any;
-  selectedImage: any = '';
-  joiningDate: any = '';
+  ADMIN_SELECTED: any;
 
   constructor(
-    public datePipe: DatePipe,
     public dialogRef: MatDialogRef<AdminDialogContentComponent>,
-    // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Admin,
-  ) {
-    this.local_data = { ...data };
-    this.action = this.local_data.action;
-    if (this.local_data.DateOfJoining !== undefined) {
-      this.joiningDate = this.datePipe.transform(
-        new Date(this.local_data.DateOfJoining),
-        'yyyy-MM-dd',
-      );
-    }
-    if (this.local_data.imagePath === undefined) {
-      this.local_data.imagePath = 'assets/images/profile/user-1.jpg';
-    }
+  ) 
+  {
+    this.ADMIN_SELECTED = { ...data };
+    this.action = this.ADMIN_SELECTED.action;
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
+    console.log(this.ADMIN_SELECTED)
+    this.dialogRef.close({ event: this.action, data: this.ADMIN_SELECTED });
   }
 
-  closeDialog(): void {
+  ADD(){
+    console.log(this.ADMIN_SELECTED)
+
+  }
+
+  CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
-
-  selectFile(event: any): void {
-    if (!event.target.files[0] || event.target.files[0].length === 0) {
-      // this.msg = 'You must select an image';
-      return;
-    }
-    const mimeType = event.target.files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      // this.msg = "Only images are supported";
-      return;
-    }
-    // tslint:disable-next-line - Disables all
-    const reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    // tslint:disable-next-line - Disables all
-    reader.onload = (_event) => {
-      // tslint:disable-next-line - Disables all
-      this.local_data.imagePath = reader.result;
-    };
-  }
-
-  selectedPermission: string = ''; // Track the selected permission
 
   toggleSubPermissions(permission: string) {
     if (this.selectedPermission === permission) {
@@ -201,4 +202,29 @@ export class AdminDialogContentComponent {
       this.selectedPermission = permission; // Otherwise, set the selected permission
     }
   }
+
+  checkParent(permission: string) {
+    if (permission === 'package') {
+      if (this.package.read || this.package.write) {
+        this.package.selected = true;
+      } else {
+        this.package.selected = false;
+      }
+      if (this.package.write) {
+        this.package.read = true; // Automatically select "Read" when "Write" is selected
+      }
+    } else if (permission === 'visa') {
+      if (this.visa.read || this.visa.write) {
+        this.visa.selected = true;
+      } else {
+        this.visa.selected = false;
+      }
+      if (this.visa.write) {
+        this.visa.read = true; // Automatically select "Read" when "Write" is selected
+      }
+    }
+    // Add similar logic for other permissions
+  }
+
+
 }
