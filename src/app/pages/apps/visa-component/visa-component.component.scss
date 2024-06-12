@@ -2,12 +2,12 @@
     display: flex;
     justify-content: space-between;
     column-gap: 15px;
-
+  
     .inputsInAdd{
         display: flex;
         flex-direction: row;
         column-gap: 5px;
-
+  
         section{
             display: flex;
             flex-direction: row;
@@ -23,22 +23,22 @@
                  }
             }
         }
-
+  
     }
-
+  
     div button {
         min-width: 100px;
     }
-
+  
     .TwoButtons {
         display: flex;
         flex-direction: row;
         column-gap: 10px;
     }
-
-}
-
-.four-sections-header{
+  
+  }
+  
+  .four-sections-header{
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -49,11 +49,10 @@
         flex-direction: row;
         column-gap: 10px;
         div {
-
             width: 100%;
             .shadow-none{
                 div{
-                    cursor: pointer;
+                  cursor: pointer;
                     display: flex;
                     flex-direction: column;
                     padding: 10px;
@@ -71,19 +70,19 @@
             }
         }
     }
-}
-
-.table-responsive {
+  }
+  
+  .table-responsive {
     table {
         th, td, td span {
             cursor: pointer;
             font-size: 14px;
         }
     }
-
-}
-
-.element-td {
+  
+  }
+  
+  .element-td {
     div {
         display: flex;
         flex-direction: row;
@@ -94,27 +93,27 @@
     a {
         cursor: pointer;
     }
-}
-
-.cardWithShadow {
+  }
+  
+  .cardWithShadow {
     header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 5px;
     }
-}
+  }
   
-tr.example-detail-row {
+  tr.example-detail-row {
     height: 0;
-}
+  }
   
-.example-element-row td {
+  .example-element-row td {
     border-bottom-width: 0;
-}
-
-
-@media (max-width: 800px) {
+  }
+  
+  
+  @media (max-width: 800px) {
     .InputsWholeRow{
         display: flex;
         flex-direction: column;
@@ -160,7 +159,7 @@ tr.example-detail-row {
   
     
     }
-
+  
     .four-sections-header{
         width: 100%;
         display: flex;
@@ -177,14 +176,14 @@ tr.example-detail-row {
         }
     }
     
-}
-
-@media (max-width: 600px) {
+  }
+  
+  @media (max-width: 600px) {
     .cardWithShadow {
         header {
             display: flex;
             flex-direction: column;
-
+  
             .filter-date{
                 display: flex;
                 justify-content: flex-end;
@@ -192,7 +191,7 @@ tr.example-detail-row {
             }
         }
     }
-
+  
     .four-sections-header{
         .two-sections-header {
             div {
@@ -207,11 +206,11 @@ tr.example-detail-row {
         }
     }
       
-}
-
-
-
-@media (max-width: 350px) {
+  }
+  
+  
+  
+  @media (max-width: 350px) {
     .InputsWholeRow{
         display: flex;
         flex-direction: column;
@@ -238,11 +237,53 @@ tr.example-detail-row {
             }
     
         }
-
+  
     }
-}
+  }
 
 
+  .details-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    width: 100%;
 
+    .detail-body{
+        display: flex;
+        width: 100%;
+        align-items:center ;
+        justify-content: space-between;
 
+        .col-md-4 {
+            .detail-field {
+                margin-bottom: 0.5rem;
+            }
+        }
+      }
+
+      .invoice-btn-div {
+        .invoice-btn {
+            background-color: #ebb31bfb;
+            border-style: none;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+        }
+        .invoice-btn:hover {
+            cursor: pointer;
+            background-color: #f0cb65fb;
+            color: rgb(7, 42, 107);
+        }
+      }
+  }
+
+  
+
+  
+  
+  
   

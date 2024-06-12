@@ -43,6 +43,7 @@
 
 </div>
 
+<!-- ADD OR UPDATE -->
 <mat-card class="cardWithShadow">
   <mat-card-content>
     <div class="InputsWholeRow">
@@ -125,85 +126,88 @@
       <!-- TABLE BODY -->
       <div class="table-responsive">
         <table mat-table [dataSource]="VisaArray" multiTemplateDataRows>
-
           @for( column of displayedColumns; track column) {
-          <ng-container matColumnDef="{{ column }}">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
-              {{ column | titlecase }}
-            </th>
-            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0"
-              (click)=" expandRow($event, element, column)">
+          
+            <ng-container matColumnDef="{{ column }}">
 
+            <!-- table headers -->
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ column | titlecase }}</th>
+            
+            <!-- table Data -->
+            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0" (click)=" expandRow($event, element, column)">
+  
+             <!-- display row objects -->
               <ng-container *ngIf="column !== 'status'; else statusColumn">
-                <!-- CHECKS IF COLUMN 'ACTION'-->
                 <ng-container *ngIf="column !== 'action'; else actionColumn">
-                  {{ element[column] }}
+                  <!-- {{ element[column] }} -->
                   <ng-container *ngIf="column !== 'note'; else noteColumn">
-                    {{ truncateText(element[column], 10) }}
+                    {{ element[column] }}
                   </ng-container>
                 </ng-container>
-                <!-- SHOW ACTION TEMPLATE -->
-                <ng-template #actionColumn>
-                  <div class="action-link">
-                    <a (click)="Update(element)" class="m-r-10 cursor-pointer">
-                      <i-tabler name="edit" class="icon-18"></i-tabler>
-                    </a>
-                    <a (click)="Delete(element)" class="m-r-10 cursor-pointer">
-                      <i-tabler name="trash" class="icon-18"></i-tabler>
-                    </a>
-                  </div>
-                </ng-template>
+        
+
               </ng-container>
 
-
-            <!-- Apply specific design if the column is 'status' -->
-            <ng-template #statusColumn>
-              <span [ngClass]="getStatusClass(element.status)">
-                {{ element.status }}
-              </span>
-            </ng-template>
-
-            <!-- Handle 'price' column separately -->
-            <ng-template #nameColumn>$ {{ element[column] }}</ng-template>
-            <ng-template #durationColumn>{{ element[column] }} days</ng-template>
-            <ng-template #noteColumn>{{ truncateText(element[column], 20) }}</ng-template>
+              <ng-template #noteColumn>{{ truncateText(element[column], 15) }}</ng-template>
+              <!-- SHOW ACTION TEMPLATE -->
+              <ng-template #actionColumn>
+                    <div class="action-link">
+                      <a (click)="Update(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit" class="icon-18"></i-tabler></a>
+                      <a (click)="Delete(element)" class="m-r-10 cursor-pointer"><i-tabler name="trash" class="icon-18"></i-tabler></a>
+                    </div>
+              </ng-template>
+              <!--IF THE COLUMN IS STATUS THEM APPLY SPECIFIC DESIGN-->
+              <ng-template #statusColumn><span [ngClass]="getStatusClass(element.status)">{{ element.status }}</span></ng-template>
 
             </td>
-          </ng-container>
-          }
 
-          <!-- EXPANDED ROW DETAILS -->
+          </ng-container>
+
+          }
+  
+  <!-- EXPANDED ROW DETAILS -->
 <ng-container matColumnDef="expandedDetail">
-<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-  <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
-    <div class="p-15 rounded b-1 m-b-16 m-x-18">
-      <div class="d-flex align-items-center gap-12">
-                    <span
-                      class="bg-light-primary text-primary icon-48 rounded f-w-600 d-flex align-items-center justify-content-center">
-                      {{ element._id }}
-                    </span>
-                    <div>
-                      <div class="f-s-14 f-w-600 mat-subtitle-1">{{ element.name }}</div>
-                      <div class="f-s-14">{{ element.status }}</div>
-                    </div>
-                  </div>
-      <div class="f-s-14 m-t-8">{{ element.note }}</div>
+  <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+    <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+      <div class="details-container p-3 rounded border mb-3 mx-2">
+
+        <div class="detail-body mt-3">
+            <div class="col-md-4">
+              <div class="detail-field"><strong>name:</strong> {{ element.name }}</div>
+              <div class="detail-field"><strong>source:</strong> {{ element.source }}</div>
+              <div class="detail-field"><strong>destination:</strong> {{ element.destination }}</div>
+            </div>
+            <div class="col-md-4">
+              <div class="detail-field"><strong>type:</strong> {{ element.type }}</div>
+              <div class="detail-field"><strong>price:</strong> {{ element.price }}</div>
+              <div class="detail-field"><strong>sell:</strong> {{ element.sell }}</div>
+            </div>    
+            <div class="col-md-4">
+              <div class="detail-field"><strong>status:</strong> {{ element.status }}</div>
+              <div class="detail-field"><strong>createdAt:</strong> {{ element.createdAt }}</div>
+              <div class="detail-field"><strong>updatedAt:</strong> {{ element.updatedAt }}</div>
+            </div>   
+        </div>
+
+        <div class="invoice-btn-div">
+          <button class="invoice-btn">Print invoice</button>
+        </div>
+
+      </div>
     </div>
-  </div>
-</td>
+  </td>
 </ng-container>
 
-      <!-- HEADER AND ROW DEFINITIONS -->
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-          <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" class="example-element-row"
-            [class.example-expanded-row]="expandedElement === element" (click)="
-            expandedElement = expandedElement === element ? null : element;"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-        </table>
-      </div>
+  
+<!-- HEADER AND ROW DEFINITIONS -->
+<tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+<tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" class="example-element-row" [class.example-expanded-row]="expandedElement === element" (click)=" expandedElement = expandedElement === element ? null : element;"></tr>
+<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
-      <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+</table>
+</div>
 
-  </mat-card-content>
+<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
 
+</mat-card-content>
 </mat-card>
