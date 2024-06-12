@@ -110,8 +110,8 @@
         </section>
       </div>
 
-      <div *ngIf="ShowAddButoon">
-        <button mat-flat-button color="primary"> Add Labor </button>
+      <div *ngIf="ShowAddButoon" class="OneButton">
+        <button mat-flat-button color="primary" (click)="ADD_RECRUITING()"> Add Labor </button>
       </div>
 
       <div class="TwoButtons" *ngIf="!ShowAddButoon">
@@ -166,7 +166,9 @@
             <ng-container *ngIf="column !== 'status'; else statusColumn">
               <!-- CHECKS IF COLUMN 'ACTION'-->
               <ng-container *ngIf="column !== 'action'; else actionColumn">
-                {{ element[column] }}
+                <ng-container *ngIf="column !== 'note'; else noteColumn">
+                  {{ truncateText(element[column], 20) }}
+                </ng-container>
               </ng-container>
               <!-- SHOW ACTION TEMPLATE -->
               <ng-template #actionColumn>
@@ -187,7 +189,10 @@
               <span [ngClass]="getStatusClass(element.status)">
                 {{ element.status === 'complete' ? 'active' : element.status }}
               </span>
-
+            </ng-template>
+             <!-- Handle 'note' column separately -->
+             <ng-template #noteColumn>
+              {{ truncateText(element[column], 20) }}
             </ng-template>
           </td>
         </ng-container>

@@ -1,130 +1,139 @@
 <!-- HEADER AND COUNTS -->
 <div class="four-sections-header">
 
-    <div class="two-sections-header">
-      <div>
-        <mat-card class="shadow-none">
-          <div class="bg-light-primary text-center rounded" (click)="btnCategoryClick('')">
-            <h3 class="text-primary">{{ totalCount }}</h3>
-            <p class="text-primary">Total Ticktes</p>
-          </div>
-        </mat-card>
-      </div>
-    
-      <div>
-        <mat-card class="shadow-none">
-          <div class="bg-light-warning text-center rounded" (click)="btnCategoryClick('InProgress')">
-            <h3 class="text-warning">{{ Inprogress }}</h3>
-            <p class="text-warning">In Progress</p>
-          </div>
-        </mat-card>
-      </div>
-    </div>
-    
   <div class="two-sections-header">
     <div>
       <mat-card class="shadow-none">
-        <div class="bg-light-success text-center rounded" (click)="btnCategoryClick('Completed')">
+        <div class="bg-light-primary text-center rounded" (click)="btnCategoryClick('')">
+          <h3 class="text-primary">{{ totalCount }}</h3>
+          <p class="text-primary">Total Ticktes</p>
+        </div>
+      </mat-card>
+    </div>
+
+    <div>
+      <mat-card class="shadow-none">
+        <div class="bg-light-warning text-center rounded" (click)="btnCategoryClick('pending')">
+          <h3 class="text-warning">{{ Inprogress }}</h3>
+          <p class="text-warning">Pending</p>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="two-sections-header">
+    <div>
+      <mat-card class="shadow-none">
+        <div class="bg-light-success text-center rounded" (click)="btnCategoryClick('completed')">
           <h3 class="text-success">{{ Completed }}</h3>
           <p class="text-success">Completed</p>
         </div>
       </mat-card>
     </div>
-  
+
     <div>
       <mat-card class="shadow-none">
-        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('Cancelled')">
+        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('canceled')">
           <h3 class="text-error">{{ Cancelled }}</h3>
           <p class="text-error">Cancelled</p>
         </div>
       </mat-card>
     </div>
   </div>
-  
-  </div>
-  
-  <!-- Add Row  -->
-  <mat-card class="cardWithShadow">
-    <mat-card-content>
-      <div class="InputsWholeRow">
-  
-        <div class="inputsInAdd">
-    
-          <section>
-            <div>
-              <input type="text" placeholder="{{Customer}}">
-            </div>
-            <div>
-              <input type="text" placeholder="{{IssueDate}}">
-            </div>
-          </section>
-          
-          <section>
-            <div>
-              <input type="text" placeholder="{{Description}}">
-            </div>
-            <div>
-              <input type="text" placeholder="{{Cost}}">
-            </div>
-          </section>
-          
-          <section>
-            <div>
-              <input type="text" placeholder="{{Credit}}">
-            </div>
-            <div>
-              <input type="text" placeholder="{{Balance}}">
-            </div>
-          </section>
-  
-  
-          <section>
-            <div>
-              <input type="text" placeholder="{{Note}}">
-            </div>
-            
-            <div>
-            <select>
-              <option value="Pending">inProgress</option>
-              <option value="Approved">Completed</option>
-              <option value="Rejected">Cancelled</option>
+
+</div>
+
+<!-- Add Row  -->
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <div class="InputsWholeRow">
+
+      <div class="inputsInAdd">
+
+        <section>
+          <div>
+            Name
+            <input type="text" [(ngModel)]="editedTicket.name" placeholder="Name">
+          </div>
+          <div>
+            Source
+            <input type="text" [(ngModel)]="editedTicket.source" placeholder="Source">
+          </div>
+        </section>
+
+        <section>
+          <div>
+            Destination
+            <input type="text" [(ngModel)]="editedTicket.destination" placeholder="Destination">
+          </div>
+          <div>
+            Duration
+            <input type="number" min="1" [(ngModel)]="editedTicket.duration" placeholder="Duration">
+          </div>
+        </section>
+
+        <section>
+          <div>
+            Seats
+            <input type="number" min="1" [(ngModel)]="editedTicket.seats" placeholder="Seats">
+          </div>
+          <div>
+            Price
+            <input type="number" min="1" [(ngModel)]="editedTicket.price" placeholder="Price">
+          </div>
+          <div>
+            Sell
+            <input type="number" min="1" [(ngModel)]="editedTicket.sell" placeholder="Sell">
+          </div>
+        </section>
+
+
+        <section>
+          <div>
+            Note
+            <textarea type="text" class="textarea" [(ngModel)]="editedTicket.note" placeholder="Note"></textarea>
+          </div>
+
+          <div>
+            Status
+            <select [(ngModel)]="editedTicket.status">
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="canceled">Cancelled</option>
             </select>
-            </div>
-          </section>
-         
-  
-  
-  
-        </div>
-  
-        <div *ngIf="ShowAddButoon">
-          <button mat-flat-button color="primary" style="font-size: 11px;"> Add Ticket </button>
-        </div>
-  
-        <div class="TwoButtons" *ngIf="!ShowAddButoon">
-          <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
-          <button mat-flat-button color="primary">Update</button>
-        </div>
-  
+          </div>
+        </section>
       </div>
-    </mat-card-content>
-  </mat-card>
-  
-  
-  <!-- MAIN TABLE -->
-  <mat-card class="cardWithShadow">
-  
-   <!-- Search -->
-   <header>
+
+      <div *ngIf="ShowAddButoon" class="OneButton">
+        <button mat-flat-button color="primary" style="font-size: 11px;" (click)="ADD_TICKETINGS()"> Add Ticket
+        </button>
+      </div>
+
+      <div class="TwoButtons" *ngIf="!ShowAddButoon">
+        <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
+        <button mat-flat-button color="primary" (click)="UPDATE_TICKET()">Update</button>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<!-- MAIN TABLE -->
+<mat-card class="cardWithShadow">
+
+  <!-- Search -->
+  <header>
     <div class="col-sm-4 p-20 searchbar ">
       <mat-form-field appearance="outline" class="hide-hint custom-search ">
-        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Search Packages" />
+        <input matInput placeholder="Search Packages" />
         <mat-icon matSuffix>
           <i-tabler name="search" class="icon-15"></i-tabler>
         </mat-icon>
       </mat-form-field>
     </div>
-  
+
     <div class="filter-date">
       <mat-card-header class="d-flex">
         <mat-form-field class="theme-select" appearance="outline">
@@ -139,112 +148,121 @@
       </mat-card-header>
     </div>
   </header>
-  
-    <mat-card-content>
-      <!-- TABLE BODY -->
-      <div class="table-responsive">
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
-          @for( column of displayedColumns; track column) {
-          <ng-container matColumnDef="{{ column }}">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
-              {{ column | titlecase }}
-            </th>
-            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0"
-              (click)=" expandRow($event, element, column)">
-  
-              <ng-container *ngIf="column !== 'status'; else statusColumn">
-                <!-- CHECKS IF COLUMN 'ACTION'-->
-                <ng-container *ngIf="column !== 'action'; else actionColumn">
-                  {{ element[column] }}
-                </ng-container>
-                <!-- SHOW ACTION TEMPLATE -->
-                <ng-template #actionColumn>
-                  <div class="action-link">
-                    <a (click)="Update(element)" class="m-r-10 cursor-pointer">
-                      <i-tabler name="edit" class="icon-18"></i-tabler>
-                    </a>
-                    <a (click)="openDialog('Delete', element)" class="m-r-10 cursor-pointer">
-                      <i-tabler name="trash" class="icon-18"></i-tabler>
-                    </a>
-                  </div>
-                </ng-template>
-              </ng-container>
-  
-  
-              <!--IF THE COLUMN IS STATUS THEM APPLY SPECIFIC DESIGN-->
-              <ng-template #statusColumn>
-                <span [ngClass]="getStatusClass(element.status)">
-                  {{ element.status }}
-                </span>
-              </ng-template>
-            </td>
-          </ng-container>
-          }
-  
-  <!-- EXPANDED ROW DETAILS -->
-<ng-container matColumnDef="expandedDetail">
-  <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-    <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
-      <div class="details-container p-3 rounded border mb-3 mx-2">
-        <div class="d-flex align-items-center gap-3">
-          <span class="detail-icon bg-light-primary text-primary rounded-circle d-flex align-items-center justify-content-center">
-            {{ element.id }}
-          </span>
-          <div>
-            <div class="detail-name font-weight-bold">
-              {{ element.customer }}
-            </div>
-            <div class="detail-status text-muted">
-              Status: {{ element.status }}
-            </div>
-          </div>
-        </div>
-        <div class="detail-body mt-3">
-          <!-- <div class="row"> -->
-            <div class="col-md-6">
-              <div class="detail-field">
-                <strong>Issue Date:</strong> {{ element.issueDate }}
-              </div>
-              <div class="detail-field">
-                <strong>Description:</strong> {{ element.description }}
-              </div>
-              <div class="detail-note mt-3">
-                <strong>Note:</strong> {{ element.note }}
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="detail-field">
-                <strong>Cost:</strong> {{ element.cost }}
-              </div>
-              <div class="detail-field">
-                <strong>Credit:</strong> {{ element.credit }}
-              </div>
-              <div class="detail-field">
-                <strong>Balance:</strong> {{ element.balance }}
-              </div>
-            </div>
-          <!-- </div> -->
-       
-        </div>
-        <div>
-          <button class="btn bg-light-warning">Print invoice</button>
-        </div>
-      </div>
-    </div>
-  </td>
-</ng-container>
 
-  
-          <!-- HEADER AND ROW DEFINITIONS -->
-          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-          <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" class="example-element-row"
-            [class.example-expanded-row]="expandedElement === element" (click)="
+  <mat-card-content>
+    <!-- TABLE BODY -->
+    <div class="table-responsive">
+      <table mat-table [dataSource]="tickets" multiTemplateDataRows>
+        @for( column of displayedColumns; track column) {
+        <ng-container matColumnDef="{{ column }}">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
+            {{ column | titlecase }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0"
+            (click)=" expandRow($event, element, column)">
+
+            <ng-container *ngIf="column !== 'status'; else statusColumn">
+              <!-- CHECKS IF COLUMN 'ACTION'-->
+              <ng-container *ngIf="column !== 'action'; else actionColumn">
+                <ng-container *ngIf="column !== 'note'; else noteColumn">
+                  {{ truncateText(element[column], 20) }}
+                </ng-container>
+              </ng-container>
+              <!-- SHOW ACTION TEMPLATE -->
+              <ng-template #actionColumn>
+                <div class="action-link">
+                  <a (click)="UPDATE(element)" class="m-r-10 cursor-pointer">
+                    <i-tabler name="edit" class="icon-18"></i-tabler>
+                  </a>
+                  <a (click)="openDialog('Delete', element)" class="m-r-10 cursor-pointer">
+                    <i-tabler name="trash" class="icon-18"></i-tabler>
+                  </a>
+                </div>
+              </ng-template>
+
+
+            </ng-container>
+
+
+            <!--IF THE COLUMN IS STATUS THEM APPLY SPECIFIC DESIGN-->
+            <ng-template #statusColumn>
+              <span [ngClass]="getStatusClass(element.status)">
+                {{ element.status }}
+              </span>
+            </ng-template>
+
+            <ng-template #noteColumn>
+              {{ truncateText(element[column], 20) }}
+            </ng-template>
+          </td>
+        </ng-container>
+        }
+
+        <!-- EXPANDED ROW DETAILS -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+              <div class="details-container p-3 rounded border mb-3 mx-2">
+                <div class="d-flex align-items-center gap-3">
+                  <span
+                    class="detail-icon bg-light-primary text-primary rounded-circle d-flex align-items-center justify-content-center">
+                    {{ element.id }}
+                  </span>
+                  <div>
+                    <div class="detail-name font-weight-bold">
+                      {{ element.customer }}
+                    </div>
+                    <div class="detail-status text-muted">
+                      Status: {{ element.status }}
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-body mt-3">
+                  <!-- <div class="row"> -->
+                  <div class="col-md-6">
+                    <div class="detail-field">
+                      <strong>Issue Date:</strong> {{ element.issueDate }}
+                    </div>
+                    <div class="detail-field">
+                      <strong>Description:</strong> {{ element.description }}
+                    </div>
+                    <div class="detail-note mt-3">
+                      <strong>Note:</strong> {{ element.note }}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="detail-field">
+                      <strong>Cost:</strong> {{ element.cost }}
+                    </div>
+                    <div class="detail-field">
+                      <strong>Credit:</strong> {{ element.credit }}
+                    </div>
+                    <div class="detail-field">
+                      <strong>Balance:</strong> {{ element.balance }}
+                    </div>
+                  </div>
+                  <!-- </div> -->
+
+                </div>
+                <div>
+                  <button class="btn bg-light-warning">Print invoice</button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+
+        <!-- HEADER AND ROW DEFINITIONS -->
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element" (click)="
             expandedElement = expandedElement === element ? null : element;"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-        </table>
-      </div>
-      <!-- TABLE PAGINATION -->
-      <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons>
-      </mat-paginator>
-    </mat-card-content>
-  </mat-card>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      </table>
+    </div>
+    <!-- TABLE PAGINATION -->
+    <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons>
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

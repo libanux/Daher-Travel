@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Inject, Optional, ViewChild } from '@angular/
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LaborList } from '../labor';
-import {  MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
 
@@ -36,7 +36,7 @@ export class LaborMainComponent implements AfterViewInit {
   //MAIN RECRUITING ARRAY
   recruitings: any[] = []
   showCalendar: boolean = false;
-  selectedDate: Date | null = null; 
+  selectedDate: Date | null = null;
 
   //RECRUITING ON EDIT
   viewPackage: LaborList
@@ -49,12 +49,13 @@ export class LaborMainComponent implements AfterViewInit {
     'gender',
     'type',
     'age',
-    'cost',
+    'price',
+    'sell',
     'note',
     'status',
     'action',
   ];
- 
+
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: LaborList | null = null;
 
@@ -67,15 +68,15 @@ export class LaborMainComponent implements AfterViewInit {
   Inprogress = -1;
   Completed = -1;
 
-    //MONTHS FOR FILTER DROPDOWN
-    months: month[] = [
-      { value: 'today', viewValue: 'Today' },
-      { value: 'yesterday', viewValue: 'Yesterday' },
-      { value: 'last Week', viewValue: 'Last Week' },
-      { value: 'Last Month', viewValue: 'Last Month' },
-      { value: 'Last Year', viewValue: 'Last Year' },
-      { value: 'Calendar', viewValue: 'Custom' },
-    ];
+  //MONTHS FOR FILTER DROPDOWN
+  months: month[] = [
+    { value: 'today', viewValue: 'Today' },
+    { value: 'yesterday', viewValue: 'Yesterday' },
+    { value: 'last Week', viewValue: 'Last Week' },
+    { value: 'Last Month', viewValue: 'Last Month' },
+    { value: 'Last Year', viewValue: 'Last Year' },
+    { value: 'Calendar', viewValue: 'Custom' },
+  ];
 
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
@@ -83,24 +84,24 @@ export class LaborMainComponent implements AfterViewInit {
   constructor(public dialog: MatDialog, private recruitingService: LaborRecService) {
     this.viewPackage = new LaborList()
     this.editedrecruiting = new LaborList()
-    this.editedrecruiting.status='pending'
-    this.editedrecruiting.sell =1
-    this.editedrecruiting.price =1
-    this.editedrecruiting.age =1
+    this.editedrecruiting.status = 'pending'
+    this.editedrecruiting.sell = 1
+    this.editedrecruiting.price = 1
+    this.editedrecruiting.age = 1
     this.editedrecruiting.gender = 'female'
-   }
+  }
 
   ngOnInit(): void {
-this.FETCH_RECRUITINGS();
+    this.FETCH_RECRUITINGS();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
- 
 
-  
+
+
   //FETCH PACKAGES FROM API
   FETCH_RECRUITINGS(): void {
     this.recruitingService.GET_RECRUITING().subscribe({
@@ -133,7 +134,7 @@ this.FETCH_RECRUITINGS();
 
   CancelUpdate(): void {
     this.ShowAddButoon = true
-
+    this.CLEAR_VALUES(this.editedrecruiting)
   }
 
 
@@ -157,6 +158,14 @@ this.FETCH_RECRUITINGS();
     }
   }
 
+    //TRUNCATE THE TEXT INTO 20 CHARS
+    truncateText(text: string, limit: number): string {
+      if (text && text.length > limit) {
+        return text.substring(0, limit) + '...';
+      }
+      return text;
+    }
+
 
   // OPEN UPDATE & DELETE DIALOGS
   openDialog(action: string, delRecruiting: LaborList): void {
@@ -179,30 +188,44 @@ this.FETCH_RECRUITINGS();
     });
   }
 
+  //ADD NEW RECRUITING RECORD
+  ADD_RECRUITING(): void {
+    this.recruitingService.ADD_RECRUITING(this.editedrecruiting).subscribe({
+      next: (response: any) => {
+        console.log("Response on add:", response);
+        this.CLEAR_VALUES(this.editedrecruiting)
+        this.FETCH_RECRUITINGS()
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
 
 
+  // SET UPDATE VALUES
+  UPDATE(obj: LaborList): void {
+    this.ShowAddButoon = false;
+    this.editedrecruiting = { ...obj };
+  }
 
- // SET UPDATE VALUES
- UPDATE(obj: LaborList): void {
-  this.ShowAddButoon  = false; 
-  this.editedrecruiting = { ...obj }; 
-}
 
+  //UPDATE RECRUITING RECORD
+  UPDATE_RECRUITING() {
+    this.recruitingService.UPDATE_RECRUITING(this.editedrecruiting).subscribe({
+      next: (response: any) => {
+        this.FETCH_RECRUITINGS();
+        this.CLEAR_VALUES(this.editedrecruiting)
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
 
-//UPDATE RECRUITING RECORD
-UPDATE_RECRUITING(){
-this.recruitingService.UPDATE_RECRUITING(this.editedrecruiting).subscribe({
-  next: (response: any) => {
-    this.FETCH_RECRUITINGS();
-    this.CLEAR_VALUES(this.editedrecruiting)
-  },
-  error: (error: any) => {
-    console.error('Error:', error.error);
-  },
-  complete: () => { }
-});
-
-}
+  }
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: LaborList) {
@@ -216,11 +239,6 @@ this.recruitingService.UPDATE_RECRUITING(this.editedrecruiting).subscribe({
     obj.note = '';
     obj.status = '';
   }
-
-
-
-
-  
 
 }
 

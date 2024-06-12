@@ -1,14 +1,14 @@
 export class Tickets {
-    constructor(
-      public id: number = 0,
-      public customer: string = '',
-      public issueDate: string = '',
-      public description: string = '',
-      public cost: string = '',
-      public credit: string = '',
-      public balance: string = '',
-      public note: string = '',
-      public status: string = '',
-    ) {}
-  }
-  
+  constructor(
+    public _id: string = '',
+    public name: string = '',
+    public source: string = '',
+    public destination: string = '',
+    public seats: number = 0,
+    public duration: number = 0,
+    public price: number = 0,
+    public sell: number = 0,
+    public note: string = '',
+    public status: string ="",
+  ) {}
+}

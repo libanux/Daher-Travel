@@ -58,7 +58,7 @@ import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor
 // visa
 import { VisaComponentComponent } from './visa-component/visa-component.component';
 import { ViewticketComponent } from './ticketlist/viewticket/viewticket.component';
-import { TicketsComponent } from './tickets/tickets.component';
+import { AppTicketingDialogContentComponent, TicketsComponent } from './tickets/tickets.component';
 import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.component';
 import { AddComponent } from './admins/add-admin/add.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -116,7 +116,9 @@ import { ProfileComponent } from './profile/profile.component';
     AddComponent,
     LaborMainComponent,
     AppRecruitingDialogContentComponent,
-    ProfileComponent
+    ProfileComponent,
+    AppTicketDialogContentComponent,
+    AppTicketingDialogContentComponent
     
   ],
   providers: [DatePipe],

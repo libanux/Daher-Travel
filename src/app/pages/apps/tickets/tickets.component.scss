@@ -1,13 +1,15 @@
+
+
 .InputsWholeRow{
     display: flex;
     justify-content: space-between;
     column-gap: 15px;
-  
+
     .inputsInAdd{
         display: flex;
         flex-direction: row;
         column-gap: 5px;
-  
+
         section{
             display: flex;
             flex-direction: row;
@@ -20,25 +22,38 @@
                     border:  1px solid lightgray;
                     border-radius: 10px;
                     padding: 10px 5px;
+                    
                  }
             }
         }
-  
+
     }
-  
+
     div button {
         min-width: 100px;
     }
-  
+
     .TwoButtons {
         display: flex;
         flex-direction: row;
         column-gap: 10px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
     }
-  
-  }
-  
-  .four-sections-header{
+
+    .OneButton{
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+}
+
+.four-sections-header{
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -49,10 +64,11 @@
         flex-direction: row;
         column-gap: 10px;
         div {
+
             width: 100%;
             .shadow-none{
                 div{
-                  cursor: pointer;
+                    cursor: pointer;
                     display: flex;
                     flex-direction: column;
                     padding: 10px;
@@ -70,19 +86,19 @@
             }
         }
     }
-  }
-  
-  .table-responsive {
+}
+
+.table-responsive {
     table {
         th, td, td span {
             cursor: pointer;
             font-size: 14px;
         }
     }
-  
-  }
-  
-  .element-td {
+
+}
+
+.element-td {
     div {
         display: flex;
         flex-direction: row;
@@ -93,27 +109,27 @@
     a {
         cursor: pointer;
     }
-  }
-  
-  .cardWithShadow {
+}
+
+.cardWithShadow {
     header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 5px;
     }
-  }
+}
   
-  tr.example-detail-row {
+tr.example-detail-row {
     height: 0;
-  }
+}
   
-  .example-element-row td {
+.example-element-row td {
     border-bottom-width: 0;
-  }
-  
-  
-  @media (max-width: 800px) {
+}
+
+
+@media (max-width: 800px) {
     .InputsWholeRow{
         display: flex;
         flex-direction: column;
@@ -159,7 +175,7 @@
   
     
     }
-  
+
     .four-sections-header{
         width: 100%;
         display: flex;
@@ -176,14 +192,14 @@
         }
     }
     
-  }
-  
-  @media (max-width: 600px) {
+}
+
+@media (max-width: 600px) {
     .cardWithShadow {
         header {
             display: flex;
             flex-direction: column;
-  
+
             .filter-date{
                 display: flex;
                 justify-content: flex-end;
@@ -191,7 +207,7 @@
             }
         }
     }
-  
+
     .four-sections-header{
         .two-sections-header {
             div {
@@ -206,11 +222,11 @@
         }
     }
       
-  }
-  
-  
-  
-  @media (max-width: 350px) {
+}
+
+
+
+@media (max-width: 350px) {
     .InputsWholeRow{
         display: flex;
         flex-direction: column;
@@ -237,52 +253,35 @@
             }
     
         }
-  
+
     }
-  }
+}
 
-  .details-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #dee2e6;
-    padding: 10px;
+.textarea{
     width: 100%;
-  }
+    border:  1px solid lightgray;
+    border-radius: 10px;
+    padding: 10px 5px;
+    height: 38px;
+ }
 
 
-  .detail-body{
-    display: flex;
-    width: 100%;
-    align-items:center ;
-    justify-content: space-between;
-  }
+//  .option-style {
+//     height: 40px;
+//     background-color: #2a3547; 
+//   }
+  
+//   .option-style.completed {
+//     background-color: #2a3547;
+//   }
+  
+//   .option-style.canceled {
+//     background-color: #2a3547;
+//   }
+  
 
-  
-  .detail-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 1.2rem;
-  }
-  
-  .detail-name {
-    font-size: 1.1rem;
-  }
-  
-  .detail-status {
-    font-size: 0.9rem;
-  }
-  
-  .detail-field {
-    margin-bottom: 0.5rem;
-  }
-  
-  .detail-note {
-    font-size: 0.9rem;
-  }
-  
-  
-  
-  
-  
+
+
+
+
   

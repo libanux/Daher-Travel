@@ -149,20 +149,6 @@ export class AppTicketlistComponent implements OnInit {
 
   }
 
-  //ADD USER
-  ADD_PACKAGE() {
-    this.packagesService.ADD_PACKAGE(this.packageExample).subscribe({
-      next: (response: any) => {
-        console.log("Response:", response);
-      },
-      error: (error: any) => {
-        console.error(error);
-        console.log("Error::", error);
-      },
-      complete: () => { }
-    });
-  }
-
   //TRIGGER THE DROP DOWN FILTER VALUES
   onChange(value: string) {
     if (value === 'Calendar') {
@@ -242,6 +228,22 @@ UPDATE_PACKAGE(){
   });
 
   }
+
+    //ADD NEW RECRUITING RECORD
+    ADD_PACKAGE(): void {
+      this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
+        next: (response: any) => {
+          console.log("Response on add:", response);
+          this.CLEAR_VALUES(this.editedpackage)
+          this.FETCH_PACKAGES()
+        },
+        error: (error: any) => {
+          console.log("Error:", error)
+        },
+        complete: () => {
+        }
+      });
+    }
 
     //CLEAR OBJECT VALUES
     CLEAR_VALUES(obj: Package) {
