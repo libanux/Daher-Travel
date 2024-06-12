@@ -1,0 +1,242 @@
+<!-- listing and total no.of counts -->
+<div class="four-sections-header">
+
+    <div class="two-sections-header">
+      <div>
+        <mat-card class="shadow-none">
+          <div class="bg-light-primary text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('')">
+            <h3 class="text-primary">{{ totalCount }}</h3>
+            <p class="text-primary">Total Packages</p>
+          </div>
+        </mat-card>
+      </div>
+    
+      <div>
+        <mat-card class="shadow-none">
+          <div class="bg-light-warning text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('pending')">
+            <h3 class="text-warning">{{ Inprogress }}</h3>
+            <p class="text-warning">Pending</p>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    
+  <div class="two-sections-header">
+    <div>
+      <mat-card class="shadow-none">
+        <div class="bg-light-success text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('approved')">
+          <h3 class="text-success">{{ Completed }}</h3>
+          <p class="text-success">Completed</p>
+        </div>
+      </mat-card>
+    </div>
+  
+    <div>
+      <mat-card class="shadow-none">
+        <div class="bg-light-error text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('rejected')">
+          <h3 class="text-error">{{ Cancelled }}</h3>
+          <p class="text-error">Rejected</p>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  
+  </div>
+  
+  
+  <!-- ADD OR UPDATE -->
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="InputsWholeRow">
+  
+        <div class="inputsInAdd">
+    
+          <section>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.name" placeholder="Name"></div>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.source" placeholder="Source"></div>
+          </section>
+          
+          <section>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.destination" placeholder="Destination"></div>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.sell" placeholder="Sell"></div>
+          </section>
+          
+          <section>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.type" placeholder="Type"></div>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.price" placeholder="Price"></div>
+          </section>
+  
+          <section>
+            <div><input type="text" [(ngModel)]="ADDED_VISA.note" placeholder="Note"></div>
+            
+            <div>
+            <select [(ngModel)]="ADDED_VISA.status">
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            </div>
+          </section>
+  
+  
+        </div>
+  
+        <div *ngIf="ShowAddButoon">
+          <button mat-flat-button color="primary" (click)="ADD_VISA(ADDED_VISA)"> Add Visa </button>
+        </div>
+  
+        <div class="TwoButtons" *ngIf="!ShowAddButoon">
+          <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
+          <button mat-flat-button color="primary" (click)="UPDATE_VISA(ADDED_VISA)">Update</button>
+        </div>
+  
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card class="cardWithShadow">
+  
+  <!-- Search -->
+  <header>
+  
+      <div class="col-sm-4 p-20 searchbar ">
+          <mat-form-field appearance="outline" class="hide-hint custom-search ">
+            <input matInput (keyup)="APPLY_SEARCH_FILTER($any($event.target).value)" placeholder="Search Visa's" />
+            <mat-icon matSuffix>
+              <i-tabler name="search" class="icon-15"></i-tabler>
+            </mat-icon>
+          </mat-form-field>
+      </div>
+  
+      <div class="filter-date">
+        <mat-form-field appearance="outline" class="w-100">
+                    
+          <mat-date-range-input [rangePicker]="custompicker">
+            <input matStartDate placeholder="Start date" />
+            <input matEndDate placeholder="End date" />
+          </mat-date-range-input>
+  
+          <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #custompicker></mat-date-range-picker>
+  
+        </mat-form-field>
+        
+        <mat-card-header class="d-flex">
+          <mat-form-field class="theme-select" appearance="outline">
+            <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value)" placeholder="Today">
+              <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+            
+              
+                    <!-- <mat-form-field appearance="outline" class="w-100">
+                    
+                      <mat-date-range-input [rangePicker]="custompicker">
+                        <input matStartDate placeholder="Start date" />
+                        <input matEndDate placeholder="End date" />
+                      </mat-date-range-input>
+              
+                      <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #custompicker></mat-date-range-picker>
+              
+                    </mat-form-field> -->
+  
+            
+            </mat-select>
+          </mat-form-field>
+          
+        </mat-card-header>
+      </div>
+  
+  </header>
+  
+  <!-- Table -->
+  <mat-card-content>
+  
+  <!-- TABLE BODY -->
+  <div class="table-responsive">
+          <table mat-table [dataSource]="VisaArray" multiTemplateDataRows>
+            @for( column of displayedColumns; track column) {
+            
+              <ng-container matColumnDef="{{ column }}">
+  
+              <!-- table headers -->
+              <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ column | titlecase }}</th>
+              
+              <!-- table Data -->
+              <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0" (click)=" EXPAND_ROW($event, element, column)">
+    
+               <!-- display row objects -->
+                <ng-container *ngIf="column !== 'status'; else statusColumn">
+                  <ng-container *ngIf="column !== 'action'; else actionColumn">
+                    <!-- {{ element[column] }} -->
+                    <ng-container *ngIf="column !== 'note'; else noteColumn">
+                      {{ element[column] }}
+                    </ng-container>
+                  </ng-container>
+          
+  
+                </ng-container>
+  
+                <ng-template #noteColumn>{{ truncateText(element[column], 15) }}</ng-template>
+                <!-- SHOW ACTION TEMPLATE -->
+                <ng-template #actionColumn>
+                      <div class="action-link">
+                        <a (click)="SELECTED_VISA(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit" class="icon-18"></i-tabler></a>
+                        <a (click)="DELETE_VISA(element._id)" class="m-r-10 cursor-pointer"><i-tabler name="trash" class="icon-18"></i-tabler></a>
+                      </div>
+                </ng-template>
+                <!--IF THE COLUMN IS STATUS THEM APPLY SPECIFIC DESIGN-->
+                <ng-template #statusColumn><span [ngClass]="GET_STATUS_CLASS(element.status)">{{ element.status }}</span></ng-template>
+  
+              </td>
+  
+            </ng-container>
+  
+            }
+    
+    <!-- EXPANDED ROW DETAILS -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+        <div class="details-container p-3 rounded border mb-3 mx-2">
+  
+          <div class="detail-body mt-3">
+              <div class="col-md-4">
+                <div class="detail-field"><strong>name:</strong> {{ element.name }}</div>
+                <div class="detail-field"><strong>source:</strong> {{ element.source }}</div>
+                <div class="detail-field"><strong>destination:</strong> {{ element.destination }}</div>
+              </div>
+              <div class="col-md-4">
+                <div class="detail-field"><strong>type:</strong> {{ element.type }}</div>
+                <div class="detail-field"><strong>price:</strong> {{ element.price }}</div>
+                <div class="detail-field"><strong>sell:</strong> {{ element.sell }}</div>
+              </div>    
+              <div class="col-md-4">
+                <div class="detail-field"><strong>status:</strong> {{ element.status }}</div>
+                <div class="detail-field"><strong>createdAt:</strong> {{ element.createdAt }}</div>
+                <div class="detail-field"><strong>updatedAt:</strong> {{ element.updatedAt }}</div>
+              </div>   
+          </div>
+  
+          <div class="invoice-btn-div">
+            <button class="invoice-btn">Print invoice</button>
+          </div>
+  
+        </div>
+      </div>
+    </td>
+  </ng-container>
+  
+    
+  <!-- HEADER AND ROW DEFINITIONS -->
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" class="example-element-row" [class.example-expanded-row]="expandedElement === element" (click)=" expandedElement = expandedElement === element ? null : element;"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  
+  </table>
+  </div>
+  
+  <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+  
+  </mat-card-content>
+  
+  </mat-card>

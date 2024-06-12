@@ -43,6 +43,7 @@
 
 </div>
 
+
 <!-- ADD OR UPDATE -->
 <mat-card class="cardWithShadow">
   <mat-card-content>
@@ -108,10 +109,37 @@
     </div>
 
     <div class="filter-date">
+      <mat-form-field appearance="outline" class="w-100">
+                  
+        <mat-date-range-input [rangePicker]="custompicker">
+          <input matStartDate placeholder="Start date" />
+          <input matEndDate placeholder="End date" />
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #custompicker></mat-date-range-picker>
+
+      </mat-form-field>
+      
       <mat-card-header class="d-flex">
         <mat-form-field class="theme-select" appearance="outline">
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value)" placeholder="Today">
             <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+          
+            
+                  <!-- <mat-form-field appearance="outline" class="w-100">
+                  
+                    <mat-date-range-input [rangePicker]="custompicker">
+                      <input matStartDate placeholder="Start date" />
+                      <input matEndDate placeholder="End date" />
+                    </mat-date-range-input>
+            
+                    <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #custompicker></mat-date-range-picker>
+            
+                  </mat-form-field> -->
+
+          
           </mat-select>
         </mat-form-field>
         
