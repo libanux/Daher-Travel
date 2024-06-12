@@ -1,4 +1,4 @@
-export class Customer {
+export class CustomerClass {
         _id: string = '';
         firstname: string = '';
         lastname: string = '';

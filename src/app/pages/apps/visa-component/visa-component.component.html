@@ -24,7 +24,7 @@
 <div class="two-sections-header">
   <div>
     <mat-card class="shadow-none">
-      <div class="bg-light-success text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('completed')">
+      <div class="bg-light-success text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('approved')">
         <h3 class="text-success">{{ Completed }}</h3>
         <p class="text-success">Completed</p>
       </div>
@@ -33,9 +33,9 @@
 
   <div>
     <mat-card class="shadow-none">
-      <div class="bg-light-error text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('cancelled')">
+      <div class="bg-light-error text-center rounded" (click)="FILTER_ARRAY_BY_STATUS('rejected')">
         <h3 class="text-error">{{ Cancelled }}</h3>
-        <p class="text-error">Cancelled</p>
+        <p class="text-error">Rejected</p>
       </div>
     </mat-card>
   </div>
@@ -69,10 +69,10 @@
           <div><input type="text" [(ngModel)]="ADDED_VISA.note" placeholder="Note"></div>
           
           <div>
-          <select>
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
+          <select [(ngModel)]="ADDED_VISA.status">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
           </select>
           </div>
         </section>
@@ -81,12 +81,12 @@
       </div>
 
       <div *ngIf="ShowAddButoon">
-        <button mat-flat-button color="primary" (click)="ADD_VISA()"> Add Visa </button>
+        <button mat-flat-button color="primary" (click)="ADD_VISA(ADDED_VISA)"> Add Visa </button>
       </div>
 
       <div class="TwoButtons" *ngIf="!ShowAddButoon">
         <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
-        <button mat-flat-button color="primary" (click)="UPDATE_VISA()">Update</button>
+        <button mat-flat-button color="primary" (click)="UPDATE_VISA(ADDED_VISA)">Update</button>
       </div>
 
     </div>
@@ -153,7 +153,7 @@
               <ng-template #actionColumn>
                     <div class="action-link">
                       <a (click)="SELECTED_VISA(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit" class="icon-18"></i-tabler></a>
-                      <a (click)="DELETE_VISA(element)" class="m-r-10 cursor-pointer"><i-tabler name="trash" class="icon-18"></i-tabler></a>
+                      <a (click)="DELETE_VISA(element._id)" class="m-r-10 cursor-pointer"><i-tabler name="trash" class="icon-18"></i-tabler></a>
                     </div>
               </ng-template>
               <!--IF THE COLUMN IS STATUS THEM APPLY SPECIFIC DESIGN-->
