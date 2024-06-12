@@ -4,6 +4,7 @@ export class Admin {
         lastname: string = '';
         email: string = '';
         phone: string = '';
+        password: string = '';
         permissions: {
             packages: string,
             visa: string,
