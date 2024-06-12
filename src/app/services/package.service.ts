@@ -36,13 +36,18 @@ export class PackageService {
   }
 
   // GET PACKAGES
-  GET_PACKAGES(): Observable<any> {
+  GET_PACKAGES(page:number, size: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
-    return this.http.get<any>(`${this.apiUrl}/GET_ALL_PACKAGES`, { headers });
+    const requestBody = {
+      "pageSize":size,
+      "currentPage":page
+    };
+
+    return this.http.post<any>(this.apiUrl + '/GET_ALL_PACKAGES', requestBody, { headers })
   }
 
     // // GET_PACKAGES WITH PAGINATION

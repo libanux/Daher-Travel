@@ -37,7 +37,7 @@ export class AppTicketlistComponent implements OnInit {
   //MAIN PACKAGE ARRAY
   packages: any[] = []
   showCalendar: boolean = false;
-  selectedDate: Date | null = null; // Adjusted the type to accept null
+  selectedDate: Date | null = null; 
 
 
   //PACKAGE ON EDIT
@@ -83,8 +83,6 @@ export class AppTicketlistComponent implements OnInit {
 
   packageExample = new Package();
 
- 
-
   constructor(public dialog: MatDialog, private packagesService: PackageService) {
     this.viewPackage = new Package()
     this.editedpackage = new Package()
@@ -126,16 +124,18 @@ export class AppTicketlistComponent implements OnInit {
 
   //FETCH PACKAGES FROM API
   FETCH_PACKAGES(): void {
-    this.packagesService.GET_PACKAGES().subscribe({
+    this.packagesService.GET_PACKAGES(1,2).subscribe({
       next: (response: any) => {
         console.log("Response package:",response)
         this.packages = response.packages;
+
         this.dataSource = new MatTableDataSource(this.packages);
-        // this.totalCount = this.dataSource.data.length;
         this.Inprogress = this.btnCategoryClick('pending');
         this.Completed = this.btnCategoryClick('completed');
         this.Cancelled = this.btnCategoryClick('canceled');
-        this.totalCount = this.btnCategoryClick('');
+        this.totalCount = response.pagination.totalPackages
+        this.btnCategoryClick('')
+
       },
       error: (error: any) => {
         console.log("Error:", error)

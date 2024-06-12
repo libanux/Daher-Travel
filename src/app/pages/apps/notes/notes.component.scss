@@ -11,6 +11,8 @@
 .notes-item {
   transition: all 0.1s ease-in 0s;
   transform: scale(0.95);
+  background-color: rgba(245, 186, 24, 0.5) ;
+  
   &.mdc-list-item:hover::before {
     background-color: inherit !important;
   }
