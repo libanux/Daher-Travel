@@ -36,9 +36,9 @@
         column-gap: 10px;
     }
   
-  }
+}
   
-  .four-sections-header{
+.four-sections-header{
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -70,19 +70,18 @@
             }
         }
     }
-  }
+}
   
-  .table-responsive {
+.table-responsive {
     table {
         th, td, td span {
             cursor: pointer;
             font-size: 14px;
         }
     }
+}
   
-  }
-  
-  .element-td {
+.element-td {
     div {
         display: flex;
         flex-direction: row;
@@ -93,25 +92,63 @@
     a {
         cursor: pointer;
     }
-  }
+}
   
-  .cardWithShadow {
+.cardWithShadow {
     header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 5px;
     }
-  }
+}
   
-  tr.example-detail-row {
+tr.example-detail-row {
     height: 0;
-  }
-  
-  .example-element-row td {
+}
+
+.example-element-row td {
     border-bottom-width: 0;
-  }
-  
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    width: 100%;
+
+    .detail-body{
+        display: flex;
+        width: 100%;
+        align-items:center ;
+        justify-content: space-between;
+
+        .col-md-4 {
+            .detail-field {
+                margin-bottom: 0.5rem;
+            }
+        }
+      }
+
+      .invoice-btn-div {
+        .invoice-btn {
+            background-color: #ebb31bfb;
+            border-style: none;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+        }
+        .invoice-btn:hover {
+            cursor: pointer;
+            background-color: #f0cb65fb;
+            color: rgb(7, 42, 107);
+        }
+      }
+}
   
   @media (max-width: 800px) {
     .InputsWholeRow{
@@ -208,8 +245,6 @@
       
   }
   
-  
-  
   @media (max-width: 350px) {
     .InputsWholeRow{
         display: flex;
@@ -232,54 +267,15 @@
                         border:  1px solid lightgray;
                         border-radius: 10px;
                         padding: 10px 5px;
-                     }
+                    }
                 }
             }
-    
         }
-  
     }
   }
 
 
-  .details-container {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    border: 1px solid #dee2e6;
-    padding: 10px;
-    width: 100%;
 
-    .detail-body{
-        display: flex;
-        width: 100%;
-        align-items:center ;
-        justify-content: space-between;
-
-        .col-md-4 {
-            .detail-field {
-                margin-bottom: 0.5rem;
-            }
-        }
-      }
-
-      .invoice-btn-div {
-        .invoice-btn {
-            background-color: #ebb31bfb;
-            border-style: none;
-            padding: 10px;
-            border-radius: 10px;
-            color: white;
-        }
-        .invoice-btn:hover {
-            cursor: pointer;
-            background-color: #f0cb65fb;
-            color: rgb(7, 42, 107);
-        }
-      }
-  }
 
   
 

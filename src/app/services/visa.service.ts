@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 import { GeneralService } from './general.service';
+import { VisaClass } from '../pages/apps/visa-component/visaClass';
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class VisaService {
     this.storedToken = this.generalService.storedToken
   }
 
-  //GET ALL PAYMENTS PER PAGE
+  //GET ALL VISA
   GET_ALL_VISA(): Observable<any> {
 
     const headers = new HttpHeaders({
@@ -31,8 +32,8 @@ export class VisaService {
     return this.httpClient.get<any>(this.apiUrl + '/GET_ALL_VISA', { headers });
   }
 
-  //EDIT PAYMENT
-  EDIT_VISA(payment: any): Observable<any> {
+  //UPDATE VISA
+  UPDATE_VISA(VISA: VisaClass): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -41,21 +42,48 @@ export class VisaService {
 
     // Define the request body
     const requestBody = {
-      "PAYMENT_ID": payment.payment_ID,
-      "PAYMENT_METHOD": "STRIPE",
-      "AMOUNT": payment.amount,
-      "TIME_CREATION": payment.time_CREATION,
-      "USER_ID": payment.user_ID,
-      "ENTRY_USER_ID": payment.entry_USER_ID,
-      "ENTRY_DATE": payment.entry_DATE,
-      "OWNER_ID": 1
+    "id": VISA._id,
+
+    "updateData":{ 
+        "name": VISA.name,
+        "source": VISA.source,
+        "destination": VISA.destination,
+        "sell": VISA.sell,
+        "note": VISA.note,
+        "status": VISA.status,
+        "type":VISA.type,
+        "price": VISA.price
+    }
+
     };
 
-    return this.httpClient.post<any>(this.apiUrl + '/EDIT_PAYMENT', requestBody, { headers });
+    return this.httpClient.post<any>(this.apiUrl + '/UPDATE_VISA', requestBody, { headers });
   }
 
+  //ADD VISA
+  ADD_VISA(VISA: VisaClass): Observable<any> {
 
-  //GET PAYMENT BY ID
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json' 
+    });
+
+    // Define the request body
+    const requestBody = {
+      "name": VISA.name,
+      "source": VISA.source,
+      "destination": VISA.destination,
+      "sell": VISA.sell,
+      "note": VISA.note,
+      "status": VISA.status,
+      "type":VISA.type,
+      "price": VISA.price
+    };
+
+    return this.httpClient.post<any>(this.apiUrl + '/ADD_VISA', requestBody, { headers });
+  }
+
+  //GET VISA BY ID
   GET_VISA_BY_ID(paymentID: number): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
