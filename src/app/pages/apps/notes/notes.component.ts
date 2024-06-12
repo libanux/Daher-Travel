@@ -1,6 +1,8 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Note } from './note';
-import { NoteService } from './note.service';
+import { NoteService } from 'src/app/services/note.service';
+
 
 @Component({
   selector: 'app-notes',
@@ -8,70 +10,102 @@ import { NoteService } from './note.service';
   styleUrls: ['./notes.component.scss'],
 })
 export class AppNotesComponent implements OnInit {
-  
+
 
   sidePanelOpened = true;
-  notes = this.noteService.getNotes();
+  notes: any[] = []
+  newNote: Note
   selectedNote: Note = Object.create(null);
   active: boolean = false;
   searchText = '';
-  clrName = 'warning';
-  colors = [
-    { colorName: 'primary' },
-    { colorName: 'warning' },
-    { colorName: 'accent' },
-    { colorName: 'error' },
-    { colorName: 'success' },
-  ];
+
+
+  adminid: string = ''
   constructor(public noteService: NoteService) {
-    this.notes = this.noteService.getNotes();
+    this.newNote = new Note();
+    const userId = localStorage.getItem("userId");
+    this.adminid = userId !== null ? userId : "";
+    this.selectedNote.text = "New Note"
+    this.selectedNote.adminid = this.adminid
+  }
+  ngOnInit(): void {
+    this.FETCH_NOTES();
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.notes = this.filter(filterValue);
+  //FETCH NOTES FROM API
+  FETCH_NOTES(): void {
+    this.noteService.GET_NOTES().subscribe({
+      next: (response: any) => {
+        this.notes = response;
+        if (this.notes.length > 0) {
+          // Sort the notes by createdAt date in descending order
+          this.notes.sort((a: any, b: any) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          });
+          this.selectedNote = this.notes[0];
+        }
+      },
+      error: (error: any) => {
+        console.log("Error:", error);
+      },
+      complete: () => {
+      }
+    });
   }
+  
 
-  filter(v: string): Note[] {
-    return this.noteService
-      .getNotes()
-      .filter((x) => x.title.toLowerCase().indexOf(v.toLowerCase()) !== -1);
+  onSelect(note: Note): void {
+    this.selectedNote = note;
   }
-
 
   isOver(): boolean {
     return window.matchMedia(`(max-width: 960px)`).matches;
   }
 
-  ngOnInit(): void {
-    this.onLoad();
-  }
-  onLoad(): void {
-    this.selectedNote = this.notes[0];
-  }
-  onSelect(note: Note): void {
-    this.selectedNote = note;
-    this.clrName = this.selectedNote.color;
-  }
-  onSelectColor(colorName: string): void {
-    this.clrName = colorName;
-    this.selectedNote.color = this.clrName;
-    // this.clrName.active = !this.clrName.active;
-    this.active = !this.active;
-  }
 
-  removenote(note: Note): void {
-    const index: number = this.notes.indexOf(note);
-    if (index !== -1) {
-      this.notes.splice(index, 1);
-      this.selectedNote = this.notes[0];
-    }
-  }
-  addNoteClick(): void {
-    this.notes.unshift({
-      color: this.clrName,
-      title: 'this is New notes',
-      datef: new Date(),
+  DELETE_NOTE(note: Note) {
+    this.noteService.DELETE_NOTE(note).subscribe({
+      next: (response: any) => {
+        this.FETCH_NOTES()
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
     });
   }
+
+  //ADD NEW NOTE
+  ADD_NOTE() {
+    this.newNote.title = 'New Note'
+    this.newNote.adminid = this.adminid
+    this.newNote.text = 'New Note'
+    this.newNote.status = 'pending'
+    this.noteService.ADD_NOTE(this.newNote).subscribe({
+      next: (response: any) => {
+        this.FETCH_NOTES()
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  //ADD NEW NOTE
+  UPDATE_NOTE() {
+    this.noteService.UPDATE_NOTE(this.selectedNote).subscribe({
+      next: (response: any) => {
+        this.FETCH_NOTES()
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
+
 }
