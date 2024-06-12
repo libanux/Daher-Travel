@@ -2,19 +2,17 @@ import { Component, OnInit, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { VisaClass } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
-import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { id } from 'date-fns/locale';
 import { VisaService } from 'src/app/services/visa.service';
-
+import { VisaClass } from '../visa-component/visaClass';
 
 @Component({
-  selector: 'app-visa-component',
-  templateUrl: './visa-component.component.html',
-  styleUrl: './visa-component.component.scss',
+  selector: 'app-wholesaler',
+  templateUrl: './wholesaler.component.html',
+  styleUrl: './wholesaler.component.scss',
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -27,7 +25,7 @@ import { VisaService } from 'src/app/services/visa.service';
   ],
 })
 
-export class VisaComponentComponent implements OnInit {
+export class WholesalerComponent implements OnInit {
 
   months: month[] = [
     { value: 'Today', viewValue: 'Today' },
@@ -128,23 +126,23 @@ export class VisaComponentComponent implements OnInit {
   }
 
   openCalendarDialog(): void {
-    const dialogRef = this.dialog.open(CalendarDialogComponent, {
-      width: '350px',
-      data: { selectedDate: this.selectedDate }
-    });
+    // const dialogRef = this.dialog.open(CalendarDialogComponent, {
+    //   width: '350px',
+    //   data: { selectedDate: this.selectedDate }
+    // });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result) {
-        if (result.startDate && result.endDate) {
-          this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-        } else {
-          this.selectedMonth = 'Custom';
-        }
-        this.selectedDate = result;
-        // Do something with the selected date
-      }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed', result);
+    //   if (result) {
+    //     if (result.startDate && result.endDate) {
+    //       this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
+    //     } else {
+    //       this.selectedMonth = 'Custom';
+    //     }
+    //     this.selectedDate = result;
+    //     // Do something with the selected date
+    //   }
+    // });
   }
 
   showCalendar: boolean = false;
