@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
     // apiLocalBaseUrl: "https://libanux.xyz/DaherTravel/api",
-    apiLocalBaseUrl: "http://192.168.1.6:5000/DaherTravel/api",
+    apiLocalBaseUrl: "http://192.168.1.11:5000/DaherTravel/api",
     ws_url: "http://localhost:5000"
   };
   /*
