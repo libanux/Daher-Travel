@@ -71,6 +71,30 @@
         }
     }
 }
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .filter-date {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        column-gap: 10px;
+        .date_picker {
+            width: 100%;
+            height: fit-content;
+        } 
+        .dropdown{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
   
 .table-responsive {
     table {
@@ -149,6 +173,34 @@ tr.example-detail-row {
         }
       }
 }
+
+@media (max-width: 950px) {
+    header {
+        display: flex;
+        background: #d0c0c0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    
+        .filter-date {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            column-gap: 10px;
+            .date_picker {
+                width: 100%;
+                height: fit-content;
+            } 
+            .dropdown{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+  }
+  
   
   @media (max-width: 800px) {
     .InputsWholeRow{

@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener,} from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 
@@ -17,14 +17,13 @@ export class TodoItemFlatNode {
 
 const TREE_DATA = {
   Package: {'Read': null, 'Write': null},
-  Visa:     {'Read': null, 'Write': null},
+  Visa:   {'Read': null, 'Write': null},
   Ticketing: {'Read': null, 'Write': null},
   Customers: {'Read': null, 'Write': null},
 };
 
 @Injectable()
 export class ChecklistDatabase {
-
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
 
   get data(): TodoItemNode[] {
@@ -67,14 +66,7 @@ export class ChecklistDatabase {
   providers: [ChecklistDatabase],
 })
 export class AppTreeviewComponent {
-  @Input() SELECTED_ADMIN = {
-    Package: {'Read': null, 'Write': null},
-    Visa:     {'Read': null, 'Write': null},
-    Ticketing: {'Read': null, 'Write': null},
-    Customers: {'Read': null, 'Write': null},
-  }
 
-  
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
   nestedNodeMap = new Map<TodoItemNode, TodoItemFlatNode>();
   selectedParent: TodoItemFlatNode | null = null;

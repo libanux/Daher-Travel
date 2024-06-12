@@ -117,13 +117,15 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
+
+  showDatePicker = false;
   onChange(value: string) {
     if (value === 'Calendar') {
-      this.openCalendarDialog();
+      this.showDatePicker = true;
     }
 
     else {
-
+      this.showDatePicker = false;
     }
   }
 

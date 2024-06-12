@@ -99,7 +99,7 @@
 <!-- Search -->
 <header>
 
-    <div class="col-sm-4 p-20 searchbar ">
+    <div class="searchbar">
         <mat-form-field appearance="outline" class="hide-hint custom-search ">
           <input matInput (keyup)="APPLY_SEARCH_FILTER($any($event.target).value)" placeholder="Search Visa's" />
           <mat-icon matSuffix>
@@ -109,7 +109,9 @@
     </div>
 
     <div class="filter-date">
-      <mat-form-field appearance="outline" class="w-100">
+
+      @if(showDatePicker) {
+      <mat-form-field appearance="outline" class="date_picker">
                   
         <mat-date-range-input [rangePicker]="custompicker">
           <input matStartDate placeholder="Start date" />
@@ -120,30 +122,17 @@
         <mat-date-range-picker #custompicker></mat-date-range-picker>
 
       </mat-form-field>
-      
-      <mat-card-header class="d-flex">
+    }
+
+    <div class="dropdown">
         <mat-form-field class="theme-select" appearance="outline">
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value)" placeholder="Today">
             <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
-          
-            
-                  <!-- <mat-form-field appearance="outline" class="w-100">
-                  
-                    <mat-date-range-input [rangePicker]="custompicker">
-                      <input matStartDate placeholder="Start date" />
-                      <input matEndDate placeholder="End date" />
-                    </mat-date-range-input>
-            
-                    <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
-                    <mat-date-range-picker #custompicker></mat-date-range-picker>
-            
-                  </mat-form-field> -->
-
-          
           </mat-select>
         </mat-form-field>
-        
-      </mat-card-header>
+    </div>
+
+
     </div>
 
 </header>
