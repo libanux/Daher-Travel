@@ -1,67 +1,105 @@
-.InputsWholeRow{
+// <!-- WHOLE TABLE -->
+.cardWithShadow {
+
+    .Buttons_div {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        align-items: flex-end;
+        justify-content: flex-end;
+
+        .TwoButtons {
+            border-style: none;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .invoice-btn:hover {
+            cursor: pointer;
+            background-color: #79af8dfb;
+            color: rgb(5, 78, 53);
+        }
+    }
+}
+
+
+
+
+
+.InputsWholeRow {
     display: flex;
     justify-content: space-between;
     column-gap: 15px;
-  
-    .inputsInAdd{
+
+    .inputsInAdd {
         display: flex;
         flex-direction: row;
         column-gap: 5px;
-  
-        section{
+
+        section {
             display: flex;
             flex-direction: row;
             column-gap: 5px;
             width: 100%;
+
             div {
                 width: 100%;
-                input, select{
+
+                input,
+                select {
                     width: 100%;
-                    border:  1px solid lightgray;
+                    border: 1px solid lightgray;
                     border-radius: 10px;
                     padding: 10px 5px;
-                 }
+                }
             }
         }
-  
+
     }
-  
+
     div button {
         min-width: 100px;
     }
-  
+
     .TwoButtons {
         display: flex;
         flex-direction: row;
         column-gap: 10px;
     }
-  
+
 }
-  
-.four-sections-header{
+
+.four-sections-header {
     width: 100%;
     display: flex;
     flex-direction: row;
     column-gap: 10px;
+
     .two-sections-header {
         width: 100%;
         display: flex;
         flex-direction: row;
         column-gap: 10px;
+
         div {
             width: 100%;
-            .shadow-none{
-                div{
-                  cursor: pointer;
+
+            .shadow-none {
+                div {
+                    cursor: pointer;
                     display: flex;
                     flex-direction: column;
                     padding: 10px;
+
                     p {
                         margin: 0;
                         padding: 0;
                         font-size: 16px;
                     }
-                    h3{
+
+                    h3 {
                         margin: 0;
                         padding: 0;
                         font-size: 24px;
@@ -84,27 +122,32 @@ header {
         justify-content: center;
         align-items: center;
         column-gap: 10px;
+
         .date_picker {
             width: 100%;
             height: fit-content;
-        } 
-        .dropdown{
+        }
+
+        .dropdown {
             display: flex;
             justify-content: center;
             align-items: center;
         }
     }
 }
-  
+
 .table-responsive {
     table {
-        th, td, td span {
+
+        th,
+        td,
+        td span {
             cursor: pointer;
             font-size: 14px;
         }
     }
 }
-  
+
 .element-td {
     div {
         display: flex;
@@ -113,11 +156,12 @@ header {
         align-items: center;
         justify-content: center;
     }
+
     a {
         cursor: pointer;
     }
 }
-  
+
 .cardWithShadow {
     header {
         display: flex;
@@ -126,7 +170,7 @@ header {
         padding: 10px 5px;
     }
 }
-  
+
 tr.example-detail-row {
     height: 0;
 }
@@ -145,10 +189,10 @@ tr.example-detail-row {
     padding: 10px;
     width: 100%;
 
-    .detail-body{
+    .detail-body {
         display: flex;
         width: 100%;
-        align-items:center ;
+        align-items: center;
         justify-content: space-between;
 
         .col-md-4 {
@@ -156,9 +200,9 @@ tr.example-detail-row {
                 margin-bottom: 0.5rem;
             }
         }
-      }
+    }
 
-      .invoice-btn-div {
+    .invoice-btn-div {
         .invoice-btn {
             background-color: #ebb31bfb;
             border-style: none;
@@ -166,12 +210,13 @@ tr.example-detail-row {
             border-radius: 10px;
             color: white;
         }
+
         .invoice-btn:hover {
             cursor: pointer;
             background-color: #f0cb65fb;
             color: rgb(7, 42, 107);
         }
-      }
+    }
 }
 
 @media (max-width: 950px) {
@@ -181,62 +226,68 @@ tr.example-detail-row {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    
+
         .filter-date {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             column-gap: 10px;
+
             .date_picker {
                 width: 100%;
                 height: fit-content;
-            } 
-            .dropdown{
+            }
+
+            .dropdown {
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
         }
     }
-  }
-  
-  
-  @media (max-width: 800px) {
-    .InputsWholeRow{
+}
+
+
+@media (max-width: 800px) {
+    .InputsWholeRow {
         display: flex;
         flex-direction: column;
         row-gap: 5px;
-        .inputsInAdd{
+
+        .inputsInAdd {
             display: flex;
             flex-direction: column;
             row-gap: 5px;
-    
-            section{
+
+            section {
                 display: flex;
                 flex-direction: row;
                 column-gap: 5px;
                 width: 100%;
+
                 div {
                     width: 100%;
-                    input, select{
+
+                    input,
+                    select {
                         width: 100%;
-                        border:  1px solid lightgray;
+                        border: 1px solid lightgray;
                         border-radius: 10px;
                         padding: 10px 5px;
-                     }
+                    }
                 }
             }
-    
+
         }
-        
+
         div {
             display: flex;
             justify-content: flex-end;
             align-items: flex-end;
             min-width: 100px;
         }
-    
+
         .TwoButtons {
             display: flex;
             flex-direction: row;
@@ -245,47 +296,49 @@ tr.example-detail-row {
             justify-content: flex-end;
             align-items: flex-end;
         }
-  
-    
+
+
     }
-  
-    .four-sections-header{
+
+    .four-sections-header {
         width: 100%;
         display: flex;
         flex-direction: column;
         row-gap: 0px;
+
         .two-sections-header {
             width: 100%;
             display: flex;
             flex-direction: row;
             column-gap: 10px;
+
             div {
                 width: 100%;
             }
         }
     }
-    
-  }
-  
-  @media (max-width: 600px) {
+
+}
+
+@media (max-width: 600px) {
     .cardWithShadow {
         header {
             display: flex;
             flex-direction: column;
-  
-            .filter-date{
+
+            .filter-date {
                 display: flex;
                 justify-content: flex-end;
                 align-items: flex-end;
             }
         }
     }
-  
-    .four-sections-header{
+
+    .four-sections-header {
         .two-sections-header {
             div {
-                .shadow-none{
-                    div{
+                .shadow-none {
+                    div {
                         p {
                             font-size: 13px;
                         }
@@ -294,29 +347,33 @@ tr.example-detail-row {
             }
         }
     }
-      
-  }
-  
-  @media (max-width: 350px) {
-    .InputsWholeRow{
+
+}
+
+@media (max-width: 350px) {
+    .InputsWholeRow {
         display: flex;
         flex-direction: column;
         row-gap: 5px;
-        .inputsInAdd{
+
+        .inputsInAdd {
             display: flex;
             flex-direction: column;
             row-gap: 5px;
-    
-            section{
+
+            section {
                 display: flex;
                 flex-direction: column;
                 row-gap: 5px;
                 width: 100%;
+
                 div {
                     width: 100%;
-                    input, select{
+
+                    input,
+                    select {
                         width: 100%;
-                        border:  1px solid lightgray;
+                        border: 1px solid lightgray;
                         border-radius: 10px;
                         padding: 10px 5px;
                     }
@@ -324,14 +381,4 @@ tr.example-detail-row {
             }
         }
     }
-  }
-
-
-
-
-  
-
-  
-  
-  
-  
+}

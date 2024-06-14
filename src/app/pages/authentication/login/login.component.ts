@@ -10,6 +10,7 @@ import { AuthService, Params_Authenticate } from 'src/app/services/auth.service'
   standalone: true,
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule, FeatherModule],
   templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
 export class AppLoginComponent {
   options = this.settings.getOptions();
