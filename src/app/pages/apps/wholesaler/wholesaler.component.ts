@@ -55,7 +55,7 @@ export class WholesalerComponent implements OnInit {
     'updatedAt',
     'sell',
     'createdAt',
-    'source',
+    'country',
     'price',
     'type',
     'note',
@@ -63,17 +63,17 @@ export class WholesalerComponent implements OnInit {
     'action'
   ];
 
-  ADDED_VISA: VisaClass = {
-    _id: -1,
-    name: '',
-    source: '',
-    destination: '',
-    sell: 0,
-    type: '',
-    price: 0,
-    note: '',
-    status: '',
-  }
+  // ADDED_VISA: VisaClass = {
+    // _id: -1,
+    // name: '',
+    // country: '',
+    // destination: '',
+    // sell: 0,
+    // type: '',
+    // price: 0,
+    // note: '',
+    // status: '',
+  // }
 
   // VisaArray : VisaClass [] = []
 
@@ -246,34 +246,34 @@ export class WholesalerComponent implements OnInit {
   SELECTED_VISA(obj: any): void {
     this.ShowAddButoon = false
 
-    this.ADDED_VISA = {
-      _id: obj._id,
-      name: obj.name,
-      source: obj.source,
-      destination: obj.destination,
-      sell: obj.sell,
-      type: obj.type,
-      price: obj.price,
-      note: obj.note,
-      status: obj.status,
-    }
+    // this.ADDED_VISA = {
+    //   _id: obj._id,
+    //   name: obj.name,
+    //   country: obj.country,
+    //   destination: obj.destination,
+    //   sell: obj.sell,
+    //   type: obj.type,
+    //   price: obj.price,
+    //   note: obj.note,
+    //   status: obj.status,
+    // }
 
   }
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
     this.ShowAddButoon = true
-    this.ADDED_VISA = {
-      _id: -1,
-      name: '',
-      source: '',
-      destination: '',
-      sell: 0,
-      type: '',
-      price: 0,
-      note: '',
-      status: '',
-    }
+    // this.ADDED_VISA = {
+      // _id: -1,
+      // name: '',
+      // country: '',
+      // // destination: '',
+      // sell: 0,
+      // type: '',
+      // price: 0,
+      // note: '',
+      // status: '',
+    // }
   }
 
 }

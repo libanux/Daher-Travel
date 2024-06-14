@@ -57,7 +57,7 @@ export class VisaComponentComponent implements OnInit {
     'updatedAt',
     'sell',
     'createdAt',
-    'source',
+    'country',
     'price',
     'type',
     'note',
@@ -68,15 +68,17 @@ export class VisaComponentComponent implements OnInit {
   ADDED_VISA: VisaClass = {
     _id: -1,
     name: '',
-    source: '',
-    destination: '',
-    sell: 0,
-    type: '',
-    price: 0,
+    country: '',
     note: '',
+    sell: 0,
     status: '',
+    type: '',
+    createdAt: '',
+    updatedAt: '',
+
   }
 
+  CurrentAction = 'Add Visa'
   // VisaArray : VisaClass [] = []
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -102,14 +104,14 @@ export class VisaComponentComponent implements OnInit {
     this.visaService.GET_ALL_VISA().subscribe({
 
       next: (response: any) => {
-        this.totalCount = response.length;
-
+        this.totalCount = response.visas.length;
+console.log(response)
         // Calculate status counts without filtering the array
-        this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
-        this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
-        this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
+        this.Completed = response.visas.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
+        this.Cancelled = response.visas.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
+        this.Inprogress = response.visas.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
 
-        this.VisaArray = new MatTableDataSource(response);
+        this.VisaArray = new MatTableDataSource(response.visas);
       },
       error: (error) => { },
       complete: () => {}
@@ -117,13 +119,15 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
+
+  showDatePicker = false;
   onChange(value: string) {
     if (value === 'Calendar') {
-      this.openCalendarDialog();
+      this.showDatePicker = true;
     }
 
     else {
-
+      this.showDatePicker = false;
     }
   }
 
@@ -167,7 +171,7 @@ export class VisaComponentComponent implements OnInit {
   }
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
-    this.VisaArray.filter = filterValue.trim().toLowerCase();
+    // this.VisaArray.filter = filterValue.trim().toLowerCase();
   }
 
   //STATUS FILTERATION
@@ -221,7 +225,6 @@ export class VisaComponentComponent implements OnInit {
 
   // ADD
   ADD_VISA(obj: VisaClass) {
-    console.log(obj)
     this.visaService.ADD_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -247,34 +250,36 @@ export class VisaComponentComponent implements OnInit {
   // SELECT OBJECT TO UPDATE
   SELECTED_VISA(obj: any): void {
     this.ShowAddButoon = false
+    this.CurrentAction = 'Update Visa'
 
     this.ADDED_VISA = {
       _id: obj._id,
       name: obj.name,
-      source: obj.source,
-      destination: obj.destination,
-      sell: obj.sell,
-      type: obj.type,
-      price: obj.price,
+      country: obj.country,
       note: obj.note,
+      sell: obj.sell,
       status: obj.status,
+      type: obj.type,
+      createdAt: obj.createdAt,
+      updatedAt: obj.updatedAt
     }
 
   }
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
+    this.CurrentAction = 'Add Visa'
     this.ShowAddButoon = true
     this.ADDED_VISA = {
       _id: -1,
       name: '',
-      source: '',
-      destination: '',
-      sell: 0,
-      type: '',
-      price: 0,
+      country: '',
       note: '',
+      sell: 0,
       status: '',
+      type: '',
+      createdAt: '',
+      updatedAt: '',
     }
   }
 

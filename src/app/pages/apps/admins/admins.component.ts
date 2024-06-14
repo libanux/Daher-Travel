@@ -162,12 +162,20 @@ export class AdminsComponent implements AfterViewInit, OnInit {
   styleUrl: './admin-dialog-content/admin-dialog-content.component.scss'
 })
 // tslint:disable-next-line: component-class-suffix
-export class AdminDialogContentComponent {
+export class AdminDialogContentComponent{
   package = { selected: false, read: false, write: false };
   visa = { selected: false, read: false, write: false };
 
   selectedPermission: string = '';
 
+  SELECTED_ADMIN_PERMISSIONS = {
+    accounting: {'Read': null, 'Write': null},
+    notes: {'Read': null, 'Write': null},
+    packages: {'Read': null, 'Write': null},
+    recruitment: {'Read': null, 'Write': null},
+    users: {'Read': null, 'Write': null},
+    visa: {'Read': null, 'Write': null},
+  }
 
   action: string;
   ADMIN_SELECTED: any;
@@ -179,6 +187,17 @@ export class AdminDialogContentComponent {
   {
     this.ADMIN_SELECTED = { ...data };
     this.action = this.ADMIN_SELECTED.action;
+
+    console.log(this.ADMIN_SELECTED)
+
+ this.SELECTED_ADMIN_PERMISSIONS = {
+    accounting: {'Read': this.ADMIN_SELECTED.permissions.accounting, 'Write': this.ADMIN_SELECTED.permissions.accounting},
+    notes: {'Read': null, 'Write': null},
+    packages:     {'Read': null, 'Write': null},
+    recruitment: {'Read': null, 'Write': null},
+    users: {'Read': null, 'Write': null},
+    visa: {'Read': null, 'Write': null},
+    }
   }
 
   doAction(): void {

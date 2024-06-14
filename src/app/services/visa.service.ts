@@ -29,7 +29,13 @@ export class VisaService {
       'Content-Type': 'application/json' 
     });
 
-    return this.httpClient.get<any>(this.apiUrl + '/GET_ALL_VISA', { headers });
+    const requestBody = {
+      "page": 1,
+      "pageSize": 10
+      }
+  
+
+    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_VISA',requestBody, { headers });
   }
 
   //UPDATE VISA
@@ -44,14 +50,14 @@ UPDATE_VISA(VISA: VisaClass): Observable<any> {
     "id": VISA._id,
 
     "updateData":{ 
-        "name": VISA.name,
-        "source": VISA.source,
-        "destination": VISA.destination,
-        "sell": VISA.sell,
-        "note": VISA.note,
-        "status": VISA.status,
-        "type":VISA.type,
-        "price": VISA.price
+      "name": VISA.name,
+      "country": VISA.country,
+      "note": VISA.note,
+      "sell": VISA.sell,
+      "status": VISA.status,
+      "type":VISA.type,
+      "createdAt":VISA.createdAt,
+      "updatedAt": VISA.updatedAt
     }
 
     };
@@ -70,13 +76,13 @@ ADD_VISA(VISA: VisaClass): Observable<any> {
     // Define the request body
     const requestBody = {
       "name": VISA.name,
-      "source": VISA.source,
-      "destination": VISA.destination,
-      "sell": VISA.sell,
+      "country": VISA.country,
       "note": VISA.note,
+      "sell": VISA.sell,
       "status": VISA.status,
       "type":VISA.type,
-      "price": VISA.price
+      "createdAt":VISA.createdAt,
+      "updatedAt": VISA.updatedAt
     };
 
     return this.httpClient.post<any>(this.apiUrl + '/ADD_VISA', requestBody, { headers });
