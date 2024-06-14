@@ -6,7 +6,7 @@ import { PagingService } from 'src/app/signals/paging.service';
   templateUrl: './paginator.component.html'
 })
 export class AppPaginatorComponent {
-pageSize : number =10;
+pageSize : number =1;
 currentPage: number = 1;
   constructor(private paginagservice: PagingService) {
     effect(() => {

@@ -1,18 +1,19 @@
 
-import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild, effect } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 // import { tickets } from './ticket-data'
 import { Package } from './ticket';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PackageService } from 'src/app/services/package.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
+import { PagingService } from 'src/app/signals/paging.service';
 
 
 @Component({
@@ -82,8 +83,9 @@ export class AppTicketlistComponent implements OnInit {
   dataSource = new MatTableDataSource(this.packages);
 
   packageExample = new Package();
-
-  constructor(public dialog: MatDialog, private packagesService: PackageService) {
+  pageSize : number =10;
+  currentPage: number = 1;
+  constructor(public dialog: MatDialog, private packagesService: PackageService,private paginagservice:PagingService) {
     this.viewPackage = new Package()
     this.editedpackage = new Package()
     this.editedpackage.status='pending'
@@ -91,7 +93,12 @@ export class AppTicketlistComponent implements OnInit {
     this.editedpackage.price =1
     this.editedpackage.numberOfPeople =1
     this.editedpackage.duration =1
-
+    effect(() => {
+      this.pageSize = paginagservice.pageSize()
+      this.currentPage = paginagservice.currentPage()
+      console.log("pageSize:",this.pageSize)
+      console.log("Current page",this.currentPage)
+    });
   }
 
   ngOnInit(): void {
@@ -100,6 +107,15 @@ export class AppTicketlistComponent implements OnInit {
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
   }
+
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.paginagservice.pageSize.set(event.pageSize)
+    this.paginagservice.currentPage.set(event.pageIndex)
+this.FETCH_PACKAGES()
+  }
+
 
   cancelSelection() {
     this.showCalendar = false;
@@ -124,7 +140,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //FETCH PACKAGES FROM API
   FETCH_PACKAGES(): void {
-    this.packagesService.GET_PACKAGES(1,2).subscribe({
+    this.packagesService.GET_PACKAGES(this.currentPage,this.pageSize).subscribe({
       next: (response: any) => {
         console.log("Response package:",response)
         this.packages = response.packages;
