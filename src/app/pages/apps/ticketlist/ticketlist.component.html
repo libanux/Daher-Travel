@@ -130,15 +130,15 @@
 <mat-card class="cardWithShadow">
 
   <!-- Search -->
-  <header>
-    <div class="col-sm-4 p-20 searchbar ">
-      <mat-form-field appearance="outline" class="hide-hint custom-search ">
-        <input matInput placeholder="Search Packages" />
-        <mat-icon matSuffix>
-          <i-tabler name="search" class="icon-15"></i-tabler>
-        </mat-icon>
-      </mat-form-field>
-    </div>
+  <div class="col-sm-4 p-20 searchbar">
+    <mat-form-field appearance="outline" class="hide-hint custom-search">
+      <input matInput #searchInput (input)="onSearchChange(searchInput.value)" placeholder="Search Packages" />
+      <mat-icon matSuffix>
+        <i-tabler name="search" class="icon-15"></i-tabler>
+      </mat-icon>
+    </mat-form-field>
+  </div>
+  
 
 
     <div class="filter-date">
@@ -151,7 +151,6 @@
 
       </mat-card-header>
     </div>
-  </header>
 
   <mat-card-content>
     <!-- TABLE BODY -->

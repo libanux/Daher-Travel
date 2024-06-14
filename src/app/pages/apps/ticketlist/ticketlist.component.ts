@@ -14,6 +14,8 @@ import { PackageService } from 'src/app/services/package.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { PagingService } from 'src/app/signals/paging.service';
+import { FormControl } from '@angular/forms';
+import { SearchService } from 'src/app/signals/search.service';
 
 
 @Component({
@@ -85,7 +87,7 @@ export class AppTicketlistComponent implements OnInit {
   packageExample = new Package();
   pageSize : number =10;
   currentPage: number = 1;
-  constructor(public dialog: MatDialog, private packagesService: PackageService,private paginagservice:PagingService) {
+  constructor(public dialog: MatDialog, private packagesService: PackageService,private paginagservice:PagingService, private searchService: SearchService) {
     this.viewPackage = new Package()
     this.editedpackage = new Package()
     this.editedpackage.status='pending'
@@ -98,6 +100,7 @@ export class AppTicketlistComponent implements OnInit {
       this.currentPage = paginagservice.currentPage()
       console.log("pageSize:",this.pageSize)
       console.log("Current page",this.currentPage)
+  
     });
   }
 
@@ -107,13 +110,21 @@ export class AppTicketlistComponent implements OnInit {
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
   }
+  searchControl = new FormControl('');
+  onSearchChange(value: string): void {
+    this.searchService.searchKey.set(value);
+    console.log('Search value changed:', value);
+    this.SEARCH_PACKAGES();
+  }
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
+    this.currentPage = event.pageIndex+1;
     this.paginagservice.pageSize.set(event.pageSize)
     this.paginagservice.currentPage.set(event.pageIndex)
-this.FETCH_PACKAGES()
+    console.log("Page size:",event.pageSize)
+    console.log("Page number:",event.pageIndex)
+    this.FETCH_PACKAGES()
   }
 
 
@@ -160,6 +171,29 @@ this.FETCH_PACKAGES()
       }
     });
   }
+
+    //FETCH PACKAGES FROM API
+    SEARCH_PACKAGES(): void {
+      this.packagesService.SEARCH_PACKAGE().subscribe({
+        next: (response: any) => {
+          console.log("Response package:",response)
+          this.packages = response.packages;
+  
+          this.dataSource = new MatTableDataSource(this.packages);
+          this.Inprogress = this.btnCategoryClick('pending');
+          this.Completed = this.btnCategoryClick('completed');
+          this.Cancelled = this.btnCategoryClick('canceled');
+          this.totalCount = response.pagination.totalPackages
+          this.btnCategoryClick('')
+  
+        },
+        error: (error: any) => {
+          console.log("Error:", error)
+        },
+        complete: () => {
+        }
+      });
+    }
 
   CancelUpdate(): void {
     this.ShowAddButoon = true;
