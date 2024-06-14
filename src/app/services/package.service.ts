@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 import { Package } from '../pages/apps/ticketlist/ticket';
 import { DateSelectedSignal } from '../signals/DateSelectedSignal.service';
+import { SearchService } from '../signals/search.service';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class PackageService {
 
   private apiUrl = '';
 
-  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,) {
+  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,private searchService: SearchService) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
@@ -37,6 +38,8 @@ export class PackageService {
 
   // GET PACKAGES
   GET_PACKAGES(page:number, size: number): Observable<any> {
+    console.log("Heree")
+    console.log("Page nb in service is :",page)
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
@@ -44,7 +47,7 @@ export class PackageService {
 
     const requestBody = {
       "pageSize":size,
-      "currentPage":page
+      "page":page
     };
 
     return this.http.post<any>(this.apiUrl + '/GET_ALL_PACKAGES', requestBody, { headers })
@@ -121,6 +124,18 @@ export class PackageService {
     };
     return this.http.post<any>(this.apiUrl + '/DELETE_PACKAGE', requestBody, { headers })
   }
+
+    // FILTER PACKAGE BY DATE
+ SEARCH_PACKAGE(): Observable<any> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`,
+        'Content-Type': 'application/json'
+      });
+      const requestBody = {
+       "name":this.searchService.searchKey(),
+      };
+      return this.http.post<any>(this.apiUrl + '/SEARCH_PACKAGE_BY_FIELDS', requestBody, { headers })
+    }
 
 
   // FILTER PACKAGE BY DATE

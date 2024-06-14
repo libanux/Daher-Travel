@@ -7,6 +7,6 @@ export class PagingService {
 
   constructor() { }
 
-  currentPage = signal(0)
+  currentPage = signal(1)
   pageSize = signal(10)
 }

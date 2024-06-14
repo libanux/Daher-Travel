@@ -1,11 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, effect, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-  constructor() { }
+  constructor() {
+    effect(() => {
+      console.log('Search key at service:', this.searchKey());
+    });
+   }
 
   ShowSearchBar = signal<boolean>(false);
   UserSearchKey = signal<string>('');
@@ -13,4 +17,6 @@ export class SearchService {
   TransactionSearchKey = signal<string>('');
   AdminSearchKey = signal<string>('');
   EditAndProofReadingSearchKey = signal<string>('');
+
+  searchKey=signal<string>('');
 }
