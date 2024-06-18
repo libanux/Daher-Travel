@@ -36,13 +36,17 @@ export class TicketingService {
   }
 
   // GET PACKAGES
-  GET_TICKETINGS(): Observable<any> {
+  GET_TICKETINGS(pageSize: number, currentPage: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
+    const requestBody = {
+      "pageSize":pageSize,
+      "page":currentPage
+    };
 
-    return this.http.get<any>(`${this.apiUrl}/GET_ALL_TICKETING`, { headers });
+    return this.http.post<any>(`${this.apiUrl}/GET_ALL_TICKETING`, requestBody,{ headers });
   }
 
 

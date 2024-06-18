@@ -7,7 +7,7 @@ export class SearchService {
 
   constructor() {
     effect(() => {
-      console.log('Search key at service:', this.searchKey());
+    
     });
    }
 

@@ -36,12 +36,12 @@ export class TicketsComponent {
   //TABLE COLUMNS
   displayedColumns: string[] = [
     'name',
-    'source',
-    'destination',
-    'seats',
-    'duration',
+    'wholesaler.name',
     'price',
     'sell',
+    'cost',
+    'credit',
+    'dateIssue',
     'note',
     'status',
     'action',
@@ -81,6 +81,11 @@ export class TicketsComponent {
     this.editedTicket.seats = 1
   }
 
+  trackById(index: number, item: any): number {
+    return item.id; // Return a unique identifier for each item (e.g., item's ID)
+  }
+  
+
   ngOnInit(): void {
     this.FETCH_TICKETINGS();
   }
@@ -88,14 +93,16 @@ export class TicketsComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-
+pageSize: 10;
+currentPage: 1;
 
 
   //FETCH TICKETINGS FROM API
   FETCH_TICKETINGS(): void {
-    this.ticketingService.GET_TICKETINGS().subscribe({
+    this.ticketingService.GET_TICKETINGS(this.pageSize, this.currentPage).subscribe({
       next: (response: any) => {
-        this.tickets = response;
+        this.tickets = response.ticketings;
+        console.log("rewsponse:",response)
         this.dataSource = new MatTableDataSource(this.tickets);
         this.Inprogress = this.btnCategoryClick('pending');
         this.Completed = this.btnCategoryClick('completed');

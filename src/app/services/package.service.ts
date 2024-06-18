@@ -38,8 +38,6 @@ export class PackageService {
 
   // GET PACKAGES
   GET_PACKAGES(page:number, size: number): Observable<any> {
-    console.log("Heree")
-    console.log("Page nb in service is :",page)
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
@@ -111,26 +109,42 @@ export class PackageService {
   }
 
     // FILTER PACKAGE BY DATE
- SEARCH_PACKAGE(): Observable<any> {
+ SEARCH_PACKAGE(pageSize:number, currentPage: number,searchkey:string): Observable<any> {
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${this.getToken()}`,
         'Content-Type': 'application/json'
       });
       const requestBody = {
-       "name":this.searchService.searchKey(),
+          "name":searchkey,
+           "page": currentPage,
+           "pageSize": pageSize
       };
       return this.http.post<any>(this.apiUrl + '/SEARCH_PACKAGE_BY_FIELDS', requestBody, { headers })
     }
 
-
-  // FILTER PACKAGE BY DATE
-  FILTER_PACKAGE(filterType: string): Observable<any> {
+      // FILTER PACKAGE BY DATE
+  FILTER_PACKAGES_BY_STATUS(pageSize: number, currentPage: number,status: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "filterType": filterType,
+        "status": status,
+        "page": currentPage,
+        "pageSize": pageSize
+    };
+    return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_STATUS', requestBody, { headers })
+  }
+
+
+  // FILTER PACKAGE BY DATE
+  FILTER_PACKAGE_BY_DATE(filter: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "filterType": filter,
       "startDate": this.dateSignal.startDate(),
       "endDate": this.dateSignal.endDate()
     };

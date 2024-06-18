@@ -220,26 +220,51 @@
 <mat-card class="cardWithShadow">
 
   <!-- Search -->
-  <div class="col-sm-4 p-20 searchbar">
-    <mat-form-field appearance="outline" class="hide-hint custom-search">
-      <input matInput #searchInput (input)="onSearchChange(searchInput.value)" placeholder="Search Packages" />
-      <mat-icon matSuffix>
-        <i-tabler name="search" class="icon-15"></i-tabler>
-      </mat-icon>
-    </mat-form-field>
-  </div>
-
-  <div class="filter-date">
-    <mat-card-header class="d-flex">
-      <mat-form-field class="theme-select" appearance="outline">
-        <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value)" placeholder="Today">
-          <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
-        </mat-select>
+  <header>
+    <div class="col-sm-4 p-20 searchbar ">
+      <mat-form-field appearance="outline" class="hide-hint custom-search ">
+        <input matInput placeholder="Search labors" (keyup)="SEARCH_PACKAGES($event)"  />
+        <mat-icon matSuffix>
+          <i-tabler name="search" class="icon-15"></i-tabler>
+        </mat-icon>
       </mat-form-field>
+    </div>
 
-    </mat-card-header>
-  </div>
+    <div class="filter-date">
 
+      @if(showDatePicker) {
+      <mat-form-field appearance="outline" class="date_picker">
+
+        <mat-date-range-input [rangePicker]="custompicker">
+          <input matStartDate placeholder="Start date" />
+          <input matEndDate placeholder="End date" />
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #custompicker></mat-date-range-picker>
+
+      </mat-form-field>
+      }
+
+      <div class="dropdown">
+        <mat-form-field class="theme-select" appearance="outline">
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')" placeholder="Today">
+            <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="dropdown">
+        <mat-form-field class="theme-select" appearance="outline">
+          <mat-select  (selectionChange)="onChange($event.value, 'status')" placeholder="All">
+            <mat-option *ngFor="let element of Filteration" [value]="element.value">{{ element.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </header>
   <mat-card-content>
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
