@@ -1,169 +1,188 @@
+// FIRST CARD : ADD VISA
+.cardWithShadow {
 
-
-.InputsWholeRow{
-    display: flex;
-    justify-content: space-between;
-    column-gap: 15px;
-
-    .inputsInAdd{
-        display: flex;
-        flex-direction: row;
-        column-gap: 5px;
-
-        section{
-            display: flex;
-            flex-direction: row;
-            column-gap: 5px;
-            width: 100%;
-            div {
-                width: 100%;
-                input, select{
-                    width: 100%;
-                    border:  1px solid lightgray;
-                    border-radius: 10px;
-                    padding: 10px 5px;
-                    
-                 }
-            }
-        }
-
-    }
-
-    div button {
-        min-width: 100px;
-    }
-
-    .TwoButtons {
-        display: flex;
-        flex-direction: row;
-        column-gap: 10px;
-        align-items: center;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .OneButton{
-        display: flex;
-        flex-direction: row;
-        column-gap: 10px;
-        align-items: center;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-}
-
-.four-sections-header{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
-    .two-sections-header {
+    .Buttons_div {
         width: 100%;
         display: flex;
         flex-direction: row;
         column-gap: 10px;
-        div {
+        align-items: flex-end;
+        justify-content: flex-end;
 
-            width: 100%;
-            .shadow-none{
-                div{
-                    cursor: pointer;
-                    display: flex;
-                    flex-direction: column;
-                    padding: 10px;
-                    p {
-                        margin: 0;
-                        padding: 0;
-                        font-size: 16px;
-                    }
-                    h3{
-                        margin: 0;
-                        padding: 0;
-                        font-size: 24px;
-                    }
-                }
-            }
+        .TwoButtons {
+            display: flex;
+            flex-direction: row;
+            column-gap: 10px;
+            border-style: none;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
         }
-    }
-}
 
-.table-responsive {
-    table {
-        th, td, td span {
+        .invoice-btn:hover {
             cursor: pointer;
-            font-size: 14px;
+            background-color: #79af8dfb;
+            color: rgb(5, 78, 53);
         }
     }
-
 }
 
-.element-td {
-    div {
-        display: flex;
-        flex-direction: row;
-        column-gap: 10px;
-        align-items: center;
-        justify-content: center;
-    }
-    a {
-        cursor: pointer;
-    }
-}
-
+// SECOND CARD : TABLE
 .cardWithShadow {
     header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 5px;
+
+        .filter-date {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            column-gap: 10px;
+    
+            .date_picker {
+                width: 100%;
+                height: fit-content;
+            }
+    
+            .dropdown {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .table-responsive {
+    table {
+
+        th, td {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .details-container {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            width: 100%;
+        
+            .detail-body {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-between;
+        
+                .col-md-4 {
+                    .detail-field {
+                        margin-bottom: 0.5rem;
+                    }
+                }
+            }
+        
+            .invoice-btn-div {
+                .invoice-btn {
+                    background-color: #ebb31bfb;
+                    border-style: none;
+                    padding: 10px;
+                    border-radius: 10px;
+                    color: white;
+                }
+        
+                .invoice-btn:hover {
+                    cursor: pointer;
+                    background-color: #f0cb65fb;
+                    color: rgb(7, 42, 107);
+                }
+            }
+        }
     }
 }
-  
+}
+
+
 tr.example-detail-row {
     height: 0;
 }
-  
+
 .example-element-row td {
     border-bottom-width: 0;
 }
 
+@media (max-width: 950px) {
+    header {
+        display: flex;
+        background: #d0c0c0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .filter-date {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            column-gap: 10px;
+
+            .date_picker {
+                width: 100%;
+                height: fit-content;
+            }
+
+            .dropdown {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}
 
 @media (max-width: 800px) {
-    .InputsWholeRow{
+    .InputsWholeRow {
         display: flex;
         flex-direction: column;
         row-gap: 5px;
-        .inputsInAdd{
+
+        .inputsInAdd {
             display: flex;
             flex-direction: column;
             row-gap: 5px;
-    
-            section{
+
+            section {
                 display: flex;
                 flex-direction: row;
                 column-gap: 5px;
                 width: 100%;
+
                 div {
                     width: 100%;
-                    input, select{
+
+                    input,
+                    select {
                         width: 100%;
-                        border:  1px solid lightgray;
+                        border: 1px solid lightgray;
                         border-radius: 10px;
                         padding: 10px 5px;
-                     }
+                    }
                 }
             }
-    
+
         }
-        
+
         div {
             display: flex;
             justify-content: flex-end;
             align-items: flex-end;
             min-width: 100px;
         }
-    
+
         .TwoButtons {
             display: flex;
             flex-direction: row;
@@ -172,26 +191,10 @@ tr.example-detail-row {
             justify-content: flex-end;
             align-items: flex-end;
         }
-  
-    
+
+
     }
 
-    .four-sections-header{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        row-gap: 0px;
-        .two-sections-header {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            column-gap: 10px;
-            div {
-                width: 100%;
-            }
-        }
-    }
-    
 }
 
 @media (max-width: 600px) {
@@ -200,7 +203,7 @@ tr.example-detail-row {
             display: flex;
             flex-direction: column;
 
-            .filter-date{
+            .filter-date {
                 display: flex;
                 justify-content: flex-end;
                 align-items: flex-end;
@@ -208,80 +211,37 @@ tr.example-detail-row {
         }
     }
 
-    .four-sections-header{
-        .two-sections-header {
-            div {
-                .shadow-none{
-                    div{
-                        p {
-                            font-size: 13px;
-                        }
+}
+
+@media (max-width: 350px) {
+    .InputsWholeRow {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+
+        .inputsInAdd {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+
+            section {
+                display: flex;
+                flex-direction: column;
+                row-gap: 5px;
+                width: 100%;
+
+                div {
+                    width: 100%;
+
+                    input,
+                    select {
+                        width: 100%;
+                        border: 1px solid lightgray;
+                        border-radius: 10px;
+                        padding: 10px 5px;
                     }
                 }
             }
         }
     }
-      
 }
-
-
-
-@media (max-width: 350px) {
-    .InputsWholeRow{
-        display: flex;
-        flex-direction: column;
-        row-gap: 5px;
-        .inputsInAdd{
-            display: flex;
-            flex-direction: column;
-            row-gap: 5px;
-    
-            section{
-                display: flex;
-                flex-direction: column;
-                row-gap: 5px;
-                width: 100%;
-                div {
-                    width: 100%;
-                    input, select{
-                        width: 100%;
-                        border:  1px solid lightgray;
-                        border-radius: 10px;
-                        padding: 10px 5px;
-                     }
-                }
-            }
-    
-        }
-
-    }
-}
-
-.textarea{
-    width: 100%;
-    border:  1px solid lightgray;
-    border-radius: 10px;
-    padding: 10px 5px;
-    height: 38px;
- }
-
-
-//  .option-style {
-//     height: 40px;
-//     background-color: #2a3547; 
-//   }
-  
-//   .option-style.completed {
-//     background-color: #2a3547;
-//   }
-  
-//   .option-style.canceled {
-//     background-color: #2a3547;
-//   }
-  
-
-
-
-
-
-  
