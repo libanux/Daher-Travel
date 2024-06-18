@@ -56,10 +56,8 @@
     }
     .table-responsive{
         table {
-            td {
+            tr:hover {
                 cursor: pointer;
-            }
-            td:hover {
                 background: #e6e4e4;
             }
         }

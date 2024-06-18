@@ -77,24 +77,23 @@ export class AdminsComponent implements AfterViewInit, OnInit {
   OPEN_DIALOG(action: string, obj: any): void {
     console.log(obj)
 
-    this.ADDED_ADMIN = {
-      _id: obj._id,
-      firstname: obj.firstname,
-      lastname: obj.lastname,
-      email: obj.email,
-      phone: obj.phone,
-      password: obj.password,
-      permissions: {
-          packages: obj.packages,
-          visa: obj.visa,
-          recruitment: obj.recruitment,
-          accounting: obj.accounting,
-          users: obj.users,
-          notes:obj.notes,
-      },
-  
-      token: '',
-    }
+    // this.ADDED_ADMIN = {
+    //   _id: obj._id,
+    //   firstname: obj.firstname,
+    //   lastname: obj.lastname,
+    //   email: obj.email,
+    //   phone: obj.phone,
+    //   password: obj.password,
+    //   permissions: {
+    //       packages: obj.packages,
+    //       visa: obj.visa,
+    //       recruitment: '',
+    //       accounting: '',
+    //       users: obj.users,
+    //       notes:obj.notes,
+    //   },
+    //   token: '',
+    // }
 
     obj.action = action;
 

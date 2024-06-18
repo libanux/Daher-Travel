@@ -7,9 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
-import { id } from 'date-fns/locale';
 import { VisaService } from 'src/app/services/visa.service';
-
 
 @Component({
   selector: 'app-visa-component',
@@ -75,8 +73,7 @@ export class VisaComponentComponent implements OnInit {
     status: '',
     type: '',
     createdAt: '',
-    updatedAt: '',
-
+    updatedAt: ''
   }
 
   showCalendar: boolean = false;
@@ -85,8 +82,6 @@ export class VisaComponentComponent implements OnInit {
   selectedDate: Date | null = null; // Adjusted the type to accept null
 
   CurrentAction = 'Add Visa'
-  // VisaArray : VisaClass [] = []
-
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: VisaClass | null = null;
   VisaArray = new MatTableDataSource();
@@ -154,9 +149,9 @@ export class VisaComponentComponent implements OnInit {
     // Do something with the selected date
   }
 
-  ngAfterViewInit(): void {
-    this.VisaArray.paginator = this.paginator;
-  }
+  // ngAfterViewInit(): void {
+  //   this.VisaArray.paginator = this.paginator;
+  // }
 
   truncateText(text: string, limit: number): string {
     if (text && text.length > limit) {
