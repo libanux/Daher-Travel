@@ -44,7 +44,7 @@ export class AppTicketlistComponent implements OnInit {
   editedpackage: Package
 
   //TABLE COLUMNS
-  displayedColumns: string[] = ['name','source', 'destination', 'numberOfPeople', 'duration', 'price','sell', 'hotels', 'note', 'status', 'action'];
+  displayedColumns: string[] = ['name', 'source', 'destination', 'numberOfPeople', 'duration', 'price', 'sell', 'hotels', 'note', 'status', 'action'];
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Package | null = null;
@@ -65,6 +65,16 @@ export class AppTicketlistComponent implements OnInit {
     { value: 'thisYear', viewValue: 'This Year' },
     { value: 'custom', viewValue: 'Custom' },
   ];
+
+  //FILTRATION ARRAY
+  Filteration: month[] = [
+    { value: 'all', viewValue: 'All' },
+    { value: 'canceled', viewValue: 'Canceled' },
+    { value: 'completed', viewValue: 'Completed' },
+    { value: 'pending', viewValue: 'Pending' },
+  ];
+
+  showDatePicker = false;
 
   //PACKAGES
   dataSource = new MatTableDataSource(this.packages);
@@ -94,11 +104,6 @@ export class AppTicketlistComponent implements OnInit {
     console.log('Selected Date:', date);
   }
 
-  onSearchChange(value: string): void {
-    this.searchService.searchKey.set(value);
-    console.log('Search value changed:', value);
-    this.SEARCH_PACKAGES();
-  }
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
@@ -152,17 +157,14 @@ export class AppTicketlistComponent implements OnInit {
   }
 
   //FETCH PACKAGES FROM API
-  SEARCH_PACKAGES(): void {
-    this.packagesService.SEARCH_PACKAGE().subscribe({
+  SEARCH_PACKAGES(event: any): void {
+    this.currentPage = 1;
+    this.packagesService.SEARCH_PACKAGE(this.pageSize, this.currentPage, event.target.value).subscribe({
       next: (response: any) => {
+
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
-        this.Inprogress = this.btnCategoryClick('pending');
-        this.Completed = this.btnCategoryClick('completed');
-        this.Cancelled = this.btnCategoryClick('canceled');
         this.totalCount = response.pagination.totalPackages
-        this.btnCategoryClick('')
-
       },
       error: (error: any) => {
         console.log("Error:", error)
@@ -177,26 +179,58 @@ export class AppTicketlistComponent implements OnInit {
 
   }
 
-  //TRIGGER THE DROP DOWN FILTER VALUES
-  onChange(value: string) {
-    if (value === 'custom') {
-      this.openCalendarDialog();
+
+  //DATE AND STATUS DROPDOWN CHANGE
+  onChange(value: string, dropdown: string) {
+    if (dropdown == 'month') {
+      if (value === 'custom') {
+        this.showDatePicker = true;
+      }
+
+      else {
+        this.showDatePicker = false;
+        this.FILTER_PACKAGES_BY_DATE(value)
+      }
     }
-    else {
-      this.packagesService.FILTER_PACKAGE(value).subscribe({
-        next: (response: any) => {
-          this.packages = response;
-          this.dataSource = new MatTableDataSource(this.packages);
-          this.totalCount = this.dataSource.data.length;
-          this.Inprogress = this.btnCategoryClick('pending');
-        },
-        error: (error: any) => {
-          console.log("Error:", error)
-        },
-        complete: () => {
-        }
-      });
+
+    else if (dropdown == 'status') {
+      if (value == 'all') {
+        this.FETCH_PACKAGES()
+      }
+      else {
+        console.log("Value", value)
+        this.FILTER_PACKAGES(value)
+      }
     }
+  }
+
+  //FILTER PACKAGES BY STATUS
+  FILTER_PACKAGES(status: string) {
+    this.packagesService.FILTER_PACKAGES_BY_STATUS(this.pageSize, this.currentPage, status).subscribe({
+      next: (response: any) => {
+        this.packages = response.packages;
+        this.dataSource = new MatTableDataSource(this.packages);
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
+  }
+
+
+  //FILTER PACKAGES BY DATE
+  FILTER_PACKAGES_BY_DATE(filter: string) {
+    this.packagesService.FILTER_PACKAGE_BY_DATE(filter).subscribe({
+      next: (response: any) => {
+        this.packages = response;
+        this.dataSource = new MatTableDataSource(this.packages);
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
   }
 
   //OPEN THE CALENDAR DIALOG
@@ -210,7 +244,7 @@ export class AppTicketlistComponent implements OnInit {
       if (result) {
         if (result.startDate && result.endDate) {
           this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-          this.packagesService.FILTER_PACKAGE("custom").subscribe({
+          this.packagesService.FILTER_PACKAGE_BY_DATE("custom").subscribe({
             next: (response: any) => {
               console.log("Response:", response)
               this.packages = response;
@@ -236,7 +270,7 @@ export class AppTicketlistComponent implements OnInit {
   UPDATE(obj: Package): void {
     this.ShowAddButoon = false;
     this.editedpackage = { ...obj };
-    console.log("Edited pack",this.editedpackage)
+    console.log("Edited pack", this.editedpackage)
   }
 
 

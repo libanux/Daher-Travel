@@ -140,13 +140,11 @@ export class LaborMainComponent implements AfterViewInit {
 
   // Function to handle input change
   onInputChange(event: any) {
-    this.recruitingService.SEARCH_RECRUITING(this.pageSize, this.currentPage, event.target.value).subscribe({
+    this.recruitingService.SEARCH_RECRUITING(this.pageSize, this.currentPage, event).subscribe({
       next: (response: any) => {
+
         this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
-        this.Inprogress = this.btnCategoryClick('pending');
-        this.Completed = this.btnCategoryClick('completed');
-        this.Cancelled = this.btnCategoryClick('canceled');
         this.totalCount = response.pagination.totalRecruitings;
       },
       error: (error: any) => {
@@ -288,7 +286,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //FILTER RECRUITING RECORDS BY DATE
   FILTER_RECRUITING_BY_DATE(filter: string) {
-    this.recruitingService.FILTER_RECRUITING_BY_DATE(this.pageSize, this.currentPage, filter).subscribe({
+    this.recruitingService.FILTER_RECRUITING_BY_DATE(filter).subscribe({
       next: (response: any) => {
         this.recruitings = response;
         this.dataSource = new MatTableDataSource(this.recruitings);

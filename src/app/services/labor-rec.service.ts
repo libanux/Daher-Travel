@@ -143,7 +143,7 @@ FILTER_RECRUITINGS(pageSize:number, currentPage: number,status: String): Observa
 
 
 // FILTER RECRUITING RECORDS
-FILTER_RECRUITING_BY_DATE(pageSize:number, currentPage: number,filter: String): Observable<any> {
+FILTER_RECRUITING_BY_DATE(filter: String): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.getToken()}`,
     'Content-Type': 'application/json'
