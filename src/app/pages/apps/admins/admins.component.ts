@@ -104,8 +104,8 @@ export class AdminsComponent implements AfterViewInit, OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Add') {
-        console.log(result.data)
         this.ADD_ADMIN(result.data);
+        console.log(result.data)
       } 
       else if (result.event === 'Update') {
         this.UPDATE_ADMIN(result.data);

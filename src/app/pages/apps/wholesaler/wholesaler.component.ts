@@ -97,22 +97,22 @@ export class WholesalerComponent implements OnInit {
 
   // GET ALL VISA'S 
   FETCH_VISA() {
-    this.visaService.GET_ALL_VISA().subscribe({
+    // this.visaService.GET_ALL_VISA().subscribe({
 
-      next: (response: any) => {
-        this.totalCount = response.length;
+    //   next: (response: any) => {
+    //     this.totalCount = response.length;
 
-        // Calculate status counts without filtering the array
-        this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
-        this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
-        this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
+    //     // Calculate status counts without filtering the array
+    //     this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
+    //     this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
+    //     this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
 
-        this.VisaArray = new MatTableDataSource(response);
-      },
-      error: (error) => { },
-      complete: () => {}
+    //     this.VisaArray = new MatTableDataSource(response);
+    //   },
+    //   error: (error) => { },
+    //   complete: () => {}
 
-    });
+    // });
   }
 
   onChange(value: string) {

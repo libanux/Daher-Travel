@@ -22,7 +22,7 @@ export class CustomerService {
   }
 
   //GET ALL CUSTOMER
-  GET_ALL_CUSTOMER(): Observable<any> {
+  GET_ALL_CUSTOMER(currentPage: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -30,8 +30,8 @@ export class CustomerService {
     });
 
     const requestBody = {
-      "page": 1,
-      "pageSize": 20
+      "page": currentPage,
+      "pageSize": this.pagingSize
     }
 
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS', requestBody, { headers });
@@ -45,10 +45,16 @@ UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
     'Content-Type': 'application/json' 
   });
 
-    const requestBody = {
-    "id": CUSTOMER._id,
-  };
+  console.log(CUSTOMER)
 
+    const requestBody = {
+      id: CUSTOMER._id,
+      "updateData": {
+        name: CUSTOMER.name,
+        address: CUSTOMER.address
+      }
+    };
+    
   return this.httpClient.post<any>(this.apiUrl + '/UPDATE_CUSTOMER', requestBody, { headers });
 }
 

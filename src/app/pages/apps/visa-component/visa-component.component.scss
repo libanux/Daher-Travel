@@ -106,7 +106,6 @@
 }
 }
 
-
 tr.example-detail-row {
     height: 0;
 }
@@ -115,87 +114,6 @@ tr.example-detail-row {
     border-bottom-width: 0;
 }
 
-@media (max-width: 950px) {
-    header {
-        display: flex;
-        background: #d0c0c0;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        .filter-date {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            column-gap: 10px;
-
-            .date_picker {
-                width: 100%;
-                height: fit-content;
-            }
-
-            .dropdown {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
-    }
-}
-
-@media (max-width: 800px) {
-    .InputsWholeRow {
-        display: flex;
-        flex-direction: column;
-        row-gap: 5px;
-
-        .inputsInAdd {
-            display: flex;
-            flex-direction: column;
-            row-gap: 5px;
-
-            section {
-                display: flex;
-                flex-direction: row;
-                column-gap: 5px;
-                width: 100%;
-
-                div {
-                    width: 100%;
-
-                    input,
-                    select {
-                        width: 100%;
-                        border: 1px solid lightgray;
-                        border-radius: 10px;
-                        padding: 10px 5px;
-                    }
-                }
-            }
-
-        }
-
-        div {
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-            min-width: 100px;
-        }
-
-        .TwoButtons {
-            display: flex;
-            flex-direction: row;
-            column-gap: 10px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-        }
-
-
-    }
-
-}
 
 @media (max-width: 600px) {
     .cardWithShadow {
@@ -203,44 +121,15 @@ tr.example-detail-row {
             display: flex;
             flex-direction: column;
 
+            .searchbar {
+                margin: 10px 20px 0 20px;
+            }
+
             .filter-date {
+                width: 100%;
                 display: flex;
                 justify-content: flex-end;
                 align-items: flex-end;
-            }
-        }
-    }
-
-}
-
-@media (max-width: 350px) {
-    .InputsWholeRow {
-        display: flex;
-        flex-direction: column;
-        row-gap: 5px;
-
-        .inputsInAdd {
-            display: flex;
-            flex-direction: column;
-            row-gap: 5px;
-
-            section {
-                display: flex;
-                flex-direction: column;
-                row-gap: 5px;
-                width: 100%;
-
-                div {
-                    width: 100%;
-
-                    input,
-                    select {
-                        width: 100%;
-                        border: 1px solid lightgray;
-                        border-radius: 10px;
-                        padding: 10px 5px;
-                    }
-                }
             }
         }
     }
