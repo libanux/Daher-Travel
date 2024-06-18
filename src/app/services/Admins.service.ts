@@ -91,31 +91,6 @@ export class AdminService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_PROFILE_BY_ID', requestBody, { headers });
   }
 
-  // // ADD USER
-  // EDIT_ADMIN(admin: Admin): Observable<any> {
-  //   const jwt = this.generalService.storedToken;
 
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `Bearer ${this.storedToken}`,
-  //     'Content-Type': 'application/json'
-  //   });
-  //   const requestBody = {
-  //     // USER_ID: user.user_ID,
-  //     // OWNER_ID: user.owner_ID,
-  //     // GOOGLE_U: user.google_U,
-  //     // FIRST_NAME: user.first_NAME,
-  //     // LAST_NAME: user.last_NAME,
-  //     // USERNAME: user.username,
-  //     // EMAIL: user.email,
-  //     // PASSWORD: user.password,
-  //     // USER_TYPE_CODE: user.user_TYPE_CODE,
-  //     // USER_LANG_CODE: user.user_LANG_CODE,
-  //     // IS_ACTIVE: user.is_ACTIVE,
-  //     // IS_DELETED: user.is_DELETED,
-  //     // PROFILE_COMPLETED: user.profile_COMPLETED,
-  //     // ENTRY_DATE: user.entry_DATE
-  //   };
-  //   return this.httpClient.post<any>(this.apiUrl + '/EDIT_USER', requestBody, { headers })
-  // }
 
 }

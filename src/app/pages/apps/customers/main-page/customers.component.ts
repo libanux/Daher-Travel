@@ -21,8 +21,6 @@ export interface PeriodicElement {
   priority: string;
 }
 
-
-
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
@@ -52,73 +50,17 @@ export class CustomersComponent implements OnInit {
 
   displayedColumns: string[] = [
     'select',
-    'Firstname',
-    'Lastname',
-    'Email',
-    'Phone',
-    'Token'
+    'Name',
+    'Phone-Number',
+    'Address',
   ];
 
   ADDED_CUSTOMER: CustomerClass = {
     _id: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    phone: '',
-    token: '',
+    name: '',
+    phoneNumber: '',
+    address: '',
   }
-
- usersArray: any = [
-  {
-    _id: '1',
-    firstname: 'John',
-    lastname: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '123-456-7890',
-    token: 'abc123xyz456',
-  },
-  {
-    _id: '2',
-    firstname: 'Jane',
-    lastname: 'Smith',
-    email: 'jane.smith@example.com',
-    phone: '987-654-3210',
-    token: 'def456ghi789',
-  },
-  {
-    _id: '1',
-    firstname: 'John',
-    lastname: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '123-456-7890',
-    token: 'abc123xyz456',
-  },
-  {
-    _id: '2',
-    firstname: 'Jane',
-    lastname: 'Smith',
-    email: 'jane.smith@example.com',
-    phone: '987-654-3210',
-    token: 'def456ghi789',
-  },
-  {
-    _id: '1',
-    firstname: 'John',
-    lastname: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '123-456-7890',
-    token: 'abc123xyz456',
-  },
-  {
-    _id: '2',
-    firstname: 'Jane',
-    lastname: 'Smith',
-    email: 'jane.smith@example.com',
-    phone: '987-654-3210',
-    token: 'def456ghi789',
-  },
-];
-
 
 Filteration: month[] = [
   { value: 'all', viewValue: 'All' },
@@ -134,7 +76,7 @@ Filteration: month[] = [
   valueDisplayed = ''
 
 show_print_btn: boolean = false;
-  selection = new SelectionModel<PeriodicElement>(true, []);
+selection = new SelectionModel<PeriodicElement>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected(): any {
@@ -175,28 +117,6 @@ show_print_btn: boolean = false;
     this.FETCH_CUSTOMER();
   }
 
-  // GET ALL CUSTOMER'S 
-  FETCH_CUSTOMER() {
-
-    this.CustomersArray = new MatTableDataSource(this.usersArray);
-
-
-    // this.customerService.GET_ALL_CUSTOMER().subscribe({
-    //   next: (response: any) => {
-    //     this.totalCount = response.length;
-
-    //     // Calculate status counts without filtering the array
-    //     this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
-    //     this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
-    //     this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
-
-    //     this.CustomersArray = new MatTableDataSource(response);
-    //   },
-    //   error: (error) => { },
-    //   complete: () => {}
-
-    // });
-  }
 
   ngAfterViewInit(): void {
     this.CustomersArray.paginator = this.paginator;
@@ -248,21 +168,18 @@ show_print_btn: boolean = false;
     });
   }
 
-  //GET THE STATUS CLASS
-  GET_STATUS_CLASS(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'approved':
-        return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'rejected':
-        return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      default:
-        return '';
-    }
-  }
 
-  // ACTION BUTTONS : ADD , UPDATE , CANCEL , DELETE 
+
+  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
+
+    // GET ALL CUSTOMER'S 
+    FETCH_CUSTOMER() {
+      this.customerService.GET_ALL_CUSTOMER().subscribe({
+        next: (response: any) =>{this.CustomersArray = new MatTableDataSource(response.customers);},
+        error: (error) => { },
+        complete: () => {}
+      });
+    }
 
   // DELETE 
   DELETE_CUSTOMER(ID: number): void {
@@ -279,10 +196,7 @@ show_print_btn: boolean = false;
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => {
-        this.CANCEL_UPDATE();
-        this.FETCH_CUSTOMER();
-      }
+      complete: () => { this.CANCEL_UPDATE(); this.FETCH_CUSTOMER();}
     });
   }
 
@@ -304,11 +218,9 @@ show_print_btn: boolean = false;
 
     this.ADDED_CUSTOMER = {
       _id: obj._id,
-      firstname: obj.firstname,
-      lastname: obj.lastname,
-      email: obj.email,
-      phone: obj.phone,
-      token: obj.token
+      name: obj.name,
+      phoneNumber: obj.phoneNumber,
+      address: obj.address
     }
 
   }
@@ -318,11 +230,9 @@ show_print_btn: boolean = false;
     this.ShowAddButoon = true
     this.ADDED_CUSTOMER = {
       _id: '',
-      firstname: '',
-      lastname: '',
-      email: '',
-      phone: '',
-      token: '',
+      name: '',
+      phoneNumber: '',
+      address: '',
     }
   }
 

@@ -1,1 +1,186 @@
-<p>view-customer works!</p>
+<div class="row">
+
+    <div class="col-lg-4">
+      <mat-card class="cardWithShadow theme-card">
+        <mat-card-header>
+          <mat-card-title class="m-b-0">View Customer</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="b-t-1">
+          <form>
+
+            <div class="row">
+              
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
+             </div>
+
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder={{VIEWED_CUSTOMER.name}}/>
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">phoneNumber</mat-label>
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="ACME Inc." />
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler
+                      name="building-arch"
+                      class="icon-20 d-flex"
+                    ></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Email</mat-label
+                >
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="john.deo" type="email" />
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="mail" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Phone No</mat-label
+                >
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="123 4561 123" />
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="phone" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Message
+                </mat-label>
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <textarea
+                    rows="5"
+                    matInput
+                    placeholder="Hi, Do you have a moment to talk Deo ?"
+                  ></textarea>
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="message-2" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-sm-8">
+                <button mat-flat-button color="primary">Send</button>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>  
+
+
+    <div class="col-lg-8">
+      <mat-card class="cardWithShadow theme-card">
+        <mat-card-header>
+          <mat-card-title class="m-b-0">Basic Layout</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="b-t-1">
+          <form>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Name</mat-label
+                >
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="John Deo" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Company</mat-label
+                >
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="ACME Inc." />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Email</mat-label
+                >
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="john.deo" type="email" />
+                  <span matTextSuffix>&#64;example.com</span>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Phone No</mat-label
+                >
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="123 4561 123" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 d-flex align-items-center">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
+                  >Message
+                </mat-label>
+              </div>
+              <div class="col-sm-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <textarea
+                    rows="5"
+                    matInput
+                    placeholder="Hi, Do you have a moment to talk Deo ?"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-sm-8">
+                <button mat-flat-button color="primary">Send</button>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+
+  
+  </div>

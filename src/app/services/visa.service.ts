@@ -26,51 +26,51 @@ export class VisaService {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     });
 
     const requestBody = {
       "page": 1,
       "pageSize": 10
-      }
-  
+    }
 
-    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_VISA',requestBody, { headers });
+
+    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_VISA', requestBody, { headers });
   }
 
   //UPDATE VISA
-UPDATE_VISA(VISA: VisaClass): Observable<any> {
-
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
-    'Content-Type': 'application/json' 
-  });
-
-    const requestBody = {
-    "id": VISA._id,
-
-    "updateData":{ 
-      "name": VISA.name,
-      "country": VISA.country,
-      "note": VISA.note,
-      "sell": VISA.sell,
-      "status": VISA.status,
-      "type":VISA.type,
-      "createdAt":VISA.createdAt,
-      "updatedAt": VISA.updatedAt
-    }
-
-    };
-
-  return this.httpClient.post<any>(this.apiUrl + '/UPDATE_VISA', requestBody, { headers });
-}
-
-  //ADD VISA
-ADD_VISA(VISA: VisaClass): Observable<any> {
+  UPDATE_VISA(VISA: VisaClass): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
+    });
+
+    const requestBody = {
+      "id": VISA._id,
+
+      "updateData": {
+        "name": VISA.name,
+        "country": VISA.country,
+        "note": VISA.note,
+        "sell": VISA.sell,
+        "status": VISA.status,
+        "type": VISA.type,
+        "createdAt": VISA.createdAt,
+        "updatedAt": VISA.updatedAt
+      }
+
+    };
+
+    return this.httpClient.post<any>(this.apiUrl + '/UPDATE_VISA', requestBody, { headers });
+  }
+
+  //ADD VISA
+  ADD_VISA(VISA: VisaClass): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
     });
 
     // Define the request body
@@ -80,25 +80,25 @@ ADD_VISA(VISA: VisaClass): Observable<any> {
       "note": VISA.note,
       "sell": VISA.sell,
       "status": VISA.status,
-      "type":VISA.type,
-      "createdAt":VISA.createdAt,
+      "type": VISA.type,
+      "createdAt": VISA.createdAt,
       "updatedAt": VISA.updatedAt
     };
 
     return this.httpClient.post<any>(this.apiUrl + '/ADD_VISA', requestBody, { headers });
-}
+  }
 
-//DELETE VISA
-DELETE_VISA(ID: number): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
-    'Content-Type': 'application/json' 
-  });
+  //DELETE VISA
+  DELETE_VISA(ID: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
 
-  const requestBody = { "id": ID  };
+    const requestBody = { "id": ID };
 
-   return this.httpClient.post<any>(this.apiUrl + '/DELETE_VISA', requestBody, { headers });
-}
+    return this.httpClient.post<any>(this.apiUrl + '/DELETE_VISA', requestBody, { headers });
+  }
 
   //GET VISA BY ID
   GET_VISA_BY_ID(paymentID: number): Observable<any> {
@@ -113,4 +113,45 @@ DELETE_VISA(ID: number): Observable<any> {
     return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_PAYMENT_ID_ADV', requestBody, { headers });
   }
 
+  FILTER_VISA_BY_DATE(filterType: string): Observable<any> {
+    const jwt = this.generalService.storedToken;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      filterType: filterType,
+      startDate: '',
+      endDate: ''
+    };
+    return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_DATE', requestBody, { headers });
+  }
+
+  FILTER_VISA_BY_STATUS(status: string): Observable<any> {
+    const jwt = this.generalService.storedToken;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      status: status,
+      page: 1,
+      pageSize: 10
+    };
+    return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_STATUS', requestBody, { headers });
+  }
+
+  FILTER_VISA_BY_SEARCH_KEY(SEARCK_KEY: string): Observable<any> {
+    const jwt = this.generalService.storedToken;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      name: SEARCK_KEY,
+      page: 1,
+      pageSize: 10
+    };
+    return this.httpClient.post<any>(this.apiUrl + '/SEARCH_VISA_BY_FIELDS', requestBody, { headers });
+  }
 }

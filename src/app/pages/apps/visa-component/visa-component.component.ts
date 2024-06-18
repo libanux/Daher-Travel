@@ -30,11 +30,11 @@ import { VisaService } from 'src/app/services/visa.service';
 export class VisaComponentComponent implements OnInit {
 
   months: month[] = [
-    { value: 'Today', viewValue: 'Today' },
-    { value: 'Yesterday', viewValue: 'Yesterday' },
-    { value: 'Last Week', viewValue: 'Last Week' },
-    { value: 'Last Month', viewValue: 'Last Month' },
-    { value: 'Last Year', viewValue: 'Last Year' },
+    { value: 'today', viewValue: 'Today' },
+    { value: 'yesterday', viewValue: 'Yesterday' },
+    { value: 'thisWeek', viewValue: 'This Week' },
+    { value: 'thisMonth', viewValue: 'This Month' },
+    { value: 'thisYear', viewValue: 'This Year' },
     { value: 'Calendar', viewValue: 'Custom' }
   ];
 
@@ -79,6 +79,11 @@ export class VisaComponentComponent implements OnInit {
 
   }
 
+  showCalendar: boolean = false;
+  selectedMonth: string = '';
+  selectedStatusFilteraTION: string = '';
+  selectedDate: Date | null = null; // Adjusted the type to accept null
+
   CurrentAction = 'Add Visa'
   // VisaArray : VisaClass [] = []
 
@@ -100,20 +105,6 @@ export class VisaComponentComponent implements OnInit {
     this.FETCH_VISA();
   }
 
-  // GET ALL VISA'S 
-  FETCH_VISA() {
-    this.visaService.GET_ALL_VISA().subscribe({
-      next: (response: any) => {
-        console.log(response)
-        this.VisaArray = new MatTableDataSource(response.visas);
-      },
-      error: (error) => { },
-      complete: () => { }
-
-    });
-  }
-
-
   showDatePicker = false;
   onChange(value: string, dropdown: string) {
 
@@ -124,6 +115,7 @@ export class VisaComponentComponent implements OnInit {
 
       else {
         this.showDatePicker = false;
+        this.FILTER_ARRAY_BY_DATE(value)
       }
     }
 
@@ -157,11 +149,6 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
-  showCalendar: boolean = false;
-  selectedMonth: string = '';
-  selectedStatusFilteraTION: string = '';
-  selectedDate: Date | null = null; // Adjusted the type to accept null
-
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
     // Do something with the selected date
@@ -169,15 +156,6 @@ export class VisaComponentComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.VisaArray.paginator = this.paginator;
-  }
-
-  APPLY_SEARCH_FILTER(filterValue: string): void {
-    // this.VisaArray.filter = filterValue.trim().toLowerCase();
-  }
-
-  //STATUS FILTERATION
-  FILTER_ARRAY_BY_STATUS(val: any) {
-    this.VisaArray.filter = val.trim().toLowerCase();
   }
 
   truncateText(text: string, limit: number): string {
@@ -213,7 +191,22 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
-  // ACTION BUTTONS : ADD , UPDATE , CANCEL , DELETE 
+
+  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
+
+  // GET ALL VISA'S 
+  FETCH_VISA() {
+    this.visaService.GET_ALL_VISA().subscribe({
+      next: (response: any) => {
+        console.log(response)
+        this.VisaArray = new MatTableDataSource(response.visas);
+      },
+      error: (error) => { },
+      complete: () => { }
+
+    });
+  }
+
   // DELETE 
   DELETE_VISA(ID: number): void {
     this.visaService.DELETE_VISA(ID).subscribe({
@@ -281,6 +274,32 @@ export class VisaComponentComponent implements OnInit {
       createdAt: '',
       updatedAt: '',
     }
+  }
+
+  //STATUS FILTERATION
+  FILTER_ARRAY_BY_STATUS(val: any) {
+    this.visaService.FILTER_VISA_BY_STATUS(val).subscribe({
+      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
+      error: (error) => { },
+      complete: () => { }
+    });
+  }
+
+  //DATE FILTERATION
+  FILTER_ARRAY_BY_DATE(filter_type: any) {
+    this.visaService.FILTER_VISA_BY_DATE(filter_type).subscribe({
+      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
+      error: (error) => { },
+      complete: () => { }
+    });
+  }
+
+  APPLY_SEARCH_FILTER(filterValue: string): void {
+    this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue).subscribe({
+      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
+      error: (error) => { },
+      complete: () => { }
+    });    console.log(filterValue)
   }
 
 }
