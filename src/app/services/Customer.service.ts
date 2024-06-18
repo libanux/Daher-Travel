@@ -29,7 +29,12 @@ export class CustomerService {
       'Content-Type': 'application/json' 
     });
 
-    return this.httpClient.get<any>(this.apiUrl + '/GET_ALL_CUSTOMER', { headers });
+    const requestBody = {
+      "page": 1,
+      "pageSize": 20
+    }
+
+    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS', requestBody, { headers });
   }
 
   //UPDATE CUSTOMER
@@ -57,16 +62,11 @@ ADD_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
 
     // Define the request body
     const requestBody = {
-    //   "name": CUSTOMER.name,
-    //   "source": CUSTOMER.source,
-    //   "destination": CUSTOMER.destination,
-    //   "sell": CUSTOMER.sell,
-    //   "note": CUSTOMER.note,
-    //   "status": CUSTOMER.status,
-    //   "type":CUSTOMER.type,
-    //   "price": CUSTOMER.price
+      "name": CUSTOMER.name,
+      "phoneNumber": CUSTOMER.phoneNumber,
+      "address": CUSTOMER.address
     };
-
+    
     return this.httpClient.post<any>(this.apiUrl + '/ADD_CUSTOMER', requestBody, { headers });
 }
 

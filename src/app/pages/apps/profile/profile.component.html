@@ -20,39 +20,39 @@
                 <mat-card-subtitle class="mat-body-1">To change your personal detail , edit and save from
                   here</mat-card-subtitle>
 
-                <div class="row m-t-24">
-                  <div class="col-sm-6">
-                    <!-- input -->
-                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">First Name</mat-label>
-                    <mat-form-field appearance="outline" class="w-100" color="primary">
-                      <input matInput type="text" [(ngModel)]="admin.firstname" placeholder="First Name" />
-                    </mat-form-field>
-                    <!-- input -->
-                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Last Name</mat-label>
-                    <mat-form-field appearance="outline" class="w-100" color="primary">
-                      <input matInput type="text" [(ngModel)]="admin.lastname" placeholder="Last Name" />
-                    </mat-form-field>
-                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Email</mat-label>
-                    <mat-form-field appearance="outline" class="w-100" color="primary">
-                      <input matInput type="email" placeholder="Email" [(ngModel)]="admin.email" />
-                    </mat-form-field>
-                  </div>
-                  <div class="col-sm-6">
-                    <!-- input -->
-                    <!-- input -->
-                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Phone</mat-label>
-                    <mat-form-field appearance="outline" class="w-100" color="primary">
-                      <input matInput type="text" placeholder="Phone" [(ngModel)]="admin.phone" />
-                    </mat-form-field>
+<div class="row m-t-24">
 
-                  </div>
-                  <div class="col-12">
-                    <!-- input -->
-                    <!-- <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Address</mat-label>
-                      <mat-form-field appearance="outline" class="w-100" color="primary">
-                        <input matInput type="text" value="814 Howard Street, 120065, India" />
-                      </mat-form-field> -->
-                  </div>
+<div class="col-sm-6">
+
+<!-- firstname -->
+<mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">First Name</mat-label>
+<mat-form-field appearance="outline" class="w-100" color="primary">
+<input matInput type="text" [(ngModel)]="admin.firstname" placeholder="{{viewed_admin().firstname}}" />
+</mat-form-field>
+
+<!-- Last Name -->
+<mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Last Name</mat-label>
+<mat-form-field appearance="outline" class="w-100" color="primary">
+<input matInput type="text" [(ngModel)]="admin.lastname" placeholder="{{viewed_admin().lastname}}" />
+</mat-form-field>
+
+<mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Email</mat-label>
+<mat-form-field appearance="outline" class="w-100" color="primary">
+<input matInput type="email" placeholder="{{viewed_admin().email}}" [(ngModel)]="admin.email" />
+</mat-form-field>
+
+</div>
+
+<div class="col-sm-6">
+
+<!-- input -->
+<mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Phone</mat-label>
+<mat-form-field appearance="outline" class="w-100" color="primary">
+<input matInput type="text" placeholder="{{viewed_admin().phone}}" [(ngModel)]="admin.phone" />
+</mat-form-field>
+
+</div>
+
                 </div>
               </mat-card-content>
             </mat-card>
