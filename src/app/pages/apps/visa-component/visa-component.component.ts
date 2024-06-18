@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { VisaClass } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { VisaService } from 'src/app/services/visa.service';
+import { GeneralService } from 'src/app/services/general.service';
+import { PagingService } from 'src/app/signals/paging.service';
 
 @Component({
   selector: 'app-visa-component',
@@ -76,6 +78,11 @@ export class VisaComponentComponent implements OnInit {
     updatedAt: ''
   }
 
+  pageSize = 10;
+  Visa_Array_length = 0
+  Current_page = 1
+
+
   showCalendar: boolean = false;
   selectedMonth: string = '';
   selectedStatusFilteraTION: string = '';
@@ -87,7 +94,7 @@ export class VisaComponentComponent implements OnInit {
   VisaArray = new MatTableDataSource();
   valueDisplayed = ''
 
-  constructor(public dialog: MatDialog, private dateSignal: DateSelectedSignal, private visaService: VisaService) {
+  constructor( private paginagservice: PagingService, private generalService: GeneralService, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private visaService: VisaService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     )
@@ -97,6 +104,7 @@ export class VisaComponentComponent implements OnInit {
   ngOnInit(): void {
     this.rangeEnd = this.dateSignal.endDate;
     this.rangeStart = this.dateSignal.startDate;
+    this.pageSize = this.generalService.PageSizing
     this.FETCH_VISA();
   }
 
@@ -143,6 +151,15 @@ export class VisaComponentComponent implements OnInit {
       }
     });
   }
+
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.Current_page = event.pageIndex + 1;
+    this.paginagservice.pageSize.set(event.pageSize)
+    this.paginagservice.currentPage.set(event.pageIndex)
+    this.FETCH_VISA()
+  }
+
 
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
@@ -191,10 +208,10 @@ export class VisaComponentComponent implements OnInit {
 
   // GET ALL VISA'S 
   FETCH_VISA() {
-    this.visaService.GET_ALL_VISA().subscribe({
+    this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.VisaArray = new MatTableDataSource(response.visas);
+        this.Visa_Array_length = response.pagination.totalVisas
       },
       error: (error) => { },
       complete: () => { }
@@ -273,7 +290,7 @@ export class VisaComponentComponent implements OnInit {
 
   //STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
-    this.visaService.FILTER_VISA_BY_STATUS(val).subscribe({
+    this.visaService.FILTER_VISA_BY_STATUS(val, this.Current_page).subscribe({
       next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
       error: (error) => { },
       complete: () => { }

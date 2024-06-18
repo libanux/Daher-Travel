@@ -36,16 +36,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   productName: 'MedicalPro Theme',
   budget: 12.8,
   priority: 'high',
-},
-{
-  id: 4,
-  uname: 'Nirav Joshi',
-  position: 'Frontend Engineer',
-  productName: 'Hosting Press HTML',
-  budget: 2.4,
-  priority: 'critical',
-},
-
+}
 ];
 
 @Component({

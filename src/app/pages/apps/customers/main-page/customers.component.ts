@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild, effect, signal } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { month } from 'src/app/classes/DateDropdownClass';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Router } from '@angular/router';
+import { PagingService } from 'src/app/signals/paging.service';
 
 @Component({
   selector: 'app-customers',
@@ -50,11 +49,15 @@ export class CustomersComponent implements OnInit {
 
   show_print_btn: boolean = false;
 
-  constructor(private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
+  pageSize = 10;
+  CUSTOMERS_Array_length = 0
+  Current_page = 1
+
+
+  constructor( private paginagservice: PagingService,private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
-    )
-    )
+    ))
   }
 
   ngOnInit(): void {
@@ -62,6 +65,30 @@ export class CustomersComponent implements OnInit {
     this.rangeStart = this.dateSignal.startDate;
     this.FETCH_CUSTOMER();
   }
+  
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.Current_page = event.pageIndex + 1;
+    this.paginagservice.pageSize.set(event.pageSize)
+    this.paginagservice.currentPage.set(event.pageIndex)
+    this.FETCH_CUSTOMER()
+  }
+
+  OPEN_DIALOG(action: string, obj: any): void {
+    obj.action = action;
+
+    const dialogRef = this.dialog.open(CustomerDialogContentComponent, {
+      data: obj,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.event === 'delete') {       
+        console.log(obj)
+        this.DELETE_CUSTOMER(obj._id);
+      }
+    });
+  }
+
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
     // this.CustomersArray.filter = filterValue.trim().toLowerCase();
@@ -80,20 +107,22 @@ export class CustomersComponent implements OnInit {
   }
 
 
-
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: any, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
     else { this.VIEW_CUSTOMER() }
   }
 
-
-  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
+// ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
 
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
-    this.customerService.GET_ALL_CUSTOMER().subscribe({
-      next: (response: any) => { this.CustomersArray = new MatTableDataSource(response.customers); },
+    this.customerService.GET_ALL_CUSTOMER(this.Current_page).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.CustomersArray = new MatTableDataSource(response.customers); 
+        this.CUSTOMERS_Array_length = response.pagination.totalCustomers
+      },
       error: (error) => { },
       complete: () => { }
     });
@@ -148,6 +177,47 @@ export class CustomersComponent implements OnInit {
       phoneNumber: '',
       address: '',
     }
+  }
+
+}
+
+
+
+
+
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'app-dialog-content',
+  templateUrl: '../customers-dialog-content/customers-dialog-content.component.html',
+  styleUrl: '../customers-dialog-content/customers-dialog-content.component.scss'
+})
+// tslint:disable-next-line: component-class-suffix
+export class CustomerDialogContentComponent{
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+
+  action: string;
+  CUSTOMER_SELECTED: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<CustomerDialogContentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: CustomerClass,
+  ) 
+  {
+    this.CUSTOMER_SELECTED = { ...data };
+    this.action = this.CUSTOMER_SELECTED.action;
+    console.log(this.CUSTOMER_SELECTED)
+  }
+
+  doAction(): void {
+    console.log(this.CUSTOMER_SELECTED)
+    this.dialogRef.close({ event: this.action, data: this.CUSTOMER_SELECTED });
+  }
+
+  CLOSE_DIALOG(): void {
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
 }

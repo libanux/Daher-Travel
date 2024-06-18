@@ -22,7 +22,7 @@ export class VisaService {
   }
 
   //GET ALL VISA
-  GET_ALL_VISA(): Observable<any> {
+  GET_ALL_VISA(currentPage: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -30,8 +30,8 @@ export class VisaService {
     });
 
     const requestBody = {
-      "page": 1,
-      "pageSize": 10
+      "page": currentPage,
+      "pageSize": this.pagingSize
     }
 
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_VISA', requestBody, { headers });
@@ -126,7 +126,7 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_DATE', requestBody, { headers });
   }
 
-  FILTER_VISA_BY_STATUS(status: string): Observable<any> {
+  FILTER_VISA_BY_STATUS(status: string, currentPage: number): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -134,7 +134,7 @@ export class VisaService {
     });
     const requestBody = {
       status: status,
-      page: 1,
+      page: currentPage,
       pageSize: 10
     };
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_STATUS', requestBody, { headers });
