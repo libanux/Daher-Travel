@@ -87,7 +87,10 @@ export class AppTicketlistComponent implements OnInit {
   packageExample = new Package();
   pageSize : number =10;
   currentPage: number = 1;
+
+
   constructor(public dialog: MatDialog, private packagesService: PackageService,private paginagservice:PagingService, private searchService: SearchService) {
+    
     this.viewPackage = new Package()
     this.editedpackage = new Package()
     this.editedpackage.status='pending'
@@ -98,9 +101,6 @@ export class AppTicketlistComponent implements OnInit {
     effect(() => {
       this.pageSize = paginagservice.pageSize()
       this.currentPage = paginagservice.currentPage()
-      console.log("pageSize:",this.pageSize)
-      console.log("Current page",this.currentPage)
-  
     });
   }
 
@@ -122,8 +122,6 @@ export class AppTicketlistComponent implements OnInit {
     this.currentPage = event.pageIndex+1;
     this.paginagservice.pageSize.set(event.pageSize)
     this.paginagservice.currentPage.set(event.pageIndex)
-    console.log("Page size:",event.pageSize)
-    console.log("Page number:",event.pageIndex)
     this.FETCH_PACKAGES()
   }
 
@@ -153,9 +151,7 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage,this.pageSize).subscribe({
       next: (response: any) => {
-        console.log("Response package:",response)
         this.packages = response.packages;
-
         this.dataSource = new MatTableDataSource(this.packages);
         this.Inprogress = this.btnCategoryClick('pending');
         this.Completed = this.btnCategoryClick('completed');
@@ -176,9 +172,7 @@ export class AppTicketlistComponent implements OnInit {
     SEARCH_PACKAGES(): void {
       this.packagesService.SEARCH_PACKAGE().subscribe({
         next: (response: any) => {
-          console.log("Response package:",response)
           this.packages = response.packages;
-  
           this.dataSource = new MatTableDataSource(this.packages);
           this.Inprogress = this.btnCategoryClick('pending');
           this.Completed = this.btnCategoryClick('completed');
@@ -208,7 +202,6 @@ export class AppTicketlistComponent implements OnInit {
     else {
       this.packagesService.FILTER_PACKAGE(value).subscribe({
         next: (response: any) => {
-          console.log("Response:", response)
           this.packages = response;
           this.dataSource = new MatTableDataSource(this.packages);
           this.totalCount = this.dataSource.data.length;

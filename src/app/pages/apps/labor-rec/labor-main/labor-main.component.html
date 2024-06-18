@@ -1,49 +1,3 @@
-<!-- listing and total no.of counts -->
-<div class="four-sections-header">
-
-  <div class="two-sections-header">
-    <div>
-      <mat-card class="shadow-none">
-        <div class="bg-light-primary text-center rounded" (click)="btnCategoryClick('')">
-          <h3 class="text-primary">{{ totalCount }}</h3>
-          <p class="text-primary">Total Packages</p>
-        </div>
-      </mat-card>
-    </div>
-
-    <div>
-      <mat-card class="shadow-none">
-        <div class="bg-light-warning text-center rounded" (click)="btnCategoryClick('pending')">
-          <h3 class="text-warning">{{ Inprogress }}</h3>
-          <p class="text-warning">In Progress</p>
-        </div>
-      </mat-card>
-    </div>
-  </div>
-
-  <div class="two-sections-header">
-    <div>
-      <mat-card class="shadow-none">
-        <div class="bg-light-success text-center rounded" (click)="btnCategoryClick('completed')">
-          <h3 class="text-success">{{ Completed }}</h3>
-          <p class="text-success">Completed</p>
-        </div>
-      </mat-card>
-    </div>
-
-    <div>
-      <mat-card class="shadow-none">
-        <div class="bg-light-error text-center rounded" (click)="btnCategoryClick('canceled')">
-          <h3 class="text-error">{{ Cancelled }}</h3>
-          <p class="text-error">Cancelled</p>
-        </div>
-      </mat-card>
-    </div>
-  </div>
-
-</div>
-
-
 <!-- Add Row  -->
 <mat-card class="cardWithShadow">
   <mat-card-content>
@@ -66,9 +20,9 @@
         <section>
           <div>
             Gender
-            <select [(ngModel)]="editedrecruiting.gender" >
+            <select [(ngModel)]="editedrecruiting.gender">
               <option value="female">Female</option>
-              <option value="male">Male</option> 
+              <option value="male">Male</option>
             </select>
           </div>
           <div>
@@ -84,11 +38,11 @@
           </div>
           <div>
             Price
-            <input type="number" min="1"  [(ngModel)]="editedrecruiting.price" placeholder="Price">
+            <input type="number" min="1" [(ngModel)]="editedrecruiting.price" placeholder="Price">
           </div>
           <div>
             Sell
-            <input type="number"  min="1" [(ngModel)]="editedrecruiting.sell" placeholder="Sell">
+            <input type="number" min="1" [(ngModel)]="editedrecruiting.sell" placeholder="Sell">
           </div>
         </section>
 
@@ -101,7 +55,7 @@
 
           <div>
             Status
-            <select  [(ngModel)]="editedrecruiting.status">
+            <select [(ngModel)]="editedrecruiting.status">
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
               <option value="canceled">Cancelled</option>
@@ -126,11 +80,11 @@
 <!-- MAIN TABLE -->
 <mat-card class="cardWithShadow">
   <!-- SEARCH BAR -->
-   <!-- Search -->
-   <header>
+  <!-- Search -->
+  <header>
     <div class="col-sm-4 p-20 searchbar ">
       <mat-form-field appearance="outline" class="hide-hint custom-search ">
-        <input matInput  placeholder="Search labors" />
+        <input matInput placeholder="Search labors" />
         <mat-icon matSuffix>
           <i-tabler name="search" class="icon-15"></i-tabler>
         </mat-icon>
@@ -190,8 +144,8 @@
                 {{ element.status === 'complete' ? 'active' : element.status }}
               </span>
             </ng-template>
-             <!-- Handle 'note' column separately -->
-             <ng-template #noteColumn>
+            <!-- Handle 'note' column separately -->
+            <ng-template #noteColumn>
               {{ truncateText(element[column], 20) }}
             </ng-template>
           </td>
@@ -232,14 +186,9 @@
       </table>
     </div>
     <!-- TABLE PAGINATION -->
- <!-- TABLE PAGINATION -->
- <mat-paginator 
- [pageSizeOptions]="[10, 20, 30]" 
- [length]="totalCount"
- [pageSize]="pageSize"
- aria-label="Select page"
- showFirstLastButtons
- (page)="onPageChange($event)">
- </mat-paginator>
+    <!-- TABLE PAGINATION -->
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="totalCount" [pageSize]="pageSize" aria-label="Select page"
+      showFirstLastButtons (page)="onPageChange($event)">
+    </mat-paginator>
   </mat-card-content>
 </mat-card>

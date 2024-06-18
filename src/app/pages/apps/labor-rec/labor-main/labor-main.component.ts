@@ -119,13 +119,12 @@ export class LaborMainComponent implements AfterViewInit {
   FETCH_RECRUITINGS(): void {
     this.recruitingService.GET_RECRUITING(this.currentPage,this.pageSize).subscribe({
       next: (response: any) => {
-        this.recruitings = response;
+        this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
         this.Inprogress = this.btnCategoryClick('pending');
         this.Completed = this.btnCategoryClick('completed');
         this.Cancelled = this.btnCategoryClick('canceled');
-        this.totalCount = this.btnCategoryClick('');
-        console.log("Recruitings:",response)
+        this.totalCount = response.pagination.totalRecruitings;
       },
       error: (error: any) => {
         console.log("Error:", error)
