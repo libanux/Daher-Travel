@@ -1,90 +1,211 @@
-<!-- Add Row  -->
 <mat-card class="cardWithShadow">
-  <mat-card-content>
-    <div class="InputsWholeRow">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
+    <mat-tab label="Add Package">
+      <mat-card-content>
 
-      <div class="inputsInAdd">
+        <!-- FIRST ROW :  NAME + NATIONALITY + GENDER -->
+        <div class="row">
 
-        <section>
-
-          <div>
-            Name
-            <input type="text" [(ngModel)]="editedrecruiting.name" placeholder="Name">
-          </div>
-          <div>
-            Nationality
-            <input type="text" [(ngModel)]="editedrecruiting.nationality" placeholder="Nationality">
-          </div>
-        </section>
-
-        <section>
-          <div>
-            Gender
-            <select [(ngModel)]="editedrecruiting.gender">
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-            </select>
-          </div>
-          <div>
-            Type
-            <input type="text" [(ngModel)]="editedrecruiting.type" placeholder="Type">
-          </div>
-        </section>
-
-        <section>
-          <div>
-            Age
-            <input type="number" min="1" [(ngModel)]="editedrecruiting.age" placeholder="Age">
-          </div>
-          <div>
-            Price
-            <input type="number" min="1" [(ngModel)]="editedrecruiting.price" placeholder="Price">
-          </div>
-          <div>
-            Sell
-            <input type="number" min="1" [(ngModel)]="editedrecruiting.sell" placeholder="Sell">
-          </div>
-        </section>
-
-
-        <section>
-          <div>
-            Note
-            <textarea type="text" class="textarea" [(ngModel)]="editedrecruiting.note" placeholder="Note"></textarea>
+          <!-- NAME -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput placeholder="NAME" [(ngModel)]="editedrecruiting.name" />
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
           </div>
 
-          <div>
-            Status
-            <select [(ngModel)]="editedrecruiting.status">
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-              <option value="canceled">Cancelled</option>
-            </select>
+          <!-- NATIONALITY-->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Nationality</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput placeholder="NATIONALITY" [(ngModel)]="editedrecruiting.nationality" />
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-155.5t86-127Q252-817 325-848.5T480-880q83 0 155.5 31.5t127 86q54.5 54.5 86 127T880-480q0 82-31.5 155t-86 127.5q-54.5 54.5-127 86T480-80Zm0-82q26-36 45-75t31-83H404q12 44 31 83t45 75Zm-104-16q-18-33-31.5-68.5T322-320H204q29 50 72.5 87t99.5 55Zm208 0q56-18 99.5-55t72.5-87H638q-9 38-22.5 73.5T584-178ZM170-400h136q-3-20-4.5-39.5T300-480q0-21 1.5-40.5T306-560H170q-5 20-7.5 39.5T160-480q0 21 2.5 40.5T170-400Zm216 0h188q3-20 4.5-39.5T580-480q0-21-1.5-40.5T574-560H386q-3 20-4.5 39.5T380-480q0 21 1.5 40.5T386-400Zm268 0h136q5-20 7.5-39.5T800-480q0-21-2.5-40.5T790-560H654q3 20 4.5 39.5T660-480q0 21-1.5 40.5T654-400Zm-16-240h118q-29-50-72.5-87T584-782q18 33 31.5 68.5T638-640Zm-234 0h152q-12-44-31-83t-45-75q-26 36-45 75t-31 83Zm-200 0h118q9-38 22.5-73.5T376-782q-56 18-99.5 55T204-640Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
           </div>
-        </section>
-      </div>
 
-      <div *ngIf="ShowAddButoon" class="OneButton">
-        <button mat-flat-button color="primary" (click)="ADD_RECRUITING()"> Add Labor </button>
-      </div>
+          <!-- GENDER-->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Gender</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select placeholder=" GENDER" [(ngModel)]="editedrecruiting.gender">
+                <mat-option value="female">Female</mat-option>
+                <mat-option value="male">Male</mat-option>
+              </mat-select>
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M220-80v-300h-60v-220q0-33 23.5-56.5T240-680h120q33 0 56.5 23.5T440-600v220h-60v300H220Zm80-640q-33 0-56.5-23.5T220-800q0-33 23.5-56.5T300-880q33 0 56.5 23.5T380-800q0 33-23.5 56.5T300-720ZM600-80v-240H480l102-306q8-26 29.5-40t48.5-14q27 0 48.5 14t29.5 40l102 306H720v240H600Zm60-640q-33 0-56.5-23.5T580-800q0-33 23.5-56.5T660-880q33 0 56.5 23.5T740-800q0 33-23.5 56.5T660-720Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
 
-      <div class="TwoButtons" *ngIf="!ShowAddButoon">
-        <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
-        <button mat-flat-button color="primary" (click)="UPDATE_RECRUITING()">Update</button>
-      </div>
 
-    </div>
-  </mat-card-content>
+        </div>
+
+        <!-- SECOND ROW :  AGE + PRICE + SELL -->
+        <div class="row">
+
+          <!-- AGE -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Age </mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="number" matInput placeholder="AGE" [(ngModel)]="editedrecruiting.age" />
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M160-80q-33 0-56.5-23.5T80-160v-440q0-33 23.5-56.5T160-680h200v-120q0-33 23.5-56.5T440-880h80q33 0 56.5 23.5T600-800v120h200q33 0 56.5 23.5T880-600v440q0 33-23.5 56.5T800-80H160Zm0-80h640v-440H600q0 33-23.5 56.5T520-520h-80q-33 0-56.5-23.5T360-600H160v440Zm80-80h240v-18q0-17-9.5-31.5T444-312q-20-9-40.5-13.5T360-330q-23 0-43.5 4.5T276-312q-17 8-26.5 22.5T240-258v18Zm320-60h160v-60H560v60Zm-200-60q25 0 42.5-17.5T420-420q0-25-17.5-42.5T360-480q-25 0-42.5 17.5T300-420q0 25 17.5 42.5T360-360Zm200-60h160v-60H560v60ZM440-600h80v-200h-80v200Zm40 220Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- PRICE -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Price</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="number" matInput placeholder="PRICE." aria-label="Product"
+                [(ngModel)]="editedrecruiting.price">
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- SELL -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="number" matInput placeholder="type" [(ngModel)]="editedrecruiting.sell" />
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <!-- THIRD ROW :   NOTE + STATUS -->
+        <div class="row">
+
+          <!-- TYPE -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Type</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput placeholder="TYPE" aria-label="Product" [(ngModel)]="editedrecruiting.type">
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+
+
+          <!-- NOTE -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput placeholder="NOTE" [(ngModel)]="editedrecruiting.note" />
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- STATUS -->
+          <div class="col-md-4 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select placeholder="Select status" [(ngModel)]="editedrecruiting.status">
+                <mat-option value="pending">Pending</mat-option>
+                <mat-option value="completed">Completed</mat-option>
+                <mat-option value="canceled">Canceled</mat-option>
+              </mat-select>
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17
+                    0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83
+                    31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
+                    156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93
+                    227q0 134 93 227t227 93Zm0-320Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="Buttons_div">
+          <div *ngIf="ShowAddButoon">
+            <button mat-flat-button color="primary" (click)="ADD_RECRUITING()"> Add Recruiting </button>
+          </div>
+
+          <div class="TwoButtons" *ngIf="!ShowAddButoon">
+            <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
+            <button mat-flat-button color="primary" (click)="UPDATE_RECRUITING()">Update Recruiting</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
 </mat-card>
 
 <!-- MAIN TABLE -->
 <mat-card class="cardWithShadow">
+
   <!-- SEARCH BAR -->
-  <!-- Search -->
   <header>
     <div class="col-sm-4 p-20 searchbar ">
       <mat-form-field appearance="outline" class="hide-hint custom-search ">
-        <input matInput placeholder="Search labors" />
+        <input matInput placeholder="Search labors" (keyup)="onInputChange($event)" />
         <mat-icon matSuffix>
           <i-tabler name="search" class="icon-15"></i-tabler>
         </mat-icon>
@@ -92,17 +213,38 @@
     </div>
 
     <div class="filter-date">
-      <mat-card-header class="d-flex">
+
+      @if(showDatePicker) {
+      <mat-form-field appearance="outline" class="date_picker">
+
+        <mat-date-range-input [rangePicker]="custompicker">
+          <input matStartDate placeholder="Start date" />
+          <input matEndDate placeholder="End date" />
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #custompicker></mat-date-range-picker>
+
+      </mat-form-field>
+      }
+
+      <div class="dropdown">
         <mat-form-field class="theme-select" appearance="outline">
-          <mat-select value="mar">
-            @for(month of months; track month) {
-            <mat-option [value]="month.value">
-              {{ month.viewValue }}
-            </mat-option>
-            }
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')" placeholder="Today">
+            <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
-      </mat-card-header>
+      </div>
+
+
+      <div class="dropdown">
+        <mat-form-field class="theme-select" appearance="outline">
+          <mat-select [(ngModel)]="selectedStatusFilteraTION" (selectionChange)="onChange($event.value, 'status')" placeholder="All">
+            <mat-option *ngFor="let element of Filteration" [value]="element.value">{{ element.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
     </div>
   </header>
   <mat-card-content>

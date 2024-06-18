@@ -107,22 +107,57 @@ export class LaborRecService {
       "id": delRecruiting._id
     };
 
-    console.log("element to delete:", delRecruiting)
     return this.http.post<any>(this.apiUrl + '/DELETE_RECRUITING', requestBody, { headers })
   }
+// SEARCH RECRUITING RECORD
+SEARCH_RECRUITING(pageSize:number, currentPage: number,SearchKey: String): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+
+    const requestBody = {
+        "name": SearchKey,
+        "page": currentPage,
+        "pageSize": pageSize
+    };
+
+    return this.http.post<any>(this.apiUrl + '/SEARCH_RECRUITING_BY_FIELDS', requestBody, { headers })
+  }
+
+// FILTER RECRUITING RECORDS
+FILTER_RECRUITINGS(pageSize:number, currentPage: number,status: String): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.getToken()}`,
+    'Content-Type': 'application/json'
+  });
+
+  const requestBody = {
+      "status": status,
+      "page": currentPage,
+      "pageSize": pageSize
+  };
+
+  return this.http.post<any>(this.apiUrl + '/FILTER_RECRUITING_BY_STATUS', requestBody, { headers })
+}
 
 
-  //   // FILTER PACKAGE BY DATE
-  //   FILTER_PACKAGE(filterType: string): Observable<any> {
-  //     const headers = new HttpHeaders({
-  //       'Authorization': `Bearer ${this.getToken()}`,
-  //       'Content-Type': 'application/json'
-  //     });
-  //     const requestBody = {
-  //       "filterType": filterType,
-  //       "startDate": this.dateSignal.startDate(),
-  //       "endDate": this.dateSignal.endDate()
-  //     };
-  //     return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
-  //   }
+// FILTER RECRUITING RECORDS
+FILTER_RECRUITING_BY_DATE(pageSize:number, currentPage: number,filter: String): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.getToken()}`,
+    'Content-Type': 'application/json'
+  });
+
+  const requestBody = {
+      "filterType": filter,
+      "startDate": this.dateSignal.startDate(),
+      "endDate": this.dateSignal.endDate()
+
+  };
+
+  return this.http.post<any>(this.apiUrl + '/FILTER_RECRUITING_BY_DATE', requestBody, { headers })
+}
+
+
 }
