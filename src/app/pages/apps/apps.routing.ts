@@ -16,7 +16,7 @@ import { VisaComponentComponent } from './visa-component/visa-component.componen
 import { LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { AdminsComponent } from './admins/admins.component';
-import { CustomersComponent } from './customers/customers.component';
+import { CustomersComponent } from './customers/main-page/customers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { WholesalerComponent } from './wholesaler/wholesaler.component';
 
@@ -58,9 +58,15 @@ export const AppsRoutes: Routes = [
         path: 'contacts',
         component: AppContactComponent,
       },
-      {
-        path: 'customers',
-        component: CustomersComponent,
+      // {
+      //   path: 'customers',
+      //   component: CustomersComponent,
+      // },
+      { path: 'customers',
+        loadChildren: () =>
+          import('./customers/customers.module').then(
+            (m) => m.CustomersModule
+          ),
       },
       {
         path: 'admins',

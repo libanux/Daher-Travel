@@ -38,6 +38,13 @@ export class VisaComponentComponent implements OnInit {
     { value: 'Calendar', viewValue: 'Custom' }
   ];
 
+  Filteration: month[] = [
+    { value: 'all', viewValue: 'All' },
+    { value: 'rejected', viewValue: 'Rejected' },
+    { value: 'approved', viewValue: 'Approved' },
+    { value: 'pending', viewValue: 'Pending' },
+  ];
+
   rangeStart = signal('');
   rangeEnd = signal('');
   ShowAddButoon = true;
@@ -46,19 +53,13 @@ export class VisaComponentComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   searchText: any;
-  totalCount = -1;
-  Cancelled = -1;
-  Inprogress = -1;
-  Completed = -1;
 
   displayedColumns: string[] = [
     'name',
-    'destination',
     'updatedAt',
     'sell',
     'createdAt',
     'country',
-    'price',
     'type',
     'note',
     'status',
@@ -102,32 +103,37 @@ export class VisaComponentComponent implements OnInit {
   // GET ALL VISA'S 
   FETCH_VISA() {
     this.visaService.GET_ALL_VISA().subscribe({
-
       next: (response: any) => {
-        this.totalCount = response.visas.length;
-console.log(response)
-        // Calculate status counts without filtering the array
-        this.Completed = response.visas.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
-        this.Cancelled = response.visas.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
-        this.Inprogress = response.visas.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
-
+        console.log(response)
         this.VisaArray = new MatTableDataSource(response.visas);
       },
       error: (error) => { },
-      complete: () => {}
+      complete: () => { }
 
     });
   }
 
 
   showDatePicker = false;
-  onChange(value: string) {
-    if (value === 'Calendar') {
-      this.showDatePicker = true;
+  onChange(value: string, dropdown: string) {
+
+    if (dropdown == 'month') {
+      if (value === 'Calendar') {
+        this.showDatePicker = true;
+      }
+
+      else {
+        this.showDatePicker = false;
+      }
     }
 
-    else {
-      this.showDatePicker = false;
+    else if (dropdown == 'status') {
+      if (value == 'all') {
+        this.FETCH_VISA()
+      }
+      else {
+        this.FILTER_ARRAY_BY_STATUS(value)
+      }
     }
   }
 
@@ -153,18 +159,13 @@ console.log(response)
 
   showCalendar: boolean = false;
   selectedMonth: string = '';
+  selectedStatusFilteraTION: string = '';
   selectedDate: Date | null = null; // Adjusted the type to accept null
 
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
     // Do something with the selected date
   }
-
-  // cancelSelection() {
-  //     this.showCalendar = false;
-  //     this.selectedMonth = '';
-  //     this.selectedDate = null;
-  // }
 
   ngAfterViewInit(): void {
     this.VisaArray.paginator = this.paginator;
@@ -213,7 +214,6 @@ console.log(response)
   }
 
   // ACTION BUTTONS : ADD , UPDATE , CANCEL , DELETE 
-
   // DELETE 
   DELETE_VISA(ID: number): void {
     this.visaService.DELETE_VISA(ID).subscribe({

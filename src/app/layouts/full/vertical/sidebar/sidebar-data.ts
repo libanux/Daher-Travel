@@ -24,7 +24,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Customers',
     iconName: 'ticket',
-    route: 'apps/customers',
+    route: 'apps/customers/main',
   },
   {
     displayName: 'Labor Recruitment',
