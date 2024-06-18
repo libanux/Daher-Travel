@@ -1,5 +1,5 @@
 <!-- listing and total no.of counts -->
-<div class="four-sections-header">
+<!-- <div class="four-sections-header">
 
   <div class="two-sections-header">
     <div>
@@ -41,8 +41,7 @@
     </div>
   </div>
 
-</div>
-
+</div> -->
 
 <mat-card class="cardWithShadow">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
@@ -160,61 +159,6 @@
 
         </div>
 
-        <!-- FIRST ROW :  createdAt + country + note -->
-        <div class="row">
-
-          <!--createdAt -->
-          <div class="col-md-4 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">createdAt</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="createdAt" [(ngModel)]="ADDED_VISA.createdAt" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-
-          <!-- updatedAt-->
-          <div class="col-md-4 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">updatedAt</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="updatedAt" [(ngModel)]="ADDED_VISA.updatedAt" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-          <!-- note-->
-          <div class="col-md-4 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">note</mat-label>
-            </div>
-
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="note" [(ngModel)]="ADDED_VISA.note" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-        </div>
-
         <div class="Buttons_div">
           <div *ngIf="ShowAddButoon">
             <button mat-flat-button color="primary" (click)="ADD_VISA(ADDED_VISA)"> Add Visa </button>
@@ -230,59 +174,7 @@
   </mat-tab-group>
 </mat-card>
 
-
-<!-- ADD OR UPDATE -->
-<!-- <mat-card class="cardWithShadow">
-  <mat-card-content>
-    <div class="InputsWholeRow">
-
-      <div class="inputsInAdd">
-  
-        <section>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.name" placeholder=""Name></div>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.country" placeholder="country"></div>
-        </section>
-        
-        <section>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.destination" placeholder="Destination"></div>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.sell" placeholder="Sell"></div>
-        </section>
-        
-        <section>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.type" placeholder="Type"></div>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.price" placeholder="Price"></div>
-        </section>
-
-        <section>
-          <div><input type="text" [(ngModel)]="ADDED_VISA.note" placeholder="Note"></div>
-          
-          <div>
-          <select [(ngModel)]="ADDED_VISA.status">
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-          </select>
-          </div>
-        </section>
-
-
-      </div>
-
-      <div *ngIf="ShowAddButoon">
-        <button mat-flat-button color="primary" (click)="ADD_VISA(ADDED_VISA)"> Add Visa </button>
-      </div>
-
-      <div class="TwoButtons" *ngIf="!ShowAddButoon">
-        <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
-        <button mat-flat-button color="primary" (click)="UPDATE_VISA(ADDED_VISA)">Update</button>
-      </div>
-
-    </div>
-  </mat-card-content>
-</mat-card> -->
-
 <mat-card class="cardWithShadow">
-
   <!-- Search -->
   <header>
 
