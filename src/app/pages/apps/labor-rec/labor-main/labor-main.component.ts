@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
 import { PagingService } from 'src/app/signals/paging.service';
+import { CalendarDialogFORLABORSComponent } from '../calendar-card/calendar-dialog.component';
 
 interface month {
   value: string;
@@ -63,7 +64,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   pageSize: number = 10;
   currentPage: number = 1;
-
+  selectedStatusFilteraTION: string = '';
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
@@ -78,11 +79,21 @@ export class LaborMainComponent implements AfterViewInit {
   months: month[] = [
     { value: 'today', viewValue: 'Today' },
     { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'last Week', viewValue: 'Last Week' },
-    { value: 'Last Month', viewValue: 'Last Month' },
-    { value: 'Last Year', viewValue: 'Last Year' },
-    { value: 'Calendar', viewValue: 'Custom' },
+    { value: 'thisWeek', viewValue: 'This Week' },
+    { value: 'thisMonth', viewValue: 'This Month' },
+    { value: 'thisYear', viewValue: 'This Year' },
+    { value: 'custom', viewValue: 'Custom' },
   ];
+
+  //FILTRATION ARRAY
+  Filteration: month[] = [
+    { value: 'all', viewValue: 'All' },
+    { value: 'canceled', viewValue: 'Canceled' },
+    { value: 'completed', viewValue: 'Completed' },
+    { value: 'pending', viewValue: 'Pending' },
+  ];
+
+  showDatePicker = false;
 
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
@@ -98,9 +109,6 @@ export class LaborMainComponent implements AfterViewInit {
     effect(() => {
       this.pageSize = paginagservice.pageSize()
       this.currentPage = paginagservice.currentPage()
-      console.log("pageSize:", this.pageSize)
-      console.log("Current page", this.currentPage)
-
     });
   }
 
@@ -111,13 +119,9 @@ export class LaborMainComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-
-
-
-
   //FETCH PACKAGES FROM API
   FETCH_RECRUITINGS(): void {
-    this.recruitingService.GET_RECRUITING(this.currentPage,this.pageSize).subscribe({
+    this.recruitingService.GET_RECRUITING(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
         this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
@@ -134,20 +138,31 @@ export class LaborMainComponent implements AfterViewInit {
     });
   }
 
+  // Function to handle input change
+  onInputChange(event: any) {
+    this.recruitingService.SEARCH_RECRUITING(this.pageSize, this.currentPage, event.target.value).subscribe({
+      next: (response: any) => {
+        this.recruitings = response.recruitings;
+        this.dataSource = new MatTableDataSource(this.recruitings);
+        this.Inprogress = this.btnCategoryClick('pending');
+        this.Completed = this.btnCategoryClick('completed');
+        this.Cancelled = this.btnCategoryClick('canceled');
+        this.totalCount = response.pagination.totalRecruitings;
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
 
-  // onSearchChange(value: string): void {
-  //   this.searchService.searchKey.set(value);
-  //   console.log('Search value changed:', value);
-  //   this.FETCH_RECRUITINGS();
-  // }
+  }
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
     this.paginagservice.pageSize.set(event.pageSize)
     this.paginagservice.currentPage.set(event.pageIndex)
-    console.log("Page size:", event.pageSize)
-    console.log("Page number:", event.pageIndex)
     this.FETCH_RECRUITINGS()
   }
 
@@ -207,7 +222,6 @@ export class LaborMainComponent implements AfterViewInit {
       if (result && result.event === 'Delete') {
         this.recruitingService.DELETE_RECRUITING(delRecruiting).subscribe({
           next: (response: any) => {
-            console.log('Response:', response);
             this.FETCH_RECRUITINGS()
           },
           error: (error: any) => {
@@ -223,7 +237,6 @@ export class LaborMainComponent implements AfterViewInit {
   ADD_RECRUITING(): void {
     this.recruitingService.ADD_RECRUITING(this.editedrecruiting).subscribe({
       next: (response: any) => {
-        console.log("Response on add:", response);
         this.CLEAR_VALUES(this.editedrecruiting)
         this.FETCH_RECRUITINGS()
       },
@@ -258,6 +271,35 @@ export class LaborMainComponent implements AfterViewInit {
 
   }
 
+  //FILTER RECRUITING RECORDS BY STATUS
+  FILTER_RECRUITING(status: string) {
+    this.recruitingService.FILTER_RECRUITINGS(this.pageSize, this.currentPage, status).subscribe({
+      next: (response: any) => {
+        this.recruitings = response.recruitings;
+        this.dataSource = new MatTableDataSource(this.recruitings);
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
+  }
+
+
+  //FILTER RECRUITING RECORDS BY DATE
+  FILTER_RECRUITING_BY_DATE(filter: string) {
+    this.recruitingService.FILTER_RECRUITING_BY_DATE(this.pageSize, this.currentPage, filter).subscribe({
+      next: (response: any) => {
+        this.recruitings = response;
+        this.dataSource = new MatTableDataSource(this.recruitings);
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
+  }
+
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: LaborList) {
     obj._id = '';
@@ -269,6 +311,54 @@ export class LaborMainComponent implements AfterViewInit {
     obj.price = 0;
     obj.note = '';
     obj.status = '';
+  }
+
+  //DATE AND STATUS DROPDOWN CHANGE
+  onChange(value: string, dropdown: string) {
+    if (dropdown == 'month') {
+      if (value === 'custom') {
+        this.showDatePicker = true;
+      }
+
+      else {
+        this.showDatePicker = false;
+        this.FILTER_RECRUITING_BY_DATE(value)
+      }
+    }
+
+    else if (dropdown == 'status') {
+      if (value == 'all') {
+        this.FETCH_RECRUITINGS()
+      }
+      else {
+        this.FILTER_RECRUITING(value)
+      }
+    }
+  }
+
+
+  openCalendarDialog(): void {
+    const dialogRef = this.dialog.open(CalendarDialogFORLABORSComponent, {
+      width: '350px',
+      data: { selectedDate: this.selectedDate }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        if (result.startDate && result.endDate) {
+          this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
+        } else {
+          this.selectedMonth = 'Custom';
+        }
+        this.selectedDate = result;
+        // Do something with the selected date
+      }
+    });
+  }
+
+  onDateSelect(date: Date) {
+    console.log('Selected Date:', date);
   }
 
 }

@@ -53,21 +53,6 @@ export class PackageService {
     return this.http.post<any>(this.apiUrl + '/GET_ALL_PACKAGES', requestBody, { headers })
   }
 
-    // // GET_PACKAGES WITH PAGINATION
-    // GET_PACKAGES(page: number, pageSize: number): Observable<any> {
-    //   const headers = new HttpHeaders({
-    //     'Authorization': `Bearer ${this.getToken()}`,
-    //     'Content-Type': 'application/json'
-    //   });
-  
-    //   const params = {
-    //     page: page.toString(),
-    //     pageSize: pageSize.toString()
-    //   };
-  
-    //   return this.http.get<any>(`${this.apiUrl}/GET_ALL_PACKAGES`, { headers, params });
-    // }
-
   // ADD PACKAGE
   ADD_PACKAGE(newPackage: Package): Observable<any> {
     const headers = new HttpHeaders({
