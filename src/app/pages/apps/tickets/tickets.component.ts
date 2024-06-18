@@ -36,14 +36,11 @@ export class TicketsComponent {
   //TABLE COLUMNS
   displayedColumns: string[] = [
     'name',
-    'wholesaler.name',
-    'price',
-    'sell',
     'cost',
     'credit',
-    'dateIssue',
+    'source',
+    'destination',
     'note',
-    'status',
     'action',
   ];
 
@@ -63,10 +60,10 @@ export class TicketsComponent {
   months: month[] = [
     { value: 'today', viewValue: 'Today' },
     { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'last Week', viewValue: 'Last Week' },
-    { value: 'Last Month', viewValue: 'Last Month' },
-    { value: 'Last Year', viewValue: 'Last Year' },
-    { value: 'Calendar', viewValue: 'Custom' },
+    { value: 'lastWeek', viewValue: 'Last Week' },
+    { value: 'LastMonth', viewValue: 'Last Month' },
+    { value: 'LastYear', viewValue: 'Last Year' },
+    { value: 'custom', viewValue: 'Custom' },
   ];
 
   //TICKETS
@@ -74,17 +71,13 @@ export class TicketsComponent {
 
   constructor(public dialog: MatDialog, private ticketingService: TicketingService) {
     this.editedTicket = new Tickets()
-    this.editedTicket.status = 'pending'
-    this.editedTicket.sell = 1
-    this.editedTicket.price = 1
-    this.editedTicket.duration = 1
-    this.editedTicket.seats = 1
+
   }
 
   trackById(index: number, item: any): number {
     return item.id; // Return a unique identifier for each item (e.g., item's ID)
   }
-  
+
 
   ngOnInit(): void {
     this.FETCH_TICKETINGS();
@@ -93,8 +86,8 @@ export class TicketsComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-pageSize: 10;
-currentPage: 1;
+  pageSize: 10;
+  currentPage: 1;
 
 
   //FETCH TICKETINGS FROM API
@@ -102,7 +95,7 @@ currentPage: 1;
     this.ticketingService.GET_TICKETINGS(this.pageSize, this.currentPage).subscribe({
       next: (response: any) => {
         this.tickets = response.ticketings;
-        console.log("rewsponse:",response)
+        console.log("rewsponse:", response)
         this.dataSource = new MatTableDataSource(this.tickets);
         this.Inprogress = this.btnCategoryClick('pending');
         this.Completed = this.btnCategoryClick('completed');
@@ -119,6 +112,8 @@ currentPage: 1;
 
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
+    this.editedTicket.wholesaler.id = '6671874cd0f3f073ad99ba0e';
+    this.editedTicket.wholesaler.id = 'Example Wholesaler';
     this.ticketingService.ADD_TICKETING(this.editedTicket).subscribe({
       next: (response: any) => {
         this.CLEAR_VALUES(this.editedTicket)
@@ -229,13 +224,9 @@ currentPage: 1;
     obj._id = '';
     obj.name = '';
     obj.source = '';
-    obj.seats = 0;
-    obj.duration = 0;
     obj.destination = '';
-    obj.sell = 0;
-    obj.price = 0;
     obj.note = '';
-    obj.status = '';
+
   }
 }
 interface month {

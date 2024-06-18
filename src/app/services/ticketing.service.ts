@@ -42,11 +42,11 @@ export class TicketingService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "pageSize":pageSize,
-      "page":currentPage
+      "pageSize": pageSize,
+      "page": currentPage
     };
 
-    return this.http.post<any>(`${this.apiUrl}/GET_ALL_TICKETING`, requestBody,{ headers });
+    return this.http.post<any>(`${this.apiUrl}/GET_ALL_TICKETING`, requestBody, { headers });
   }
 
 
@@ -62,11 +62,6 @@ export class TicketingService {
         "name": editedTicket.name,
         "destination": editedTicket.destination,
         "source": editedTicket.source,
-        "seats": editedTicket.seats,
-        "duration": editedTicket.duration,
-        "price": editedTicket.price,
-        "status": editedTicket.status,
-        "sell": editedTicket.sell,
         "note": editedTicket.note
       }
 
@@ -85,12 +80,14 @@ export class TicketingService {
       "name": newTicket.name,
       "source": newTicket.source,
       "destination": newTicket.destination,
-      "duration": newTicket.duration,
-      "seats": newTicket.seats,
-      "price": newTicket.price,
-      "status": newTicket.status,
-      "sell": newTicket.sell,
-      "note": newTicket.note
+      "note": newTicket.note,
+      "cost": newTicket.cost,
+      "credit": newTicket.credit,
+      "balance": newTicket.balance,
+      "wholesaler": {
+        "id": "6671874cd0f3f073ad99ba0e",
+        "name": "Example Wholesaler"
+      },
     };
     return this.http.post<any>(this.apiUrl + '/ADD_TICKETING', requestBody, { headers })
   }
