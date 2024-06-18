@@ -34,7 +34,6 @@ export class VisaService {
       "pageSize": 10
     }
 
-
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_VISA', requestBody, { headers });
   }
 
