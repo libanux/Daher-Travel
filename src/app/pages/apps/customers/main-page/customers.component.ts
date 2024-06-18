@@ -7,21 +7,26 @@ import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { CustomerClass } from 'src/app/classes/customer.class';
+import { Router } from '@angular/router';
+import { SelectionModel } from '@angular/cdk/collections';
+
+
+export interface PeriodicElement {
+  id: number;
+  imagePath: string;
+  uname: string;
+  position: string;
+  productName: string;
+  budget: number;
+  priority: string;
+}
+
+
 
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
-  styleUrl: './customers.component.scss',
-    animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+  styleUrl: './customers.component.scss'
 })
 export class CustomersComponent implements OnInit {
 
@@ -42,18 +47,16 @@ export class CustomersComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   searchText: any;
-  totalCount = -1;
-  Cancelled = -1;
-  Inprogress = -1;
-  Completed = -1;
+  selectedMonth: string = '';
+  selectedStatusFilteraTION: string = '';
 
   displayedColumns: string[] = [
-    'name',
-    'firstname',
-    'lastname',
-    'email',
-    'phone',
-    'token'
+    'select',
+    'Firstname',
+    'Lastname',
+    'Email',
+    'Phone',
+    'Token'
   ];
 
   ADDED_CUSTOMER: CustomerClass = {
@@ -65,6 +68,64 @@ export class CustomersComponent implements OnInit {
     token: '',
   }
 
+ usersArray: any = [
+  {
+    _id: '1',
+    firstname: 'John',
+    lastname: 'Doe',
+    email: 'john.doe@example.com',
+    phone: '123-456-7890',
+    token: 'abc123xyz456',
+  },
+  {
+    _id: '2',
+    firstname: 'Jane',
+    lastname: 'Smith',
+    email: 'jane.smith@example.com',
+    phone: '987-654-3210',
+    token: 'def456ghi789',
+  },
+  {
+    _id: '1',
+    firstname: 'John',
+    lastname: 'Doe',
+    email: 'john.doe@example.com',
+    phone: '123-456-7890',
+    token: 'abc123xyz456',
+  },
+  {
+    _id: '2',
+    firstname: 'Jane',
+    lastname: 'Smith',
+    email: 'jane.smith@example.com',
+    phone: '987-654-3210',
+    token: 'def456ghi789',
+  },
+  {
+    _id: '1',
+    firstname: 'John',
+    lastname: 'Doe',
+    email: 'john.doe@example.com',
+    phone: '123-456-7890',
+    token: 'abc123xyz456',
+  },
+  {
+    _id: '2',
+    firstname: 'Jane',
+    lastname: 'Smith',
+    email: 'jane.smith@example.com',
+    phone: '987-654-3210',
+    token: 'def456ghi789',
+  },
+];
+
+
+Filteration: month[] = [
+  { value: 'all', viewValue: 'All' },
+  { value: 'rejected', viewValue: 'Rejected' },
+  { value: 'approved', viewValue: 'Approved' },
+  { value: 'pending', viewValue: 'Pending' },
+];
   // CustomersArray : CUSTOMERClass [] = []
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -72,7 +133,36 @@ export class CustomersComponent implements OnInit {
   CustomersArray = new MatTableDataSource();
   valueDisplayed = ''
 
-  constructor(public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
+show_print_btn: boolean = false;
+  selection = new SelectionModel<PeriodicElement>(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected(): any {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.CustomersArray.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle(): void {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.CustomersArray.data.forEach((row: any) => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: PeriodicElement): string {
+    if (!row) {
+      this.show_print_btn = true;
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
+  }
+
+  
+  constructor(private router: Router,public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     )
@@ -87,68 +177,26 @@ export class CustomersComponent implements OnInit {
 
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
-    this.customerService.GET_ALL_CUSTOMER().subscribe({
 
-      next: (response: any) => {
-        this.totalCount = response.length;
+    this.CustomersArray = new MatTableDataSource(this.usersArray);
 
-        // Calculate status counts without filtering the array
-        this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
-        this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
-        this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
 
-        this.CustomersArray = new MatTableDataSource(response);
-      },
-      error: (error) => { },
-      complete: () => {}
+    // this.customerService.GET_ALL_CUSTOMER().subscribe({
+    //   next: (response: any) => {
+    //     this.totalCount = response.length;
 
-    });
+    //     // Calculate status counts without filtering the array
+    //     this.Completed = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'approved').length;
+    //     this.Cancelled = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'rejected').length;
+    //     this.Inprogress = response.filter((visa: any) => visa.status.trim().toLowerCase() === 'pending').length;
+
+    //     this.CustomersArray = new MatTableDataSource(response);
+    //   },
+    //   error: (error) => { },
+    //   complete: () => {}
+
+    // });
   }
-
-  // onChange(value: string) {
-  //   if (value === 'Calendar') {
-  //     this.openCalendarDialog();
-  //   }
-
-  //   else {
-
-  //   }
-  // }
-
-  // openCalendarDialog(): void {
-  //   // const dialogRef = this.dialog.open(CalendarDialogComponent, {
-  //   //   width: '350px',
-  //   //   data: { selectedDate: this.selectedDate }
-  //   // });
-
-  //   // dialogRef.afterClosed().subscribe(result => {
-  //   //   console.log('The dialog was closed', result);
-  //   //   if (result) {
-  //   //     if (result.startDate && result.endDate) {
-  //   //       this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-  //   //     } else {
-  //   //       this.selectedMonth = 'Custom';
-  //   //     }
-  //   //     this.selectedDate = result;
-  //   //     // Do something with the selected date
-  //   //   }
-  //   // });
-  // }
-
-  // showCalendar: boolean = false;
-  // selectedMonth: string = '';
-  // selectedDate: Date | null = null; // Adjusted the type to accept null
-
-  // onDateSelect(date: Date) {
-  //   console.log('Selected Date:', date);
-  //   // Do something with the selected date
-  // }
-
-  // cancelSelection() {
-  //     this.showCalendar = false;
-  //     this.selectedMonth = '';
-  //     this.selectedDate = null;
-  // }
 
   ngAfterViewInit(): void {
     this.CustomersArray.paginator = this.paginator;
@@ -170,16 +218,34 @@ export class CustomersComponent implements OnInit {
     return text;
   }
 
-  //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
-  EXPAND_ROW(event: Event, element: any, column: string): void {
-    if (column === 'action') {
-      this.expandedElement = element;
+  showDatePicker = false;
+  onChange(value: string, dropdown: string) {
+
+    if(dropdown == 'month'){
+      if (value === 'Calendar') {
+        this.showDatePicker = true;
+      }
+  
+      else {
+        this.showDatePicker = false;
+      }
     }
 
-    else {
-      this.expandedElement = this.expandedElement === element ? null : element;
-      event.stopPropagation();
+    else if (dropdown == 'status'){
+      if(value == 'all'){
+        this.FETCH_CUSTOMER()
+      }
+      else{
+        this.FILTER_ARRAY_BY_STATUS(value)
+      }
     }
+}
+
+  //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
+  VIEW_CUSTOMER(): void {
+    this.router.navigate(['apps/customers/view']).then(() => {
+      window.scrollTo(0, 0);
+    });
   }
 
   //GET THE STATUS CLASS

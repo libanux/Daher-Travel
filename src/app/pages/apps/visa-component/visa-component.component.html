@@ -205,12 +205,20 @@
 
       <div class="dropdown">
         <mat-form-field class="theme-select" appearance="outline">
-          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value)" placeholder="Today">
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')" placeholder="Today">
             <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
+
+      <div class="dropdown">
+        <mat-form-field class="theme-select" appearance="outline">
+          <mat-select [(ngModel)]="selectedStatusFilteraTION" (selectionChange)="onChange($event.value, 'status')" placeholder="All">
+            <mat-option *ngFor="let element of Filteration" [value]="element.value">{{ element.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
     </div>
 

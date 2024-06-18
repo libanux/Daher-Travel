@@ -62,7 +62,7 @@ import { AppTicketingDialogContentComponent, TicketsComponent } from './tickets/
 import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.component';
 import { AddComponent } from './admins/add-admin/add.component';
 import { ProfileComponent } from './profile/profile.component';
-import { CustomersComponent } from './customers/customers.component';
+import { CustomersComponent } from './customers/main-page/customers.component';
 import { WholesalerComponent } from './wholesaler/wholesaler.component';
 import { AppTreeviewComponent } from './admins/treeview/treeview.component';
 
