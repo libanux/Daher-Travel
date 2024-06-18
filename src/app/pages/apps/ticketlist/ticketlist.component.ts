@@ -1,20 +1,13 @@
 
 import { Component, OnInit, Inject, Optional, ViewChild, effect } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-// import { tickets } from './ticket-data'
 import { Package } from './ticket';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PackageService } from 'src/app/services/package.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
-import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { PagingService } from 'src/app/signals/paging.service';
-import { FormControl } from '@angular/forms';
 import { SearchService } from 'src/app/signals/search.service';
 
 
@@ -35,34 +28,26 @@ import { SearchService } from 'src/app/signals/search.service';
 })
 export class AppTicketlistComponent implements OnInit {
 
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+
   ShowAddButoon = true;
   selectedMonth: string = '';
+
   //MAIN PACKAGE ARRAY
   packages: any[] = []
   showCalendar: boolean = false;
-  selectedDate: Date | null = null; 
+  selectedDate: Date | null = null;
 
 
   //PACKAGE ON EDIT
-  viewPackage: Package
-   editedpackage: Package 
+  editedpackage: Package
+
   //TABLE COLUMNS
-  displayedColumns: string[] = [
-    'name',
-    'destination',
-    'numberOfPeople',
-    'duration',
-    'price',
-    'hotels',
-    'note',
-    'status',
-    'action'
-  ];
+  displayedColumns: string[] = ['name','source', 'destination', 'numberOfPeople', 'duration', 'price','sell', 'hotels', 'note', 'status', 'action'];
+
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Package | null = null;
-
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   searchText: any;
   totalCount = -1;
@@ -75,29 +60,27 @@ export class AppTicketlistComponent implements OnInit {
   months: month[] = [
     { value: 'today', viewValue: 'Today' },
     { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'last Week', viewValue: 'Last Week' },
-    { value: 'Last Month', viewValue: 'Last Month' },
-    { value: 'Last Year', viewValue: 'Last Year' },
-    { value: 'Calendar', viewValue: 'Custom' },
+    { value: 'thisWeek', viewValue: 'This Week' },
+    { value: 'thisMonth', viewValue: 'This Month' },
+    { value: 'thisYear', viewValue: 'This Year' },
+    { value: 'custom', viewValue: 'Custom' },
   ];
 
   //PACKAGES
   dataSource = new MatTableDataSource(this.packages);
 
   packageExample = new Package();
-  pageSize : number =10;
+  pageSize: number = 10;
   currentPage: number = 1;
 
 
-  constructor(public dialog: MatDialog, private packagesService: PackageService,private paginagservice:PagingService, private searchService: SearchService) {
-    
-    this.viewPackage = new Package()
+  constructor(public dialog: MatDialog, private packagesService: PackageService, private paginagservice: PagingService, private searchService: SearchService) {
     this.editedpackage = new Package()
-    this.editedpackage.status='pending'
-    this.editedpackage.sell =1
-    this.editedpackage.price =1
-    this.editedpackage.numberOfPeople =1
-    this.editedpackage.duration =1
+    this.editedpackage.status = 'pending'
+    this.editedpackage.sell = 1
+    this.editedpackage.price = 1
+    this.editedpackage.numberOfPeople = 1
+    this.editedpackage.duration = 1
     effect(() => {
       this.pageSize = paginagservice.pageSize()
       this.currentPage = paginagservice.currentPage()
@@ -110,7 +93,7 @@ export class AppTicketlistComponent implements OnInit {
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
   }
-  searchControl = new FormControl('');
+
   onSearchChange(value: string): void {
     this.searchService.searchKey.set(value);
     console.log('Search value changed:', value);
@@ -119,7 +102,7 @@ export class AppTicketlistComponent implements OnInit {
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex+1;
+    this.currentPage = event.pageIndex + 1;
     this.paginagservice.pageSize.set(event.pageSize)
     this.paginagservice.currentPage.set(event.pageIndex)
     this.FETCH_PACKAGES()
@@ -149,7 +132,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //FETCH PACKAGES FROM API
   FETCH_PACKAGES(): void {
-    this.packagesService.GET_PACKAGES(this.currentPage,this.pageSize).subscribe({
+    this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
@@ -168,26 +151,26 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-    //FETCH PACKAGES FROM API
-    SEARCH_PACKAGES(): void {
-      this.packagesService.SEARCH_PACKAGE().subscribe({
-        next: (response: any) => {
-          this.packages = response.packages;
-          this.dataSource = new MatTableDataSource(this.packages);
-          this.Inprogress = this.btnCategoryClick('pending');
-          this.Completed = this.btnCategoryClick('completed');
-          this.Cancelled = this.btnCategoryClick('canceled');
-          this.totalCount = response.pagination.totalPackages
-          this.btnCategoryClick('')
-  
-        },
-        error: (error: any) => {
-          console.log("Error:", error)
-        },
-        complete: () => {
-        }
-      });
-    }
+  //FETCH PACKAGES FROM API
+  SEARCH_PACKAGES(): void {
+    this.packagesService.SEARCH_PACKAGE().subscribe({
+      next: (response: any) => {
+        this.packages = response.packages;
+        this.dataSource = new MatTableDataSource(this.packages);
+        this.Inprogress = this.btnCategoryClick('pending');
+        this.Completed = this.btnCategoryClick('completed');
+        this.Cancelled = this.btnCategoryClick('canceled');
+        this.totalCount = response.pagination.totalPackages
+        this.btnCategoryClick('')
+
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
 
   CancelUpdate(): void {
     this.ShowAddButoon = true;
@@ -196,7 +179,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //TRIGGER THE DROP DOWN FILTER VALUES
   onChange(value: string) {
-    if (value === 'Calendar') {
+    if (value === 'custom') {
       this.openCalendarDialog();
     }
     else {
@@ -249,64 +232,66 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-  // UPDATE ROW VALUES
+  // SHOW BUTTON UPDATE AND SET INPUTS
   UPDATE(obj: Package): void {
-    this.ShowAddButoon  = false; 
-    this.editedpackage = { ...obj }; 
+    this.ShowAddButoon = false;
+    this.editedpackage = { ...obj };
+    console.log("Edited pack",this.editedpackage)
   }
 
-UPDATE_PACKAGE(){
-  console.log("Edited pack",this.editedpackage)
-  this.packagesService.UPDATE_PACKAGE(this.editedpackage).subscribe({
-    next: (response: any) => {
-      console.log('Response:', response);
-      console.log("Edited pack after edit",this.editedpackage)
-      this.FETCH_PACKAGES();
-      this.CLEAR_VALUES(this.editedpackage)
 
-    },
-    error: (error: any) => {
-      console.error('Error:', error.error);
-    },
-    complete: () => { }
-  });
+  //UPDATE PACKAGE VALUES
+  UPDATE_PACKAGE() {
+    console.log("Edited pack", this.editedpackage)
+    this.packagesService.UPDATE_PACKAGE(this.editedpackage).subscribe({
+      next: (response: any) => {
+        console.log('Response:', response);
+        console.log("Edited pack after edit", this.editedpackage)
+        this.FETCH_PACKAGES();
+        this.CLEAR_VALUES(this.editedpackage)
+
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
 
   }
 
-    //ADD NEW RECRUITING RECORD
-    ADD_PACKAGE(): void {
-      this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
-        next: (response: any) => {
-          console.log("Response on add:", response);
-          this.CLEAR_VALUES(this.editedpackage)
-          this.FETCH_PACKAGES()
-        },
-        error: (error: any) => {
-          console.log("Error:", error)
-        },
-        complete: () => {
-        }
-      });
-    }
+  //ADD NEW RECRUITING RECORD
+  ADD_PACKAGE(): void {
+    this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
+      next: (response: any) => {
 
-    //CLEAR OBJECT VALUES
-    CLEAR_VALUES(obj: Package) {
-      console.log("Here")
-      obj._id = '';
-      obj.name = '';
-      obj.source = '';
-      obj.destination = '';
-      obj.duration = 0;
-      obj.hotels = '';
-      obj.numberOfPeople = 0;
-      obj.price = 0;
-      obj.sell = 0;
-      obj.netprofit = 0;
-      obj.note = '';
-      obj.status = '';
-      console.log("Edited cleared:", obj)
-    }
-  
+        this.CLEAR_VALUES(this.editedpackage)
+        this.FETCH_PACKAGES()
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  //CLEAR OBJECT VALUES
+  CLEAR_VALUES(obj: Package) {
+    console.log("Here")
+    obj._id = '';
+    obj.name = '';
+    obj.source = '';
+    obj.destination = '';
+    obj.duration = 0;
+    obj.hotels = '';
+    obj.numberOfPeople = 0;
+    obj.price = 0;
+    obj.sell = 0;
+    obj.netprofit = 0;
+    obj.note = '';
+    obj.status = '';
+    console.log("Edited cleared:", obj)
+  }
 
 
   // OPEN UPDATE & DELETE DIALOGS
