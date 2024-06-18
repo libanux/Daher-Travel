@@ -37,13 +37,18 @@ export class LaborRecService {
   }
 
   // GET ALL RECRUITING RECORDS
-  GET_RECRUITING(): Observable<any> {
+  GET_RECRUITING(page: number, size: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
-    return this.http.get<any>(`${this.apiUrl}/GET_ALL_RECRUITING`, { headers });
+    const requestBody = {
+      "pageSize": size,
+      "page": page
+    };
+
+    return this.http.post<any>(`${this.apiUrl}/GET_ALL_RECRUITING`, requestBody, { headers });
   }
 
   // ADD RECRUITING RECORD

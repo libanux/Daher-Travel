@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, Inject, Optional, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { AfterViewInit, Component, Inject, Optional, ViewChild, effect } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LaborList } from '../labor';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
+import { PagingService } from 'src/app/signals/paging.service';
 
 interface month {
   value: string;
@@ -59,6 +60,11 @@ export class LaborMainComponent implements AfterViewInit {
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: LaborList | null = null;
 
+
+  pageSize: number = 10;
+  currentPage: number = 1;
+
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -81,7 +87,7 @@ export class LaborMainComponent implements AfterViewInit {
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
 
-  constructor(public dialog: MatDialog, private recruitingService: LaborRecService) {
+  constructor(public dialog: MatDialog, private recruitingService: LaborRecService, private paginagservice: PagingService) {
     this.viewPackage = new LaborList()
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
@@ -89,6 +95,13 @@ export class LaborMainComponent implements AfterViewInit {
     this.editedrecruiting.price = 1
     this.editedrecruiting.age = 1
     this.editedrecruiting.gender = 'female'
+    effect(() => {
+      this.pageSize = paginagservice.pageSize()
+      this.currentPage = paginagservice.currentPage()
+      console.log("pageSize:", this.pageSize)
+      console.log("Current page", this.currentPage)
+
+    });
   }
 
   ngOnInit(): void {
@@ -104,7 +117,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //FETCH PACKAGES FROM API
   FETCH_RECRUITINGS(): void {
-    this.recruitingService.GET_RECRUITING().subscribe({
+    this.recruitingService.GET_RECRUITING(this.currentPage,this.pageSize).subscribe({
       next: (response: any) => {
         this.recruitings = response;
         this.dataSource = new MatTableDataSource(this.recruitings);
@@ -112,6 +125,7 @@ export class LaborMainComponent implements AfterViewInit {
         this.Completed = this.btnCategoryClick('completed');
         this.Cancelled = this.btnCategoryClick('canceled');
         this.totalCount = this.btnCategoryClick('');
+        console.log("Recruitings:",response)
       },
       error: (error: any) => {
         console.log("Error:", error)
@@ -120,6 +134,24 @@ export class LaborMainComponent implements AfterViewInit {
       }
     });
   }
+
+
+  // onSearchChange(value: string): void {
+  //   this.searchService.searchKey.set(value);
+  //   console.log('Search value changed:', value);
+  //   this.FETCH_RECRUITINGS();
+  // }
+
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex + 1;
+    this.paginagservice.pageSize.set(event.pageSize)
+    this.paginagservice.currentPage.set(event.pageIndex)
+    console.log("Page size:", event.pageSize)
+    console.log("Page number:", event.pageIndex)
+    this.FETCH_RECRUITINGS()
+  }
+
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -158,13 +190,13 @@ export class LaborMainComponent implements AfterViewInit {
     }
   }
 
-    //TRUNCATE THE TEXT INTO 20 CHARS
-    truncateText(text: string, limit: number): string {
-      if (text && text.length > limit) {
-        return text.substring(0, limit) + '...';
-      }
-      return text;
+  //TRUNCATE THE TEXT INTO 20 CHARS
+  truncateText(text: string, limit: number): string {
+    if (text && text.length > limit) {
+      return text.substring(0, limit) + '...';
     }
+    return text;
+  }
 
 
   // OPEN UPDATE & DELETE DIALOGS

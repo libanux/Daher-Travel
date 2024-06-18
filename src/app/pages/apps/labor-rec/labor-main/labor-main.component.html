@@ -232,7 +232,14 @@
       </table>
     </div>
     <!-- TABLE PAGINATION -->
-    <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons>
-    </mat-paginator>
+ <!-- TABLE PAGINATION -->
+ <mat-paginator 
+ [pageSizeOptions]="[10, 20, 30]" 
+ [length]="totalCount"
+ [pageSize]="pageSize"
+ aria-label="Select page"
+ showFirstLastButtons
+ (page)="onPageChange($event)">
+ </mat-paginator>
   </mat-card-content>
 </mat-card>
