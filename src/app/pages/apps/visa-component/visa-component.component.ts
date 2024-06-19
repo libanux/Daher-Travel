@@ -266,9 +266,10 @@ export class VisaComponentComponent implements OnInit {
   // SELECT OBJECT TO UPDATE
   SELECTED_VISA(obj: any): void {
     this.ShowAddButoon = false
-    this.CurrentAction = 'Update Visa'
+    this.CurrentAction = 'Update Visa';
     
     this.open_expansion_value = 1 ;
+    this.panelOpenState = true;
 
     this.ADDED_VISA = {
       _id: obj._id,

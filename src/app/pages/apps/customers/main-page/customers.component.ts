@@ -11,7 +11,7 @@ import { PagingService } from 'src/app/signals/paging.service';
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
-  styleUrl: './customers.component.scss'
+  styleUrls: ['./customers.component.scss', '../../../../../assets/scss/apps/_add_expand.scss'],
 })
 
 export class CustomersComponent implements OnInit {

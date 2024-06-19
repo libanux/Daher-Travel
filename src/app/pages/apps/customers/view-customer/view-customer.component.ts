@@ -65,6 +65,7 @@ export class ViewCustomerComponent implements OnInit{
   ];
 
   months: any [] = Month_Filter_Array
+  selectedMonth: string = '';
 
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -104,6 +105,31 @@ export class ViewCustomerComponent implements OnInit{
     }
 
     this.GET_CUSTOMER_BY_ID(this.viewed_cutomer_ID)
+  }
+
+  
+  showDatePicker = false;
+  onChange(value: string, dropdown: string) {
+
+    if (dropdown == 'month') {
+      if (value === 'Calendar') {
+        this.showDatePicker = true;
+      }
+
+      else {
+        this.showDatePicker = false;
+        // this.FILTER_ARRAY_BY_DATE(value)
+      }
+    }
+
+    else if (dropdown == 'status') {
+      if (value == 'all') {
+        // this.FETCH_VISA()
+      }
+      else {
+        // this.FILTER_ARRAY_BY_STATUS(value)
+      }
+    }
   }
 
   GET_CUSTOMER_BY_ID(id: string){

@@ -2,8 +2,6 @@
     <mat-card-content class="p-0">
       <mat-tab-group mat-stretch-tabs="false" animationDuration="0ms">
     
-
-
 <!-- All -->
 <mat-tab>
   <ng-template mat-tab-label>
@@ -18,74 +16,6 @@
 </mat-card-content>
 </mat-tab>
            
-
-<!-- Package -->
-<mat-tab>
-  <ng-template mat-tab-label>
-    <div class="d-flex align-items-center">
-      <mat-icon><i-tabler name="receipt" class="icon-20 m-r-8"></i-tabler></mat-icon>
-    </div>
-    Package
-  </ng-template>
-
-  <mat-card-content class="p-y-24 b-t-1">
-    <app-ticket-list
-    [showAddSection]="false"
-    ></app-ticket-list>
-</mat-card-content>
-</mat-tab>
-           
-
-<!-- WholeSaler -->
-<mat-tab>
-  <ng-template mat-tab-label>
-    <div class="d-flex align-items-center">
-      <mat-icon><i-tabler name="receipt" class="icon-20 m-r-8"></i-tabler></mat-icon>
-    </div>
-    WholeSaler
-  </ng-template>
-
-  <mat-card-content class="p-y-24 b-t-1">
-    <app-wholesaler
-    [showAddSection]="false"
-    ></app-wholesaler>
-</mat-card-content>
-</mat-tab>
-   
-<!-- VISA -->
-<mat-tab>
-
-  <ng-template mat-tab-label>
-  <div class="d-flex align-items-center"><mat-icon>
-    <i-tabler name="lock" class="icon-20 m-r-8"></i-tabler></mat-icon>
-  </div>
-      VISA
-  </ng-template>
-  
-  <mat-card-content class="p-y-24 b-t-1">
-    <app-visa-component
-    [showAddSection]="false"
-    ></app-visa-component>
-  </mat-card-content>
-</mat-tab>
-
-<!-- Ticketing -->
-<mat-tab>
-  <ng-template mat-tab-label>
-    <div class="d-flex align-items-center">
-      <mat-icon><i-tabler name="receipt" class="icon-20 m-r-8"></i-tabler></mat-icon>
-    </div>
-    Ticketing
-  </ng-template>
-
-  <mat-card-content class="p-y-24 b-t-1">
-    <app-tickets
-    [showAddSection]="false"
-    ></app-tickets>
-</mat-card-content>
-</mat-tab>
-           
-
 
 </mat-tab-group>
 </mat-card-content>
