@@ -1,6 +1,44 @@
-// FIRST CARD : ADD VISA
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+    margin: 5px;
+}
+
+.mat-expansion-panel-header:not([aria-disabled=true]){
+    background: #ffffff;
+}
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover{
+    background: #ffffff;
+} 
+
+.mat-expansion-panel .mat-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused, .mat-expansion-panel .mat-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused{
+    background: #ffffff;
+}
+.mat-expansion-panel-header {
+    background: #ffffff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 80px;
+    padding: 30px 24px;
+    border-radius: inherit;
+    transition: height 225ms cubic-bezier(0.4, 0, 0.2, 1);
+    height: var(--mat-expansion-header-collapsed-state-height);
+    font-family: var(--mat-expansion-header-text-font);
+    font-size: var(--mat-expansion-header-text-size);
+    font-weight: var(--mat-expansion-header-text-weight);
+    line-height: var(--mat-expansion-header-text-line-height);
+    letter-spacing: var(--mat-expansion-header-text-tracking);
+}
+
+
 .cardWithShadow {
 
+    .currentAction {
+        color: #ebb31bfb;
+        font-size: 16px;
+    }
+    
     .Buttons_div {
         width: 100%;
         display: flex;
@@ -19,11 +57,7 @@
             color: white;
         }
 
-        .invoice-btn:hover {
-            cursor: pointer;
-            background-color: #79af8dfb;
-            color: rgb(5, 78, 53);
-        }
+
     }
 }
 
