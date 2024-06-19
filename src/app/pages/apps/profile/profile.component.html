@@ -12,13 +12,13 @@
       <!-- firstname -->
       <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">First Name</mat-label>
       <mat-form-field appearance="outline" class="w-100" color="primary">
-      <input matInput type="text" [(ngModel)]="admin.firstname" placeholder="{{viewed_admin().firstname}}" />
+      <input matInput type="text" [(ngModel)]="admin.firstname" placeholder="{{admin.firstname}}" />
       </mat-form-field>
 
       <!-- Email -->
       <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Email</mat-label>
       <mat-form-field appearance="outline" class="w-100" color="primary">
-      <input matInput type="email" placeholder="{{viewed_admin().email}}" [(ngModel)]="admin.email" />
+      <input matInput type="email" placeholder="{{admin.email}}" [(ngModel)]="admin.email" />
       </mat-form-field>
     </div>
 
@@ -26,22 +26,22 @@
       <!-- Last Name -->
       <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Last Name</mat-label>
       <mat-form-field appearance="outline" class="w-100" color="primary">
-      <input matInput type="text" [(ngModel)]="admin.lastname" placeholder="{{viewed_admin().lastname}}" />
+      <input matInput type="text" [(ngModel)]="admin.lastname" placeholder="{{admin.lastname}}" />
       </mat-form-field>
 
       <!-- Phone Number -->
       <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Phone</mat-label>
       <mat-form-field appearance="outline" class="w-100" color="primary">
-      <input matInput type="text" placeholder="{{viewed_admin().phone}}" [(ngModel)]="admin.phone" />
+      <input matInput type="text" placeholder="{{admin.phone}}" [(ngModel)]="admin.phone" />
       </mat-form-field>
     </div>
 
 </div>
 
-  <div class="text-right p-24 p-t-0">
+  <!-- <div class="text-right p-24 p-t-0">
     <button mat-stroked-button color="warn" class="m-r-8">Cancel</button>
     <button mat-flat-button color="primary">Save</button>
-  </div>
+  </div> -->
 
       </mat-card-content>
     </mat-card>

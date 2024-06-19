@@ -60,11 +60,7 @@ export class AdminsComponent implements AfterViewInit, OnInit {
 
   FETCH_ADMINS() {
     this.adminService.GET_ALL_ADMINS().subscribe({
-      next: (response: any) => {
-        console.log(response)
-        this.admins = response
-        console.log(this.dataSource)
-      },
+      next: (response: any) => {this.admins = response},
       error: (error) => { },
       complete: () => { }
     });
@@ -75,7 +71,6 @@ export class AdminsComponent implements AfterViewInit, OnInit {
   }
 
   OPEN_DIALOG(action: string, obj: any): void {
-    console.log(obj)
 
     // this.ADDED_ADMIN = {
     //   _id: obj._id,
@@ -105,7 +100,6 @@ export class AdminsComponent implements AfterViewInit, OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Add') {
         this.ADD_ADMIN(result.data);
-        console.log(result.data)
       } 
       else if (result.event === 'Update') {
         this.UPDATE_ADMIN(result.data);
@@ -187,8 +181,6 @@ export class AdminDialogContentComponent{
     this.ADMIN_SELECTED = { ...data };
     this.action = this.ADMIN_SELECTED.action;
 
-    console.log(this.ADMIN_SELECTED)
-
  this.SELECTED_ADMIN_PERMISSIONS = {
     accounting: {'Read': this.ADMIN_SELECTED.permissions.accounting, 'Write': this.ADMIN_SELECTED.permissions.accounting},
     notes: {'Read': null, 'Write': null},
@@ -200,13 +192,10 @@ export class AdminDialogContentComponent{
   }
 
   doAction(): void {
-    console.log(this.ADMIN_SELECTED)
     this.dialogRef.close({ event: this.action, data: this.ADMIN_SELECTED });
   }
 
   ADD(){
-    console.log(this.ADMIN_SELECTED)
-
   }
 
   CLOSE_DIALOG(): void {

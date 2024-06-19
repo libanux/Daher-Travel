@@ -56,7 +56,7 @@ import { AddedDialogComponent } from './invoice/add-invoice/added-dialog/added-d
 import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
 
 // visa
-import { VisaComponentComponent } from './visa-component/visa-component.component';
+import { VisaComponentComponent, visaDialogContentComponent } from './visa-component/visa-component.component';
 import { ViewticketComponent } from './ticketlist/viewticket/viewticket.component';
 import { AppTicketingDialogContentComponent, TicketsComponent } from './tickets/tickets.component';
 import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.component';
@@ -129,7 +129,8 @@ import { ReportsComponent } from './reports/reports.component';
     AppTreeviewComponent,
     ViewCustomerComponent,
     CustomerDialogContentComponent,
-    ReportsComponent
+    ReportsComponent,
+    visaDialogContentComponent
   ],
   providers: [DatePipe],
 })

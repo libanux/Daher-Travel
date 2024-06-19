@@ -126,7 +126,7 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_DATE', requestBody, { headers });
   }
 
-  FILTER_VISA_BY_STATUS(status: string, currentPage: number): Observable<any> {
+  FILTER_VISA_BY_STATUS(status: string, currentPage: number, pageSize: number): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -135,8 +135,11 @@ export class VisaService {
     const requestBody = {
       status: status,
       page: currentPage,
-      pageSize: 10
+      pageSize: pageSize
     };
+
+    console.log(requestBody)
+
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_STATUS', requestBody, { headers });
   }
 
