@@ -2,6 +2,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerClass } from 'src/app/classes/customer.class';
+import { WholesalerClass } from 'src/app/classes/wholesaler.class';
+import { WholesalerService } from 'src/app/services/wholesaler.service';
 export interface PeriodicElement {
   id: number;
   uname: string;
@@ -46,11 +48,13 @@ export interface PeriodicElement {
 export class ViewWholesalerComponent {
 
 
-  VIEWED_CUSTOMER: CustomerClass = {
+  VIEWED_WHOLESALER: WholesalerClass = {
     _id: '',
-    name: 'Nancy',
-    phoneNumber: '546545',
-    address: 'Nabatieh',
+    name: '',
+    phoneNumber: '',
+    address: '',
+    company:'',
+    email:''
   }
 
   displayedColumns: string[] = [
@@ -60,7 +64,6 @@ export class ViewWholesalerComponent {
     'priority',
     'budget',
   ];
-
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
 
@@ -88,7 +91,24 @@ export class ViewWholesalerComponent {
     }`;
   }
 
-  constructor(){}
+  constructor(private wholesalerService : WholesalerService){}
 
+  viewed_cutomer_ID = ''
+
+  ngOnInit(): void {
+    const viewed_customer_id_str = localStorage.getItem('viewed_wholesaler_id');
+    if (viewed_customer_id_str !== null) {
+      this.viewed_cutomer_ID = viewed_customer_id_str; // Use unary plus (+) to convert string to number
+    }
+
+    this.GET_CUSTOMER_BY_ID(this.viewed_cutomer_ID)
+  }
+
+  GET_CUSTOMER_BY_ID(id: string){
+    this.wholesalerService.GET_WHOLESALER_BY_ID(id).subscribe({
+      next: (response: any) => {this.VIEWED_WHOLESALER = response },
+      error: (error) => { },
+      complete: () => { }
+    });
+  }
 }
-
