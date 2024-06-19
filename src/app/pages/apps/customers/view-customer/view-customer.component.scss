@@ -1,0 +1,28 @@
+// SECOND CARD : TABLE
+.cardWithShadow {
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 5px;
+
+        .filter-date {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            column-gap: 10px;
+    
+            .date_picker {
+                width: 100%;
+                height: fit-content;
+            }
+    
+            .dropdown {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+}
+}
