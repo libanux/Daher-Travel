@@ -26,7 +26,7 @@ export class CustomerService {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     });
 
     const requestBody = {
@@ -38,14 +38,14 @@ export class CustomerService {
   }
 
   //UPDATE CUSTOMER
-UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
+  UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
 
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
-    'Content-Type': 'application/json' 
-  });
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
 
-  console.log(CUSTOMER)
+    console.log(CUSTOMER)
 
     const requestBody = {
       id: CUSTOMER._id,
@@ -54,16 +54,16 @@ UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
         address: CUSTOMER.address
       }
     };
-    
-  return this.httpClient.post<any>(this.apiUrl + '/UPDATE_CUSTOMER', requestBody, { headers });
-}
+
+    return this.httpClient.post<any>(this.apiUrl + '/UPDATE_CUSTOMER', requestBody, { headers });
+  }
 
   //ADD CUSTOMER
-ADD_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
+  ADD_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     });
 
     // Define the request body
@@ -72,21 +72,21 @@ ADD_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
       "phoneNumber": CUSTOMER.phoneNumber,
       "address": CUSTOMER.address
     };
-    
+
     return this.httpClient.post<any>(this.apiUrl + '/ADD_CUSTOMER', requestBody, { headers });
-}
+  }
 
-//DELETE CUSTOMER
-DELETE_CUSTOMER(ID: number): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
-    'Content-Type': 'application/json' 
-  });
+  //DELETE CUSTOMER
+  DELETE_CUSTOMER(ID: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
 
-  const requestBody = { "id": ID  };
+    const requestBody = { "id": ID };
 
-   return this.httpClient.post<any>(this.apiUrl + '/DELETE_CUSTOMER', requestBody, { headers });
-}
+    return this.httpClient.post<any>(this.apiUrl + '/DELETE_CUSTOMER', requestBody, { headers });
+  }
 
   //GET CUSTOMER BY ID
   GET_CUSTOMER_BY_ID(ID: string): Observable<any> {
@@ -99,6 +99,22 @@ DELETE_CUSTOMER(ID: number): Observable<any> {
       "id": ID
     };
     return this.httpClient.post<any>(this.apiUrl + '/GET_CUSTOMER', requestBody, { headers });
+  }
+
+  //SEARCH CUSTOMER BY NAME
+  FILTER_BY_SEARCH_KEY(SearchKey: string, CurrentPage: number, PageSize: number): Observable<any> {
+    const jwt = this.generalService.storedToken;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "name": SearchKey,
+      "page": CurrentPage,
+      "pageSize": PageSize
+    }
+
+    return this.httpClient.post<any>(this.apiUrl + '/SEARCH_CUSTOMERS_BY_FIELDS', requestBody, { headers });
   }
 
 }

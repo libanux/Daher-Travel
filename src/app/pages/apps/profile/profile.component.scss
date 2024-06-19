@@ -1,0 +1,15 @@
+.row {
+
+    .title{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        color: #1E2E61;
+        
+        img{
+            width: 100px;
+        }
+
+    }
+}

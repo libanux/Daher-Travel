@@ -75,7 +75,16 @@ export class CustomersComponent implements OnInit {
     this.Current_page = event.pageIndex + 1;
     this.paginagservice.pageSize.set(event.pageSize)
     this.paginagservice.currentPage.set(event.pageIndex)
-    this.FETCH_CUSTOMER()
+
+    if((event.length - (event.pageIndex*10)) < 10){
+      this.pageSize = (event.length - (event.pageIndex*10))
+      console.log('current page SIZE : ', this.pageSize);
+      this.FETCH_CUSTOMER();
+    }
+    else{
+      console.log('current page SIZE : 10 , ', this.pageSize);
+      this.FETCH_CUSTOMER();
+    }
   }
 
   OPEN_DIALOG(action: string, obj: any): void {
@@ -94,8 +103,11 @@ export class CustomersComponent implements OnInit {
 
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
-    // this.CustomersArray.filter = filterValue.trim().toLowerCase();
-  }
+    this.customerService.FILTER_BY_SEARCH_KEY(filterValue, this.Current_page, this.pageSize).subscribe({
+      next: (response: any) => { this.CustomersArray = new MatTableDataSource(response.customers); },
+      error: (error) => { },
+      complete: () => { }
+    });   }
 
   //STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
