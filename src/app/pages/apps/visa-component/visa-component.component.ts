@@ -2,18 +2,18 @@ import { Component, Inject, Input, OnInit, Optional, ViewChild, effect, signal }
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { VisaClass } from './visaClass';
+import { VisaClass, VisaType_Array, Visa_Status_Array } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { VisaService } from 'src/app/services/visa.service';
-import { GeneralService } from 'src/app/services/general.service';
+import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { PagingService } from 'src/app/signals/paging.service';
 
 @Component({
   selector: 'app-visa-component',
   templateUrl: './visa-component.component.html',
-  styleUrl: './visa-component.component.scss',
+  styleUrls: ['./visa-component.component.scss', '../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -30,25 +30,15 @@ export class VisaComponentComponent implements OnInit {
 
   @Input() showAddSection = true;
 
-  months: month[] = [
-    { value: 'today', viewValue: 'Today' },
-    { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'thisWeek', viewValue: 'This Week' },
-    { value: 'thisMonth', viewValue: 'This Month' },
-    { value: 'thisYear', viewValue: 'This Year' },
-    { value: 'Calendar', viewValue: 'Custom' }
-  ];
-
-  Filteration: month[] = [
-    { value: 'all', viewValue: 'All' },
-    { value: 'rejected', viewValue: 'Rejected' },
-    { value: 'approved', viewValue: 'Approved' },
-    { value: 'pending', viewValue: 'Pending' },
-  ];
+  months: any [] = Month_Filter_Array
+  Status_Array: any [] = Visa_Status_Array
+  VisaType: any [] = VisaType_Array
 
   rangeStart = signal('');
   rangeEnd = signal('');
   ShowAddButoon = true;
+
+  no_visas_found = false;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -57,13 +47,12 @@ export class VisaComponentComponent implements OnInit {
 
   displayedColumns: string[] = [
     'name',
-    'updatedAt',
-    'sell',
-    'createdAt',
     'country',
     'type',
+    'sell',
     'note',
     'status',
+    'createdAt',
     'action'
   ];
 
@@ -72,8 +61,8 @@ export class VisaComponentComponent implements OnInit {
     name: '',
     country: '',
     note: '',
-    sell: 0,
-    status: '',
+    sell: -1,
+    status: 'pending',
     type: '',
     createdAt: '',
     updatedAt: ''
@@ -82,7 +71,6 @@ export class VisaComponentComponent implements OnInit {
   pageSize = 10;
   Visa_Array_length = 0
   Current_page = 1
-
 
   showCalendar: boolean = false;
   selectedMonth: string = '';
@@ -158,19 +146,20 @@ export class VisaComponentComponent implements OnInit {
     this.Current_page = event.pageIndex + 1;
     this.paginagservice.pageSize.set(event.pageSize);
     this.paginagservice.currentPage.set(event.pageIndex);
-    
+    this.FETCH_VISA();
+
     console.log('event : ', event)
     console.log('current page : ', this.Current_page)
 
-    if((event.length - (event.pageIndex*10)) < 10){
-      this.pageSize = (event.length - (event.pageIndex*10))
-      console.log('current page SIZE : ', this.pageSize);
-      this.FETCH_VISA();
-    }
-    else{
-      console.log('current page SIZE : 10 , ', this.pageSize);
-      this.FETCH_VISA();
-    }
+    // if((event.length - (event.pageIndex*10)) < 10){
+    //   this.pageSize = (event.length - (event.pageIndex*10))
+    //   console.log('current page SIZE : ', this.pageSize);
+    //   this.FETCH_VISA();
+    // }
+    // else{
+    //   console.log('current page SIZE : 10 , ', this.pageSize);
+    //   this.FETCH_VISA();
+    // }
     
   }
 
@@ -179,9 +168,22 @@ export class VisaComponentComponent implements OnInit {
     // Do something with the selected date
   }
 
-  // ngAfterViewInit(): void {
-  //   this.VisaArray.paginator = this.paginator;
-  // }
+ formatReadableDate(dateString: string): string {
+    const dateObj = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+      timeZone: 'UTC' // Optional: Adjust to your timezone
+    };
+  
+    return dateObj.toLocaleString('en-US', options);
+  }
+  
 
   truncateText(text: string, limit: number): string {
     if (text && text.length > limit) {
@@ -243,6 +245,7 @@ export class VisaComponentComponent implements OnInit {
 
   // ADD
   ADD_VISA(obj: VisaClass) {
+    console.log(obj)
     this.visaService.ADD_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -302,8 +305,11 @@ export class VisaComponentComponent implements OnInit {
 
   //STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
-    this.visaService.FILTER_VISA_BY_STATUS(val, this.Current_page, this.pageSize).subscribe({
-      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
+    this.visaService.FILTER_VISA_BY_STATUS(val, 1, this.pageSize).subscribe({
+      next: (response: any) => { 
+        this.VisaArray = new MatTableDataSource(response.visas);
+        this.Visa_Array_length = response.pagination.totalVisas;
+        },
       error: (error) => { },
       complete: () => { }
     });
@@ -320,8 +326,14 @@ export class VisaComponentComponent implements OnInit {
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
     this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue).subscribe({
-      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
-      error: (error) => { },
+      next: (response: any) => { 
+        console.log(response); this.VisaArray = new MatTableDataSource(response.visas); 
+      },
+      error: (error) => { 
+        console.log(error);
+        this.VisaArray = new MatTableDataSource(); 
+        this.no_visas_found = true
+      },
       complete: () => { }
     }); 
   }

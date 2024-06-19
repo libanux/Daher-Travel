@@ -2,6 +2,19 @@ import { NavItem } from '../../../../classes/nav-item';
 
 export const navItems: NavItem[] = [
   {
+    navCap: 'All',
+  },
+  {
+    displayName: 'Ticketing',
+    iconName: 'ticket',
+    route: 'apps/tickets',
+  },
+  {
+    displayName: 'Visa',
+    iconName: 'ticket',
+    route: 'apps/visa',
+  },
+  {
     displayName: 'Package',
     iconName: 'packages',
     route: 'apps/package',
@@ -11,26 +24,14 @@ export const navItems: NavItem[] = [
     iconName: 'packages',
     route: 'apps/wholesaler/main',
   },
-  {
-    displayName: 'Visa',
-    iconName: 'ticket',
-    route: 'apps/visa',
-  },
-  {
-    displayName: 'Ticketing',
-    iconName: 'ticket',
-    route: 'apps/tickets',
-  },
+
+
   {
     displayName: 'Customers',
     iconName: 'ticket',
     route: 'apps/customers/main',
   },
-  {
-    displayName: 'Labor Recruitment',
-    iconName: 'clipboard',
-    route: 'apps/labors',
-  },
+
   {
     displayName: 'Notes',
     iconName: 'note',
@@ -42,6 +43,21 @@ export const navItems: NavItem[] = [
     iconName: 'layout',
     route: 'apps/reports',
   },
+
+  {
+    navCap: 'Labor Recruitment',
+  },
+  {
+    displayName: 'Labor Recruitment',
+    iconName: 'clipboard',
+    route: 'apps/labors',
+  },
+  {
+    displayName: 'Labor Reports',
+    iconName: 'clipboard',
+    route: 'apps/labors',
+  },
+
 
   {
     navCap: 'Auth',
