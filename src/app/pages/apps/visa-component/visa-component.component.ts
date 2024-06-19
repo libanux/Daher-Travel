@@ -101,6 +101,10 @@ export class VisaComponentComponent implements OnInit {
     )
   }
 
+   // 1 basic
+   panelOpenState = false;
+   open_expansion_value = 0;
+
   ngOnInit(): void {
     this.rangeEnd = this.dateSignal.endDate;
     this.rangeStart = this.dateSignal.startDate;
@@ -222,7 +226,7 @@ export class VisaComponentComponent implements OnInit {
         this.Visa_Array_length = response.pagination.totalVisas;
       },
       error: (error) => { },
-      complete: () => { }
+      complete: () => {this.CANCEL_UPDATE();}
 
     });
   }
@@ -241,10 +245,7 @@ export class VisaComponentComponent implements OnInit {
     this.visaService.ADD_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => {
-        this.CANCEL_UPDATE();
-        this.FETCH_VISA();
-      }
+      complete: () => {this.FETCH_VISA();}
     });
   }
 
@@ -253,17 +254,17 @@ export class VisaComponentComponent implements OnInit {
     this.visaService.UPDATE_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => {
-        this.CANCEL_UPDATE();
-        this.FETCH_VISA();
-      }
+      complete: () => {this.FETCH_VISA();}
     });
   }
+
 
   // SELECT OBJECT TO UPDATE
   SELECTED_VISA(obj: any): void {
     this.ShowAddButoon = false
     this.CurrentAction = 'Update Visa'
+    
+    this.open_expansion_value = 1 ;
 
     this.ADDED_VISA = {
       _id: obj._id,
@@ -281,8 +282,10 @@ export class VisaComponentComponent implements OnInit {
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
-    this.CurrentAction = 'Add Visa'
+    this.CurrentAction = 'Add Visa';
+    this.open_expansion_value = -1 ;
     this.ShowAddButoon = true
+
     this.ADDED_VISA = {
       _id: -1,
       name: '',
@@ -319,7 +322,7 @@ export class VisaComponentComponent implements OnInit {
       next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
       error: (error) => { },
       complete: () => { }
-    });    console.log(filterValue)
+    }); 
   }
 
 }

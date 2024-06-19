@@ -15,6 +15,10 @@ import { PagingService } from 'src/app/signals/paging.service';
 })
 
 export class CustomersComponent implements OnInit {
+   // 1 basic
+   panelOpenState = false;
+   open_expansion_value = 0;
+
 
   rangeStart = signal('');
   rangeEnd = signal('');
@@ -126,7 +130,7 @@ export class CustomersComponent implements OnInit {
         this.CUSTOMERS_Array_length = response.pagination.totalCustomers
       },
       error: (error) => { },
-      complete: () => { }
+      complete: () => {this.CANCEL_UPDATE(); }
     });
   }
 
@@ -135,7 +139,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.DELETE_CUSTOMER(ID).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
+      complete: () => { this.FETCH_CUSTOMER(); }
     });
   }
 
@@ -144,7 +148,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.CANCEL_UPDATE(); this.FETCH_CUSTOMER(); }
+      complete: () => {this.FETCH_CUSTOMER(); }
     });
   }
 
@@ -153,24 +157,23 @@ export class CustomersComponent implements OnInit {
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => {
-        this.CANCEL_UPDATE();
-        this.FETCH_CUSTOMER();
-      }
+      complete: () => {this.FETCH_CUSTOMER();}
     });
   }
 
   // SELECT OBJECT TO UPDATE
   SELECTED_CUSTOMER(obj: CustomerClass): void {
     this.ShowAddButoon = false;
-    this.currentAction = "Update Customer"
-    this.ADDED_CUSTOMER = obj
+    this.currentAction = "Update Customer";
+    this.ADDED_CUSTOMER = obj;
+    this.open_expansion_value = 1;
   }
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
     this.ShowAddButoon = true;
     this.currentAction = "Add Customer"
+    this.open_expansion_value = -1;
 
     this.ADDED_CUSTOMER = {
       _id: '',
