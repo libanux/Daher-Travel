@@ -59,6 +59,10 @@ export class TicketsComponent {
   Inprogress = -1;
   Completed = -1;
 
+     // 1 basic
+     panelOpenState = false;
+     open_expansion_value = 0;
+
   //MONTHS FOR FILTER DROPDOWN
   months: month[] = [
     { value: 'today', viewValue: 'Today' },
@@ -120,12 +124,14 @@ export class TicketsComponent {
     this.ticketingService.ADD_TICKETING(this.editedTicket).subscribe({
       next: (response: any) => {
         this.CLEAR_VALUES(this.editedTicket)
-        this.FETCH_TICKETINGS()
+        this.FETCH_TICKETINGS();
+
       },
       error: (error: any) => {
         console.log("Error:", error)
       },
       complete: () => {
+        this.open_expansion_value = -1;
       }
     });
   }
@@ -152,6 +158,7 @@ export class TicketsComponent {
 
   CancelUpdate(): void {
     this.ShowAddButoon = true;
+    this.open_expansion_value =-1;
     this.CLEAR_VALUES(this.editedTicket);
     this.currentAction = 'Add Ticket';
   }
@@ -205,6 +212,7 @@ export class TicketsComponent {
   UPDATE(obj: Tickets): void {
     this.ShowAddButoon = false;
     this.editedTicket = { ...obj };
+    this.open_expansion_value =1;
     this.currentAction = 'Update Ticket';
   }
 
@@ -216,6 +224,7 @@ export class TicketsComponent {
         this.FETCH_TICKETINGS();
         this.CLEAR_VALUES(this.editedTicket)
         this.currentAction = 'Add Ticket';
+        this.open_expansion_value =-1;
       },
       error: (error: any) => {
         console.error('Error:', error.error);

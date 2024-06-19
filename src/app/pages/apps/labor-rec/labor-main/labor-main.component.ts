@@ -34,7 +34,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   ShowAddButoon = true;
   selectedMonth: string = '';
-
+  CurrentAction:string ='Add Recruiting'
   //MAIN RECRUITING ARRAY
   recruitings: any[] = []
   showCalendar: boolean = false;
@@ -43,6 +43,10 @@ export class LaborMainComponent implements AfterViewInit {
   //RECRUITING ON EDIT
   viewPackage: LaborList
   editedrecruiting: LaborList
+
+     // 1 basic
+     panelOpenState = false;
+     open_expansion_value = 0;
 
   //TABLE COLUMNS
   displayedColumns: string[] = [
@@ -178,7 +182,9 @@ export class LaborMainComponent implements AfterViewInit {
 
   CancelUpdate(): void {
     this.ShowAddButoon = true
+    this.CurrentAction='Add Recruiting'
     this.CLEAR_VALUES(this.editedrecruiting)
+   this.open_expansion_value = -1;
   }
 
 
@@ -237,6 +243,7 @@ export class LaborMainComponent implements AfterViewInit {
       next: (response: any) => {
         this.CLEAR_VALUES(this.editedrecruiting)
         this.FETCH_RECRUITINGS()
+        this.open_expansion_value = -1;
       },
       error: (error: any) => {
         console.log("Error:", error)
@@ -251,6 +258,8 @@ export class LaborMainComponent implements AfterViewInit {
   UPDATE(obj: LaborList): void {
     this.ShowAddButoon = false;
     this.editedrecruiting = { ...obj };
+    this.CurrentAction='Update Recruiting'
+    this.open_expansion_value = 1;
   }
 
 
@@ -260,6 +269,8 @@ export class LaborMainComponent implements AfterViewInit {
       next: (response: any) => {
         this.FETCH_RECRUITINGS();
         this.CLEAR_VALUES(this.editedrecruiting)
+        this.CurrentAction='Add Recruiting'
+        this.open_expansion_value = -1;
       },
       error: (error: any) => {
         console.error('Error:', error.error);

@@ -84,6 +84,13 @@ export class AppTicketlistComponent implements OnInit {
   currentPage: number = 1;
 
 
+  // 1 basic
+  panelOpenState = false;
+  open_expansion_value = 0;
+
+  CurrentAction: string = 'Add Package'
+
+
   constructor(public dialog: MatDialog, private packagesService: PackageService, private paginagservice: PagingService, private searchService: SearchService) {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
@@ -176,7 +183,7 @@ export class AppTicketlistComponent implements OnInit {
 
   CancelUpdate(): void {
     this.ShowAddButoon = true;
-
+    this.open_expansion_value = -1;
   }
 
 
@@ -270,7 +277,7 @@ export class AppTicketlistComponent implements OnInit {
   UPDATE(obj: Package): void {
     this.ShowAddButoon = false;
     this.editedpackage = { ...obj };
-    console.log("Edited pack", this.editedpackage)
+    this.open_expansion_value = 1;
   }
 
 
