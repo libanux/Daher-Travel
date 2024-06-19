@@ -17,7 +17,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="NAME" [(ngModel)]="editedTicket.name" />
+              <input matInput placeholder="Name" [(ngModel)]="editedTicket.name" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -34,7 +34,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="SOURCE" aria-label="Product" [(ngModel)]="editedTicket.source">
+              <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="editedTicket.source">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -50,7 +50,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Destination</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="DESTINATION" [(ngModel)]="editedTicket.destination" />
+              <input matInput placeholder="Destination" [(ngModel)]="editedTicket.destination" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -68,7 +68,7 @@
             </div>
             <mat-form-field appearance="outline" class="w-100">
               
-                <input matInput placeholder="DESTINATION" [(ngModel)]="editedTicket.wholesaler.name" />
+                <input matInput placeholder="WholeSaler" [(ngModel)]="editedTicket.wholesaler.name" />
      
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -92,7 +92,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="SEATS" aria-label="Product" [(ngModel)]="editedTicket.seats">
+              <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="editedTicket.seats">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -109,7 +109,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="COST" [(ngModel)]="editedTicket.cost" />
+              <input type="number" matInput placeholder="Cost" [(ngModel)]="editedTicket.cost" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -125,7 +125,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Credit</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="CREDIT" aria-label="Product" [(ngModel)]="editedTicket.credit">
+              <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="editedTicket.credit">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -145,7 +145,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Balance </mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="BALANCE" [(ngModel)]="editedTicket.balance" />
+              <input type="number" matInput placeholder="Balance" [(ngModel)]="editedTicket.balance" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -165,7 +165,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="NOTE" [(ngModel)]="editedTicket.note" />
+              <input matInput placeholder="Note" [(ngModel)]="editedTicket.note" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -184,7 +184,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select placeholder="STATUS">
+              <mat-select placeholder="Status">
                 <mat-option value="pending">Pending</mat-option>
                 <mat-option value="completed">Completed</mat-option>
                 <mat-option value="canceled">Canceled</mat-option>
@@ -343,8 +343,8 @@
                   <!-- </div> -->
 
                 </div>
-                <div>
-                  <button class="btn bg-light-warning">Print invoice</button>
+                <div class="invoice-btn-div">
+                  <button class="invoice-btn">Print invoice</button>
                 </div>
               </div>
             </div>

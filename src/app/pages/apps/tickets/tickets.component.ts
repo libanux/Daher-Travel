@@ -7,11 +7,12 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TicketingService } from 'src/app/services/ticketing.service';
 import { PaginationService } from 'ngx-pagination';
 import { PagingService } from 'src/app/signals/paging.service';
+import { Month_Filter_Array } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-tickets',
   templateUrl: './tickets.component.html',
-  styleUrl: './tickets.component.scss',
+  styleUrls: ['./tickets.component.scss','../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -67,16 +68,7 @@ export class TicketsComponent {
      open_expansion_value = 0;
 
   //MONTHS FOR FILTER DROPDOWN
-  months: month[] = [
-    { value: 'today', viewValue: 'Today' },
-    { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'thisWeek', viewValue: 'This Week' },
-    { value: 'thisMonth', viewValue: 'This Month' },
-    { value: 'thisYear', viewValue: 'This Year' },
-    { value: 'custom', viewValue: 'Custom' },
-  ];
-
-
+  months: any[]=Month_Filter_Array
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
 

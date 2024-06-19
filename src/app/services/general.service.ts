@@ -31,3 +31,10 @@ export const Month_Filter_Array : any [] = [
   { value: 'thisYear', viewValue: 'This Year' },
   { value: 'Calendar', viewValue: 'Custom' }
 ];
+
+  export const Date_Filter_Array: any[] = [
+    { value: 'all', viewValue: 'All' },
+    { value: 'canceled', viewValue: 'Canceled' },
+    { value: 'completed', viewValue: 'Completed' },
+    { value: 'pending', viewValue: 'Pending' },
+  ];
