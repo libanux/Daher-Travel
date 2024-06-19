@@ -1,4 +1,4 @@
-import { Component, Inject, Optional, ViewChild } from '@angular/core';
+import { Component, Inject, Input, Optional, ViewChild } from '@angular/core';
 import { Tickets } from './tickets';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ import { TicketingService } from 'src/app/services/ticketing.service';
 export class TicketsComponent {
   ShowAddButoon = true;
   selectedMonth: string = '';
+  @Input() showAddSection = true;
 
   //MAIN TICKETS ARRAY
   tickets: any[] = []

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -30,6 +30,8 @@ export class WholesalerComponent implements OnInit {
   rangeStart = signal('');
   rangeEnd = signal('');
   ShowAddButoon = true;
+
+  @Input() showAddSection = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);

@@ -6,7 +6,6 @@ import { VisaClass } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { month } from 'src/app/classes/DateDropdownClass';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
-import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { VisaService } from 'src/app/services/visa.service';
 import { GeneralService } from 'src/app/services/general.service';
 import { PagingService } from 'src/app/signals/paging.service';

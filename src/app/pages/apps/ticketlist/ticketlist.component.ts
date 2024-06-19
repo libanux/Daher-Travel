@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Inject, Optional, ViewChild, effect } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild, effect, Input } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -27,6 +27,7 @@ import { SearchService } from 'src/app/signals/search.service';
   ],
 })
 export class AppTicketlistComponent implements OnInit {
+  @Input() showAddSection = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
