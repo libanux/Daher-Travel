@@ -117,6 +117,7 @@ export class AppTicketlistComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
     this.paginagservice.pageSize.set(event.pageSize)
+
     this.paginagservice.currentPage.set(event.pageIndex)
     this.FETCH_PACKAGES()
   }
@@ -214,10 +215,12 @@ export class AppTicketlistComponent implements OnInit {
 
   //FILTER PACKAGES BY STATUS
   FILTER_PACKAGES(status: string) {
+    this.currentPage = 1;
     this.packagesService.FILTER_PACKAGES_BY_STATUS(this.pageSize, this.currentPage, status).subscribe({
       next: (response: any) => {
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
+        this.totalCount= response.pagination.totalPackages;
       },
       error: (error: any) => {
         console.error('Error:', error.error);
