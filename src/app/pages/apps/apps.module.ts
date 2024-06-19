@@ -16,21 +16,11 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
 
-//Contact
-import { AppContactDialogContentComponent } from './contact/contact.component';
-import { AppContactComponent } from './contact/contact.component';
-
 //Notes
 import { AppNotesComponent } from './notes/notes.component';
 
 // Permission
 import { AppPermissionComponent } from './permission/permission.component';
-
-//Taskboard
-import { AppTaskboardComponent } from './taskboard/taskboard.component';
-import { TaskDialogComponent } from './taskboard/task-dialog.component';
-import { OkAppTaskComponent } from './taskboard/ok-task/ok-task.component';
-import { DeleteAppTaskComponent } from './taskboard/delete-task/delete-task.component';
 
 //Calendar
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -43,14 +33,6 @@ import { AppAddEmployeeComponent } from './employee/add/add.component';
 import { AppsRoutes } from './apps.routing';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AppTicketlistComponent, AppTicketDialogContentComponent } from './ticketlist/ticketlist.component';
-
-//Invoice
-import { AppInvoiceListComponent } from './invoice/invoice-list/invoice-list.component';
-import { AppInvoiceViewComponent } from './invoice/invoice-view/invoice-view.component';
-import { AppAddInvoiceComponent } from './invoice/add-invoice/add-invoice.component';
-import { AppEditInvoiceComponent } from './invoice/edit-invoice/edit-invoice.component';
-import { OkDialogComponent } from './invoice/edit-invoice/ok-dialog/ok-dialog.component';
-import { AddedDialogComponent } from './invoice/add-invoice/added-dialog/added-dialog.component';
 
 // labor
 import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
@@ -96,23 +78,11 @@ import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-whole
   declarations: [
     AppPermissionComponent,
     AppNotesComponent,
-    AppTaskboardComponent,
-    TaskDialogComponent,
-    OkAppTaskComponent,
-    DeleteAppTaskComponent,
     AppTicketlistComponent,
     AppTicketDialogContentComponent,
-    AppContactComponent,
-    AppContactDialogContentComponent,
     AppEmployeeComponent,
     AppEmployeeDialogContentComponent,
     AppAddEmployeeComponent,
-    AppInvoiceListComponent,
-    AppInvoiceViewComponent,
-    AppAddInvoiceComponent,
-    AppEditInvoiceComponent,
-    AddedDialogComponent,
-    OkDialogComponent,
     VisaComponentComponent,
     LaborMainComponent,
     AppTicketlistComponent,
@@ -135,8 +105,6 @@ import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-whole
     DeleteWholesalerDialogContentComponent,
     ViewWholesalerComponent,
     visaDialogContentComponent,
-
-
   ],
   providers: [DatePipe],
 })
