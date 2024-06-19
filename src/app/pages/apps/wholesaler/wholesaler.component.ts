@@ -100,7 +100,19 @@ export class WholesalerComponent implements OnInit {
 
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
-    // this.CustomersArray.filter = filterValue.trim().toLowerCase();
+    this.Current_page = 1;
+    this.wholesaler.SEARCH_WHOLESALER(this.pageSize, this.Current_page, filterValue).subscribe({
+      next: (response: any) => {
+
+        this.WholesalerArray = response.wholesalers;
+        this.WHOLESALER_Array_length = response.pagination.totalWholesalers
+      },
+      error: (error: any) => {
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
   }
 
   //STATUS FILTERATION
@@ -119,7 +131,11 @@ export class WholesalerComponent implements OnInit {
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: any, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
-    else { this.VIEW_WHOLESALER() }
+    else
+     { 
+      localStorage.setItem('viewed_wholesaler_id', element._id)
+      this.VIEW_WHOLESALER()
+     }
   }
 
 
