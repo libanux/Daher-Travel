@@ -11,26 +11,21 @@ const routes: Routes = [
 
       {
         path: 'labor',
-        loadChildren: () =>
-          import('./pages/apps/labor-rec/labor-rec.module').then(
-            (m) => m.LaborRecModule),
+        loadChildren: () => import('./pages/apps/labor-rec/labor-rec.module').then((m) => m.LaborRecModule),
       },
       {
         path: 'apps',
-        loadChildren: () =>
-          import('./pages/apps/apps.module').then((m) => m.AppsModule),
+        loadChildren: () => import('./pages/apps/apps.module').then((m) => m.AppsModule),
       },
     ],
   },
 
-  { path: '', component: BlankComponent,
+  {
+    path: '', component: BlankComponent,
     children: [
       {
         path: '',
-        loadChildren: () =>
-          import('./pages/authentication/authentication.module').then(
-            (m) => m.AuthenticationModule
-          ),
+        loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
       },
     ],
   },
@@ -41,7 +36,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
 
- 
+
 ];
 
 @NgModule({
@@ -50,4 +45,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
