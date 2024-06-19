@@ -2,7 +2,7 @@ import { NavItem } from '../../../../classes/nav-item';
 
 export const navItems: NavItem[] = [
   {
-    navCap: 'All',
+    navCap: 'Travel Management',
   },
   {
     displayName: 'Ticketing',
@@ -45,7 +45,7 @@ export const navItems: NavItem[] = [
   },
 
   {
-    navCap: 'Labor Recruitment',
+    navCap: 'Labor Management',
   },
   {
     displayName: 'Labor Recruitment',
@@ -60,7 +60,7 @@ export const navItems: NavItem[] = [
 
 
   {
-    navCap: 'Auth',
+    navCap: 'User Management',
   },
   {
     displayName: 'Profile',
