@@ -1,3 +1,4 @@
+@if(showAddSection){
 <mat-card class="cardWithShadow">
   <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="panelOpenState = true"
     (closed)="panelOpenState = false">
@@ -215,7 +216,7 @@
       </mat-card-content>
     </mat-expansion-panel>
   </mat-card>
-  
+}
 
 
 
