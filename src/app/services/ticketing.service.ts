@@ -5,7 +5,7 @@ import { DateSelectedSignal } from '../signals/DateSelectedSignal.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tickets } from '../pages/apps/tickets/tickets';
-import { V } from '@angular/cdk/keycodes';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ import { V } from '@angular/cdk/keycodes';
 export class TicketingService {
   private apiUrl = '';
 
-  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,) {
+  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
@@ -103,5 +103,33 @@ export class TicketingService {
       "id": delTicket._id
     };
     return this.http.post<any>(this.apiUrl + '/DELETE_TICKETING', requestBody, { headers })
+  }
+
+// FILTER TICKETS BY SEARCHKEY
+ SEARCH_TICKETS(pageSize:number, currentPage: number,searchkey:string): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.getToken()}`,
+    'Content-Type': 'application/json'
+  });
+  const requestBody = {
+      "name":searchkey,
+       "page": currentPage,
+       "pageSize": pageSize
+  };
+  return this.http.post<any>(this.apiUrl + '/SEARCH_TICKETING_BY_FIELDS', requestBody, { headers })
+}
+
+  // FILTER TICKETS BY DATE
+  FILTER_TICKETS_BY_DATE(filter: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "filterType": filter,
+      "startDate": this.dateSignal.startDate(),
+      "endDate": this.dateSignal.endDate()
+    };
+    return this.http.post<any>(this.apiUrl + '/FILTER_TICKETING_BY_DATE', requestBody, { headers })
   }
 }

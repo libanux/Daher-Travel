@@ -2,9 +2,11 @@ import { Component, Inject, Input, Optional, ViewChild } from '@angular/core';
 import { Tickets } from './tickets';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TicketingService } from 'src/app/services/ticketing.service';
+import { PaginationService } from 'ngx-pagination';
+import { PagingService } from 'src/app/signals/paging.service';
 
 @Component({
   selector: 'app-tickets',
@@ -68,16 +70,17 @@ export class TicketsComponent {
   months: month[] = [
     { value: 'today', viewValue: 'Today' },
     { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'lastWeek', viewValue: 'Last Week' },
-    { value: 'LastMonth', viewValue: 'Last Month' },
-    { value: 'LastYear', viewValue: 'Last Year' },
+    { value: 'thisWeek', viewValue: 'This Week' },
+    { value: 'thisMonth', viewValue: 'This Month' },
+    { value: 'thisYear', viewValue: 'This Year' },
     { value: 'custom', viewValue: 'Custom' },
   ];
+
 
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
 
-  constructor(public dialog: MatDialog, private ticketingService: TicketingService) {
+  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private paginagservice: PagingService) {
     this.editedTicket = new Tickets()
 
   }
@@ -94,8 +97,8 @@ export class TicketsComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-  pageSize: 10;
-  currentPage: 1;
+  pageSize= 10;
+  currentPage= 1;
 
 
   //FETCH TICKETINGS FROM API
@@ -105,10 +108,7 @@ export class TicketsComponent {
         this.tickets = response.ticketings;
         console.log("rewsponse:", response)
         this.dataSource = new MatTableDataSource(this.tickets);
-        this.Inprogress = this.btnCategoryClick('pending');
-        this.Completed = this.btnCategoryClick('completed');
-        this.Cancelled = this.btnCategoryClick('canceled');
-        this.totalCount = this.btnCategoryClick('');
+        this.totalCount = response.pagination.totalTicketings
       },
       error: (error: any) => {
         console.log("Error:", error)
@@ -118,6 +118,54 @@ export class TicketsComponent {
     });
   }
 
+
+  showDatePicker:boolean = false;
+  //DATE AND STATUS DROPDOWN CHANGE
+  onChange(value: string, dropdown: string) {
+    if (dropdown == 'month') {
+      if (value === 'custom') {
+        this.showDatePicker = true;
+      }
+
+      else {
+        this.showDatePicker = false;
+        this.FILTER_TICKETS_BY_DATE(value)
+      }
+    }
+
+    // else if (dropdown == 'status') {
+    //   if (value == 'all') {
+    //     this.FETCH_PACKAGES()
+    //   }
+    //   else {
+    //     console.log("Value", value)
+    //     this.FILTER_PACKAGES(value)
+    //   }
+    // }
+  }
+
+
+    //FILTER PACKAGES BY DATE
+    FILTER_TICKETS_BY_DATE(filter: string) {
+      this.ticketingService.FILTER_TICKETS_BY_DATE(filter).subscribe({
+        next: (response: any) => {
+          this.tickets = response;
+          this.dataSource = new MatTableDataSource(this.tickets);
+        },
+        error: (error: any) => {
+          console.error('Error:', error.error);
+        },
+        complete: () => { }
+      });
+    }
+
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex + 1;
+    this.paginagservice.pageSize.set(event.pageSize)
+    this.paginagservice.currentPage.set(event.pageIndex)
+    this.FETCH_TICKETINGS()
+  }
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
     this.editedTicket.wholesaler.id = '6671874cd0f3f073ad99ba0e';
@@ -136,6 +184,25 @@ export class TicketsComponent {
       }
     });
   }
+
+    //FETCH TICKETS FROM API
+    SEARCH_TICKETS(event: any): void {
+      this.currentPage = 1;
+      console.log("Here")
+      this.ticketingService.SEARCH_TICKETS(this.pageSize, this.currentPage, event.target.value).subscribe({
+        next: (response: any) => {
+  
+          this.tickets = response.tickets;
+          this.dataSource = new MatTableDataSource(this.tickets);
+          this.totalCount = response.pagination.totalTickets
+        },
+        error: (error: any) => {
+          console.log("Error:", error)
+        },
+        complete: () => {
+        }
+      });
+    }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {

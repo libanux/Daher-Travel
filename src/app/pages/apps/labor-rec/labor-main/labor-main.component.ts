@@ -282,10 +282,12 @@ export class LaborMainComponent implements AfterViewInit {
 
   //FILTER RECRUITING RECORDS BY STATUS
   FILTER_RECRUITING(status: string) {
+    this.currentPage=1;
     this.recruitingService.FILTER_RECRUITINGS(this.pageSize, this.currentPage, status).subscribe({
       next: (response: any) => {
         this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
+        this.totalCount = response.pagination.totalPackages
       },
       error: (error: any) => {
         console.error('Error:', error.error);
