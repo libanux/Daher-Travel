@@ -1,6 +1,10 @@
 <mat-card class="cardWithShadow">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
-    <mat-tab label="Add Package">
+  <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false">
+
+    <mat-expansion-panel-header>
+      <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{CurrentAction}}</mat-panel-title>
+    </mat-expansion-panel-header>
       <mat-card-content>
 
         <!-- FIRST ROW :  NAME + SOURCE + DESTINATION  + HOTELS-->
@@ -211,9 +215,8 @@
         </div>
 
       </mat-card-content>
-    </mat-tab>
-  </mat-tab-group>
-</mat-card>
+    </mat-expansion-panel>
+  </mat-card>
 
 
 <!-- MAIN TABLE -->

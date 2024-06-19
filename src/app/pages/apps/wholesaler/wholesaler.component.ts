@@ -46,6 +46,10 @@ export class WholesalerComponent implements OnInit {
     'action',
   ];
 
+    // 1 basic
+    panelOpenState = false;
+    open_expansion_value = 0;
+
   ADDED_WHOLESALER: WholesalerClass 
 
   expandedElement: WholesalerClass | null = null;
@@ -193,6 +197,7 @@ export class WholesalerComponent implements OnInit {
   // SELECT OBJECT TO UPDATE
   SELECTED_WHOLESALER(obj: WholesalerClass): void {
     this.ShowAddButoon = false;
+    this.open_expansion_value = 1 ;
     this.currentAction = "Update Customer"
     this.ADDED_WHOLESALER = obj
   }
@@ -201,7 +206,7 @@ export class WholesalerComponent implements OnInit {
   CANCEL_UPDATE(): void {
     this.ShowAddButoon = true;
     this.currentAction = "Add Customer"
-
+    this.open_expansion_value = -1 ;
     this.ADDED_WHOLESALER = {
       _id: '',
       name: '',
