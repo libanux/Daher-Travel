@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -28,6 +28,8 @@ import { PagingService } from 'src/app/signals/paging.service';
 })
 
 export class VisaComponentComponent implements OnInit {
+
+  @Input() showAddSection = true;
 
   months: month[] = [
     { value: 'today', viewValue: 'Today' },
