@@ -1,5 +1,5 @@
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,13 @@ export class GeneralService  {
       this.admin_id = localStorage.getItem('admin_id')
     }
   }
-
-
 }
+
+export const Month_Filter_Array : any [] = [
+  { value: 'today', viewValue: 'Today' },
+  { value: 'yesterday', viewValue: 'Yesterday' },
+  { value: 'thisWeek', viewValue: 'This Week' },
+  { value: 'thisMonth', viewValue: 'This Month' },
+  { value: 'thisYear', viewValue: 'This Year' },
+  { value: 'Calendar', viewValue: 'Custom' }
+];

@@ -78,12 +78,11 @@
 </mat-expansion-panel>
 </mat-card>
 
-
 <mat-card class="cardWithShadow">
 
   <!-- HEADER : search + dropdowns -->
   <header>
-    <div class="searchbar">
+    <div class="searchbar p-20">
       <mat-form-field appearance="outline" class="w-100">
         <input matInput placeholder="Search Customers..." aria-label="Product"
           (keyup)="APPLY_SEARCH_FILTER($any($event.target).value)">
@@ -104,7 +103,8 @@
     </div>
   </header>
 
-  <mat-card-content class="p-24">
+  <mat-card-content>
+
     <div class="table-responsive">
       <table mat-table [dataSource]="CustomersArray" multiTemplateDataRows>
         @for( column of displayedColumns; track column) {
@@ -136,9 +136,14 @@
       </table>
     </div>
 
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="CUSTOMERS_Array_length" [pageSize]="pageSize"
-      aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
-    </mat-paginator>
+  <mat-paginator 
+    [pageSizeOptions]="[10, 20, 30]" 
+    [length]="CUSTOMERS_Array_length" 
+    [pageSize]="pageSize"
+    aria-label="Select page" 
+    showFirstLastButtons (page)="onPageChange($event)">
+  </mat-paginator>
 
   </mat-card-content>
+
 </mat-card>

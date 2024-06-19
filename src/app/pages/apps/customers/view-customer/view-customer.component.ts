@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { CustomerService } from 'src/app/services/Customer.service';
+import { Month_Filter_Array } from 'src/app/services/general.service';
 
 export interface PeriodicElement {
 id: number;
@@ -63,6 +64,8 @@ export class ViewCustomerComponent implements OnInit{
     'budget',
   ];
 
+  months: any [] = Month_Filter_Array
+
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
 
@@ -109,5 +112,20 @@ export class ViewCustomerComponent implements OnInit{
       error: (error) => { },
       complete: () => { }
     });
+  }
+
+  
+  APPLY_SEARCH_FILTER(filterValue: string): void {
+    // this.customerService.FILTER_BY_SEARCH_KEY(filterValue, 1, 10).subscribe({
+    //   next: (response: any) => { 
+    //     console.log(response); this.c = new MatTableDataSource(response.visas); 
+    //   },
+    //   error: (error) => { 
+    //     console.log(error);
+    //     this.VisaArray = new MatTableDataSource(); 
+    //     this.no_visas_found = true
+    //   },
+    //   complete: () => { }
+    // }); 
   }
 }
