@@ -8,7 +8,7 @@ export class GeneralService  {
 
   PageSizing = 10;
   storedToken: string = '';  // Initialize with an empty string
-  userId: any = 0
+  admin_id: any = 0
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.platformId = platformId;
@@ -17,8 +17,8 @@ export class GeneralService  {
       const token = localStorage.getItem('TICKET');
       this.storedToken = token !== null ? token : '';
 
-      // userID
-      this.userId = localStorage.getItem('userId')
+      // admin_id
+      this.admin_id = localStorage.getItem('admin_id')
     }
   }
 

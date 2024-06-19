@@ -89,16 +89,16 @@ DELETE_CUSTOMER(ID: number): Observable<any> {
 }
 
   //GET CUSTOMER BY ID
-  GET_CUSTOMER_BY_ID(paymentID: number): Observable<any> {
+  GET_CUSTOMER_BY_ID(ID: string): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      PAYMENT_ID: paymentID
+      "id": ID
     };
-    return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_PAYMENT_ID_ADV', requestBody, { headers });
+    return this.httpClient.post<any>(this.apiUrl + '/GET_CUSTOMER', requestBody, { headers });
   }
 
 }

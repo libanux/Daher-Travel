@@ -1,7 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerClass } from 'src/app/classes/customer.class';
+import { CustomerService } from 'src/app/services/Customer.service';
 
 export interface PeriodicElement {
 id: number;
@@ -45,13 +46,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './view-customer.component.scss'
 })
 
-export class ViewCustomerComponent {
+export class ViewCustomerComponent implements OnInit{
 
   VIEWED_CUSTOMER: CustomerClass = {
     _id: '',
-    name: 'Nancy',
-    phoneNumber: '546545',
-    address: 'Nabatieh',
+    name: '',
+    phoneNumber: '',
+    address: '',
   }
 
   displayedColumns: string[] = [
@@ -89,6 +90,24 @@ export class ViewCustomerComponent {
     }`;
   }
 
-  constructor(){}
+  constructor(private customerService : CustomerService){}
 
+  viewed_cutomer_ID = ''
+
+  ngOnInit(): void {
+    const viewed_customer_id_str = localStorage.getItem('viewed_cutomer_id');
+    if (viewed_customer_id_str !== null) {
+      this.viewed_cutomer_ID = viewed_customer_id_str; // Use unary plus (+) to convert string to number
+    }
+
+    this.GET_CUSTOMER_BY_ID(this.viewed_cutomer_ID)
+  }
+
+  GET_CUSTOMER_BY_ID(id: string){
+    this.customerService.GET_CUSTOMER_BY_ID(id).subscribe({
+      next: (response: any) => {this.VIEWED_CUSTOMER = response },
+      error: (error) => { },
+      complete: () => { }
+    });
+  }
 }

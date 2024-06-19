@@ -77,7 +77,7 @@ export class AdminService {
   }
 
   //GET USER BY ID
-  GET_ADMIN_BY_ID(adminID: string): Observable<any> {
+  GET_ADMIN_BY_ID(ID: string): Observable<any> {
     const jwt = this.generalService.storedToken;
 
     const headers = new HttpHeaders({
@@ -85,7 +85,7 @@ export class AdminService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      id: adminID
+      "id": ID
     };
 
     return this.httpClient.post<any>(this.apiUrl + '/GET_PROFILE_BY_ID', requestBody, { headers });

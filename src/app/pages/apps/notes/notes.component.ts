@@ -23,8 +23,8 @@ export class AppNotesComponent implements OnInit {
   adminid: string = ''
   constructor(public noteService: NoteService) {
     this.newNote = new Note();
-    const userId = localStorage.getItem("userId");
-    this.adminid = userId !== null ? userId : "";
+    const admin_id = localStorage.getItem("admin_id");
+    this.adminid = admin_id !== null ? admin_id : "";
     this.selectedNote.text = "New Note"
     this.selectedNote.adminid = this.adminid
   }

@@ -4,7 +4,6 @@ import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } 
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';import { FeatherModule } from "angular-feather"
 import { AuthService, Params_Authenticate } from 'src/app/services/auth.service';
-import { AuthSignalService } from 'src/app/signals/authentication.signal.servise';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +26,7 @@ export class AppLoginComponent {
 
   loading: boolean = false;
 
-  constructor(private authSignalService: AuthSignalService, private authserivece: AuthService, private settings: CoreService, private router: Router) { }
+  constructor(private authserivece: AuthService, private settings: CoreService, private router: Router) { }
 
 
   //LOGIN FUNCTION
@@ -43,10 +42,8 @@ export class AppLoginComponent {
             this.router.navigate(['/apps/package']).then(() => {
               window.scrollTo(0, 0);
             }),
-
-            this.authSignalService.logged_in_admin.set(response)
               localStorage.setItem('TICKET', response.token),
-              localStorage.setItem('userId', response._id)
+              localStorage.setItem('admin_id', response._id)
 
         },
         error: (error: any) => {this.loading = false;}

@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, effect, signal } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { VisaClass } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -132,34 +132,42 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
-  openCalendarDialog(): void {
-    const dialogRef = this.dialog.open(CalendarDialogComponent, {
-      width: '350px',
-      data: { selectedDate: this.selectedDate }
+  OPEN_DIALOG(action: string, obj: any): void {
+    obj.action = action;
+
+    const dialogRef = this.dialog.open(visaDialogContentComponent, {
+      data: obj,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result) {
-        if (result.startDate && result.endDate) {
-          this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-        } else {
-          this.selectedMonth = 'Custom';
-        }
-        this.selectedDate = result;
-        // Do something with the selected date
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.event === 'delete') {       
+        console.log(obj)
+        this.DELETE_VISA(obj._id);
       }
     });
   }
 
   onPageChange(event: PageEvent): void {
+    console.log('page is changes')
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize)
-    this.paginagservice.currentPage.set(event.pageIndex)
-    this.FETCH_VISA()
-  }
+    this.paginagservice.pageSize.set(event.pageSize);
+    this.paginagservice.currentPage.set(event.pageIndex);
+    
+    console.log('event : ', event)
+    console.log('current page : ', this.Current_page)
 
+    if((event.length - (event.pageIndex*10)) < 10){
+      this.pageSize = (event.length - (event.pageIndex*10))
+      console.log('current page SIZE : ', this.pageSize);
+      this.FETCH_VISA();
+    }
+    else{
+      console.log('current page SIZE : 10 , ', this.pageSize);
+      this.FETCH_VISA();
+    }
+    
+  }
 
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);
@@ -211,7 +219,7 @@ export class VisaComponentComponent implements OnInit {
     this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
       next: (response: any) => {
         this.VisaArray = new MatTableDataSource(response.visas);
-        this.Visa_Array_length = response.pagination.totalVisas
+        this.Visa_Array_length = response.pagination.totalVisas;
       },
       error: (error) => { },
       complete: () => { }
@@ -290,7 +298,7 @@ export class VisaComponentComponent implements OnInit {
 
   //STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
-    this.visaService.FILTER_VISA_BY_STATUS(val, this.Current_page).subscribe({
+    this.visaService.FILTER_VISA_BY_STATUS(val, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
       error: (error) => { },
       complete: () => { }
@@ -312,6 +320,49 @@ export class VisaComponentComponent implements OnInit {
       error: (error) => { },
       complete: () => { }
     });    console.log(filterValue)
+  }
+
+}
+
+
+
+
+
+
+
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'app-dialog-content',
+  templateUrl: './visa-dialog-content/visa-dialog-content.component.html',
+  styleUrl: './visa-dialog-content/visa-dialog-content.component.scss'
+})
+// tslint:disable-next-line: component-class-suffix
+export class visaDialogContentComponent{
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+
+  action: string;
+  VISA_SELECTED: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<visaDialogContentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: VisaClass,
+  ) 
+  {
+    this.VISA_SELECTED = { ...data };
+    this.action = this.VISA_SELECTED.action;
+    console.log(this.VISA_SELECTED)
+  }
+
+  doAction(): void {
+    console.log(this.VISA_SELECTED)
+    this.dialogRef.close({ event: this.action, data: this.VISA_SELECTED });
+  }
+
+  CLOSE_DIALOG(): void {
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
 }

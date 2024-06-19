@@ -83,7 +83,6 @@ export class CustomersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'delete') {       
-        console.log(obj)
         this.DELETE_CUSTOMER(obj._id);
       }
     });
@@ -108,9 +107,13 @@ export class CustomersComponent implements OnInit {
 
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
-  ROW_CLICK(element: any, column: string): void {
+  ROW_CLICK(element: CustomerClass, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
-    else { this.VIEW_CUSTOMER() }
+    else
+     { 
+      localStorage.setItem('viewed_cutomer_id', element._id)
+      this.VIEW_CUSTOMER()
+     }
   }
 
 // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
@@ -119,7 +122,6 @@ export class CustomersComponent implements OnInit {
   FETCH_CUSTOMER() {
     this.customerService.GET_ALL_CUSTOMER(this.Current_page).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.CustomersArray = new MatTableDataSource(response.customers); 
         this.CUSTOMERS_Array_length = response.pagination.totalCustomers
       },
@@ -139,7 +141,6 @@ export class CustomersComponent implements OnInit {
 
   // ADD
   ADD_CUSTOMER(obj: CustomerClass) {
-    console.log(obj)
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -208,11 +209,9 @@ export class CustomerDialogContentComponent{
   {
     this.CUSTOMER_SELECTED = { ...data };
     this.action = this.CUSTOMER_SELECTED.action;
-    console.log(this.CUSTOMER_SELECTED)
   }
 
   doAction(): void {
-    console.log(this.CUSTOMER_SELECTED)
     this.dialogRef.close({ event: this.action, data: this.CUSTOMER_SELECTED });
   }
 
