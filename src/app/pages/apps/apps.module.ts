@@ -63,10 +63,12 @@ import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.co
 import { AddComponent } from './admins/add-admin/add.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CustomerDialogContentComponent, CustomersComponent } from './customers/main-page/customers.component';
-import { WholesalerComponent } from './wholesaler/wholesaler.component';
+import { DeleteWholesalerDialogContentComponent, WholesalerComponent } from './wholesaler/wholesaler.component';
 import { AppTreeviewComponent } from './admins/treeview/treeview.component';
 import { ViewCustomerComponent } from './customers/view-customer/view-customer.component';
 import { ReportsComponent } from './reports/reports.component';
+import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-wholesaler.component';
+import { WholesalersModule } from './wholesaler/wholesalers.module';
 
 @NgModule({
   imports: [
@@ -87,7 +89,8 @@ import { ReportsComponent } from './reports/reports.component';
       useFactory: adapterFactory,
     }),
     MatNativeDateModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+
     
   ],
   exports: [TablerIconsModule],
@@ -130,7 +133,10 @@ import { ReportsComponent } from './reports/reports.component';
     ViewCustomerComponent,
     CustomerDialogContentComponent,
     ReportsComponent,
+    DeleteWholesalerDialogContentComponent,
+    ViewWholesalerComponent,
     visaDialogContentComponent
+
   ],
   providers: [DatePipe],
 })

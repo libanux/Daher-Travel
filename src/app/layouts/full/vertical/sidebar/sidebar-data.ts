@@ -7,9 +7,9 @@ export const navItems: NavItem[] = [
     route: 'apps/package',
   },
   {
-    displayName: 'wholesaler',
+    displayName: 'Wholesalers',
     iconName: 'packages',
-    route: 'apps/wholesaler',
+    route: 'apps/wholesaler/main',
   },
   {
     displayName: 'Visa',

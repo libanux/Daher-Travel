@@ -38,25 +38,26 @@ export class WholesalerService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_WHOLESALERS', requestBody, { headers });
   }
 
-  //UPDATE CUSTOMER
-UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
+  //UPDATE WHOLESALER
+UPDATE_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`,
     'Content-Type': 'application/json' 
   });
 
-  console.log(CUSTOMER)
-
     const requestBody = {
-      id: CUSTOMER._id,
+      id: WHOLESALER._id,
       "updateData": {
-        name: CUSTOMER.name,
-        address: CUSTOMER.address
+        name: WHOLESALER.name,
+        address: WHOLESALER.address,
+        company: WHOLESALER.company,
+        phoneNumber: WHOLESALER.phoneNumber,
+        email: WHOLESALER.email
       }
     };
     
-  return this.httpClient.post<any>(this.apiUrl + '/UPDATE_CUSTOMER', requestBody, { headers });
+  return this.httpClient.post<any>(this.apiUrl + '/UPDATE_WHOLESALER', requestBody, { headers });
 }
 
   //ADD WHOLESALER
@@ -79,8 +80,8 @@ ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
     return this.httpClient.post<any>(this.apiUrl + '/ADD_WHOLESALER', requestBody, { headers });
 }
 
-//DELETE CUSTOMER
-DELETE_CUSTOMER(ID: number): Observable<any> {
+//DELETE DELETE_WHOLESALER
+DELETE_WHOLESALER(ID: number): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.storedToken}`,
     'Content-Type': 'application/json' 
@@ -88,7 +89,7 @@ DELETE_CUSTOMER(ID: number): Observable<any> {
 
   const requestBody = { "id": ID  };
 
-   return this.httpClient.post<any>(this.apiUrl + '/DELETE_CUSTOMER', requestBody, { headers });
+   return this.httpClient.post<any>(this.apiUrl + '/DELETE_WHOLESALER', requestBody, { headers });
 }
 
   //GET CUSTOMER BY ID
