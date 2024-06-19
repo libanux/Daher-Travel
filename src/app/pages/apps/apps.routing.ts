@@ -19,6 +19,7 @@ import { AdminsComponent } from './admins/admins.component';
 import { CustomersComponent } from './customers/main-page/customers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { WholesalerComponent } from './wholesaler/wholesaler.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 export const AppsRoutes: Routes = [
@@ -28,6 +29,10 @@ export const AppsRoutes: Routes = [
       {
         path: 'visa',
         component: VisaComponentComponent,
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
       },
       {
         path: 'wholesaler',

@@ -66,6 +66,7 @@ import { CustomerDialogContentComponent, CustomersComponent } from './customers/
 import { WholesalerComponent } from './wholesaler/wholesaler.component';
 import { AppTreeviewComponent } from './admins/treeview/treeview.component';
 import { ViewCustomerComponent } from './customers/view-customer/view-customer.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   imports: [
@@ -127,7 +128,8 @@ import { ViewCustomerComponent } from './customers/view-customer/view-customer.c
     WholesalerComponent,
     AppTreeviewComponent,
     ViewCustomerComponent,
-    CustomerDialogContentComponent
+    CustomerDialogContentComponent,
+    ReportsComponent
   ],
   providers: [DatePipe],
 })

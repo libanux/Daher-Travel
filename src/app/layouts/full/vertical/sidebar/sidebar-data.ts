@@ -40,7 +40,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Reports',
     iconName: 'layout',
-    route: 'widgets/charts',
+    route: 'apps/reports',
   },
 
   {
