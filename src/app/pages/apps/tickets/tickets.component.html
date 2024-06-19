@@ -1,9 +1,9 @@
 <mat-card class="cardWithShadow">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
-    <mat-tab label="Add Package">
+    <mat-tab label="{{currentAction}}">
       <mat-card-content>
 
-        <!-- FIRST ROW :  NAME + NATIONALITY + GENDER -->
+        <!-- FIRST ROW :  NAME + SOURCE + DESTINATION + WHOLESALER-->
         <div class="row">
 
           <!-- NAME -->
@@ -29,13 +29,13 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input  matInput placeholder="SOURCE" aria-label="Product" [(ngModel)]="editedTicket.source">
+              <input matInput placeholder="SOURCE" aria-label="Product" [(ngModel)]="editedTicket.source">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M120-120v-80h720v80H120Zm74-200L80-514l62-12 70 62 192-52-162-274 78-24 274 246 200-54q32-9 58 12t26 56q0 22-13.5 39T830-492L194-320Z" />
-              </svg>
+                  fill="#5f6368">
+                  <path
+                    d="M120-120v-80h720v80H120Zm74-200L80-514l62-12 70 62 192-52-162-274 78-24 274 246 200-54q32-9 58 12t26 56q0 22-13.5 39T830-492L194-320Z" />
+                </svg>
               </mat-icon>
             </mat-form-field>
           </div>
@@ -48,29 +48,32 @@
               <input matInput placeholder="DESTINATION" [(ngModel)]="editedTicket.destination" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M754-324 120-500v-220l60 20 28 84 192 54v-318l80 20 110 350 200 56q23 6 36.5 24.5T840-388q0 33-27 53t-59 11ZM120-120v-80h720v80H120Z" />
-              </svg>
+                  fill="#5f6368">
+                  <path
+                    d="M754-324 120-500v-220l60 20 28 84 192 54v-318l80 20 110 350 200 56q23 6 36.5 24.5T840-388q0 33-27 53t-59 11ZM120-120v-80h720v80H120Z" />
+                </svg>
               </mat-icon>
             </mat-form-field>
           </div>
 
-    <!-- WHOLESALER-->
-    <div class="col-md-3 d-flex flex-column">
-      <div class="d-flex align-items-center">
-        <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">WholeSaler</mat-label>
-      </div>
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-select placeholder=" WHOLESALER" [(ngModel)]="editedTicket.wholesaler.name">
-          <mat-option value="female">Female</mat-option>
-          <mat-option value="male">Male</mat-option>
-        </mat-select>
-        <mat-icon matPrefix class="op-5">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M40-120v-720h560v720H360v-160h-80v160H40Zm80-80h80v-160h240v160h80v-560H120v560Zm80-240h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm420 260-56-56 43-44H640v-80h127l-43-44 56-56 140 140-140 140ZM200-200v-160h240v160-160H200v160Z"/></svg>
-        </mat-icon>
-      </mat-form-field>
-    </div>
+          <!-- WHOLESALER-->
+          <div class="col-md-3 d-flex flex-column">
+            <div class="d-flex align-items-center">
+              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">WholeSaler</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="w-100">
+              
+                <input matInput placeholder="DESTINATION" [(ngModel)]="editedTicket.wholesaler.name" />
+     
+              <mat-icon matPrefix class="op-5">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                  fill="#5f6368">
+                  <path
+                    d="M40-120v-720h560v720H360v-160h-80v160H40Zm80-80h80v-160h240v160h80v-560H120v560Zm80-240h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm420 260-56-56 43-44H640v-80h127l-43-44 56-56 140 140-140 140ZM200-200v-160h240v160-160H200v160Z" />
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+          </div>
 
 
         </div>
@@ -87,10 +90,10 @@
               <input type="number" matInput placeholder="SEATS" aria-label="Product" [(ngModel)]="editedTicket.seats">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M600-160H320q-33 0-56.5-23.5T240-240v-440h80v440h280v80ZM460-720q-33 0-56.5-23.5T380-800q0-33 23.5-56.5T460-880q33 0 56.5 23.5T540-800q0 33-23.5 56.5T460-720ZM640-80v-200H440q-33 0-56.5-23.5T360-360v-220q0-42 29-71t71-29q42 0 71 29t29 71v180h80q33 0 56.5 23.5T720-320v240h-80Z" />
-              </svg>
+                  fill="#5f6368">
+                  <path
+                    d="M600-160H320q-33 0-56.5-23.5T240-240v-440h80v440h280v80ZM460-720q-33 0-56.5-23.5T380-800q0-33 23.5-56.5T460-880q33 0 56.5 23.5T540-800q0 33-23.5 56.5T460-720ZM640-80v-200H440q-33 0-56.5-23.5T360-360v-220q0-42 29-71t71-29q42 0 71 29t29 71v180h80q33 0 56.5 23.5T720-320v240h-80Z" />
+                </svg>
               </mat-icon>
             </mat-form-field>
           </div>
@@ -140,10 +143,10 @@
               <input type="number" matInput placeholder="BALANCE" [(ngModel)]="editedTicket.balance" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
-              </svg>
+                  fill="#5f6368">
+                  <path
+                    d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+                </svg>
               </mat-icon>
             </mat-form-field>
           </div>
@@ -157,7 +160,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input  matInput placeholder="NOTE" [(ngModel)]="editedTicket.note" />
+              <input matInput placeholder="NOTE" [(ngModel)]="editedTicket.note" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -176,7 +179,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select placeholder="STATUS" >
+              <mat-select placeholder="STATUS">
                 <mat-option value="pending">Pending</mat-option>
                 <mat-option value="completed">Completed</mat-option>
                 <mat-option value="canceled">Canceled</mat-option>
@@ -197,12 +200,12 @@
 
         <div class="Buttons_div">
           <div *ngIf="ShowAddButoon">
-            <button mat-flat-button color="primary" (click)="ADD_TICKETINGS()"> Add Recruiting </button>
+            <button mat-flat-button color="primary" (click)="ADD_TICKETINGS()"> Add Ticket </button>
           </div>
 
           <div class="TwoButtons" *ngIf="!ShowAddButoon">
             <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
-            <button mat-flat-button color="primary" (click)="UPDATE_TICKET()">Update Recruiting</button>
+            <button mat-flat-button color="primary" (click)="UPDATE_TICKET()">Update Ticket</button>
           </div>
         </div>
       </mat-card-content>

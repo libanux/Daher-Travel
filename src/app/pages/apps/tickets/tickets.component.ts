@@ -30,6 +30,9 @@ export class TicketsComponent {
   showCalendar: boolean = false;
   selectedDate: Date | null = null;
 
+
+  currentAction: string = 'Add Ticket';
+
   //TICKET ON EDIT
   editedTicket: Tickets
 
@@ -150,6 +153,7 @@ export class TicketsComponent {
   CancelUpdate(): void {
     this.ShowAddButoon = true;
     this.CLEAR_VALUES(this.editedTicket);
+    this.currentAction = 'Add Ticket';
   }
 
 
@@ -201,6 +205,7 @@ export class TicketsComponent {
   UPDATE(obj: Tickets): void {
     this.ShowAddButoon = false;
     this.editedTicket = { ...obj };
+    this.currentAction = 'Update Ticket';
   }
 
 
@@ -210,6 +215,7 @@ export class TicketsComponent {
       next: (response: any) => {
         this.FETCH_TICKETINGS();
         this.CLEAR_VALUES(this.editedTicket)
+        this.currentAction = 'Add Ticket';
       },
       error: (error: any) => {
         console.error('Error:', error.error);
