@@ -1,4 +1,11 @@
 /* permissions.component.scss */
+
+h2 {
+  strong {
+    text-transform: capitalize;
+  }
+}
+
 #permissions {
     .permission-checkbox {
       margin-bottom: 10px;
