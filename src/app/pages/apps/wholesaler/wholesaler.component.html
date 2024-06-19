@@ -1,182 +1,186 @@
 <mat-card class="cardWithShadow">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
-      <mat-tab label="{{currentAction}}">
-        <mat-card-content>
-  
-          <!-- FIRST ROW :  NAME + phoneNumber + address -->
-          <div class="row">
-  
-            <!-- NAME -->
-            <div class="col-md-4 d-flex flex-column">
-              <div class="d-flex align-items-center">
-                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
-              </div>
-              <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="NAME" [(ngModel)]="ADDED_WHOLESALER.name" />
-                <mat-icon matPrefix class="op-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                    fill="#5f6368">
-                    <path
-                      d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                  </svg>
-                </mat-icon>
-              </mat-form-field>
-            </div>
-  
-            <!-- phoneNumber -->
-            <div class="col-md-4 d-flex flex-column">
-              <div class="d-flex align-items-center">
-                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone Number</mat-label>
-              </div>
-              <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="PHONE NUMBER" [(ngModel)]="ADDED_WHOLESALER.phoneNumber" />
-                <mat-icon matPrefix class="op-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                    fill="#5f6368">
-                    <path
-                      d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z" />
-                  </svg>
-                </mat-icon>
-              </mat-form-field>
-            </div>
-  
-            <!-- email-->
-            <div class="col-md-4 d-flex flex-column">
-                <div class="d-flex align-items-center">
-                  <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Email</mat-label>
+        <mat-tab label="{{currentAction}}">
+            <mat-card-content>
+
+                <!-- FIRST ROW :  NAME + phoneNumber + address -->
+                <div class="row">
+
+                    <!-- NAME -->
+                    <div class="col-md-4 d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
+                        </div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input matInput placeholder="NAME" [(ngModel)]="ADDED_WHOLESALER.name" />
+                            <mat-icon matPrefix class="op-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    width="24px" fill="#5f6368">
+                                    <path
+                                        d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                                </svg>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- phoneNumber -->
+                    <div class="col-md-4 d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone Number</mat-label>
+                        </div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input matInput placeholder="PHONE NUMBER" [(ngModel)]="ADDED_WHOLESALER.phoneNumber" />
+                            <mat-icon matPrefix class="op-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    width="24px" fill="#5f6368">
+                                    <path
+                                        d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z" />
+                                </svg>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- email-->
+                    <div class="col-md-4 d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Email</mat-label>
+                        </div>
+
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input matInput placeholder="EMAIL" [(ngModel)]="ADDED_WHOLESALER.email" />
+                            <mat-icon matPrefix class="op-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    width="24px" fill="#5f6368">
+                                    <path
+                                        d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+                                </svg>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
                 </div>
-    
-                <mat-form-field appearance="outline" class="w-100">
-                  <input matInput placeholder="EMAIL" [(ngModel)]="ADDED_WHOLESALER.email" />
-                  <mat-icon matPrefix class="op-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                      fill="#5f6368">
-                      <path
-                        d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
-                    </svg>
-                  </mat-icon>
-                </mat-form-field>
-              </div>
-          </div>
 
-          <div class="row">
+                <div class="row">
 
-<!-- address-->
-<div class="col-md-6 d-flex flex-column">
-    <div class="d-flex align-items-center">
-      <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Address</mat-label>
-    </div>
+                    <!-- address-->
+                    <div class="col-md-6 d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Address</mat-label>
+                        </div>
 
-    <mat-form-field appearance="outline" class="w-100">
-      <input matInput placeholder="ADDRESS" [(ngModel)]="ADDED_WHOLESALER.address" />
-      <mat-icon matPrefix class="op-5">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-          fill="#5f6368">
-          <path
-            d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
-        </svg>
-      </mat-icon>
-    </mat-form-field>
-  </div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input matInput placeholder="ADDRESS" [(ngModel)]="ADDED_WHOLESALER.address" />
+                            <mat-icon matPrefix class="op-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    width="24px" fill="#5f6368">
+                                    <path
+                                        d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
+                                </svg>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
 
-  <!-- comapny-->
-  <div class="col-md-6 d-flex flex-column">
-    <div class="d-flex align-items-center">
-      <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Company</mat-label>
-    </div>
+                    <!-- comapny-->
+                    <div class="col-md-6 d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Company</mat-label>
+                        </div>
 
-    <mat-form-field appearance="outline" class="w-100">
-      <input matInput placeholder="COMPANY" [(ngModel)]="ADDED_WHOLESALER.company" />
-      <mat-icon matPrefix class="op-5">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-          fill="#5f6368">
-          <path
-            d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
-        </svg>
-      </mat-icon>
-    </mat-form-field>
-  </div>
-          </div>
-  
-          <div class="Buttons_div">
-            <div *ngIf="ShowAddButoon">
-              <button mat-flat-button color="primary" (click)="ADD_CUSTOMER(ADDED_WHOLESALER)"> Add Wholesaler </button>
-            </div>
-  
-            <div class="TwoButtons" *ngIf="!ShowAddButoon">
-              <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
-              <button mat-flat-button color="primary" (click)="UPDATE_CUSTOMER(ADDED_WHOLESALER)">Update Wholesaler</button>
-            </div>
-          </div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input matInput placeholder="COMPANY" [(ngModel)]="ADDED_WHOLESALER.company" />
+                            <mat-icon matPrefix class="op-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    width="24px" fill="#5f6368">
+                                    <path
+                                        d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z" />
+                                </svg>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="Buttons_div">
+                    <div *ngIf="ShowAddButoon">
+                        <button mat-flat-button color="primary" (click)="ADD_CUSTOMER(ADDED_WHOLESALER)"> Add Wholesaler
+                        </button>
+                    </div>
+
+                    <div class="TwoButtons" *ngIf="!ShowAddButoon">
+                        <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
+                        <button mat-flat-button color="primary" (click)="UPDATE_WHOLESALER(ADDED_WHOLESALER)">Update
+                            Wholesaler</button>
+                    </div>
+                </div>
 
 
 
-        </mat-card-content>
-      </mat-tab>
+            </mat-card-content>
+        </mat-tab>
     </mat-tab-group>
-  </mat-card>
-  
-  
-  <mat-card class="cardWithShadow">
-  
+</mat-card>
+
+
+<mat-card class="cardWithShadow">
+
     <!-- HEADER : search + dropdowns -->
     <header>
-      <div class="searchbar">
-        <mat-form-field appearance="outline" class="w-100">
-          <input matInput placeholder="Search Wholesalers ..." aria-label="Product"
-            (keyup)="APPLY_SEARCH_FILTER($any($event.target).value)">
-          <mat-icon matPrefix class="op-5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
-              width="24px" fill="#5f6368">
-              <path
-                d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-            </svg>
-          </mat-icon>
-        </mat-form-field>
-      </div>
-  
-      <div class="Buttons_div">
-        <div *ngIf="show_print_btn">
-          <button mat-flat-button color="primary"> Print </button>
+        <div class="searchbar">
+            <mat-form-field appearance="outline" class="w-100">
+                <input matInput placeholder="Search Wholesalers ..." aria-label="Product"
+                    (keyup)="APPLY_SEARCH_FILTER($any($event.target).value)">
+                <mat-icon matPrefix class="op-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px"
+                        viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path
+                            d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                    </svg>
+                </mat-icon>
+            </mat-form-field>
         </div>
-      </div>
+
+        <div class="Buttons_div">
+            <div *ngIf="show_print_btn">
+                <button mat-flat-button color="primary"> Print </button>
+            </div>
+        </div>
     </header>
-  
+
     <mat-card-content class="p-24">
-      <div class="table-responsive">
-        <table mat-table [dataSource]="WholesalerArray" multiTemplateDataRows>
-          @for( column of displayedColumns; track column) {
-  
-          <ng-container matColumnDef="{{ column }}">
-            <!-- table headers -->
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ column |
-              titlecase}}</th>
-            <!-- table Data -->
-            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0" (click)="ROW_CLICK(element, column)">
-              <ng-container *ngIf="column !== 'action'; else actionColumn"> {{ element[column] }} </ng-container>
-  
-              <ng-template #actionColumn>
-                <div class="action-link">
-                  <a (click)="SELECTED_CUSTOMER(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit"
-                      class="icon-18"></i-tabler></a>
-                  <a (click)="OPEN_DIALOG('delete', element)" class="m-r-10 cursor-pointer"><i-tabler name="trash"
-                      class="icon-18"></i-tabler></a>
-                </div>
-              </ng-template>
-            </td>
-          </ng-container>
-          }
-  
-          <!-- HEADER AND ROW DEFINITIONS -->
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
-  
-        </table>
-      </div>
-  
-      <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="WHOLESALER_Array_length" [pageSize]="pageSize"
-        aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
-      </mat-paginator>
-  
+        <div class="table-responsive">
+            <table mat-table [dataSource]="WholesalerArray" multiTemplateDataRows>
+                @for( column of displayedColumns; track column) {
+
+                <ng-container matColumnDef="{{ column }}">
+                    <!-- table headers -->
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ column |
+                        titlecase}}</th>
+                    <!-- table Data -->
+                    <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0"
+                        (click)="ROW_CLICK(element, column)">
+                        <ng-container *ngIf="column !== 'action'; else actionColumn"> {{ element[column] }}
+                        </ng-container>
+
+                        <ng-template #actionColumn>
+                            <div class="action-link">
+                                <a (click)="SELECTED_WHOLESALER(element)" class="m-r-10 cursor-pointer"><i-tabler
+                                        name="edit" class="icon-18"></i-tabler></a>
+                                <a (click)="OPEN_DIALOG('delete', element)" class="m-r-10 cursor-pointer"><i-tabler
+                                        name="trash" class="icon-18"></i-tabler></a>
+                            </div>
+                        </ng-template>
+                    </td>
+                </ng-container>
+                }
+
+                <!-- HEADER AND ROW DEFINITIONS -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+
+            </table>
+        </div>
+
+        <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="WHOLESALER_Array_length" [pageSize]="pageSize"
+            aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
+        </mat-paginator>
+
     </mat-card-content>
-  </mat-card>
+</mat-card>

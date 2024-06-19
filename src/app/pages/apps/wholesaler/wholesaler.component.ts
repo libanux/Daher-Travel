@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, effect, signal } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
@@ -8,6 +8,7 @@ import { WholesalerClass } from 'src/app/classes/wholesaler.class';
 import { PagingService } from 'src/app/signals/paging.service';
 import { Router } from '@angular/router';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
+import { CustomerDialogContentComponent } from '../customers/main-page/customers.component';
 
 @Component({
   selector: 'app-wholesaler',
@@ -45,14 +46,7 @@ export class WholesalerComponent implements OnInit {
     'action',
   ];
 
-  ADDED_WHOLESALER: WholesalerClass = {
-    _id: '',
-    name: '',
-    phoneNumber: '',
-    address: '',
-    email: '',
-    company: ''
-  }
+  ADDED_WHOLESALER: WholesalerClass 
 
   expandedElement: WholesalerClass | null = null;
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -69,6 +63,7 @@ export class WholesalerComponent implements OnInit {
 
 
   constructor(private paginagservice: PagingService, private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private wholesaler: WholesalerService) {
+    this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     ))
@@ -89,18 +84,18 @@ export class WholesalerComponent implements OnInit {
   }
 
   OPEN_DIALOG(action: string, obj: any): void {
-    // obj.action = action;
+    obj.action = action;
 
-    // const dialogRef = this.dialog.open(CustomerDialogContentComponent, {
-    //   data: obj,
-    // });
+    const dialogRef = this.dialog.open(CustomerDialogContentComponent, {
+      data: obj,
+    });
 
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result.event === 'delete') {       
-    //     console.log(obj)
-    //     this.DELETE_CUSTOMER(obj._id);
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.event === 'delete') {       
+        console.log(obj)
+        this.DELETE_WHOLESALER(obj._id);
+      }
+    });
   }
 
 
@@ -114,8 +109,8 @@ export class WholesalerComponent implements OnInit {
   }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
-  VIEW_CUSTOMER(): void {
-    this.router.navigate(['apps/customers/view']).then(() => {
+  VIEW_WHOLESALER(): void {
+    this.router.navigate(['apps/wholesaler/view']).then(() => {
       window.scrollTo(0, 0);
     });
   }
@@ -124,10 +119,10 @@ export class WholesalerComponent implements OnInit {
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: any, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
-    else { this.VIEW_CUSTOMER() }
+    else { this.VIEW_WHOLESALER() }
   }
 
-  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
+
 
   // GET ALL CUSTOMER'S 
   FETCH_WHOLESALERS() {
@@ -143,9 +138,11 @@ export class WholesalerComponent implements OnInit {
   }
 
   // DELETE 
-  DELETE_CUSTOMER(ID: number): void {
-    this.wholesaler.DELETE_CUSTOMER(ID).subscribe({
-      next: (response: any) => { },
+  DELETE_WHOLESALER(ID: number): void {
+    this.wholesaler.DELETE_WHOLESALER(ID).subscribe({
+      next: (response: any) => { 
+        console.log(response)
+      },
       error: (error) => { },
       complete: () => { this.FETCH_WHOLESALERS(); this.CANCEL_UPDATE(); }
     });
@@ -164,8 +161,8 @@ export class WholesalerComponent implements OnInit {
   }
 
   // CONFIRM UPDATE
-  UPDATE_CUSTOMER(obj: WholesalerClass): void {
-    this.wholesaler.UPDATE_CUSTOMER(obj).subscribe({
+  UPDATE_WHOLESALER(obj: WholesalerClass): void {
+    this.wholesaler.UPDATE_WHOLESALER(obj).subscribe({
       next: (response: any) => { },
       error: (error: any) => {
         console.log("error", error)
@@ -178,7 +175,7 @@ export class WholesalerComponent implements OnInit {
   }
 
   // SELECT OBJECT TO UPDATE
-  SELECTED_CUSTOMER(obj: WholesalerClass): void {
+  SELECTED_WHOLESALER(obj: WholesalerClass): void {
     this.ShowAddButoon = false;
     this.currentAction = "Update Customer"
     this.ADDED_WHOLESALER = obj
@@ -202,42 +199,34 @@ export class WholesalerComponent implements OnInit {
 }
 
 
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'app-deleteWholesaler-dialog-content',
+  templateUrl: './wholesaler-dialog-content.html',
+  styleUrl: './wholesalers-dialog-content.component.scss'
+})
+// tslint:disable-next-line: component-class-suffix
+export class DeleteWholesalerDialogContentComponent{
+  action: string;
+  // tslint:disable-next-line - Disables all
+  local_data: any;
+  wholesaler: WholesalerClass
+
+  constructor(
+    public dialogRef: MatDialogRef<DeleteWholesalerDialogContentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: WholesalerClass
+  ) {
+    this.local_data = { ...data };
+    this.action = this.local_data.action;
+  }
+
+  doAction(): void {
+    this.dialogRef.close({ event: this.action, data: this.local_data });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
+}
 
 
-
-
-// @Component({
-//   // tslint:disable-next-line: component-selector
-//   selector: 'app-dialog-content',
-//   templateUrl: '../customers-dialog-content/customers-dialog-content.component.html',
-//   styleUrl: '../customers-dialog-content/customers-dialog-content.component.scss'
-// })
-// // tslint:disable-next-line: component-class-suffix
-// export class CustomerDialogContentComponent{
-//   package = { selected: false, read: false, write: false };
-//   visa = { selected: false, read: false, write: false };
-
-
-//   action: string;
-//   CUSTOMER_SELECTED: any;
-
-//   constructor(
-//     public dialogRef: MatDialogRef<CustomerDialogContentComponent>,
-//     @Optional() @Inject(MAT_DIALOG_DATA) public data: WholesalerClass,
-//   )
-//   {
-//     this.CUSTOMER_SELECTED = { ...data };
-//     this.action = this.CUSTOMER_SELECTED.action;
-//     console.log(this.CUSTOMER_SELECTED)
-//   }
-
-//   doAction(): void {
-//     console.log(this.CUSTOMER_SELECTED)
-//     this.dialogRef.close({ event: this.action, data: this.CUSTOMER_SELECTED });
-//   }
-
-//   CLOSE_DIALOG(): void {
-//     this.dialogRef.close({ event: 'Cancel' });
-//   }
-
-// }

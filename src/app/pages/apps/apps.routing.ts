@@ -34,9 +34,11 @@ export const AppsRoutes: Routes = [
         path: 'reports',
         component: ReportsComponent,
       },
-      {
-        path: 'wholesaler',
-        component: WholesalerComponent,
+      { path: 'wholesaler',
+        loadChildren: () =>
+          import('./wholesaler/wholesalers.module').then(
+            (m) => m.WholesalersModule
+          ),
       },
       {
         path: 'labor',
