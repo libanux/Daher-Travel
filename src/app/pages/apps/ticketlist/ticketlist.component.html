@@ -17,7 +17,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="NAME" [(ngModel)]="editedpackage.name" />
+              <input matInput placeholder="Name" [(ngModel)]="editedpackage.name" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -34,7 +34,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="SOURCE" [(ngModel)]="editedpackage.source" />
+              <input matInput placeholder="Source" [(ngModel)]="editedpackage.source" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -52,7 +52,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="DESTINATION" [(ngModel)]="editedpackage.destination" />
+              <input matInput placeholder="Destination" [(ngModel)]="editedpackage.destination" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -70,7 +70,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Hotels</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="HOTELS" aria-label="Product" [(ngModel)]="editedpackage.hotels">
+              <input matInput placeholder="Hotels" aria-label="Product" [(ngModel)]="editedpackage.hotels">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -91,7 +91,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats </mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="status" [(ngModel)]="editedpackage.numberOfPeople" />
+              <input type="number" matInput placeholder="Seats" [(ngModel)]="editedpackage.numberOfPeople" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -109,7 +109,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Duration</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="type" [(ngModel)]="editedpackage.duration" />
+              <input type="number" matInput placeholder="Duration" [(ngModel)]="editedpackage.duration" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -126,7 +126,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Price</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="Search sell..." aria-label="Product"
+              <input type="number" matInput placeholder="Price" aria-label="Product"
                 [(ngModel)]="editedpackage.price">
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -144,7 +144,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="type" [(ngModel)]="editedpackage.sell" />
+              <input type="number" matInput placeholder="Sell" [(ngModel)]="editedpackage.sell" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -166,7 +166,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="NOTE" [(ngModel)]="editedpackage.note" />
+              <input matInput placeholder="Note" [(ngModel)]="editedpackage.note" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -183,7 +183,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select placeholder="Select status" [(ngModel)]="editedpackage.status">
+              <mat-select placeholder="Status " [(ngModel)]="editedpackage.status">
                 <mat-option value="pending">Pending</mat-option>
                 <mat-option value="completed">Completed</mat-option>
                 <mat-option value="canceled">Canceled</mat-option>
@@ -343,29 +343,69 @@
           </ng-container>
         </ng-container>
         
-        <!-- EXPANDED ROW DETAILS -->
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-            <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
-              <div class="p-15 rounded b-1 m-b-16 m-x-18">
-                <div class="d-flex align-items-center gap-12">
-                  <span class="bg-light-primary text-primary icon-48 rounded f-w-600 d-flex align-items-center justify-content-center">
-                    {{ element._id }}
-                  </span>
-                  <div>
-                    <div class="f-s-14 f-w-600 mat-subtitle-1">
-                      {{ element.name }}
+
+                <!-- EXPANDED ROW DETAILS -->
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                    <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+                      <div class="details-container p-3 rounded border mb-3 mx-2">
+                        <div class="d-flex align-items-center gap-3">
+                          <span
+                            class="detail-icon bg-light-primary text-primary rounded-circle d-flex align-items-center justify-content-center">
+                            {{ element.id }}
+                          </span>
+                          <div>
+                            <div class="detail-name font-weight-bold">
+                              {{ element.name }}
+                            </div>
+                            <div class="detail-status text-muted">
+                              Status: {{ element.source }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="detail-body mt-3">
+                          <!-- <div class="row"> -->
+                          <div class="col-md-6">
+                            <div class="detail-field">
+                              <strong>Issue Date:</strong> {{ element.destination }}
+                            </div>
+                            <div class="detail-field">
+                              <strong>Description:</strong> {{ element.duration }}
+                            </div>
+                            <div class="detail-note mt-3">
+                              <strong>Note:</strong> {{ element.hotels }}
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="detail-field">
+                              <strong>Cost:</strong> {{ element.numberOfPeople }}
+                            </div>
+                            <div class="detail-field">
+                              <strong>Credit:</strong> {{ element.price }}
+                            </div>
+                            <div class="detail-field">
+                              <strong>Balance:</strong> {{ element.sell }}
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="detail-field">
+                              <strong>Cost:</strong> {{ element.note }}
+                            </div>
+                            <div class="detail-field">
+                              <strong>Credit:</strong> {{ element.status }}
+                            </div>
+
+                          </div>
+                          <!-- </div> -->
+        
+                        </div>
+                        <div class="invoice-btn-div">
+                          <button class="invoice-btn">Print invoice</button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="f-s-14">{{ element.status }}</div>
-                  </div>
-                </div>
-                <div class="f-s-14 m-t-8">
-                  {{ element.note }}
-                </div>
-              </div>
-            </div>
-          </td>
-        </ng-container>
+                  </td>
+                </ng-container>
         
         <!-- HEADER AND ROW DEFINITIONS -->
         <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>

@@ -9,12 +9,13 @@ import { PackageService } from 'src/app/services/package.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { PagingService } from 'src/app/signals/paging.service';
 import { SearchService } from 'src/app/signals/search.service';
+import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
 
 
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticketlist.component.html',
-  styleUrl: './ticketlist.component.scss',
+  styleUrls: ['./ticketlist.component.scss','../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -58,22 +59,10 @@ export class AppTicketlistComponent implements OnInit {
 
 
   //MONTHS FOR FILTER DROPDOWN
-  months: month[] = [
-    { value: 'today', viewValue: 'Today' },
-    { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'thisWeek', viewValue: 'This Week' },
-    { value: 'thisMonth', viewValue: 'This Month' },
-    { value: 'thisYear', viewValue: 'This Year' },
-    { value: 'custom', viewValue: 'Custom' },
-  ];
+  months: any[]=Month_Filter_Array
 
   //FILTRATION ARRAY
-  Filteration: month[] = [
-    { value: 'all', viewValue: 'All' },
-    { value: 'canceled', viewValue: 'Canceled' },
-    { value: 'completed', viewValue: 'Completed' },
-    { value: 'pending', viewValue: 'Pending' },
-  ];
+  Filteration: any[]=Date_Filter_Array
 
   showDatePicker = false;
 

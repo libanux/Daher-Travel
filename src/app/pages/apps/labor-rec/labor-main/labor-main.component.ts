@@ -7,6 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { LaborRecService } from 'src/app/services/labor-rec.service';
 import { PagingService } from 'src/app/signals/paging.service';
 import { CalendarDialogFORLABORSComponent } from '../calendar-card/calendar-dialog.component';
+import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
 
 interface month {
   value: string;
@@ -16,7 +17,7 @@ interface month {
 @Component({
   selector: 'app-labor-main',
   templateUrl: './labor-main.component.html',
-  styleUrl: './labor-main.component.scss',
+  styleUrls: ['./labor-main.component.scss', '../../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -34,7 +35,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   ShowAddButoon = true;
   selectedMonth: string = '';
-  CurrentAction:string ='Add Recruiting'
+  CurrentAction: string = 'Add Recruiting'
   //MAIN RECRUITING ARRAY
   recruitings: any[] = []
   showCalendar: boolean = false;
@@ -44,9 +45,9 @@ export class LaborMainComponent implements AfterViewInit {
   viewPackage: LaborList
   editedrecruiting: LaborList
 
-     // 1 basic
-     panelOpenState = false;
-     open_expansion_value = 0;
+  // 1 basic
+  panelOpenState = false;
+  open_expansion_value = 0;
 
   //TABLE COLUMNS
   displayedColumns: string[] = [
@@ -80,22 +81,10 @@ export class LaborMainComponent implements AfterViewInit {
   Completed = -1;
 
   //MONTHS FOR FILTER DROPDOWN
-  months: month[] = [
-    { value: 'today', viewValue: 'Today' },
-    { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'thisWeek', viewValue: 'This Week' },
-    { value: 'thisMonth', viewValue: 'This Month' },
-    { value: 'thisYear', viewValue: 'This Year' },
-    { value: 'custom', viewValue: 'Custom' },
-  ];
+  months: any[] = Month_Filter_Array
 
   //FILTRATION ARRAY
-  Filteration: month[] = [
-    { value: 'all', viewValue: 'All' },
-    { value: 'canceled', viewValue: 'Canceled' },
-    { value: 'completed', viewValue: 'Completed' },
-    { value: 'pending', viewValue: 'Pending' },
-  ];
+  Filteration: any[] = Date_Filter_Array
 
   showDatePicker = false;
 
@@ -182,9 +171,9 @@ export class LaborMainComponent implements AfterViewInit {
 
   CancelUpdate(): void {
     this.ShowAddButoon = true
-    this.CurrentAction='Add Recruiting'
+    this.CurrentAction = 'Add Recruiting'
     this.CLEAR_VALUES(this.editedrecruiting)
-   this.open_expansion_value = -1;
+    this.open_expansion_value = -1;
   }
 
 
@@ -258,7 +247,7 @@ export class LaborMainComponent implements AfterViewInit {
   UPDATE(obj: LaborList): void {
     this.ShowAddButoon = false;
     this.editedrecruiting = { ...obj };
-    this.CurrentAction='Update Recruiting'
+    this.CurrentAction = 'Update Recruiting'
     this.open_expansion_value = 1;
   }
 
@@ -269,7 +258,7 @@ export class LaborMainComponent implements AfterViewInit {
       next: (response: any) => {
         this.FETCH_RECRUITINGS();
         this.CLEAR_VALUES(this.editedrecruiting)
-        this.CurrentAction='Add Recruiting'
+        this.CurrentAction = 'Add Recruiting'
         this.open_expansion_value = -1;
       },
       error: (error: any) => {
@@ -282,7 +271,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //FILTER RECRUITING RECORDS BY STATUS
   FILTER_RECRUITING(status: string) {
-    this.currentPage=1;
+    this.currentPage = 1;
     this.recruitingService.FILTER_RECRUITINGS(this.pageSize, this.currentPage, status).subscribe({
       next: (response: any) => {
         this.recruitings = response.recruitings;
