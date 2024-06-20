@@ -1,0 +1,61 @@
+
+section {
+    background: white;
+    overflow-x: auto;
+    border-style: solid;
+    border-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    /* box-shadow: 0 0 10px rgba(226, 236, 249, 0.5); */
+  }
+  
+  
+  .shimmer-table {
+    width: 100%;
+    background: #ffffff;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 0 0 10px 0;
+  }
+  
+  .placeholder {
+    height: 60px;
+    background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite;
+    margin: 0 10px;
+    width: 98%;
+    position: relative;
+    border-radius: 5px;
+  }
+  
+  .col-1 {
+    position: relative;
+  }
+  
+  .placeholder-row {
+    height: 70px;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+  
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .placeholder {
+      width: 96%;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .placeholder {
+      width: 94%;
+    }
+  }
+  

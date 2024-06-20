@@ -51,6 +51,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-wholesaler.component';
 import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.component';
 import { NoItemsFoundComponent } from './no-items-found/no-items-found.component';
+import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
 
 @NgModule({
   imports: [
@@ -106,7 +107,8 @@ import { NoItemsFoundComponent } from './no-items-found/no-items-found.component
     ViewWholesalerComponent,
     visaDialogContentComponent,
     LaborReportsComponent,
-    NoItemsFoundComponent
+    NoItemsFoundComponent,
+    TableShimmerComponent
   ],
   providers: [DatePipe],
 })
