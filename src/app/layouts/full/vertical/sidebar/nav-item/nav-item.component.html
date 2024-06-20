@@ -5,25 +5,22 @@
 }
 
 @if(!item.navCap && !item.external) {
-<mat-list-item 
-(click)="onItemSelected(item)" 
-[ngClass]="{
-    'mat-toolbar mat-accent activeMenu': item.route
-      ? router.isActive(item.route, true) : false,
-    expanded: expanded,
-  }" class="menu-list-item rounded-pill">
-  <i-tabler name="{{ item.iconName }}" class="routeIcon" matListItemIcon></i-tabler>
-  <span class="hide-menu">{{ item.displayName | translate }}</span>
-  @if(item.children && item.children.length) {
-  <span class="arrow-icon" fxFlex>
-    <span fxFlex></span>
-    <mat-icon [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">
-      expand_more
-    </mat-icon>
-  </span>
-  }
+  <mat-list-item (click)="onItemSelected(item)"
+  [ngClass]="{
+    'mat-toolbar mat-accent activeMenu': item.route ? router.isActive(item.route, true) : false,
+    expanded: expanded
+  }"
+  class="menu-list-item rounded-pill">
+<!-- <mat-icon *ngIf="item.iconName" svgIcon="{{ item.iconName }}" class="routeIcon" matListItemIcon></mat-icon> -->
+<mat-icon *ngIf="item.iconName" svgIcon="custom-icon" class="routeIcon" matListItemIcon></mat-icon>
 
+<span class="hide-menu">{{ item.displayName | translate }}</span>
+<span class="arrow-icon" fxFlex *ngIf="item.children && item.children.length">
+<span fxFlex></span>
+<mat-icon [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">expand_more</mat-icon>
+</span>
 </mat-list-item>
+
 }
 
 <!-- children -->

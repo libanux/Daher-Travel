@@ -229,7 +229,7 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-  
+
 
   // SHOW BUTTON UPDATE AND SET INPUTS
   UPDATE(obj: Package): void {
@@ -356,24 +356,28 @@ interface month {
 })
 // tslint:disable-next-line - Disables all
 export class AppTicketDialogContentComponent {
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+
   action: string;
-  // tslint:disable-next-line - Disables all
-  local_data: any;
-  package: Package
+  PACKAGE_SELECTED: any;
 
   constructor(
     public dialogRef: MatDialogRef<AppTicketDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Package
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: Package,
   ) {
-    this.local_data = { ...data };
-    this.action = this.local_data.action;
+    this.PACKAGE_SELECTED = { ...data };
+    this.action = this.PACKAGE_SELECTED.action;
+    console.log(this.PACKAGE_SELECTED)
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
+    console.log(this.PACKAGE_SELECTED)
+    this.dialogRef.close({ event: this.action, data: this.PACKAGE_SELECTED });
   }
 
-  closeDialog(): void {
+  CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
 }
