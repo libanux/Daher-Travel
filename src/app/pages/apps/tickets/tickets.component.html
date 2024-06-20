@@ -362,7 +362,7 @@
       </table>
 
       <!-- NO ITEMS FOUND ROW -->
-      <app-no-items-found [array]="tickets"></app-no-items-found>
+      <app-no-items-found *ngIf="tickets.length === 0"></app-no-items-found>
       
     </div>
     <!-- TABLE PAGINATION -->
