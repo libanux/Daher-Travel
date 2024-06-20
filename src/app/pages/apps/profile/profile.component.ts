@@ -1,6 +1,8 @@
-import { Component, OnInit, effect, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Admin, PERMISSIONS } from 'src/app/classes/admin.class';
+import { Permission } from 'src/app/classes/adminPermissions.class';
 import { AdminService } from 'src/app/services/Admins.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,36 +15,6 @@ export class ProfileComponent implements OnInit {
   adminID: string = '';
   permissions: any = PERMISSIONS
 
-  constructor(private adminService: AdminService) {
-    this.admin = new Admin();
-
-    const admin_id = localStorage.getItem("admin_id");
-    if (admin_id) {
-      this.adminID = admin_id;
-    }
-
-  }
-
-  ngOnInit(): void {
-    this.GET_ADMIN_PROFILE_BY_ID(this.adminID);
-    console.log(this.permissions)
-  }
-
-  GET_ADMIN_PROFILE_BY_ID(ID: string) {
-    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
-      next: (response: any) => {
-        console.log(response)
-         this.admin = response; 
-        
-        },
-      error: (error: any) => { console.error('Error:', error); },
-      complete: () => { }
-    });
-  }
-
-
-  // PERMISSIONS
-
     //   config
     checked = false;
     indeterminate = false;
@@ -51,28 +23,58 @@ export class ProfileComponent implements OnInit {
   
     //   basic
     allComplete: boolean = false;
-  
-    updateAllComplete() {
-      this.allComplete =
-        this.permissions.subtasks != null &&
-        this.permissions.subtasks.every((t: any) => t.completed);
+
+  constructor(private adminService: AdminService, private breadCrumbService: BreadCrumbSignalService) {
+    this.admin = new Admin();
+  }
+
+  ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Profile');
+    this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
+    this.GET_ADMIN_PROFILE_BY_ID(this.adminID);
+  }
+
+  GET_ADMIN_PROFILE_BY_ID(ID: string) {
+    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {
+        console.log(response)
+         this.admin = response; 
+         this.permissions = this.mapPermissions(response.permissions); // Map permissions from admin object
+        console.log('Admin and Permissions:', this.admin, this.permissions);
+        },
+      error: (error: any) => { console.error('Error:', error); },
+      complete: () => { }
+    });
+  }
+
+    // Method to map permissions to match interface structure
+   mapPermissions(permissions: any): Permission[] {
+      return Object.keys(permissions).map(key => ({
+        name: key,
+        completed: permissions[key] === 'write' || permissions[key] === 'read', // Adjust based on your logic
+        color: 'accent', // Set color dynamically if needed
+        subtasks: [
+          { name: 'Read', completed: permissions[key] === 'read', color: 'primary' },
+          { name: 'Write', completed: permissions[key] === 'write', color: 'primary' }
+        ]
+      }));
     }
-  
-    someComplete(): boolean {
-      if (this.permissions.subtasks == null) {
-        return false;
-      }
-      return (
-        this.permissions.subtasks.filter((t: any) => t.completed).length > 0 &&
-        !this.allComplete
-      );
-    }
-  
-    setAll(completed: boolean) {
-      this.allComplete = completed;
-      if (this.permissions.subtasks == null) {
-        return;
-      }
-      this.permissions.subtasks.forEach((t: any) => (t.completed = completed));
-    }
+
+
+
+  // Method to update all subtasks completion status
+  updateAllComplete(permission: Permission): void {
+    permission.subtasks.forEach((subtask:any) => subtask.completed = permission.completed);
+  }
+
+  // Method to check if some subtasks are completed
+  someComplete(permission: Permission): boolean {
+    return permission.subtasks.some((subtask:any) => subtask.completed) && !permission.completed;
+  }
+
+  // Method to set completion status for all subtasks
+  setAll(permission: Permission, completed: boolean): void {
+    permission.completed = completed;
+    this.updateAllComplete(permission);
+  }
 }

@@ -1,19 +1,13 @@
-@if(showAddSection){
+<!-- add expand row -->
 <mat-card class="cardWithShadow">
   <mat-expansion-panel 
   [expanded]="open_expansion_value === 1"
   (opened)="panelOpenState = true"
     (closed)="panelOpenState = false">
 
-    <!-- @if(CurrentAction == "Add Visa"){ -->
       <mat-expansion-panel-header>
         <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{CurrentAction}}</mat-panel-title>
       </mat-expansion-panel-header>
-    <!-- } -->
-<!-- 
-    @else {
-          <mat-panel-title class="f-w-600 mat-body-1 currentAction2">{{CurrentAction}}</mat-panel-title>
-    } -->
 
 
     <mat-card-content>
@@ -151,7 +145,6 @@
 
   </mat-expansion-panel>
 </mat-card>
-}
 
 
 <mat-card class="cardWithShadow">

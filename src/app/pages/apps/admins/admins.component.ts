@@ -4,7 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AdminService } from 'src/app/services/Admins.service';
-import { Admin } from 'src/app/classes/admin.class';
+import { Admin, PERMISSIONS } from 'src/app/classes/admin.class';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
   templateUrl: './admins.component.html',
@@ -47,9 +48,10 @@ export class AdminsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
+  constructor(private breadCrumbService:BreadCrumbSignalService ,public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Admins')
     this.FETCH_ADMINS()
     this.dataSource = new MatTableDataSource(this.admins);
   }
@@ -72,23 +74,23 @@ export class AdminsComponent implements AfterViewInit, OnInit {
 
   OPEN_DIALOG(action: string, obj: any): void {
 
-    // this.ADDED_ADMIN = {
-    //   _id: obj._id,
-    //   firstname: obj.firstname,
-    //   lastname: obj.lastname,
-    //   email: obj.email,
-    //   phone: obj.phone,
-    //   password: obj.password,
-    //   permissions: {
-    //       packages: obj.packages,
-    //       visa: obj.visa,
-    //       recruitment: '',
-    //       accounting: '',
-    //       users: obj.users,
-    //       notes:obj.notes,
-    //   },
-    //   token: '',
-    // }
+    this.ADDED_ADMIN = {
+      _id: obj._id,
+      firstname: obj.firstname,
+      lastname: obj.lastname,
+      email: obj.email,
+      phone: obj.phone,
+      password: obj.password,
+      permissions: {
+          packages: obj.packages,
+          visa: obj.visa,
+          recruitment: obj.recruitment,
+          accounting: obj.accounting,
+          users: obj.users,
+          notes:obj.notes,
+      },
+      token: '',
+    }
 
     obj.action = action;
 
@@ -160,7 +162,8 @@ export class AdminDialogContentComponent{
   visa = { selected: false, read: false, write: false };
 
   selectedPermission: string = '';
-
+  permissions: any = PERMISSIONS
+  
   SELECTED_ADMIN_PERMISSIONS = {
     accounting: {'Read': null, 'Write': null},
     notes: {'Read': null, 'Write': null},
@@ -182,13 +185,14 @@ export class AdminDialogContentComponent{
     this.action = this.ADMIN_SELECTED.action;
 
  this.SELECTED_ADMIN_PERMISSIONS = {
-    accounting: {'Read': this.ADMIN_SELECTED.permissions.accounting, 'Write': this.ADMIN_SELECTED.permissions.accounting},
-    notes: {'Read': null, 'Write': null},
-    packages:     {'Read': null, 'Write': null},
-    recruitment: {'Read': null, 'Write': null},
-    users: {'Read': null, 'Write': null},
-    visa: {'Read': null, 'Write': null},
-    }
+  accounting: {'Read': null, 'Write': null},
+  notes: {'Read': null, 'Write': null},
+  packages:     {'Read': null, 'Write': null},
+  recruitment: {'Read': null, 'Write': null},
+  users: {'Read': null, 'Write': null},
+  visa: {'Read': null, 'Write': null},
+  }
+  
   }
 
   doAction(): void {

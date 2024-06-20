@@ -1,5 +1,7 @@
 export class Permission {
     name: string = '';
+  subtasks: any;
+  completed: boolean;
 
     constructor(name: string) {
         this.name = name;
