@@ -50,6 +50,7 @@ import { AppTreeviewComponent } from './admins/treeview/treeview.component';
 import { ViewCustomerComponent } from './customers/view-customer/view-customer.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-wholesaler.component';
+import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.component';
 
 @NgModule({
   imports: [
@@ -105,6 +106,7 @@ import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-whole
     DeleteWholesalerDialogContentComponent,
     ViewWholesalerComponent,
     visaDialogContentComponent,
+    LaborReportsComponent
   ],
   providers: [DatePipe],
 })

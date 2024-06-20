@@ -50,12 +50,12 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Labor Recruitment',
     iconName: 'clipboard',
-    route: 'apps/labors',
+    route: 'apps/labor',
   },
   {
     displayName: 'Labor Reports',
     iconName: 'clipboard',
-    route: 'apps/labors',
+    route: 'apps/labor/reports',
   },
 
 

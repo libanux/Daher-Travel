@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   ViewEncapsulation,
+  effect,
 } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { FeatherModule } from 'angular-feather';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 
 interface notifications {
@@ -94,13 +96,18 @@ export class HeaderComponent {
       icon: '/assets/images/flag/icon-flag-de.svg',
     },
   ];
-
+currentRoute: string ='';
   constructor(
     private vsidenav: CoreService,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private breadCrumbService: BreadCrumbSignalService
   ) {
     translate.setDefaultLang('en');
+    effect(() => {
+      this.currentRoute = this.breadCrumbService.currentRoute();
+    });
+
   }
 
   openDialog() {

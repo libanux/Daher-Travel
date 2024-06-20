@@ -10,12 +10,13 @@ import { CalendarDialogComponent } from './calendar-card/calendar-dialog.compone
 import { PagingService } from 'src/app/signals/paging.service';
 import { SearchService } from 'src/app/signals/search.service';
 import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticketlist.component.html',
-  styleUrls: ['./ticketlist.component.scss','../../../../assets/scss/apps/_add_expand.scss'],
+  styleUrls: ['../../../../assets/scss/apps/general_table.scss','../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -81,7 +82,7 @@ export class AppTicketlistComponent implements OnInit {
   CurrentAction: string = 'Add Package'
 
 
-  constructor(public dialog: MatDialog, private packagesService: PackageService, private paginagservice: PagingService, private searchService: SearchService) {
+  constructor(public dialog: MatDialog, private packagesService: PackageService, private paginagservice: PagingService, private breadCrumbService: BreadCrumbSignalService) {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
     this.editedpackage.sell = 1
@@ -95,6 +96,7 @@ export class AppTicketlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Packages')
     this.FETCH_PACKAGES();
   }
   onDateSelect(date: Date) {
@@ -165,6 +167,7 @@ export class AppTicketlistComponent implements OnInit {
         this.totalCount = response.pagination.totalPackages
       },
       error: (error: any) => {
+        this.packages =[]
         console.log("Error:", error)
       },
       complete: () => {

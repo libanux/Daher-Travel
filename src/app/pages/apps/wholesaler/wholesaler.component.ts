@@ -9,6 +9,7 @@ import { PagingService } from 'src/app/signals/paging.service';
 import { Router } from '@angular/router';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
 import { CustomerDialogContentComponent } from '../customers/main-page/customers.component';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
   selector: 'app-wholesaler',
@@ -68,7 +69,7 @@ export class WholesalerComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private paginagservice: PagingService, private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private wholesaler: WholesalerService) {
+  constructor(private paginagservice: PagingService, private router: Router, public dialog: MatDialog,private breadCrumbService :BreadCrumbSignalService, private dateSignal: DateSelectedSignal, private wholesaler: WholesalerService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
@@ -76,6 +77,7 @@ export class WholesalerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Wholesalers')
     this.rangeEnd = this.dateSignal.endDate;
     this.rangeStart = this.dateSignal.startDate;
     this.FETCH_WHOLESALERS();

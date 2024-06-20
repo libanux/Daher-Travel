@@ -10,8 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 @NgModule({
   imports: [
     RouterModule.forChild(laborRoutes),
-    BrowserModule,
-    BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
   ]
