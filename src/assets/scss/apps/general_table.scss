@@ -54,17 +54,58 @@
             }
         }
     }
-    // .table-responsive{
-    //     table {
-    //         tr:hover {
-    //             cursor: pointer;
-    //             background: #f6f7ee30;
-                
-    //         }
-    //     }
-    // }
-}
+    .table-responsive {
+    table {
 
+        th, td {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .details-container {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+
+            .detail-body {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-between;
+        
+                .col-md-4 {
+                    .detail-field {
+                        margin-bottom: 0.5rem;
+                    }
+                }
+            }
+        
+            .invoice-btn-div {
+                .invoice-btn {
+                    background-color: #ebb31bfb;
+                    border-style: none;
+                    padding: 10px;
+                    border-radius: 10px;
+                    color: white;
+                }
+        
+                .invoice-btn:hover {
+                    cursor: pointer;
+                    background-color: #f0cb65fb;
+                    color: rgb(7, 42, 107);
+                }
+            }
+        }
+    
+    }
+}
+}
 
 
 tr.example-detail-row {
