@@ -4,7 +4,7 @@ export class VisaClass {
       public name: string = '',
       public country: string = '',
       public note: string = '',
-      public sell: number = 0,
+      public sell: string = '',
       public status: string = '',
       public type: string = '',
       public createdAt: string = '',
@@ -26,3 +26,15 @@ export class VisaClass {
     { value: 'Student', viewValue: 'Student' },
     { value: 'Other', viewValue: 'Other' },
   ];
+
+  export const VisaColumns: any[] = [
+    { value: 'name', viewValue: 'Name' },
+    { value: 'country', viewValue: 'Country' },
+    { value: 'type', viewValue: 'Type' },
+    { value: 'sell', viewValue: 'Sell' },
+    { value: 'note', viewValue: 'Note' },
+    { value: 'status', viewValue: 'Status' },
+    { value: 'createdAt', viewValue: 'Create Date' },
+    { value: 'action', viewValue: 'Action' },
+  ];
+  
