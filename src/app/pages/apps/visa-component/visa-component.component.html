@@ -3,7 +3,8 @@
   <mat-expansion-panel 
   [expanded]="open_expansion_value === 1"
   (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false">
+  (closed)="panelClosed()"
+  >
 
       <mat-expansion-panel-header>
         <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{CurrentAction}}</mat-panel-title>
@@ -208,8 +209,14 @@
   <!-- Table -->
   <mat-card-content>
 
+    @if(show_shimmer){
+      <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
+    }
+
+    @else{
     <!-- TABLE BODY -->
     <div class="table-responsive">
+
       <table mat-table [dataSource]="VisaArray" multiTemplateDataRows>
         @for( column of displayedColumns; track column) {
 
@@ -219,7 +226,6 @@
           <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
             {{ column | titlecase}}</th>
 
-            @if(!no_visas_found){
                         <!-- table Data -->
           <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0"
           (click)=" EXPAND_ROW($event, element, column)">
@@ -253,16 +259,7 @@
               }}</span></ng-template>
 
         </td>
-            }
 
-            @else {
-                <td mat-cell class="p-x-24 f-s-14 p-l-0">  
-                  <ng-container>
-                    no visas found
-                  </ng-container> 
-                </td>
-
-            }
 
 
         </ng-container>
@@ -312,11 +309,24 @@
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
       </table>
+    
+      @if(VisaArray.filteredData.length===0 && !show_shimmer){
+          <app-no-items-found></app-no-items-found>
+        }
+  
     </div>
+    }
 
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="Visa_Array_length" [pageSize]="pageSize"
-      aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
-    </mat-paginator>
+
+
+
+  <mat-paginator 
+    [pageSizeOptions]="[10, 20, 30]" 
+    [length]="Visa_Array_length" 
+    [pageSize]="pageSize"
+    aria-label="Select page" 
+    showFirstLastButtons (page)="onPageChange($event)">
+  </mat-paginator>
 
   </mat-card-content>
 

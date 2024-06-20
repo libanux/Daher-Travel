@@ -28,6 +28,7 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 })
 
 export class VisaComponentComponent implements OnInit {
+  show_shimmer = true;
 
   months: any[] = Month_Filter_Array
   Status_Array: any[] = Visa_Status_Array
@@ -35,7 +36,6 @@ export class VisaComponentComponent implements OnInit {
   Status_Array_Filter: any[] = Visa_Status_Array_FILTERATION
 
   ShowAddButoon = true;
-  no_visas_found = false;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -105,7 +105,6 @@ export class VisaComponentComponent implements OnInit {
     if (dropdown == 'month') {
       if (value === 'Calendar') {
         this.showDatePicker = true;
-        console.log('custome');
       }
 
       else {
@@ -138,15 +137,21 @@ export class VisaComponentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'delete') {
-        console.log(obj)
         this.DELETE_VISA(obj._id);
       }
     });
   }
 
+    // Method to handle the panel closed event
+    panelClosed() {
+      this.open_expansion_value = 0;
+      this.panelOpenState = false;
+      console.log('closed')
+    }
+
+
   // function when page number changes
   onPageChange(event: PageEvent): void {
-    console.log('page is changes')
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
     this.FETCH_VISA();
@@ -233,13 +238,14 @@ export class VisaComponentComponent implements OnInit {
 
   // GET ALL VISA'S 
   FETCH_VISA() {
+    this.show_shimmer = true;
     this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
       next: (response: any) => {
         this.VisaArray = new MatTableDataSource(response.visas);
         this.Visa_Array_length = response.pagination.totalVisas;
       },
-      error: (error) => { this.no_visas_found = true; console.log("no visas found") },
-      complete: () => { this.CANCEL_UPDATE(); }
+      error: (error) => { },
+      complete: () => { this.CANCEL_UPDATE(); this.show_shimmer = false; }
 
     });
   }
@@ -255,11 +261,12 @@ export class VisaComponentComponent implements OnInit {
 
   // ADD
   ADD_VISA(obj: VisaClass) {
-    console.log(obj)
     this.visaService.ADD_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_VISA(); }
+      complete: () => { 
+        this.FETCH_VISA();     
+      }
     });
   }
 
@@ -298,8 +305,9 @@ export class VisaComponentComponent implements OnInit {
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
     this.CurrentAction = 'Add Visa';
-    this.open_expansion_value = -1;
     this.ShowAddButoon = true;
+
+    this.panelClosed()
 
     this.ADDED_VISA = {
       _id: -1,
@@ -330,7 +338,7 @@ export class VisaComponentComponent implements OnInit {
   FILTER_ARRAY_BY_DATE(filter_type: any) {
     this.visaService.FILTER_VISA_BY_DATE(filter_type, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
-      error: (error) => { console.log(error) },
+      error: (error) => { },
       complete: () => { }
     });
   }
@@ -338,14 +346,8 @@ export class VisaComponentComponent implements OnInit {
   // SEARCH FUNCTION
   APPLY_SEARCH_FILTER(filterValue: string): void {
     this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue).subscribe({
-      next: (response: any) => {
-        console.log(response); this.VisaArray = new MatTableDataSource(response.visas);
-      },
-      error: (error) => {
-        console.log(error);
-        this.VisaArray = new MatTableDataSource();
-        this.no_visas_found = true
-      },
+      next: (response: any) => {this.VisaArray = new MatTableDataSource(response.visas);},
+      error: (error) => {this.VisaArray = new MatTableDataSource();},
       complete: () => { }
     });
   }
@@ -380,11 +382,9 @@ export class visaDialogContentComponent {
   ) {
     this.VISA_SELECTED = { ...data };
     this.action = this.VISA_SELECTED.action;
-    console.log(this.VISA_SELECTED)
   }
 
   doAction(): void {
-    console.log(this.VISA_SELECTED)
     this.dialogRef.close({ event: this.action, data: this.VISA_SELECTED });
   }
 

@@ -33,6 +33,8 @@ export class AdminsComponent implements AfterViewInit, OnInit {
     token: ''
 };
 
+show_shimmer = true;
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
 
@@ -61,10 +63,11 @@ export class AdminsComponent implements AfterViewInit, OnInit {
   }
 
   FETCH_ADMINS() {
+    this.show_shimmer = true
     this.adminService.GET_ALL_ADMINS().subscribe({
-      next: (response: any) => {this.admins = response},
+      next: (response: any) => {this.admins = response },
       error: (error) => { },
-      complete: () => { }
+      complete: () => {     this.show_shimmer = false }
     });
   }
 
