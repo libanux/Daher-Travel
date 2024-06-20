@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 import { GeneralService } from './general.service';
-import { VisaClass } from '../pages/apps/visa-component/visaClass';
-
+import { VisaClass } from '../classes/visaClass';
 
 @Injectable({
   providedIn: 'root'
@@ -119,10 +118,13 @@ export class VisaService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      filterType: filterType,
-      startDate: startDate,
-      endDate: endDate
+      "filterType": filterType,
+      "startDate": startDate,
+      "endDate": endDate
     };
+
+    console.log(requestBody)
+
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_DATE', requestBody, { headers });
   }
 

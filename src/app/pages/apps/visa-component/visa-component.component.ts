@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { VisaClass, VisaType_Array, Visa_Status_Array, Visa_Status_Array_FILTERATION } from './visaClass';
+import { VisaClass, VisaType_Array, Visa_Status_Array, Visa_Status_Array_FILTERATION } from '../../../classes/visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { VisaService } from 'src/app/services/visa.service';
 import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
@@ -12,9 +12,9 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
   selector: 'app-visa-component',
   templateUrl: './visa-component.component.html',
   styleUrls: [
-     '../../../../assets/scss/apps/_add_expand.scss',
-     '../../../../assets/scss/apps/general_table.scss',
-    ],
+    '../../../../assets/scss/apps/_add_expand.scss',
+    '../../../../assets/scss/apps/general_table.scss',
+  ],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -81,10 +81,10 @@ export class VisaComponentComponent implements OnInit {
   expandedElement: VisaClass | null = null;
   VisaArray = new MatTableDataSource();
 
-startDateValue: string = ''; // Variable to store the start date
-endDateValue: string = ''; // Variable to store the end date
+  startDateValue: string = ''; // Variable to store the start date
+  endDateValue: string = ''; // Variable to store the end date
 
-  constructor(private breadCrumbService: BreadCrumbSignalService ,private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+  constructor(private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
@@ -105,7 +105,7 @@ endDateValue: string = ''; // Variable to store the end date
     if (dropdown == 'month') {
       if (value === 'Calendar') {
         this.showDatePicker = true;
-        console.log('custome')
+        console.log('custome');
       }
 
       else {
@@ -153,25 +153,29 @@ endDateValue: string = ''; // Variable to store the end date
   }
 
 
-// Method to handle changes in start date input
-handleStartDateChange(event: any): void {
-  this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-}
+  // Method to handle changes in start date input
+  handleStartDateChange(event: any): void {
+    this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_ARRAY_BY_DATE('custom')
 
-// Method to handle changes in end date input
-handleEndDateChange(event: any): void {
-  this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-}
+  }
 
-FORMAT_DATE_YYYYMMDD(date: Date): string {
-  // Extract year, month, and day from the Date object
-  const year = date.getFullYear();
-  const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
-  const day = ('0' + date.getDate()).slice(-2);
+  // Method to handle changes in end date input
+  handleEndDateChange(event: any): void {
+    this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_ARRAY_BY_DATE('custom')
 
-  // Return the formatted date string in YYYY-MM-DD format
-  return `${year}-${month}-${day}`;
-}
+  }
+
+  FORMAT_DATE_YYYYMMDD(date: Date): string {
+    // Extract year, month, and day from the Date object
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
+    const day = ('0' + date.getDate()).slice(-2);
+
+    // Return the formatted date string in YYYY-MM-DD format
+    return `${year}-${month}-${day}`;
+  }
 
   // Function to format date
   FORMAT_DATE(dateString: string): string {
@@ -326,7 +330,7 @@ FORMAT_DATE_YYYYMMDD(date: Date): string {
   FILTER_ARRAY_BY_DATE(filter_type: any) {
     this.visaService.FILTER_VISA_BY_DATE(filter_type, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
-      error: (error) => { },
+      error: (error) => { console.log(error) },
       complete: () => { }
     });
   }
