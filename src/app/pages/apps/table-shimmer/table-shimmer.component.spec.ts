@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TicketsComponent } from './tickets.component';
+import { TableShimmerComponent } from './table-shimmer.component';
 
-describe('TicketsComponent', () => {
-  let component: TicketsComponent;
-  let fixture: ComponentFixture<TicketsComponent>;
+describe('TableShimmerComponent', () => {
+  let component: TableShimmerComponent;
+  let fixture: ComponentFixture<TableShimmerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TicketsComponent]
+      imports: [TableShimmerComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TicketsComponent);
+    fixture = TestBed.createComponent(TableShimmerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

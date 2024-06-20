@@ -3,12 +3,12 @@ import { Component, OnInit, Inject, Optional, ViewChild, effect, Input } from '@
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Package } from './ticket';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PackageService } from 'src/app/services/package.service';
-import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
 import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { Package } from 'src/app/classes/package.class';
+
 
 
 @Component({
@@ -229,38 +229,7 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-  //OPEN THE CALENDAR DIALOG
-  openCalendarDialog(): void {
-    const dialogRef = this.dialog.open(CalendarDialogComponent, {
-      width: '350px',
-      data: { selectedDate: this.selectedDate }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result) {
-        if (result.startDate && result.endDate) {
-          this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-          this.packagesService.FILTER_PACKAGE_BY_DATE("custom").subscribe({
-            next: (response: any) => {
-              console.log("Response:", response)
-              this.packages = response;
-              this.dataSource = new MatTableDataSource(this.packages);
-              this.totalCount = this.dataSource.data.length;
-              this.Inprogress = this.btnCategoryClick('pending');
-            },
-            error: (error: any) => {
-              console.log("Error:", error)
-            },
-            complete: () => {
-            }
-          });
-        } else {
-          this.selectedMonth = 'Custom';
-        }
-        this.selectedDate = result;
-      }
-    });
-  }
+  
 
   // SHOW BUTTON UPDATE AND SET INPUTS
   UPDATE(obj: Package): void {

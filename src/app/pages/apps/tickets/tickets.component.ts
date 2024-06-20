@@ -1,5 +1,4 @@
 import { Component, Inject, Input, Optional, ViewChild } from '@angular/core';
-import { Tickets } from './tickets';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -7,6 +6,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TicketingService } from 'src/app/services/ticketing.service';
 import { Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { Tickets } from 'src/app/classes/tickets.class';
 
 @Component({
   selector: 'app-tickets',

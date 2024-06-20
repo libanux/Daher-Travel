@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
-import { Package } from '../pages/apps/ticketlist/ticket';
+import { Package } from '../classes/package.class';
 import { SearchService } from '../signals/search.service';
 
 

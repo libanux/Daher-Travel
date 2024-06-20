@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Note } from './note';
+import { Note } from '../../../classes/note';
 import { NoteService } from 'src/app/services/note.service';
 
 

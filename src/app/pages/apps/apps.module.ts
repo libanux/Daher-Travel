@@ -32,14 +32,13 @@ import { AppAddEmployeeComponent } from './employee/add/add.component';
 
 import { AppsRoutes } from './apps.routing';
 import { MatNativeDateModule } from '@angular/material/core';
-import { AppTicketlistComponent, AppTicketDialogContentComponent } from './ticketlist/ticketlist.component';
+import { AppTicketlistComponent, AppTicketDialogContentComponent } from './packages/ticketlist.component';
 
 // labor
 import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
 
 // visa
 import { VisaComponentComponent, visaDialogContentComponent } from './visa-component/visa-component.component';
-import { ViewticketComponent } from './ticketlist/viewticket/viewticket.component';
 import { AppTicketingDialogContentComponent, TicketsComponent } from './tickets/tickets.component';
 import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.component';
 import { AddComponent } from './admins/add-admin/add.component';
@@ -88,7 +87,6 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     VisaComponentComponent,
     LaborMainComponent,
     AppTicketlistComponent,
-    ViewticketComponent,
     TicketsComponent,
     AdminsComponent,
     AdminDialogContentComponent,
@@ -108,7 +106,8 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     visaDialogContentComponent,
     LaborReportsComponent,
     NoItemsFoundComponent,
-    TableShimmerComponent
+    TableShimmerComponent,
+    WholesalerComponent
   ],
   providers: [DatePipe],
 })
