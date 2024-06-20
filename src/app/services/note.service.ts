@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
-import { DateSelectedSignal } from '../signals/DateSelectedSignal.service';
 import { Note } from '../pages/apps/notes/note';
 
 @Injectable({
@@ -12,7 +11,7 @@ export class NoteService {
 
   private apiUrl = '';
 
-  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,) {
+  constructor(private http: HttpClient) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 

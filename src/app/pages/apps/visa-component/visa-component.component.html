@@ -171,8 +171,8 @@
       <mat-form-field appearance="outline" class="date_picker">
 
         <mat-date-range-input [rangePicker]="custompicker">
-          <input matStartDate placeholder="Start date" />
-          <input matEndDate placeholder="End date" />
+          <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue" (ngModelChange)="handleStartDateChange($event)"/>
+          <input matEndDate placeholder="End date" [(ngModel)]="endDateValue" (ngModelChange)="handleEndDateChange($event)"/>
         </mat-date-range-input>
 
         <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
@@ -195,7 +195,7 @@
         <mat-form-field class="theme-select" appearance="outline">
           <mat-select [(ngModel)]="selectedStatusFilteraTION" (selectionChange)="onChange($event.value, 'status')"
             placeholder="All">
-            <mat-option *ngFor="let element of Status_Array" [value]="element.value">{{ element.viewValue
+            <mat-option *ngFor="let element of Status_Array_Filter" [value]="element.value">{{ element.viewValue
               }}</mat-option>
           </mat-select>
         </mat-form-field>

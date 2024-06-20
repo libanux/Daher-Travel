@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 import { Package } from '../pages/apps/ticketlist/ticket';
-import { DateSelectedSignal } from '../signals/DateSelectedSignal.service';
 import { SearchService } from '../signals/search.service';
 
 
@@ -14,7 +13,7 @@ export class PackageService {
 
   private apiUrl = '';
 
-  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,private searchService: SearchService) {
+  constructor(private http: HttpClient, private searchService: SearchService) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
@@ -145,8 +144,8 @@ export class PackageService {
     });
     const requestBody = {
       "filterType": filter,
-      "startDate": this.dateSignal.startDate(),
-      "endDate": this.dateSignal.endDate()
+      "startDate": 'this.dateSignal.startDate(),',
+      "endDate": 'this.dateSignal.endDate()'
     };
     return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
   }

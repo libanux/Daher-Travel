@@ -1,13 +1,11 @@
-import { Component, Inject, Input, OnInit, Optional, ViewChild, effect, signal } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { VisaClass, VisaType_Array, Visa_Status_Array } from './visaClass';
+import { VisaClass, VisaType_Array, Visa_Status_Array, Visa_Status_Array_FILTERATION } from './visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { VisaService } from 'src/app/services/visa.service';
 import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
-import { PagingService } from 'src/app/signals/paging.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
@@ -34,11 +32,9 @@ export class VisaComponentComponent implements OnInit {
   months: any[] = Month_Filter_Array
   Status_Array: any[] = Visa_Status_Array
   VisaType: any[] = VisaType_Array
+  Status_Array_Filter: any[] = Visa_Status_Array_FILTERATION
 
-  rangeStart = signal('');
-  rangeEnd = signal('');
   ShowAddButoon = true;
-
   no_visas_found = false;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
@@ -84,13 +80,12 @@ export class VisaComponentComponent implements OnInit {
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: VisaClass | null = null;
   VisaArray = new MatTableDataSource();
-  valueDisplayed = ''
 
-  constructor(private breadCrumbService: BreadCrumbSignalService ,private paginagservice: PagingService, private generalService: GeneralService, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private visaService: VisaService) {
-    effect(() => (
-      this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
-    )
-    )
+startDateValue: string = ''; // Variable to store the start date
+endDateValue: string = ''; // Variable to store the end date
+
+  constructor(private breadCrumbService: BreadCrumbSignalService ,private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+
   }
 
   // 1 basic
@@ -99,27 +94,30 @@ export class VisaComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Visa')
-    this.rangeEnd = this.dateSignal.endDate;
-    this.rangeStart = this.dateSignal.startDate;
     this.pageSize = this.generalService.PageSizing
     this.FETCH_VISA();
-    console.log('hello')
   }
 
   showDatePicker = false;
   onChange(value: string, dropdown: string) {
 
+    // Date filtering
     if (dropdown == 'month') {
       if (value === 'Calendar') {
         this.showDatePicker = true;
+        console.log('custome')
       }
 
       else {
+        this.startDateValue = '';
+        this.endDateValue = '';
+
         this.showDatePicker = false;
         this.FILTER_ARRAY_BY_DATE(value)
       }
     }
 
+    // Status filtering
     else if (dropdown == 'status') {
       if (value == 'all') {
         this.FETCH_VISA()
@@ -151,15 +149,29 @@ export class VisaComponentComponent implements OnInit {
     console.log('page is changes')
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize);
-    this.paginagservice.currentPage.set(event.pageIndex);
     this.FETCH_VISA();
   }
 
-  onDateSelect(date: Date) {
-    console.log('Selected Date:', date);
-    // Do something with the selected date
-  }
+
+// Method to handle changes in start date input
+handleStartDateChange(event: any): void {
+  this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+}
+
+// Method to handle changes in end date input
+handleEndDateChange(event: any): void {
+  this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+}
+
+FORMAT_DATE_YYYYMMDD(date: Date): string {
+  // Extract year, month, and day from the Date object
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
+  const day = ('0' + date.getDate()).slice(-2);
+
+  // Return the formatted date string in YYYY-MM-DD format
+  return `${year}-${month}-${day}`;
+}
 
   // Function to format date
   FORMAT_DATE(dateString: string): string {
@@ -283,7 +295,7 @@ export class VisaComponentComponent implements OnInit {
   CANCEL_UPDATE(): void {
     this.CurrentAction = 'Add Visa';
     this.open_expansion_value = -1;
-    this.ShowAddButoon = true
+    this.ShowAddButoon = true;
 
     this.ADDED_VISA = {
       _id: -1,
@@ -312,7 +324,7 @@ export class VisaComponentComponent implements OnInit {
 
   // DATE FILTERATION
   FILTER_ARRAY_BY_DATE(filter_type: any) {
-    this.visaService.FILTER_VISA_BY_DATE(filter_type).subscribe({
+    this.visaService.FILTER_VISA_BY_DATE(filter_type, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
       error: (error) => { },
       complete: () => { }

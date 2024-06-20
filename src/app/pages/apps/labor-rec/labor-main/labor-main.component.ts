@@ -5,7 +5,6 @@ import { LaborList } from '../labor';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
-import { PagingService } from 'src/app/signals/paging.service';
 import { CalendarDialogFORLABORSComponent } from '../calendar-card/calendar-dialog.component';
 import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
 
@@ -91,7 +90,7 @@ export class LaborMainComponent implements AfterViewInit {
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
 
-  constructor(public dialog: MatDialog, private recruitingService: LaborRecService, private paginagservice: PagingService) {
+  constructor(public dialog: MatDialog, private recruitingService: LaborRecService) {
     this.viewPackage = new LaborList()
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
@@ -99,10 +98,6 @@ export class LaborMainComponent implements AfterViewInit {
     this.editedrecruiting.price = 1
     this.editedrecruiting.age = 1
     this.editedrecruiting.gender = 'female'
-    effect(() => {
-      this.pageSize = paginagservice.pageSize()
-      this.currentPage = paginagservice.currentPage()
-    });
   }
 
   ngOnInit(): void {
@@ -154,8 +149,6 @@ export class LaborMainComponent implements AfterViewInit {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize)
-    this.paginagservice.currentPage.set(event.pageIndex)
     this.FETCH_RECRUITINGS()
   }
 
