@@ -16,7 +16,7 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticketlist.component.html',
-  styleUrls: ['../../../../assets/scss/apps/general_table.scss','../../../../assets/scss/apps/_add_expand.scss'],
+  styleUrls: ['../../../../assets/scss/apps/general_table.scss', '../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -60,10 +60,10 @@ export class AppTicketlistComponent implements OnInit {
 
 
   //MONTHS FOR FILTER DROPDOWN
-  months: any[]=Month_Filter_Array
+  months: any[] = Month_Filter_Array
 
   //FILTRATION ARRAY
-  Filteration: any[]=Date_Filter_Array
+  Filteration: any[] = Date_Filter_Array
 
   showDatePicker = false;
 
@@ -167,7 +167,8 @@ export class AppTicketlistComponent implements OnInit {
         this.totalCount = response.pagination.totalPackages
       },
       error: (error: any) => {
-        this.packages =[]
+        this.packages = []
+        this.totalCount = 0;
         console.log("Error:", error)
       },
       complete: () => {
@@ -212,7 +213,7 @@ export class AppTicketlistComponent implements OnInit {
       next: (response: any) => {
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
-        this.totalCount= response.pagination.totalPackages;
+        this.totalCount = response.pagination.totalPackages;
       },
       error: (error: any) => {
         console.error('Error:', error.error);

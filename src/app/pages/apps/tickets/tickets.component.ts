@@ -182,7 +182,7 @@ export class TicketsComponent {
     //FETCH TICKETS FROM API
     SEARCH_TICKETS(event: any): void {
       this.currentPage = 1;
-      console.log("Here")
+    
       this.ticketingService.SEARCH_TICKETS(this.pageSize, this.currentPage, event.target.value).subscribe({
         next: (response: any) => {
   
@@ -191,6 +191,8 @@ export class TicketsComponent {
           this.totalCount = response.pagination.totalTickets
         },
         error: (error: any) => {
+          this.tickets =[]
+          this.totalCount =0;
           console.log("Error:", error)
         },
         complete: () => {

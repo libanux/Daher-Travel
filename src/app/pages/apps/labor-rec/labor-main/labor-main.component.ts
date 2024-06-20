@@ -141,6 +141,8 @@ export class LaborMainComponent implements AfterViewInit {
         this.totalCount = response.pagination.totalRecruitings;
       },
       error: (error: any) => {
+        this.recruitings =[]
+        this.totalCount =0;
         console.log("Error:", error)
       },
       complete: () => {

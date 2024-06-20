@@ -6,216 +6,216 @@
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{currentAction}}</mat-panel-title>
     </mat-expansion-panel-header>
-      <mat-card-content>
+    <mat-card-content>
 
-        <!-- FIRST ROW :  NAME + SOURCE + DESTINATION + WHOLESALER-->
-        <div class="row">
+      <!-- FIRST ROW :  NAME + SOURCE + DESTINATION + WHOLESALER-->
+      <div class="row">
 
-          <!-- NAME -->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Name" [(ngModel)]="editedTicket.name" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
+        <!-- NAME -->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
           </div>
-
-          <!-- SOURCE -->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="editedTicket.source">
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M120-120v-80h720v80H120Zm74-200L80-514l62-12 70 62 192-52-162-274 78-24 274 246 200-54q32-9 58 12t26 56q0 22-13.5 39T830-492L194-320Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-          <!-- DESTINATION-->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Destination</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Destination" [(ngModel)]="editedTicket.destination" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M754-324 120-500v-220l60 20 28 84 192 54v-318l80 20 110 350 200 56q23 6 36.5 24.5T840-388q0 33-27 53t-59 11ZM120-120v-80h720v80H120Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-
-          <!-- WHOLESALER-->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">WholeSaler</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              
-                <input matInput placeholder="WholeSaler" [(ngModel)]="editedTicket.wholesaler.name" />
-     
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M40-120v-720h560v720H360v-160h-80v160H40Zm80-80h80v-160h240v160h80v-560H120v560Zm80-240h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm420 260-56-56 43-44H640v-80h127l-43-44 56-56 140 140-140 140ZM200-200v-160h240v160-160H200v160Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-
-
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput placeholder="Name" [(ngModel)]="editedTicket.name" />
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
         </div>
 
-        <!-- SECOND ROW :  SEATS + COST + CREDIT + BALANCE -->
-        <div class="row">
-
-          <!-- SEATS -->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="editedTicket.seats">
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M600-160H320q-33 0-56.5-23.5T240-240v-440h80v440h280v80ZM460-720q-33 0-56.5-23.5T380-800q0-33 23.5-56.5T460-880q33 0 56.5 23.5T540-800q0 33-23.5 56.5T460-720ZM640-80v-200H440q-33 0-56.5-23.5T360-360v-220q0-42 29-71t71-29q42 0 71 29t29 71v180h80q33 0 56.5 23.5T720-320v240h-80Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
+        <!-- SOURCE -->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
           </div>
-
-          <!-- COST -->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="Cost" [(ngModel)]="editedTicket.cost" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="editedTicket.source">
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M120-120v-80h720v80H120Zm74-200L80-514l62-12 70 62 192-52-162-274 78-24 274 246 200-54q32-9 58 12t26 56q0 22-13.5 39T830-492L194-320Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+        <!-- DESTINATION-->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Destination</mat-label>
           </div>
-          <!-- CREDIT -->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Credit</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="editedTicket.credit">
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
-
-
-
-
-          <!-- BALANCE -->
-          <div class="col-md-3 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Balance </mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input type="number" matInput placeholder="Balance" [(ngModel)]="editedTicket.balance" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput placeholder="Destination" [(ngModel)]="editedTicket.destination" />
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M754-324 120-500v-220l60 20 28 84 192 54v-318l80 20 110 350 200 56q23 6 36.5 24.5T840-388q0 33-27 53t-59 11ZM120-120v-80h720v80H120Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
         </div>
 
-        <!-- THIRD ROW :   NOTE + STATUS -->
-        <div class="row">
-          <!-- AGE -->
-          <div class="col-md-6 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Note" [(ngModel)]="editedTicket.note" />
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path
-                    d="M160-80q-33 0-56.5-23.5T80-160v-440q0-33 23.5-56.5T160-680h200v-120q0-33 23.5-56.5T440-880h80q33 0 56.5 23.5T600-800v120h200q33 0 56.5 23.5T880-600v440q0 33-23.5 56.5T800-80H160Zm0-80h640v-440H600q0 33-23.5 56.5T520-520h-80q-33 0-56.5-23.5T360-600H160v440Zm80-80h240v-18q0-17-9.5-31.5T444-312q-20-9-40.5-13.5T360-330q-23 0-43.5 4.5T276-312q-17 8-26.5 22.5T240-258v18Zm320-60h160v-60H560v60Zm-200-60q25 0 42.5-17.5T420-420q0-25-17.5-42.5T360-480q-25 0-42.5 17.5T300-420q0 25 17.5 42.5T360-360Zm200-60h160v-60H560v60ZM440-600h80v-200h-80v200Zm40 220Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
+        <!-- WHOLESALER-->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">WholeSaler</mat-label>
           </div>
+          <mat-form-field appearance="outline" class="w-100">
+
+            <input matInput placeholder="WholeSaler" [(ngModel)]="editedTicket.wholesaler.name" />
+
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M40-120v-720h560v720H360v-160h-80v160H40Zm80-80h80v-160h240v160h80v-560H120v560Zm80-240h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm420 260-56-56 43-44H640v-80h127l-43-44 56-56 140 140-140 140ZM200-200v-160h240v160-160H200v160Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+
+
+      </div>
+
+      <!-- SECOND ROW :  SEATS + COST + CREDIT + BALANCE -->
+      <div class="row">
+
+        <!-- SEATS -->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="editedTicket.seats">
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M600-160H320q-33 0-56.5-23.5T240-240v-440h80v440h280v80ZM460-720q-33 0-56.5-23.5T380-800q0-33 23.5-56.5T460-880q33 0 56.5 23.5T540-800q0 33-23.5 56.5T460-720ZM640-80v-200H440q-33 0-56.5-23.5T360-360v-220q0-42 29-71t71-29q42 0 71 29t29 71v180h80q33 0 56.5 23.5T720-320v240h-80Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- COST -->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <input type="number" matInput placeholder="Cost" [(ngModel)]="editedTicket.cost" />
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+        <!-- CREDIT -->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Credit</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="editedTicket.credit">
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
 
 
 
-          <!-- STATUS -->
-          <div class="col-md-6 d-flex flex-column">
-            <div class="d-flex align-items-center">
-              <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
-            </div>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select placeholder="Status">
-                <mat-option value="pending">Pending</mat-option>
-                <mat-option value="completed">Completed</mat-option>
-                <mat-option value="canceled">Canceled</mat-option>
-              </mat-select>
-              <mat-icon matPrefix class="op-5">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#5f6368">
-                  <path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17
+
+        <!-- BALANCE -->
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Balance </mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <input type="number" matInput placeholder="Balance" [(ngModel)]="editedTicket.balance" />
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- THIRD ROW :   NOTE + STATUS -->
+      <div class="row">
+        <!-- AGE -->
+        <div class="col-md-6 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput placeholder="Note" [(ngModel)]="editedTicket.note" />
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M160-80q-33 0-56.5-23.5T80-160v-440q0-33 23.5-56.5T160-680h200v-120q0-33 23.5-56.5T440-880h80q33 0 56.5 23.5T600-800v120h200q33 0 56.5 23.5T880-600v440q0 33-23.5 56.5T800-80H160Zm0-80h640v-440H600q0 33-23.5 56.5T520-520h-80q-33 0-56.5-23.5T360-600H160v440Zm80-80h240v-18q0-17-9.5-31.5T444-312q-20-9-40.5-13.5T360-330q-23 0-43.5 4.5T276-312q-17 8-26.5 22.5T240-258v18Zm320-60h160v-60H560v60Zm-200-60q25 0 42.5-17.5T420-420q0-25-17.5-42.5T360-480q-25 0-42.5 17.5T300-420q0 25 17.5 42.5T360-360Zm200-60h160v-60H560v60ZM440-600h80v-200h-80v200Zm40 220Z" />
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+
+
+
+        <!-- STATUS -->
+        <div class="col-md-6 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select placeholder="Status">
+              <mat-option value="pending">Pending</mat-option>
+              <mat-option value="completed">Completed</mat-option>
+              <mat-option value="canceled">Canceled</mat-option>
+            </mat-select>
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17
                     0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83
                     31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
                     156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93
                     227q0 134 93 227t227 93Zm0-320Z" />
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-          </div>
+              </svg>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="Buttons_div">
+        <div *ngIf="ShowAddButoon">
+          <button mat-flat-button color="primary" (click)="ADD_TICKETINGS()"> Add Ticket </button>
         </div>
 
-        <div class="Buttons_div">
-          <div *ngIf="ShowAddButoon">
-            <button mat-flat-button color="primary" (click)="ADD_TICKETINGS()"> Add Ticket </button>
-          </div>
-
-          <div class="TwoButtons" *ngIf="!ShowAddButoon">
-            <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
-            <button mat-flat-button color="primary" (click)="UPDATE_TICKET()">Update Ticket</button>
-          </div>
+        <div class="TwoButtons" *ngIf="!ShowAddButoon">
+          <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
+          <button mat-flat-button color="primary" (click)="UPDATE_TICKET()">Update Ticket</button>
         </div>
-      </mat-card-content>
-    </mat-expansion-panel>
-  </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-expansion-panel>
+</mat-card>
 }
 
 
@@ -227,25 +227,26 @@
   <header>
     <div class="searchbar p-20">
       <mat-form-field appearance="outline" class="w-100">
-          <input matInput placeholder="Search Tickets ..." aria-label="Product"  (keyup)="SEARCH_TICKETS($any($event))"/>
-          <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px"
-                  viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                  <path
-                      d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-              </svg>
-          </mat-icon>
+        <input matInput placeholder="Search Tickets ..." aria-label="Product" (keyup)="SEARCH_TICKETS($any($event))" />
+        <mat-icon matPrefix class="op-5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
+            width="24px" fill="#5f6368">
+            <path
+              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg>
+        </mat-icon>
       </mat-form-field>
-  </div>
-  <div class="filter-date">
-  <div class="dropdown">
-    <mat-form-field class="theme-select" appearance="outline">
-      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')"  placeholder="Today">
-        <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
+    </div>
+    <div class="filter-date">
+      <div class="dropdown">
+        <mat-form-field class="theme-select" appearance="outline">
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')"
+            placeholder="Today">
+            <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
   </header>
 
   <mat-card-content>
@@ -359,14 +360,14 @@
             expandedElement = expandedElement === element ? null : element;"></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
+
+      <!-- NO ITEMS FOUND ROW -->
+      <app-no-items-found [array]="tickets"></app-no-items-found>
+      
     </div>
     <!-- TABLE PAGINATION -->
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]" 
-    [length]="totalCount"
-     [pageSize]="pageSize" 
-     aria-label="Select page"
-      showFirstLastButtons 
-      (page)="onPageChange($event)">
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="totalCount" [pageSize]="pageSize" aria-label="Select page"
+      showFirstLastButtons (page)="onPageChange($event)">
     </mat-paginator>
   </mat-card-content>
 </mat-card>

@@ -51,6 +51,7 @@ import { ViewCustomerComponent } from './customers/view-customer/view-customer.c
 import { ReportsComponent } from './reports/reports.component';
 import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-wholesaler.component';
 import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.component';
+import { NoItemsFoundComponent } from './no-items-found/no-items-found.component';
 
 @NgModule({
   imports: [
@@ -106,7 +107,8 @@ import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.c
     DeleteWholesalerDialogContentComponent,
     ViewWholesalerComponent,
     visaDialogContentComponent,
-    LaborReportsComponent
+    LaborReportsComponent,
+    NoItemsFoundComponent
   ],
   providers: [DatePipe],
 })
