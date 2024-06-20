@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, signal, OnInit, effect } from '@angula
 import { MatCalendar } from '@angular/material/datepicker';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
-import { DateRange } from '../../visa-component/date-range';
+// import { any } from '../../visa-component/date-range';
 
 
 @Component({
@@ -12,9 +12,9 @@ import { DateRange } from '../../visa-component/date-range';
   styleUrl: './calendar-with-date-range.component.scss',
   imports: [MatCalendar, FormsModule, CommonModule]
 })
-export class CalendarWithDateRangeFORLABORSComponent implements OnInit{
+export class CalendarWithanyFORLABORSComponent implements OnInit{
   selectedDate: Date;
-  dateRange: DateRange;
+  any: any;
 
   rangeStarted: Date;
   rangeEnded: Date;
@@ -22,7 +22,7 @@ export class CalendarWithDateRangeFORLABORSComponent implements OnInit{
   rangeStart = signal('');
   rangeEnd = signal('');
 
-  @Output() dateRangeChange: EventEmitter<DateRange> = new EventEmitter<DateRange>();
+  @Output() anyChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private datePipe: DatePipe) {
   }
@@ -40,31 +40,31 @@ export class CalendarWithDateRangeFORLABORSComponent implements OnInit{
 
   onDateChange(selectedDate: Date) {
 
-    if (!this.dateRange) {
-      this.dateRange = new DateRange();
+    if (!this.any) {
+      this.any = 'new any();'
     }
 
-    if (!this.dateRange.startDate) {
-      this.dateRange.startDate = selectedDate;
+    if (!this.any.startDate) {
+      this.any.startDate = selectedDate;
       this.rangeStart.set(this.getFormattedDate(selectedDate))
       this.rangeStarted = selectedDate;
       this.colorStartDate = true;
     } 
     
-    else if (!this.dateRange.endDate) {
-      this.dateRange.endDate = selectedDate;
+    else if (!this.any.endDate) {
+      this.any.endDate = selectedDate;
       this.rangeEnd.set(this.getFormattedDate(selectedDate))
-      this.dateRangeChange.emit(this.dateRange);
+      this.anyChange.emit(this.any);
       this.rangeEnded = selectedDate;
       this.colorStartDate = true;
     } 
     
     else {
-      this.dateRange = new DateRange();
+      this.any = 'new any();'
       this.colorStartDate = false;
       this.colorEndDate = false;
 
-      this.dateRange.startDate = selectedDate;
+      this.any.startDate = selectedDate;
       this.rangeStart.set(this.getFormattedDate(selectedDate))
       this.rangeStart.set(this.getFormattedDate(selectedDate))
     }
