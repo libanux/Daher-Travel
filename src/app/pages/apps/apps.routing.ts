@@ -33,9 +33,11 @@ export const AppsRoutes: Routes = [
             (m) => m.WholesalersModule
           ),
       },
-      {
-        path: 'labor',
-        component: LaborRecModule,
+      { path: 'labor',
+        loadChildren: () =>
+          import('./labor-rec/labor-rec.module').then(
+            (m) => m.LaborRecModule
+          ),
       },
       {
         path: 'notes',
@@ -64,12 +66,7 @@ export const AppsRoutes: Routes = [
         path: 'viewPackage/:id',
         component:ViewticketComponent
       },
- 
 
-      {
-        path: 'labors',
-        component:LaborMainComponent
-      },
 
       {
         path: 'tickets',

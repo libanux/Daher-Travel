@@ -8,6 +8,7 @@ import { TicketingService } from 'src/app/services/ticketing.service';
 import { PaginationService } from 'ngx-pagination';
 import { PagingService } from 'src/app/signals/paging.service';
 import { Month_Filter_Array } from 'src/app/services/general.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
   selector: 'app-tickets',
@@ -72,7 +73,7 @@ export class TicketsComponent {
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
 
-  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private paginagservice: PagingService) {
+  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private paginagservice: PagingService, private breadCrumbService : BreadCrumbSignalService) {
     this.editedTicket = new Tickets()
 
   }
@@ -83,6 +84,7 @@ export class TicketsComponent {
 
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Ticketing')
     this.FETCH_TICKETINGS();
   }
 
