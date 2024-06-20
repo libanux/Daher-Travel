@@ -1,7 +1,6 @@
 
 import { Injectable } from '@angular/core';
 import { environment } from 'src/enviroment/enviroment';
-import { DateSelectedSignal } from '../signals/DateSelectedSignal.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tickets } from '../pages/apps/tickets/tickets';
@@ -13,7 +12,7 @@ import { Tickets } from '../pages/apps/tickets/tickets';
 export class TicketingService {
   private apiUrl = '';
 
-  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal) {
+  constructor(private http: HttpClient) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
@@ -127,8 +126,8 @@ export class TicketingService {
     });
     const requestBody = {
       "filterType": filter,
-      "startDate": this.dateSignal.startDate(),
-      "endDate": this.dateSignal.endDate()
+      "startDate": 'this.dateSignal.startDate()',
+      "endDate": 'this.dateSignal.endDate()'
     };
     return this.http.post<any>(this.apiUrl + '/FILTER_TICKETING_BY_DATE', requestBody, { headers })
   }

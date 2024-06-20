@@ -3,9 +3,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { WholesalerClass } from 'src/app/classes/wholesaler.class';
-import { PagingService } from 'src/app/signals/paging.service';
 import { Router } from '@angular/router';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
 import { CustomerDialogContentComponent } from '../customers/main-page/customers.component';
@@ -69,7 +67,7 @@ export class WholesalerComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private paginagservice: PagingService, private router: Router, public dialog: MatDialog,private breadCrumbService :BreadCrumbSignalService, private dateSignal: DateSelectedSignal, private wholesaler: WholesalerService) {
+  constructor(private router: Router, public dialog: MatDialog,private breadCrumbService :BreadCrumbSignalService, private wholesaler: WholesalerService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
@@ -78,16 +76,12 @@ export class WholesalerComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Wholesalers')
-    this.rangeEnd = this.dateSignal.endDate;
-    this.rangeStart = this.dateSignal.startDate;
     this.FETCH_WHOLESALERS();
   }
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize)
-    this.paginagservice.currentPage.set(event.pageIndex)
     this.FETCH_WHOLESALERS()
   }
 

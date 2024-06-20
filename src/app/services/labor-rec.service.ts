@@ -2,10 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
-import { Package } from '../pages/apps/ticketlist/ticket';
-import { DateSelectedSignal } from '../signals/DateSelectedSignal.service';
 import { LaborList } from '../pages/apps/labor-rec/labor';
-
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +11,7 @@ export class LaborRecService {
 
   private apiUrl = '';
 
-  constructor(private http: HttpClient, private dateSignal: DateSelectedSignal,) {
+  constructor(private http: HttpClient,) {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
@@ -151,8 +148,8 @@ FILTER_RECRUITING_BY_DATE(filter: String): Observable<any> {
 
   const requestBody = {
       "filterType": filter,
-      "startDate": this.dateSignal.startDate(),
-      "endDate": this.dateSignal.endDate()
+      "startDate": 'this.dateSignal.startDate()',
+      "endDate": 'this.dateSignal.endDate()'
 
   };
 

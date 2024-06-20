@@ -14,6 +14,12 @@ export class VisaClass {
   }
 
   export const Visa_Status_Array: any [] = [
+    { value: 'rejected', viewValue: 'Rejected' },
+    { value: 'approved', viewValue: 'Approved' },
+    { value: 'pending', viewValue: 'Pending' },
+  ];
+
+  export const Visa_Status_Array_FILTERATION: any [] = [
     { value: 'all', viewValue: 'All' },
     { value: 'rejected', viewValue: 'Rejected' },
     { value: 'approved', viewValue: 'Approved' },

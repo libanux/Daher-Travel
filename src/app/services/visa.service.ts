@@ -112,7 +112,7 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_PAYMENT_BY_PAYMENT_ID_ADV', requestBody, { headers });
   }
 
-  FILTER_VISA_BY_DATE(filterType: string): Observable<any> {
+  FILTER_VISA_BY_DATE(filterType: string, startDate: string, endDate: string): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -120,8 +120,8 @@ export class VisaService {
     });
     const requestBody = {
       filterType: filterType,
-      startDate: '',
-      endDate: ''
+      startDate: startDate,
+      endDate: endDate
     };
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_DATE', requestBody, { headers });
   }

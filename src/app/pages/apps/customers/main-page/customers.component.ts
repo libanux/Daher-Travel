@@ -2,11 +2,9 @@ import { Component, Inject, OnInit, Optional, ViewChild, effect, signal } from '
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Router } from '@angular/router';
-import { PagingService } from 'src/app/signals/paging.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
@@ -62,7 +60,7 @@ export class CustomersComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private breadCrumbService: BreadCrumbSignalService ,private paginagservice: PagingService,private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
+  constructor(private breadCrumbService: BreadCrumbSignalService ,private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     ))
@@ -70,16 +68,13 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Customers')
-    this.rangeEnd = this.dateSignal.endDate;
-    this.rangeStart = this.dateSignal.startDate;
     this.FETCH_CUSTOMER();
   }
   
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize)
-    this.paginagservice.currentPage.set(event.pageIndex)
+
     this.FETCH_CUSTOMER()
   }
 

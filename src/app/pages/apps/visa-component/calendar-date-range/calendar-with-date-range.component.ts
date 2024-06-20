@@ -2,7 +2,6 @@ import { Component, Output, EventEmitter, signal, OnInit, effect } from '@angula
 import { MatCalendar } from '@angular/material/datepicker';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
-import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { DateRange } from '../date-range';
 
 @Component({
@@ -24,7 +23,7 @@ export class CalendarWithDateRangeComponent implements OnInit{
 
   @Output() dateRangeChange: EventEmitter<DateRange> = new EventEmitter<DateRange>();
 
-  constructor(private dateSignal : DateSelectedSignal,  private datePipe: DatePipe) {
+  constructor(private datePipe: DatePipe) {
     effect (
       ()=>(
         console.log('start range ', this.rangeStart()),
@@ -34,8 +33,6 @@ export class CalendarWithDateRangeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.rangeEnd = this.dateSignal.endDate;
-    this.rangeStart = this.dateSignal.startDate;
   
   }
 

@@ -7,8 +7,6 @@ import { Package } from './ticket';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PackageService } from 'src/app/services/package.service';
 import { CalendarDialogComponent } from './calendar-card/calendar-dialog.component';
-import { PagingService } from 'src/app/signals/paging.service';
-import { SearchService } from 'src/app/signals/search.service';
 import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
@@ -82,17 +80,14 @@ export class AppTicketlistComponent implements OnInit {
   CurrentAction: string = 'Add Package'
 
 
-  constructor(public dialog: MatDialog, private packagesService: PackageService, private paginagservice: PagingService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService) {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
     this.editedpackage.sell = 1
     this.editedpackage.price = 1
     this.editedpackage.numberOfPeople = 1
     this.editedpackage.duration = 1
-    effect(() => {
-      this.pageSize = paginagservice.pageSize()
-      this.currentPage = paginagservice.currentPage()
-    });
+
   }
 
   ngOnInit(): void {
@@ -107,9 +102,6 @@ export class AppTicketlistComponent implements OnInit {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize)
-
-    this.paginagservice.currentPage.set(event.pageIndex)
     this.FETCH_PACKAGES()
   }
 

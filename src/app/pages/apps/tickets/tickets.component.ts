@@ -5,8 +5,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TicketingService } from 'src/app/services/ticketing.service';
-import { PaginationService } from 'ngx-pagination';
-import { PagingService } from 'src/app/signals/paging.service';
 import { Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
@@ -73,7 +71,7 @@ export class TicketsComponent {
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
 
-  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private paginagservice: PagingService, private breadCrumbService : BreadCrumbSignalService) {
+  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService : BreadCrumbSignalService) {
     this.editedTicket = new Tickets()
 
   }
@@ -156,8 +154,6 @@ export class TicketsComponent {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
-    this.paginagservice.pageSize.set(event.pageSize)
-    this.paginagservice.currentPage.set(event.pageIndex)
     this.FETCH_TICKETINGS()
   }
   //ADD NEW TICKET
