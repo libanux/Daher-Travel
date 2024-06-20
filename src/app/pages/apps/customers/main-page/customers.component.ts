@@ -21,6 +21,7 @@ export class CustomersComponent implements OnInit {
    panelOpenState = false;
    open_expansion_value = 0;
 
+ show_shimmer = true;
 
   rangeStart = signal('');
   rangeEnd = signal('');
@@ -93,13 +94,7 @@ export class CustomersComponent implements OnInit {
   }
 
 
-  APPLY_SEARCH_FILTER(filterValue: string): void {
-    
-    this.customerService.FILTER_BY_SEARCH_KEY(filterValue, this.Current_page, this.pageSize).subscribe({
-      next: (response: any) => { this.CustomersArray = new MatTableDataSource(response.customers); },
-      error: (error) => { },
-      complete: () => { }
-    });   }
+
 
   //STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
@@ -126,15 +121,21 @@ export class CustomersComponent implements OnInit {
 
 // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
 
+
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
+    this.show_shimmer = true;
+
     this.customerService.GET_ALL_CUSTOMER(this.Current_page).subscribe({
       next: (response: any) => {
         this.CustomersArray = new MatTableDataSource(response.customers); 
-        this.CUSTOMERS_Array_length = response.pagination.totalCustomers
+       this.CUSTOMERS_Array_length = response.pagination.totalCustomers
       },
-      error: (error) => { },
-      complete: () => {this.CANCEL_UPDATE(); }
+      error: (error) => {  },
+      complete: () => {
+        this.CANCEL_UPDATE();     
+        this.show_shimmer = false;
+      }
     });
   }
 
@@ -186,6 +187,13 @@ export class CustomersComponent implements OnInit {
       address: '',
     }
   }
+
+  APPLY_SEARCH_FILTER(filterValue: string): void {  
+    this.customerService.FILTER_BY_SEARCH_KEY(filterValue, this.Current_page, this.pageSize).subscribe({
+      next: (response: any) => { this.CustomersArray = new MatTableDataSource(response.customers); },
+      error: (error) => { this.CustomersArray = new MatTableDataSource() },
+      complete: () => { }
+    });   }
 
 }
 
