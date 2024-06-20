@@ -4,6 +4,28 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatPaginator } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { GeneralService } from 'src/app/services/general.service';
+import { months } from 'src/app/classes/DateDropdownData';
+
+
+// Define an interface for the header object
+interface Header {
+  name: string;
+}
+
+// Define the headers as an array of Header objects
+const headers: Header[] = [
+  { name: 'Cost' },
+  { name: 'Expenses' },
+  { name: 'NetProfit' },
+];
+
+const tableData: any[] = [
+  { category: 'Pack', cost: '$40.00', expenses: '$80.00', netprofit: '$40.00' },
+  { category: 'Visa', cost: '$30.00', expenses: '$3,000.00', netprofit: '$3,000.00' },
+  { category: 'Tichstag', cost: '$10,000.00', expenses: '$20,000.00', netprofit: '¥100.70' },
+  { category: 'Total', cost: '$14,070.00', expenses: '$31,000.00', netprofit: '$3,000.70' },
+];
+
 
 @Component({
   selector: 'app-reports',
@@ -25,6 +47,8 @@ export class ReportsComponent implements OnInit {
   ShowAddButoon = true;
   selectedMonth: string = '';
 
+headers: any [] = headers
+TableData : any [] = tableData
   //TABLE COLUMNS
   displayedColumns: string[] = [
     'barcode',
@@ -61,14 +85,7 @@ export class ReportsComponent implements OnInit {
 
   ] 
   //MONTHS FOR FILTER DROPDOWN
-  months: month[] = [
-    { value: 'today', viewValue: 'Today' },
-    { value: 'yesterday', viewValue: 'Yesterday' },
-    { value: 'last Week', viewValue: 'Last Week' },
-    { value: 'Last Month', viewValue: 'Last Month' },
-    { value: 'Last Year', viewValue: 'Last Year' },
-    { value: 'Calendar', viewValue: 'Custom' },
-  ];
+  months: any[] = months
 
  //MAIN stock ARRAY
  showCalendar: boolean = false;
@@ -111,208 +128,11 @@ InventoryArray = new MatTableDataSource<any>(
 },
   ]);
 
-  //stock ON EDIT
-  // viewstock: Product
-  // stockExample =  new Product('', '', '','', 0, 0, 0, 0);
-  // editedstock=  new Product('', '', '','', 0, 0, 0, 0);
-
 constructor(public generalService: GeneralService, public dialog: MatDialog) {
-  // this.viewstock =  new Product('', '', '','', 0, 0, 0, 0);
+
 }
 
 ngOnInit(): void {
-  this.FETCH_STOCKS();
 }
 
-onDateSelect(date: Date) {
-  console.log('Selected Date:', date);
-}
-
-// cancelSelection() {
-//     this.showCalendar = false;
-//     this.selectedMonth = '';
-//     this.selectedDate = null;
-// }
-
-// ngAfterViewInit(): void {
-  // this.stocksArray.paginator = this.paginator;
-// }
-
-FILTER_BY_CATEGORY(value: string){
-  if(value == 'All'){this.FETCH_STOCKS()}
-  // else {this.stocksArray.filter = value.trim().toLowerCase();}
-}
-
-//EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
-expandRow(event: Event, element: any, column: string): void {
-    if (column === 'action') {
-      this.expandedElement = element;
-    }
-    else {
-      this.expandedElement = this.expandedElement === element ? null : element;
-      event.stopPropagation();
-    }
-}
-
-//FETCH stocksArray FROM API
-FETCH_STOCKS(): void {
-  // this.stocksArray = new MatTableDataSource(products);
-  // this.InventoryArray = new MatTableDataSource(products);
-
-  // this.totalCount = stockArray.length;
-    // this.stocksService.GET_stocksArray().subscribe({
-    //   next: (response: any) => {
-    //     this.stocksArray = response;
-    //     this.dataSource = new MatTableDataSource(this.stocksArray);
-    //     this.totalCount = this.dataSource.data.length;
-    //     this.Inprogress = this.btnCategoryClick('pending');
-    //     // this.Completed = this.btnCategoryClick('complete');
-    //     // this.Cancelled = this.btnCategoryClick('cancelled');
-    //   },
-    //   error: (error: any) => {
-    //     console.log("Error:", error)
-    //   },
-    //   complete: () => {
-    //   }
-    // });
-}
-
-SORT(){
-
-}
-
-// CANCEL UPDATE
-CANCEL_UPDATE(): void {
-  // this.ShowAddButoon = true;
-  // this.editedstock =  new Product('', '', '','', 0, 0, 0, 0);
-}
-
-APPLY_SEARCH_FILTER(filterValue: string): void {
-  // this.stocksArray.filter = filterValue.trim().toLowerCase();
-}
-
-//ADD stock
-ADD_STOCK() {
-    // this.stocksService.ADD_stock(this.stockExample).subscribe({
-    //   next: (response: any) => {},
-    //   error: (error: any) => {console.error(error);},
-    //   complete: () => {    
-    //     this.CANCEL_UPDATE();
-    //     this.FETCH_STOCKS();}
-    // });
-}
-
-//TRIGGER THE DROP DOWN FILTER VALUES
-ON_CHANGE_DROPDOWN(value: string) {
-    if (value === 'Calendar') {
-      this.OPEN_CALENDAR_DIALOG();
-    }
-    else{
-      // this.stocksService.FILTER_stock(value).subscribe({
-      //   next: (response: any) => {
-      //     this.stocksArray = new MatTableDataSource(response);
-      //     this.totalCount = this.stocksArray.data.length;
-      //     // this.Inprogress = this.btnCategoryClick('pending');
-      //   },
-      //   error: (error: any) => {
-      //     console.log("Error:", error)
-      //   },
-      //   complete: () => {
-      //   }
-      // });
-    }
-}
-
-//OPEN THE CALENDAR DIALOG
-OPEN_CALENDAR_DIALOG(): void {
-    // const dialogRef = this.dialog.open(CalendarDialogComponent, {
-    //   width: '350px',
-    //   data: { selectedDate: this.selectedDate }
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed', result);
-    //   if (result) {
-    //     if (result.startDate && result.endDate) {
-    //       this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-    //       this.stocksService.FILTER_stock("custom").subscribe({
-    //         next: (response: any) => {
-    //           console.log("Response:", response)
-    //           this.stocksArray = response;
-    //           this.dataSource = new MatTableDataSource(this.stocksArray);
-    //           this.totalCount = this.dataSource.data.length;
-    //           this.Inprogress = this.btnCategoryClick('pending');
-    //         },
-    //         error: (error: any) => {
-    //           console.log("Error:", error)
-    //         },
-    //         complete: () => {
-    //         }
-    //       });
-    //     } else {
-    //       this.selectedMonth = 'Custom';
-    //     }
-    //     this.selectedDate = result;
-    //   }
-    // });
-}
-
-//UPDATE ROW VALUES
-EDIT_STOCK(obj: any): void {
-  // this.ShowAddButoon = false
-  // this.viewstock = obj;
-  // this.editedstock = obj;
-}
-
-
-// OPEN UPDATE & DELETE DIALOGS
-// OPEN_DIALOG(action: string, delstock: Product): void {
-//     const dialogRef = this.dialog.open(deleteAjustDialogComponent, {
-//       data: { action, delstock }
-//     });
-
-//     dialogRef.afterClosed().subscribe(result => {
-//       if (result && result.event === 'Delete') {
-
-// this.stocksService.DELETE_stock(delstock).subscribe({
-//     next: (response: any) => {
-//         console.log('Response:', response);
-//          this.FETCH_STOCKS()
-//     },
-//     error: (error: any) => {console.error('Error:', error);},
-//     complete: () => { }
-//       });
-//     }
-//   });
-// }
-
-//GET THE CATEGORY LENGTH
-// btnCategoryClick(val: string): number {
-//   this.stocksArray.filter = val.trim().toLowerCase();
-//   return this.st.filteredData.length;
-// }
-
-//TRUNCATE THE TEXT INTO 20 CHARS
-TRUNCATE_TEXT(text: string, limit: number): string {
-  return 'this.generalService.truncateText(text, limit);'
-}
-
-//GET THE STATUS CLASS
-getStatusClass(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'completed':
-        return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'cancelled':
-        return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      default:
-        return '';
-    }
-  }
-}
-
-//MONTHS INTERFACE
-interface month {
-  value: string;
-  viewValue: string;
 }

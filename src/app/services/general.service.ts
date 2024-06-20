@@ -4,7 +4,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GeneralService  {
+export class GeneralService {
 
   PageSizing = 10;
   storedToken: string = '';  // Initialize with an empty string
@@ -23,7 +23,7 @@ export class GeneralService  {
   }
 }
 
-export const Month_Filter_Array : any [] = [
+export const Month_Filter_Array: any[] = [
   { value: 'today', viewValue: 'Today' },
   { value: 'yesterday', viewValue: 'Yesterday' },
   { value: 'thisWeek', viewValue: 'This Week' },
@@ -32,9 +32,10 @@ export const Month_Filter_Array : any [] = [
   { value: 'Calendar', viewValue: 'Custom' }
 ];
 
-  export const Date_Filter_Array: any[] = [
-    { value: 'all', viewValue: 'All' },
-    { value: 'canceled', viewValue: 'Canceled' },
-    { value: 'completed', viewValue: 'Completed' },
-    { value: 'pending', viewValue: 'Pending' },
-  ];
+export const Date_Filter_Array: any[] = [
+  { value: 'all', viewValue: 'All' },
+  { value: 'canceled', viewValue: 'Canceled' },
+  { value: 'completed', viewValue: 'Completed' },
+  { value: 'pending', viewValue: 'Pending' },
+];
+
