@@ -7,6 +7,7 @@ import { CustomerService } from 'src/app/services/Customer.service';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Router } from '@angular/router';
 import { PagingService } from 'src/app/signals/paging.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
   selector: 'app-customers',
@@ -61,13 +62,14 @@ export class CustomersComponent implements OnInit {
   Current_page = 1
 
 
-  constructor( private paginagservice: PagingService,private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
+  constructor(private breadCrumbService: BreadCrumbSignalService ,private paginagservice: PagingService,private router: Router, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private customerService: CustomerService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     ))
   }
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Customers')
     this.rangeEnd = this.dateSignal.endDate;
     this.rangeStart = this.dateSignal.startDate;
     this.FETCH_CUSTOMER();

@@ -46,7 +46,6 @@ import { AddComponent } from './admins/add-admin/add.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CustomerDialogContentComponent, CustomersComponent } from './customers/main-page/customers.component';
 import { DeleteWholesalerDialogContentComponent, WholesalerComponent } from './wholesaler/wholesaler.component';
-import { AppTreeviewComponent } from './admins/treeview/treeview.component';
 import { ViewCustomerComponent } from './customers/view-customer/view-customer.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-wholesaler.component';
@@ -99,7 +98,6 @@ import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.c
     AppTicketingDialogContentComponent,
     CustomersComponent,
     WholesalerComponent,
-    AppTreeviewComponent,
     ViewCustomerComponent,
     CustomerDialogContentComponent,
     ReportsComponent,

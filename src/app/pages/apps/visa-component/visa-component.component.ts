@@ -8,6 +8,7 @@ import { DateSelectedSignal } from 'src/app/signals/DateSelectedSignal.service';
 import { VisaService } from 'src/app/services/visa.service';
 import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { PagingService } from 'src/app/signals/paging.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 @Component({
   selector: 'app-visa-component',
@@ -29,8 +30,6 @@ import { PagingService } from 'src/app/signals/paging.service';
 })
 
 export class VisaComponentComponent implements OnInit {
-
-  @Input() showAddSection = true;
 
   months: any[] = Month_Filter_Array
   Status_Array: any[] = Visa_Status_Array
@@ -87,7 +86,7 @@ export class VisaComponentComponent implements OnInit {
   VisaArray = new MatTableDataSource();
   valueDisplayed = ''
 
-  constructor(private paginagservice: PagingService, private generalService: GeneralService, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private visaService: VisaService) {
+  constructor(private breadCrumbService: BreadCrumbSignalService ,private paginagservice: PagingService, private generalService: GeneralService, public dialog: MatDialog, private dateSignal: DateSelectedSignal, private visaService: VisaService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     )
@@ -99,6 +98,7 @@ export class VisaComponentComponent implements OnInit {
   open_expansion_value = 0;
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Visa')
     this.rangeEnd = this.dateSignal.endDate;
     this.rangeStart = this.dateSignal.startDate;
     this.pageSize = this.generalService.PageSizing

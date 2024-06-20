@@ -36,6 +36,14 @@ export const Date_Filter_Array: any[] = [
   { value: 'all', viewValue: 'All' },
   { value: 'canceled', viewValue: 'Canceled' },
   { value: 'completed', viewValue: 'Completed' },
-  { value: 'pending', viewValue: 'Pending' },
+  { value: 'pending', viewValue: 'Pending' }
 ];
 
+export const Download_Options: any [] = [
+  { value: 'PDF', viewValue: 'PDF' },
+  { value: 'Excel', viewValue: 'Excel' },
+  { value: 'Image', viewValue: 'Image' }
+]
+
+export const Categories : any [] = 
+['All', 'Pack','Visa', 'Ticketing']

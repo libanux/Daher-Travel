@@ -63,8 +63,9 @@
 </div>
 
 </div>
-    <button mat-flat-button (click)="ADD()" mat-flat-button color="primary" [disabled]="!userForm.valid">{{action}}</button>
     <button mat-stroked-button color="warn" class="m-l-8" (click)="CLOSE_DIALOG()">Cancel</button>
+    <button mat-flat-button (click)="ADD()" mat-flat-button color="primary" [disabled]="!userForm.valid">{{action}}</button>
+
   </form>
 </mat-dialog-content>
 } 
@@ -82,9 +83,7 @@
 
   <!--  PERMISSIONS -->
     <div class="col-lg-12">
-      <app-treeview
-
-      ></app-treeview>
+      <!-- <app-treeview></app-treeview> -->
     </div>
 </div>
   <button mat-stroked-button color="warn" class="m-l-8" (click)="CLOSE_DIALOG()">Cancel</button>
