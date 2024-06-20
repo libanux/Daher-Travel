@@ -6,5 +6,4 @@ import { Component, Input } from '@angular/core';
   styleUrl: './no-items-found.component.scss'
 })
 export class NoItemsFoundComponent {
-  @Input() array: any[] = [];
 }

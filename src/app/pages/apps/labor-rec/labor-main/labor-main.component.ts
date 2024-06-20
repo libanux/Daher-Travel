@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, Inject, Optional, ViewChild, effect } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { LaborList } from '../labor';
+
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
-import { CalendarDialogFORLABORSComponent } from '../calendar-card/calendar-dialog.component';
 import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
+import { LaborList } from 'src/app/classes/labor.class';
 
 interface month {
   value: string;
@@ -331,26 +331,6 @@ export class LaborMainComponent implements AfterViewInit {
     }
   }
 
-
-  openCalendarDialog(): void {
-    const dialogRef = this.dialog.open(CalendarDialogFORLABORSComponent, {
-      width: '350px',
-      data: { selectedDate: this.selectedDate }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result) {
-        if (result.startDate && result.endDate) {
-          this.selectedMonth = `${result.startDate.toLocaleString('default', { month: 'long' })} - ${result.endDate.toLocaleString('default', { month: 'long' })}`;
-        } else {
-          this.selectedMonth = 'Custom';
-        }
-        this.selectedDate = result;
-        // Do something with the selected date
-      }
-    });
-  }
 
   onDateSelect(date: Date) {
     console.log('Selected Date:', date);

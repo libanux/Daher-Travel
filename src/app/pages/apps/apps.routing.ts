@@ -2,8 +2,7 @@ import { Routes } from '@angular/router';
 
 import { AppNotesComponent } from './notes/notes.component';
 import { AppPermissionComponent } from './permission/permission.component';
-import { AppTicketlistComponent } from './ticketlist/ticketlist.component';
-import { ViewticketComponent } from './ticketlist/viewticket/viewticket.component';
+import { AppTicketlistComponent } from './packages/ticketlist.component';
 import { LaborRecModule } from './labor-rec/labor-rec.module';
 import { VisaComponentComponent } from './visa-component/visa-component.component';
 import { LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
@@ -62,11 +61,6 @@ export const AppsRoutes: Routes = [
         path: 'admins',
         component: AdminsComponent,
       },
-      {
-        path: 'viewPackage/:id',
-        component:ViewticketComponent
-      },
-
 
       {
         path: 'tickets',

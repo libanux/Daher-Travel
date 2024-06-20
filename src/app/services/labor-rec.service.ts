@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
-import { LaborList } from '../pages/apps/labor-rec/labor';
+import { LaborList } from '../classes/labor.class';
+
 
 @Injectable({
   providedIn: 'root'

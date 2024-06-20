@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/enviroment/enviroment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Tickets } from '../pages/apps/tickets/tickets';
+import { Tickets } from '../classes/tickets.class';
+
 
 
 @Injectable({
