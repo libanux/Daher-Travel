@@ -229,23 +229,26 @@ export class WholesalerComponent implements OnInit {
 // tslint:disable-next-line: component-class-suffix
 export class DeleteWholesalerDialogContentComponent{
   action: string;
-  // tslint:disable-next-line - Disables all
-  local_data: any;
-  wholesaler: WholesalerClass
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+  LABOR_SELECTED: any;
 
   constructor(
     public dialogRef: MatDialogRef<DeleteWholesalerDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: WholesalerClass
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: WholesalerClass,
   ) {
-    this.local_data = { ...data };
-    this.action = this.local_data.action;
+    this.LABOR_SELECTED = { ...data };
+    this.action = this.LABOR_SELECTED.action;
+    console.log(this.LABOR_SELECTED)
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
+    console.log(this.LABOR_SELECTED)
+    this.dialogRef.close({ event: this.action, data: this.LABOR_SELECTED });
   }
 
-  closeDialog(): void {
+  CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
 }

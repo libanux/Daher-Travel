@@ -346,24 +346,28 @@ export class LaborMainComponent implements AfterViewInit {
 })
 // tslint:disable-next-line - Disables all
 export class AppRecruitingDialogContentComponent {
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+
   action: string;
-  // tslint:disable-next-line - Disables all
-  local_data: any;
-  package: LaborList
+  LABOR_SELECTED: any;
 
   constructor(
     public dialogRef: MatDialogRef<AppRecruitingDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: LaborList
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: LaborList,
   ) {
-    this.local_data = { ...data };
-    this.action = this.local_data.action;
+    this.LABOR_SELECTED = { ...data };
+    this.action = this.LABOR_SELECTED.action;
+    console.log(this.LABOR_SELECTED)
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
+    console.log(this.LABOR_SELECTED)
+    this.dialogRef.close({ event: this.action, data: this.LABOR_SELECTED });
   }
 
-  closeDialog(): void {
+  CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
 }

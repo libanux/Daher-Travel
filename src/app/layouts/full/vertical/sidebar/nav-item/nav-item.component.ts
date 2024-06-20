@@ -8,13 +8,15 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from '../../../../../material.module';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-nav-item',
   standalone: true,
   imports: [TranslateModule, TablerIconsModule, MaterialModule, CommonModule],
   templateUrl: './nav-item.component.html',
-  styleUrls: [],
+  styleUrl: './nav.component.scss',
   animations: [
     trigger('indicatorRotate', [
       state('collapsed', style({ transform: 'rotate(0deg)' })),
@@ -26,7 +28,7 @@ import { AuthService } from 'src/app/services/auth.service';
     ]),
   ],
 })
-export class AppNavItemComponent implements OnChanges {
+export class AppNavItemComponent implements OnChanges,OnInit{
   @Output() toggleMobileLink: any = new EventEmitter<void>();
   @Output() notify: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -37,7 +39,7 @@ export class AppNavItemComponent implements OnChanges {
   @Input() item: NavItem | any;
   @Input() depth: any;
 
-  constructor(public navService: NavService, public router: Router, private authService : AuthService) {
+  constructor(public navService: NavService, public router: Router, private authService : AuthService,private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -86,4 +88,32 @@ export class AppNavItemComponent implements OnChanges {
       }
     }
   }
+
+  showToggle = true;
+
+
+svgContent: string =''
+ngOnInit(): void {
+  if (this.item.iconName) {
+    // Extract only the main SVG content from this.item.iconName
+    this.svgContent = this.extractSvgContent(this.item.iconName);
+    this.registerSvgIcon('custom-icon', this.svgContent);
+    
+  }
+}
+
+private extractSvgContent(iconName: string): string {
+  // Example logic to extract SVG content from iconName
+  // Modify according to your SVG structure and how you want to extract it
+  const startIndex = iconName.indexOf('<svg');
+  const endIndex = iconName.indexOf('</svg>') + '</svg>'.length;
+  
+  return iconName.substring(startIndex, endIndex);
+}
+
+
+private registerSvgIcon(iconName: string, svgContent: string): void {
+  // Register the SVG icon using MatIconRegistry
+  this.matIconRegistry.addSvgIconLiteral(iconName, this.domSanitizer.bypassSecurityTrustHtml(svgContent));
+}
 }

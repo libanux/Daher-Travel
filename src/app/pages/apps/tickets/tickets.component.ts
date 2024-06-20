@@ -317,24 +317,27 @@ interface month {
 })
 // tslint:disable-next-line - Disables all
 export class AppTicketingDialogContentComponent {
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+
   action: string;
-  // tslint:disable-next-line - Disables all
-  local_data: any;
-  ticket: Tickets
+ TICKET_SELECTED: any;
 
   constructor(
     public dialogRef: MatDialogRef<AppTicketingDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Tickets
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: Tickets,
   ) {
-    this.local_data = { ...data };
-    this.action = this.local_data.action;
+    this.TICKET_SELECTED = { ...data };
+    this.action = this.TICKET_SELECTED.action;
+    console.log(this.TICKET_SELECTED)
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
+    this.dialogRef.close({ event: this.action, data: this.TICKET_SELECTED });
   }
 
-  closeDialog(): void {
+  CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
 }

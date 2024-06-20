@@ -26,10 +26,6 @@ import { AppPermissionComponent } from './permission/permission.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
-import { AppEmployeeComponent } from './employee/employee.component';
-import { AppEmployeeDialogContentComponent } from './employee/employee.component';
-import { AppAddEmployeeComponent } from './employee/add/add.component';
-
 import { AppsRoutes } from './apps.routing';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AppTicketlistComponent, AppTicketDialogContentComponent } from './packages/ticketlist.component';
@@ -81,9 +77,6 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     AppNotesComponent,
     AppTicketlistComponent,
     AppTicketDialogContentComponent,
-    AppEmployeeComponent,
-    AppEmployeeDialogContentComponent,
-    AppAddEmployeeComponent,
     VisaComponentComponent,
     LaborMainComponent,
     AppTicketlistComponent,
