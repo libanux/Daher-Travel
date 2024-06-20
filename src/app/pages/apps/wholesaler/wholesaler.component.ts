@@ -59,7 +59,7 @@ export class WholesalerComponent implements OnInit {
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
   currentAction: string = "Add Wholesaler"
-  WholesalerArray = new MatTableDataSource();
+  WholesalerArray :any[] = []
   valueDisplayed = ''
 
   show_print_btn: boolean = false;
@@ -116,6 +116,8 @@ export class WholesalerComponent implements OnInit {
         this.WHOLESALER_Array_length = response.pagination.totalWholesalers
       },
       error: (error: any) => {
+        this.WholesalerArray = [];
+        this.WHOLESALER_Array_length=0;
         console.log("Error:", error)
       },
       complete: () => {
@@ -153,7 +155,7 @@ export class WholesalerComponent implements OnInit {
     this.wholesaler.GET_ALL_WHOLESALERS(this.Current_page).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.WholesalerArray = new MatTableDataSource(response.wholesalers);
+        this.WholesalerArray = response.wholesalers
         this.WHOLESALER_Array_length = response.pagination.totalWholesalers
       },
       error: (error) => { },
