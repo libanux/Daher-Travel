@@ -12,7 +12,7 @@ import { SidebarComponent } from './vertical/sidebar/sidebar.component';
 import { MaterialModule } from '../../material.module';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AppNavItemComponent } from './vertical/sidebar/nav-item/nav-item.component';
+import { AppNavItemComponent, NavbarItemDialogContentComponent } from './vertical/sidebar/nav-item/nav-item.component';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -30,7 +30,7 @@ const BELOWMONITOR = 'screen and (max-width: 1023px)';
     MaterialModule,
     RouterModule,
     CommonModule,
-    AppNavItemComponent,
+    AppNavItemComponent
   ],
   styleUrls: [],
   encapsulation: ViewEncapsulation.None,

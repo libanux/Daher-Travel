@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, OnChanges, Output,  EventEmitter } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, OnChanges, Output,  EventEmitter, Optional, Inject } from '@angular/core';
 import { NavItem } from '../../../../../classes/nav-item';
 import { Router } from '@angular/router';
 import { NavService } from '../../../../../services/nav.service';
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nav-item',
@@ -39,7 +41,7 @@ export class AppNavItemComponent implements OnChanges,OnInit{
   @Input() item: NavItem | any;
   @Input() depth: any;
 
-  constructor(public navService: NavService, public router: Router, private authService : AuthService,private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private dialog: MatDialog, public navService: NavService, public router: Router, private authService : AuthService,private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -64,6 +66,7 @@ export class AppNavItemComponent implements OnChanges,OnInit{
     }
 
     else {
+      console.log('here in else after closed')
       if (!item.children || !item.children.length) {
         this.router.navigate([item.route]); 
       }
@@ -79,6 +82,23 @@ export class AppNavItemComponent implements OnChanges,OnInit{
     }
     }
 
+  }
+
+  OPEN_DIALOG(obj: any): void {
+    console.log('here')
+    const dialogRef = this.dialog.open(NavbarItemDialogContentComponent, {
+      data: obj,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.event != 'Cancel') {       
+        this.onItemSelected(obj);
+      }
+      else {
+        console.log('cancel')
+        dialogRef.close({ event: 'Cancel' });
+      }
+    });
   }
 
   onSubItemSelected(item: NavItem) {
@@ -116,4 +136,37 @@ private registerSvgIcon(iconName: string, svgContent: string): void {
   // Register the SVG icon using MatIconRegistry
   this.matIconRegistry.addSvgIconLiteral(iconName, this.domSanitizer.bypassSecurityTrustHtml(svgContent));
 }
+}
+
+
+
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'app-dialog-content',
+  templateUrl: './navbar-items-dialog.html',
+  styleUrl: './navbar-items-dialog.scss',
+})
+// tslint:disable-next-line: component-class-suffix
+export class NavbarItemDialogContentComponent{
+
+  Selected_Route: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<NavbarItemDialogContentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: NavItem,
+  ) 
+  {
+    this.Selected_Route = { ...data };
+    console.log('hello ', this.Selected_Route)
+  }
+
+  doAction(): void {
+    this.dialogRef.close({ data: this.Selected_Route });
+  }
+
+  CLOSE_DIALOG(): void {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
+
 }
