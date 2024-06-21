@@ -42,7 +42,20 @@ export class AppTicketlistComponent implements OnInit {
 
 
   //PACKAGE ON EDIT
-  editedpackage: Package
+  editedpackage: Package = {
+    _id: '',
+    name: '',
+    source: '',
+    destination: '',
+    duration: 0,
+    hotels: '',
+    numberOfPeople: 0,
+    price: 0,
+    sell: 0,
+    netprofit: 0,
+    note: '',
+    status: ''
+  }
 
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'numberOfPeople', 'duration', 'price', 'sell', 'hotels', 'note', 'status', 'action'];
@@ -131,7 +144,7 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
-        this.show_shimmer=false
+        this.show_shimmer = false
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
         this.Inprogress = this.btnCategoryClick('pending');
@@ -316,7 +329,7 @@ export class AppTicketlistComponent implements OnInit {
   ADD_PACKAGE(): void {
     this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
       next: (response: any) => {
-
+        console.log('Added package', this.editedpackage)
         this.CLEAR_VALUES(this.editedpackage)
         this.FETCH_PACKAGES()
       },
@@ -342,8 +355,6 @@ export class AppTicketlistComponent implements OnInit {
     obj.netprofit = 0;
     obj.note = '';
     obj.status = '';
-    console.log("Edited cleared:", obj);
-
     this.panelClosed()
   }
 
