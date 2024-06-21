@@ -8,7 +8,7 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from '../../../../../material.module';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
@@ -127,7 +127,9 @@ private extractSvgContent(iconName: string): string {
   
   return iconName.substring(startIndex, endIndex);
 }
-
+getSafeHtml(svg: string): SafeHtml {
+  return this.domSanitizer.bypassSecurityTrustHtml(svg);
+}
 
 private registerSvgIcon(iconName: string, svgContent: string): void {
   // Register the SVG icon using MatIconRegistry

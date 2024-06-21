@@ -1,5 +1,15 @@
 
+ .mat-icon div{
+   fill:#5f6368;
+   height: 24px;
+   width: 24px;
+ }
 
-   .routeIcon{
-    fill:rgb(0, 65, 144);
+ .mat-list-item .active{
+   .mat-icon div{
+      fill: white;
    }
+ }
+ .activeMenu .routeIcon div {
+   fill: white;
+ }

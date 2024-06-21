@@ -29,7 +29,7 @@ export class WholesalerComponent implements OnInit {
   rangeStart = signal('');
   rangeEnd = signal('');
   ShowAddButoon = true;
-
+  show_shimmer = true;
   @Input() showAddSection = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
@@ -47,17 +47,17 @@ export class WholesalerComponent implements OnInit {
     'action',
   ];
 
-    // 1 basic
-    panelOpenState = false;
-    open_expansion_value = 0;
+  // 1 basic
+  panelOpenState = false;
+  open_expansion_value = 0;
 
-  ADDED_WHOLESALER: WholesalerClass 
+  ADDED_WHOLESALER: WholesalerClass
 
   expandedElement: WholesalerClass | null = null;
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
   currentAction: string = "Add Wholesaler"
-  WholesalerArray :any[] = []
+  WholesalerArray: any[] = []
   valueDisplayed = ''
 
   show_print_btn: boolean = false;
@@ -67,7 +67,7 @@ export class WholesalerComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private router: Router, public dialog: MatDialog,private breadCrumbService :BreadCrumbSignalService, private wholesaler: WholesalerService) {
+  constructor(private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
@@ -93,7 +93,7 @@ export class WholesalerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'delete') {       
+      if (result.event === 'delete') {
         console.log(obj)
         this.DELETE_WHOLESALER(obj._id);
       }
@@ -111,7 +111,7 @@ export class WholesalerComponent implements OnInit {
       },
       error: (error: any) => {
         this.WholesalerArray = [];
-        this.WHOLESALER_Array_length=0;
+        this.WHOLESALER_Array_length = 0;
         console.log("Error:", error)
       },
       complete: () => {
@@ -135,20 +135,19 @@ export class WholesalerComponent implements OnInit {
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: any, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
-    else
-     { 
+    else {
       localStorage.setItem('viewed_wholesaler_id', element._id)
       this.VIEW_WHOLESALER()
-     }
+    }
   }
 
 
 
-  // GET ALL CUSTOMER'S 
+  // GET ALL WHOLESALERS
   FETCH_WHOLESALERS() {
     this.wholesaler.GET_ALL_WHOLESALERS(this.Current_page).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.show_shimmer = false;
         this.WholesalerArray = response.wholesalers
         this.WHOLESALER_Array_length = response.pagination.totalWholesalers
       },
@@ -160,7 +159,7 @@ export class WholesalerComponent implements OnInit {
   // DELETE 
   DELETE_WHOLESALER(ID: number): void {
     this.wholesaler.DELETE_WHOLESALER(ID).subscribe({
-      next: (response: any) => { 
+      next: (response: any) => {
         console.log(response)
       },
       error: (error) => { },
@@ -172,7 +171,7 @@ export class WholesalerComponent implements OnInit {
   ADD_CUSTOMER(obj: WholesalerClass) {
     console.log(obj)
     this.wholesaler.ADD_WHOLESALER(obj).subscribe({
-      next: (response: any) => { 
+      next: (response: any) => {
         console.log(response)
       },
       error: (error) => { },
@@ -204,12 +203,12 @@ export class WholesalerComponent implements OnInit {
     this.panelOpenState = true;
   }
 
-    // Method to handle the panel closed event
-    panelClosed() {
-      this.open_expansion_value = 0;
-      this.panelOpenState = false;
-    }
-  
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
+
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
@@ -239,7 +238,7 @@ export class WholesalerComponent implements OnInit {
   styleUrl: './wholesalers-dialog-content.component.scss'
 })
 // tslint:disable-next-line: component-class-suffix
-export class DeleteWholesalerDialogContentComponent{
+export class DeleteWholesalerDialogContentComponent {
   action: string;
   package = { selected: false, read: false, write: false };
   visa = { selected: false, read: false, write: false };
