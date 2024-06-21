@@ -30,9 +30,15 @@ export class ReportsComponent implements OnInit {
   selectedMonth: string = '';
   selectedDownloadOption: string = '';
 
+  // Storing the start and end date selected in filtering by Date
+  // Used in filter by date
+  startDateValue: string = '';
+  endDateValue: string = '';
 
-  months: any[] = Reports_Month_Filter_Array
-  Options: any [] = Download_Options
+  months: any[] = Reports_Month_Filter_Array;
+  Options: any [] = Download_Options;
+
+  
 TableData = new MatTableDataSource(tableData);
 headers: any [] = headers;
 Categories : any [] = Categories
@@ -71,4 +77,20 @@ onChange(value: string, dropdown: string) {
     }
   }
 }
+
+FORMAT_DATE_YYYYMMDD(date: Date): string {
+  return this.generalService.FORMAT_DATE_YYYYMMDD(date)
+}
+
+  // Method to handle changes in start date input
+  handleStartDateChange(event: any): void {
+    this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    // this.FILTER_ARRAY_BY_DATE('custom')
+  }
+
+  // Method to handle changes in end date input
+  handleEndDateChange(event: any): void {
+    this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    // this.FILTER_ARRAY_BY_DATE('custom')
+  }
 }
