@@ -1,0 +1,38 @@
+/* permissions.component.scss */
+
+
+
+  section {
+    padding: 10px;
+    border-radius: 20px;
+
+    h2 {
+        strong {
+          text-transform: capitalize;
+          font-family: 'DM Sans', sans-serif;
+        color: #1E2E62;
+        }
+      }
+      
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        column-gap: 5px;
+        align-items: center;
+        justify-content: flex-end;
+        button {
+            background-color: rgba(235, 179, 27, 0.9843137255);
+            padding: 10px;
+            color: white;
+            border-style: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+
+        }
+        button:hover {
+            background-color: rgba(219, 172, 42, 0.795);
+        }
+    }
+  }
+
