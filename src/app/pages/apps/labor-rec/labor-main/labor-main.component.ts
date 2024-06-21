@@ -243,7 +243,9 @@ export class LaborMainComponent implements AfterViewInit {
     this.ShowAddButoon = false;
     this.editedrecruiting = { ...obj };
     this.CurrentAction = 'Update Recruiting'
+  
     this.open_expansion_value = 1;
+    this.panelOpenState = true;
   }
 
 
@@ -306,7 +308,17 @@ export class LaborMainComponent implements AfterViewInit {
     obj.price = 0;
     obj.note = '';
     obj.status = '';
+
+    this.open_expansion_value = -1;
+    this.panelClosed()
   }
+
+    // Method to handle the panel closed event
+    panelClosed() {
+      this.open_expansion_value = 0;
+      this.panelOpenState = false;
+    }
+  
 
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(value: string, dropdown: string) {

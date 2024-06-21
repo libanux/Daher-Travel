@@ -1,7 +1,10 @@
 <mat-card class="cardWithShadow">
-  <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false">
 
+  <mat-expansion-panel 
+  [expanded]="open_expansion_value === 1"
+  (opened)="panelOpenState = true"
+  (closed)="panelClosed()"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{currentAction}}</mat-panel-title>
     </mat-expansion-panel-header>

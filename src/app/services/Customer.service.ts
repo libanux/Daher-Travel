@@ -45,8 +45,6 @@ export class CustomerService {
       'Content-Type': 'application/json'
     });
 
-    console.log(CUSTOMER)
-
     const requestBody = {
       id: CUSTOMER._id,
       "updateData": {

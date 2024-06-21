@@ -17,8 +17,6 @@ export class ViewVisaComponent {
 
   constructor(activatedRouter: ActivatedRoute) {
     // this.id = activatedRouter.snapshot.paramMap.get('id');
-    // console.log("id",this.id)
     // this.ticketDetail = this.visaservice.getVisaArray().filter((x) => x?.id === +this.id)[0];
-    // console.log("Ticket",this.ticketDetail)
   }
 }

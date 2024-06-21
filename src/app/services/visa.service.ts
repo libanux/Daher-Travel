@@ -123,8 +123,6 @@ export class VisaService {
       "endDate": endDate
     };
 
-    console.log(requestBody)
-
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_DATE', requestBody, { headers });
   }
 
@@ -139,8 +137,6 @@ export class VisaService {
       page: currentPage,
       pageSize: pageSize
     };
-
-    console.log(requestBody)
 
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_STATUS', requestBody, { headers });
   }
