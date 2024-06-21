@@ -37,6 +37,20 @@ export class CustomerService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS', requestBody, { headers });
   }
 
+    //GET ALL CUSTOMERS WITH NO PAGING
+    GET_ALL_CUSTOMERS_WITH_NO_PAGING(): Observable<any> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.storedToken}`,
+        'Content-Type': 'application/json'
+      });
+  
+      const requestBody = {
+
+      }
+      return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS_WITH_NO_PAGING', requestBody, { headers });
+    }
+  
+
   //UPDATE CUSTOMER
   UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
 

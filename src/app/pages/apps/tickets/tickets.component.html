@@ -1,11 +1,8 @@
 
 <mat-card class="cardWithShadow">
 
-  <mat-expansion-panel 
-  [expanded]="open_expansion_value === 1"
-  (opened)="panelOpenState = true"
-  (closed)="panelClosed()"
-  >
+  <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="panelOpenState = true"
+    (closed)="panelClosed()">
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{currentAction}}</mat-panel-title>
     </mat-expansion-panel-header>
@@ -17,17 +14,32 @@
         <!-- NAME -->
         <div class="col-md-3 d-flex flex-column">
           <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Name" [(ngModel)]="ADDED_TICKET.name" (ngModelChange)="onInputChange()"/>
+
+            <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
+              [(ngModel)]="searchQuery" (input)="filterCustomers()">
             <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
+                width="24px" fill="#5f6368">
                 <path
-                  d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg>
             </mat-icon>
+            <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
+                {{customer.name}}
+              </mat-option>
+              <mat-option class="add-new-customer-option" (click)="addNewProduct()">
+                <div class="option-content">
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                  <span>Add new customer</span>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 
@@ -37,7 +49,8 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="ADDED_TICKET.source" (ngModelChange)="onInputChange()">
+            <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="ADDED_TICKET.source"
+              (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -53,7 +66,8 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Destination</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Destination" [(ngModel)]="ADDED_TICKET.destination" (ngModelChange)="onInputChange()"/>
+            <input matInput placeholder="Destination" [(ngModel)]="ADDED_TICKET.destination"
+              (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -71,7 +85,8 @@
           </div>
           <mat-form-field appearance="outline" class="w-100">
 
-            <input matInput placeholder="WholeSaler" [(ngModel)]="ADDED_TICKET.wholesaler.name" (ngModelChange)="onInputChange()"/>
+            <input matInput placeholder="WholeSaler" [(ngModel)]="ADDED_TICKET.wholesaler.name"
+              (ngModelChange)="onInputChange()" />
 
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -95,7 +110,8 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="ADDED_TICKET.seats" (ngModelChange)="onInputChange()">
+            <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="ADDED_TICKET.seats"
+              (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -112,7 +128,8 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Cost" [(ngModel)]="ADDED_TICKET.cost" (ngModelChange)="onInputChange()"/>
+            <input type="number" matInput placeholder="Cost" [(ngModel)]="ADDED_TICKET.cost"
+              (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -128,7 +145,8 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Credit</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="ADDED_TICKET.credit" (ngModelChange)="onInputChange()">
+            <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="ADDED_TICKET.credit"
+              (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -148,7 +166,8 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Balance </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Balance" [(ngModel)]="ADDED_TICKET.balance" (ngModelChange)="onInputChange()"/>
+            <input type="number" matInput placeholder="Balance" [(ngModel)]="ADDED_TICKET.balance"
+              (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -168,7 +187,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Note" [(ngModel)]="ADDED_TICKET.note" (ngModelChange)="onInputChange()"/>
+            <input matInput placeholder="Note" [(ngModel)]="ADDED_TICKET.note" (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -243,18 +262,20 @@
     <div class="filter-date">
 
       @if(showDatePicker) {
-        <mat-form-field appearance="outline" class="date_picker">
-  
-          <mat-date-range-input [rangePicker]="custompicker">
-            <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue" (ngModelChange)="handleStartDateChange($event)"/>
-            <input matEndDate placeholder="End date" [(ngModel)]="endDateValue" (ngModelChange)="handleEndDateChange($event)"/>
-          </mat-date-range-input>
-  
-          <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
-          <mat-date-range-picker #custompicker></mat-date-range-picker>
-  
-        </mat-form-field>
-        }
+      <mat-form-field appearance="outline" class="date_picker">
+
+        <mat-date-range-input [rangePicker]="custompicker">
+          <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue"
+            (ngModelChange)="handleStartDateChange($event)" />
+          <input matEndDate placeholder="End date" [(ngModel)]="endDateValue"
+            (ngModelChange)="handleEndDateChange($event)" />
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #custompicker></mat-date-range-picker>
+
+      </mat-form-field>
+      }
       <div class="dropdown">
         <mat-form-field class="theme-select" appearance="outline">
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')"
@@ -268,7 +289,7 @@
 
   <mat-card-content>
     @if(show_shimmer){
-      <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
+    <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
     }
     @else{
     <!-- TABLE BODY -->
@@ -384,9 +405,9 @@
 
       <!-- NO ITEMS FOUND ROW -->
       <app-no-items-found *ngIf="tickets.length === 0"></app-no-items-found>
-      
+
     </div>
-  }
+    }
     <!-- TABLE PAGINATION -->
     <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="totalCount" [pageSize]="pageSize" aria-label="Select page"
       showFirstLastButtons (page)="onPageChange($event)">
