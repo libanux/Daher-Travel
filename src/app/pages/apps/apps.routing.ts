@@ -3,16 +3,11 @@ import { Routes } from '@angular/router';
 import { AppNotesComponent } from './notes/notes.component';
 import { AppPermissionComponent } from './permission/permission.component';
 import { AppTicketlistComponent } from './packages/ticketlist.component';
-import { LaborRecModule } from './labor-rec/labor-rec.module';
 import { VisaComponentComponent } from './visa-component/visa-component.component';
-import { LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { AdminsComponent } from './admins/admins.component';
-import { CustomersComponent } from './customers/main-page/customers.component';
 import { ProfileComponent } from './profile/profile.component';
-import { WholesalerComponent } from './wholesaler/wholesaler.component';
 import { ReportsComponent } from './reports/reports.component';
-
 
 export const AppsRoutes: Routes = [
   {
