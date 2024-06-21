@@ -21,7 +21,7 @@ export class VisaService {
   }
 
   //GET ALL VISA
-  GET_ALL_VISA(currentPage: number): Observable<any> {
+  GET_ALL_VISA(currentPage: number, pageSize: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -30,7 +30,7 @@ export class VisaService {
 
     const requestBody = {
       "page": currentPage,
-      "pageSize": this.pagingSize
+      "pageSize": pageSize
     }
 
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_VISA', requestBody, { headers });

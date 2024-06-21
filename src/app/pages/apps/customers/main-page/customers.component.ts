@@ -17,14 +17,20 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 })
 
 export class CustomersComponent implements OnInit {
-  // 1 basic
+  // These two valus are used for the add expnad row in the top of the page
   panelOpenState = false;
   open_expansion_value = 0;
 
-  show_shimmer = true;
+    // shimmer --> show shimmer until data is fetched
+    show_shimmer = true;
 
-  rangeStart = signal('');
-  rangeEnd = signal('');
+  // This value is used to check the size of array in current page
+  // In case of deletion --> when array length becomes zero 
+  // current page is current page -1 
+  //  used in delete function
+  current_page_array_length = 0;
+
+
   ShowAddButoon = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
@@ -33,6 +39,7 @@ export class CustomersComponent implements OnInit {
   searchText: any;
   selectedMonth: string = '';
 
+  // These are the column of the table 
   displayedColumns: string[] = [
     'name',
     'phoneNumber',
@@ -40,6 +47,7 @@ export class CustomersComponent implements OnInit {
     'action',
   ];
 
+  // This is the added or updated CUSTOMER fdefualt values
   ADDED_CUSTOMER: CustomerClass = {
     _id: '',
     name: '',
@@ -62,9 +70,7 @@ export class CustomersComponent implements OnInit {
 
 
   constructor(private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
-    effect(() => (
-      this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
-    ))
+
   }
 
   ngOnInit(): void {
@@ -127,21 +133,23 @@ export class CustomersComponent implements OnInit {
 
     this.customerService.GET_ALL_CUSTOMER(this.Current_page).subscribe({
       next: (response: any) => {
+        this.current_page_array_length = response.customers.length
         this.CustomersArray = new MatTableDataSource(response.customers);
         this.CUSTOMERS_Array_length = response.pagination.totalCustomers
       },
       error: (error) => { },
-      complete: () => {
-        this.CANCEL_UPDATE();
-        this.show_shimmer = false;
-      }
+      complete: () => { this.show_shimmer = false; }
     });
   }
 
   // DELETE 
   DELETE_CUSTOMER(ID: number): void {
     this.customerService.DELETE_CUSTOMER(ID).subscribe({
-      next: (response: any) => { },
+      next: (response: any) => {
+        if (this.current_page_array_length == 1) {
+          this.Current_page = this.Current_page - 1
+       }
+      },
       error: (error) => { },
       complete: () => { this.FETCH_CUSTOMER(); }
     });
@@ -152,7 +160,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_CUSTOMER(); }
+      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE();}
     });
   }
 
@@ -161,7 +169,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_CUSTOMER(); }
+      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE();}
     });
   }
 
