@@ -7,7 +7,7 @@ export class VisaClass {
       public sell: string = '',
       public status: string = '',
       public type: string = '',
-      public Created: string = '',
+      public createdAt: string = '',
       public updatedAt: string = '',
     ) {}
   }

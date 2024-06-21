@@ -63,7 +63,7 @@ export class VisaComponentComponent implements OnInit {
     'sell',
     'note',
     'status',
-    'Created',
+    'createdAt',
     'action'
   ];
 
@@ -76,7 +76,7 @@ export class VisaComponentComponent implements OnInit {
     sell: '',
     status: '',
     type: '',
-    Created: '',
+    createdAt: '',
     updatedAt: ''
   }
 
@@ -100,18 +100,19 @@ export class VisaComponentComponent implements OnInit {
   startDateValue: string = '';
   endDateValue: string = '';
 
-  constructor(private routeSignalService:RouteSignalService, private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+  constructor(private routeSignalService: RouteSignalService, private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Visa')
     this.pageSize = this.generalService.PageSizing
-    this.FETCH_VISA(this.Current_page);
+    this.FETCH_VISA();
   }
 
+  // FILTERING BY DROPDOWN SELECTION : DATE OR STATUS
   showDatePicker = false;
-  onChange(value: string, dropdown: string) {
+  DROPDOWN_FILTERATION(value: string, dropdown: string) {
 
     // Date filtering
     if (dropdown == 'month') {
@@ -131,7 +132,7 @@ export class VisaComponentComponent implements OnInit {
     // Status filtering
     else if (dropdown == 'status') {
       if (value == 'all') {
-        this.FETCH_VISA(this.Current_page)
+        this.FETCH_VISA()
       }
       else {
         this.FILTER_ARRAY_BY_STATUS(value)
@@ -139,7 +140,7 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
-  // open pop up to make sure user wants to delete
+  // OPEN DIALOG TO MAKE SURE OF DELETION
   OPEN_DIALOG(action: string, obj: any): void {
     obj.action = action;
 
@@ -155,89 +156,70 @@ export class VisaComponentComponent implements OnInit {
   }
 
   // Method to handle the panel closed event
-  panelClosed() {
+  CLOSE_PANEL() {
     this.open_expansion_value = 0;
     this.panelOpenState = false;
   }
 
+  OPEN_PANEL() {
+    this.open_expansion_value = 1;
+    this.panelOpenState = true;
+  }
 
   // function when page number changes
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-    this.FETCH_VISA(this.Current_page);
+    this.FETCH_VISA();
   }
 
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
 
-// Function to log input changes
-onInputChange() {
+  // Function to log input changes
+  onInputChange() {
 
-  // Check only specific fields for content
-  this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
-    const fieldValue = this.ADDED_VISA[key as keyof VisaClass] || ''; // Using || for fallback value
-    return fieldValue !== '' && fieldValue !== null;
-  });
+    console.log(this.ADDED_VISA)
+    // Check only specific fields for content
+    this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
+      const fieldValue = this.ADDED_VISA[key as keyof VisaClass] || ''; // Using || for fallback value
+      return fieldValue !== '' && fieldValue !== null;
+    });
 
-  if (this.isAnyFieldNotEmpty) {
-    this.routeSignalService.show_pop_up_route.set(true);
-  } 
-  else {
-    this.routeSignalService.show_pop_up_route.set(false);
+    if (this.isAnyFieldNotEmpty) {
+      this.routeSignalService.show_pop_up_route.set(true);
+    }
+    else {
+      this.routeSignalService.show_pop_up_route.set(false);
+    }
+
+    // You can perform additional actions based on the field name or value if needed
   }
-
-  // You can perform additional actions based on the field name or value if needed
-}
-
 
 
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
     this.FILTER_ARRAY_BY_DATE('custom')
-
   }
 
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
     this.FILTER_ARRAY_BY_DATE('custom')
-
   }
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
-    // Extract year, month, and day from the Date object
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
-    const day = ('0' + date.getDate()).slice(-2);
-
-    // Return the formatted date string in YYYY-MM-DD format
-    return `${year}-${month}-${day}`;
+    return this.generalService.FORMAT_DATE_YYYYMMDD(date)
   }
 
   // Function to format date
   FORMAT_DATE(dateString: string): string {
-    const dateObj = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true,
-      timeZone: 'UTC' // Optional: Adjust to your timezone
-    };
-
-    return dateObj.toLocaleString('en-US', options);
+    return this.generalService.FORMAT_DATE_WITH_HOUR(dateString)
   }
 
   // function to make a text smaller in length 
   truncateText(text: string, limit: number): string {
-    if (text && text.length > limit) {
-      return text.substring(0, limit) + '...';
-    }
-    return text;
+    return this.generalService.truncateText(text, limit)
   }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
@@ -254,95 +236,27 @@ onInputChange() {
 
   //GET THE STATUS CLASS
   GET_STATUS_CLASS(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'approved':
-        return 'bg-light-success mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      case 'rejected':
-        return 'bg-light-error mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
-      default:
-        return '';
-    }
+    return this.generalService.GET_STATUS_CLASS(status, 'pending', 'approved', 'rejected')
   }
 
 
   // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
-
   // GET ALL VISA'S 
-  FETCH_VISA(currentPage: number) {
+  FETCH_VISA() {
     this.show_shimmer = true;
-    this.visaService.GET_ALL_VISA(currentPage, this.pageSize).subscribe({
+    this.visaService.GET_ALL_VISA(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
+        console.log(response)
         this.current_page_array_length = response.visas.length
         this.VisaArray = new MatTableDataSource(response.visas);
+        // LENGTH : FOR PAGINATION 
         this.Visa_Array_length = response.pagination.totalVisas;
-        },
+      },
       error: (error) => { },
       complete: () => { this.show_shimmer = false; }
 
     });
-  }
-
-
-  // DELETE 
-  DELETE_VISA(ID: number): void {
-    this.visaService.DELETE_VISA(ID).subscribe({
-      next: (response: any) => {
-        if (this.current_page_array_length == 1) {
-          this.Current_page = this.Current_page - 1
-        }
-      },
-      error: (error) => { },
-      complete: () => { this.FETCH_VISA(this.Current_page); }
-    });
-  }
-
-  // ADD
-  ADD_VISA(obj: VisaClass) {
-    this.visaService.ADD_VISA(obj).subscribe({
-      next: (response: any) => { },
-      error: (error) => { },
-      complete: () => {
-        this.FETCH_VISA(this.Current_page); this.CANCEL_UPDATE();
-      }
-    });
-  }
-
-  // CONFIRM UPDATE
-  UPDATE_VISA(obj: VisaClass): void {
-    this.visaService.UPDATE_VISA(obj).subscribe({
-      next: (response: any) => { },
-      error: (error) => { },
-      complete: () => { this.FETCH_VISA(this.Current_page); this.CANCEL_UPDATE(); }
-    });
-  }
-
-
-  // SELECT OBJECT TO UPDATE
-  SELECTED_VISA(obj: any): void {
-
-    this.routeSignalService.show_pop_up_route.set(false)
-
-    this.ShowAddButoon = false
-    this.CurrentAction = 'Update Visa';
-
-    this.open_expansion_value = 1;
-    this.panelOpenState = true;
-
-    this.ADDED_VISA = {
-      _id: obj._id,
-      name: obj.name,
-      country: obj.country,
-      note: obj.note,
-      sell: obj.sell,
-      status: obj.status,
-      type: obj.type,
-      Created: obj.Created,
-      updatedAt: obj.updatedAt
-    }
-
   }
 
   // CANCEL UPDATE
@@ -351,7 +265,8 @@ onInputChange() {
     this.ShowAddButoon = true;
     this.routeSignalService.show_pop_up_route.set(false)
 
-    this.panelClosed()
+    // CLOSE THE PANEL
+    this.CLOSE_PANEL()
 
     this.ADDED_VISA = {
       _id: '',
@@ -361,9 +276,55 @@ onInputChange() {
       sell: '',
       status: '',
       type: '',
-      Created: '',
+      createdAt: '',
       updatedAt: '',
     }
+  }
+
+  // DELETE VSIA
+  DELETE_VISA(ID: number): void {
+    this.visaService.DELETE_VISA(ID).subscribe({
+      next: (response: any) => {
+        if (this.current_page_array_length == 1) {
+          this.Current_page = this.Current_page - 1
+        }
+      },
+      error: (error) => { },
+      complete: () => { this.FETCH_VISA(); }
+    });
+  }
+
+  // ADD NEW VISA
+  ADD_VISA(obj: VisaClass) {
+    this.visaService.ADD_VISA(obj).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => {
+        this.FETCH_VISA(); this.CANCEL_UPDATE();
+      }
+    });
+  }
+
+  // CONFIRM UPDATE
+  UPDATE_VISA() {
+    this.visaService.UPDATE_VISA(this.ADDED_VISA).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => { this.FETCH_VISA(); this.CANCEL_UPDATE(); }
+    });
+  }
+
+  // SELECT OBJECT TO UPDATE
+  SELECTED_VISA(obj: VisaClass): void {
+    // SECURE THE ROUTE
+    this.routeSignalService.show_pop_up_route.set(false)
+    // HIDE ADD BUTTON AND SHOW THE UPDATE BUTTON
+    this.ShowAddButoon = false
+    this.CurrentAction = 'Update Visa';
+    // OPEN THE PANEL 
+    this.OPEN_PANEL();
+    // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
+    this.ADDED_VISA = { ...obj };
   }
 
   // STATUS FILTERATION
@@ -381,26 +342,28 @@ onInputChange() {
   // DATE FILTERATION
   FILTER_ARRAY_BY_DATE(filter_type: any) {
     this.visaService.FILTER_VISA_BY_DATE(filter_type, this.startDateValue, this.endDateValue).subscribe({
-      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
-      error: (error) => { },
+      next: (response: any) => {
+        this.VisaArray = new MatTableDataSource(response.visas);
+        this.Visa_Array_length = response.pagination.totalVisas;
+      },
+      error: (error) => { this.VisaArray = new MatTableDataSource(); },
       complete: () => { }
     });
   }
 
-  // SEARCH FUNCTION
+  // FILTER BY SEARCH KEY
   APPLY_SEARCH_FILTER(filterValue: string): void {
-    this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue).subscribe({
-      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
+    this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue, 1, this.pageSize).subscribe({
+      next: (response: any) => {
+        this.VisaArray = new MatTableDataSource(response.visas);
+        this.Visa_Array_length = response.pagination.totalVisas;
+      },
       error: (error) => { this.VisaArray = new MatTableDataSource(); },
       complete: () => { }
     });
   }
 
 }
-
-
-
-
 
 
 

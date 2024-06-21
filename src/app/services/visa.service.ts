@@ -54,7 +54,7 @@ export class VisaService {
         "sell": VISA.sell,
         "status": VISA.status,
         "type": VISA.type,
-        "createdAt": VISA.Created,
+        "createdAt": VISA.createdAt,
         "updatedAt": VISA.updatedAt
       }
 
@@ -79,7 +79,7 @@ export class VisaService {
       "sell": VISA.sell,
       "status": VISA.status,
       "type": VISA.type,
-      "createdAt": VISA.Created,
+      "createdAt": VISA.createdAt,
       "updatedAt": VISA.updatedAt
     };
 
@@ -141,7 +141,7 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/FILTER_VISA_BY_STATUS', requestBody, { headers });
   }
 
-  FILTER_VISA_BY_SEARCH_KEY(SEARCK_KEY: string): Observable<any> {
+  FILTER_VISA_BY_SEARCH_KEY(SEARCK_KEY: string, currentPage: number, pageSize: number): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
@@ -149,8 +149,8 @@ export class VisaService {
     });
     const requestBody = {
       name: SEARCK_KEY,
-      page: 1,
-      pageSize: 10
+      page: currentPage,
+      pageSize: pageSize
     };
     return this.httpClient.post<any>(this.apiUrl + '/SEARCH_VISA_BY_FIELDS', requestBody, { headers });
   }

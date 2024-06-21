@@ -22,8 +22,8 @@ export class CustomersComponent implements OnInit {
   panelOpenState = false;
   open_expansion_value = 0;
 
-    // shimmer --> show shimmer until data is fetched
-    show_shimmer = true;
+  // shimmer --> show shimmer until data is fetched
+  show_shimmer = true;
 
   // This value is used to check the size of array in current page
   // In case of deletion --> when array length becomes zero 
@@ -70,7 +70,7 @@ export class CustomersComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private routeSignalService: RouteSignalService,private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
+  constructor(private routeSignalService: RouteSignalService, private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
 
   }
 
@@ -104,23 +104,18 @@ export class CustomersComponent implements OnInit {
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
 
   // Function to log input changes
-  onInputChange(fieldName: string, value: any) {
+  onInputChange() {
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_CUSTOMER).some(val => val !== '' && val !== null);
-    
+
     if (this.isAnyFieldNotEmpty) {
       this.routeSignalService.show_pop_up_route.set(true);
-    } 
+    }
     else {
       this.routeSignalService.show_pop_up_route.set(false);
 
     }
 
     // You can perform additional actions based on the field name or value if needed
-  }
-
-  //STATUS FILTERATION
-  FILTER_ARRAY_BY_STATUS(val: any) {
-    // this.CustomersArray.filter = val.trim().toLowerCase();
   }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
@@ -140,8 +135,36 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
 
+  // Method to handle the panel closed event
+  CLOSE_PANEL() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
+
+  OPEN_PANEL() {
+    this.open_expansion_value = 1;
+    this.panelOpenState = true;
+  }
+
+  // CANCEL UPDATE
+  CANCEL_UPDATE(): void {
+    this.ShowAddButoon = true;
+    this.currentAction = "Add Customer"
+    this.routeSignalService.show_pop_up_route.set(false);
+
+    // CLOSE THE PANEL
+    this.CLOSE_PANEL()
+
+    this.ADDED_CUSTOMER = {
+      _id: '',
+      name: '',
+      phoneNumber: '',
+      address: '',
+    }
+  }
+
+  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
 
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
@@ -158,25 +181,27 @@ export class CustomersComponent implements OnInit {
     });
   }
 
-  // DELETE 
+  // DELETE CUSTOMER
   DELETE_CUSTOMER(ID: number): void {
     this.customerService.DELETE_CUSTOMER(ID).subscribe({
       next: (response: any) => {
+        // CHECK IF I AM DELETING THE LAST ITEM LEFT IN THE PAGE I AM AT
+        // IF YES --> GO BACK TO THE PREVOUIS PAGE
         if (this.current_page_array_length == 1) {
           this.Current_page = this.Current_page - 1
-       }
+        }
       },
       error: (error) => { },
       complete: () => { this.FETCH_CUSTOMER(); }
     });
   }
 
-  // ADD
+  // ADD NEW CUSTOMER
   ADD_CUSTOMER(obj: CustomerClass) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE();}
+      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
     });
   }
 
@@ -185,49 +210,30 @@ export class CustomersComponent implements OnInit {
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE();}
+      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
     });
   }
 
   // SELECT OBJECT TO UPDATE
   SELECTED_CUSTOMER(obj: CustomerClass): void {
+    // HIDE ADD BUTTON AND SHOW THE UPDATE BUTTON
     this.ShowAddButoon = false;
     this.currentAction = "Update Customer";
-    this.ADDED_CUSTOMER = obj;
-
-    this.open_expansion_value = 1;
-    this.panelOpenState = true;
-
+    // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
+    this.ADDED_CUSTOMER = { ...obj };
+    // OPEN PANWL : EXPANDED ROW 
+    this.OPEN_PANEL()
+    // SECURE THE ROUTE
     this.routeSignalService.show_pop_up_route.set(false);
-
   }
 
-  // Method to handle the panel closed event
-  panelClosed() {
-    this.open_expansion_value = 0;
-    this.panelOpenState = false;
-  }
-
-  // CANCEL UPDATE
-  CANCEL_UPDATE(): void {
-    this.ShowAddButoon = true;
-    this.currentAction = "Add Customer"
-    this.open_expansion_value = -1;
-    this.routeSignalService.show_pop_up_route.set(false);
-
-    this.panelClosed()
-
-    this.ADDED_CUSTOMER = {
-      _id: '',
-      name: '',
-      phoneNumber: '',
-      address: '',
-    }
-  }
-
+  // FILTER BY SEARCH KEY
   APPLY_SEARCH_FILTER(filterValue: string): void {
     this.customerService.FILTER_BY_SEARCH_KEY(filterValue, this.Current_page, this.pageSize).subscribe({
-      next: (response: any) => { this.CustomersArray = new MatTableDataSource(response.customers); },
+      next: (response: any) => {
+        this.CustomersArray = new MatTableDataSource(response.customers);
+        this.CUSTOMERS_Array_length = response.pagination.totalCustomers
+      },
       error: (error) => { this.CustomersArray = new MatTableDataSource() },
       complete: () => { }
     });
