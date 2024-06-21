@@ -238,6 +238,20 @@
       </mat-form-field>
     </div>
     <div class="filter-date">
+
+      @if(showDatePicker) {
+        <mat-form-field appearance="outline" class="date_picker">
+  
+          <mat-date-range-input [rangePicker]="custompicker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue" (ngModelChange)="handleStartDateChange($event)"/>
+            <input matEndDate placeholder="End date" [(ngModel)]="endDateValue" (ngModelChange)="handleEndDateChange($event)"/>
+          </mat-date-range-input>
+  
+          <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #custompicker></mat-date-range-picker>
+  
+        </mat-form-field>
+        }
       <div class="dropdown">
         <mat-form-field class="theme-select" appearance="outline">
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')"

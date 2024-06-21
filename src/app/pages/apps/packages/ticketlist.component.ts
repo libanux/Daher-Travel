@@ -34,7 +34,7 @@ export class AppTicketlistComponent implements OnInit {
 
   ShowAddButoon = true;
   selectedMonth: string = '';
-
+  show_shimmer = true;
   //MAIN PACKAGE ARRAY
   packages: any[] = []
   showCalendar: boolean = false;
@@ -131,6 +131,7 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
+        this.show_shimmer=false
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
         this.Inprogress = this.btnCategoryClick('pending');
@@ -177,7 +178,7 @@ export class AppTicketlistComponent implements OnInit {
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(value: string, dropdown: string) {
     if (dropdown == 'month') {
-      if (value === 'custom') {
+      if (value === 'Calendar') {
         this.showDatePicker = true;
       }
 
@@ -217,7 +218,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //FILTER PACKAGES BY DATE
   FILTER_PACKAGES_BY_DATE(filter: string) {
-    this.packagesService.FILTER_PACKAGE_BY_DATE(filter).subscribe({
+    this.packagesService.FILTER_PACKAGE_BY_DATE(filter, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
         this.packages = response;
         this.dataSource = new MatTableDataSource(this.packages);
@@ -228,6 +229,52 @@ export class AppTicketlistComponent implements OnInit {
       complete: () => { }
     });
   }
+  startDateValue: string = ''; // Variable to store the start date
+  endDateValue: string = ''; // Variable to store the end date
+
+  // Method to handle changes in start date input
+  handleStartDateChange(event: any): void {
+    this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_PACKAGES_BY_DATE('custom')
+
+  }
+
+  // Method to handle changes in end date input
+  handleEndDateChange(event: any): void {
+    this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_PACKAGES_BY_DATE('custom')
+
+  }
+
+
+  FORMAT_DATE_YYYYMMDD(date: Date): string {
+    // Extract year, month, and day from the Date object
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
+    const day = ('0' + date.getDate()).slice(-2);
+
+    // Return the formatted date string in YYYY-MM-DD format
+    return `${year}-${month}-${day}`;
+  }
+
+
+  // Function to format date
+  FORMAT_DATE(dateString: string): string {
+    const dateObj = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+      timeZone: 'UTC' // Optional: Adjust to your timezone
+    };
+
+    return dateObj.toLocaleString('en-US', options);
+  }
+
 
 
 
@@ -235,16 +282,16 @@ export class AppTicketlistComponent implements OnInit {
   UPDATE(obj: Package): void {
     this.ShowAddButoon = false;
     this.editedpackage = { ...obj };
-    
+
     this.open_expansion_value = 1;
     this.panelOpenState = true;
   }
 
-    // Method to handle the panel closed event
-    panelClosed() {
-      this.open_expansion_value = 0;
-      this.panelOpenState = false;
-    }
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
 
   //UPDATE PACKAGE VALUES
   UPDATE_PACKAGE() {
