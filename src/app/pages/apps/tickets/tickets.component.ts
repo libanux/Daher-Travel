@@ -10,6 +10,8 @@ import { Tickets } from 'src/app/classes/tickets.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
+import { WholesalerClass } from 'src/app/classes/wholesaler.class';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-tickets',
@@ -91,7 +93,7 @@ export class TicketsComponent {
   }
 
   searchQuery: string;
-  constructor(private wholesaler : WholesalerService,private customerService : CustomerService, private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
 
 
   }
@@ -131,21 +133,21 @@ export class TicketsComponent {
       }
     });
   }
-allWholesalers: any[] =[]
-filteredWholeSalers: any[]=[]
-    // GET ALL WHOLESALERS
-    FETCH_WHOLESALERS() {
-      this.wholesaler.GET_ALL_WHOLESALERS_WITH_NO_PAGING().subscribe({
-        next: (response: any) => {
-          this.allWholesalers = response.wholesalers
-          this.filteredWholeSalers = response.wholesalers
-        },
-        error: (error) => { },
-        complete: () => { }
-      });
-    }
-  
-    allCustomers: any =[]
+  allWholesalers: any[] = []
+  filteredWholeSalers: any[] = []
+  // GET ALL WHOLESALERS
+  FETCH_WHOLESALERS() {
+    this.wholesaler.GET_ALL_WHOLESALERS_WITH_NO_PAGING().subscribe({
+      next: (response: any) => {
+        this.allWholesalers = response.wholesalers
+        this.filteredWholeSalers = response.wholesalers
+      },
+      error: (error) => { },
+      complete: () => { }
+    });
+  }
+
+  allCustomers: any = []
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
@@ -157,9 +159,9 @@ filteredWholeSalers: any[]=[]
       complete: () => { this.show_shimmer = false; }
     });
   }
-  
+searchQuery1: string =''
   filterCustomers() {
-    const query = this.searchQuery.toLowerCase();
+    const query = this.searchQuery1.toLowerCase();
     this.filteredCustomers = this.allCustomers.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
   }
 
@@ -257,25 +259,28 @@ filteredWholeSalers: any[]=[]
     this.currentPage = event.pageIndex + 1;
     this.FETCH_TICKETINGS()
   }
-
+  choosenWholesaler: WholesalerClass
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
-    this.ADDED_TICKET.wholesaler.id = '6671874cd0f3f073ad99ba0e';
-    this.ADDED_TICKET.wholesaler.id = 'Example Wholesaler';
+
+
+    console.log("Added ticket:", this.ADDED_TICKET);
+
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        this.CLEAR_VALUES(this.ADDED_TICKET)
+        console.log("Response on add ",response)
+        this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
-
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.log("Error:", error);
       },
       complete: () => {
         this.open_expansion_value = -1;
       }
     });
   }
+
 
   //FETCH TICKETS FROM API
   SEARCH_TICKETS(event: any): void {
@@ -332,7 +337,17 @@ filteredWholeSalers: any[]=[]
     this.dataSource.filter = val.trim().toLowerCase();
     return this.dataSource.filteredData.length;
   }
-
+  onOptionSelected(event: MatAutocompleteSelectedEvent,source:string) {
+    if(source == 'customer'){
+    this.ADDED_TICKET.name = event.option.value.name
+    }else{
+      this.choosenWholesaler = event.option.value;
+      this.ADDED_TICKET.wholesaler.id = event.option.value._id; // Assigning id
+      this.ADDED_TICKET.wholesaler.name = event.option.value.name;
+      console.log('Selected wholesaler:', this.choosenWholesaler);
+    }
+  
+  }
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
   // Function to log input changes
   onInputChange() {
@@ -340,11 +355,11 @@ filteredWholeSalers: any[]=[]
     console.log(this.ADDED_TICKET)
 
     if (this.isAnyFieldNotEmpty) {
-      console.log('something is written')
+
       this.routeSignalService.show_pop_up_route.set(true);
     }
     else {
-      console.log('All is empty')
+
       this.routeSignalService.show_pop_up_route.set(false);
 
     }
