@@ -1,8 +1,11 @@
 @if(showAddSection){
 <mat-card class="cardWithShadow">
-  <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false">
 
+  <mat-expansion-panel 
+  [expanded]="open_expansion_value === 1"
+  (opened)="panelOpenState = true"
+  (closed)="panelClosed()"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{currentAction}}</mat-panel-title>
     </mat-expansion-panel-header>
@@ -17,7 +20,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Name" [(ngModel)]="editedTicket.name" />
+            <input matInput placeholder="Name" [(ngModel)]="ADDED_TICKET.name" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -34,7 +37,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="editedTicket.source">
+            <input matInput placeholder="Source" aria-label="Product" [(ngModel)]="ADDED_TICKET.source" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -50,7 +53,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Destination</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Destination" [(ngModel)]="editedTicket.destination" />
+            <input matInput placeholder="Destination" [(ngModel)]="ADDED_TICKET.destination" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -68,7 +71,7 @@
           </div>
           <mat-form-field appearance="outline" class="w-100">
 
-            <input matInput placeholder="WholeSaler" [(ngModel)]="editedTicket.wholesaler.name" />
+            <input matInput placeholder="WholeSaler" [(ngModel)]="ADDED_TICKET.wholesaler.name" (ngModelChange)="onInputChange()"/>
 
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -92,7 +95,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="editedTicket.seats">
+            <input type="number" matInput placeholder="Seats" aria-label="Product" [(ngModel)]="ADDED_TICKET.seats" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -109,7 +112,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Cost" [(ngModel)]="editedTicket.cost" />
+            <input type="number" matInput placeholder="Cost" [(ngModel)]="ADDED_TICKET.cost" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -125,7 +128,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Credit</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="editedTicket.credit">
+            <input type="number" matInput placeholder="Credit" aria-label="Product" [(ngModel)]="ADDED_TICKET.credit" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -145,7 +148,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Balance </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Balance" [(ngModel)]="editedTicket.balance" />
+            <input type="number" matInput placeholder="Balance" [(ngModel)]="ADDED_TICKET.balance" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -165,7 +168,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Note" [(ngModel)]="editedTicket.note" />
+            <input matInput placeholder="Note" [(ngModel)]="ADDED_TICKET.note" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">

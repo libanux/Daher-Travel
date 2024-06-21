@@ -171,7 +171,7 @@ export class VisaComponentComponent implements OnInit {
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
 
 // Function to log input changes
-onInputChange(fieldName: string, value: any) {
+onInputChange() {
 
   // Check only specific fields for content
   this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {

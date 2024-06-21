@@ -7,6 +7,7 @@ import { TicketingService } from 'src/app/services/ticketing.service';
 import { Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Tickets } from 'src/app/classes/tickets.class';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
   selector: 'app-tickets',
@@ -37,8 +38,7 @@ export class TicketsComponent {
   show_shimmer = true
   currentAction: string = 'Add Ticket';
 
-  //TICKET ON EDIT
-  editedTicket: Tickets
+
 
   //TABLE COLUMNS
   displayedColumns: string[] = [
@@ -63,7 +63,7 @@ export class TicketsComponent {
   Inprogress = -1;
   Completed = -1;
 
-  // 1 basic
+  // These two valus are used for the add expnad row in the top of the page
   panelOpenState = false;
   open_expansion_value = 0;
 
@@ -71,9 +71,24 @@ export class TicketsComponent {
   months: any[] = Month_Filter_Array
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
+  //TICKET ON EDIT
+  ADDED_TICKET: Tickets = {   
+    _id: '',
+    name: '',
+    wholesaler: {
+      id: '',
+      name: ''
+    },
+    source: '',
+    destination: '',
+    balance: '',
+    cost: '',
+    credit: '',
+    note: '',
+    seats: ''
+}
+  constructor(private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
 
-  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
-    this.editedTicket = new Tickets()
 
   }
 
@@ -192,13 +207,14 @@ export class TicketsComponent {
     this.currentPage = event.pageIndex + 1;
     this.FETCH_TICKETINGS()
   }
+
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
-    this.editedTicket.wholesaler.id = '6671874cd0f3f073ad99ba0e';
-    this.editedTicket.wholesaler.id = 'Example Wholesaler';
-    this.ticketingService.ADD_TICKETING(this.editedTicket).subscribe({
+    this.ADDED_TICKET.wholesaler.id = '6671874cd0f3f073ad99ba0e';
+    this.ADDED_TICKET.wholesaler.id = 'Example Wholesaler';
+    this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        this.CLEAR_VALUES(this.editedTicket)
+        this.CLEAR_VALUES(this.ADDED_TICKET)
         this.FETCH_TICKETINGS();
 
       },
@@ -255,8 +271,9 @@ export class TicketsComponent {
   CancelUpdate(): void {
     this.ShowAddButoon = true;
     this.open_expansion_value = -1;
-    this.CLEAR_VALUES(this.editedTicket);
+    this.CLEAR_VALUES(this.ADDED_TICKET);
     this.currentAction = 'Add Ticket';
+    this.routeSignalService.show_pop_up_route.set(false);
   }
 
 
@@ -266,6 +283,24 @@ export class TicketsComponent {
     return this.dataSource.filteredData.length;
   }
 
+  isAnyFieldNotEmpty = false; // Flag to track if any field has content
+  // Function to log input changes
+  onInputChange() {
+    this.isAnyFieldNotEmpty = Object.values(this.ADDED_TICKET).some(val => val !== '' && val !== null);
+    console.log(this.ADDED_TICKET)
+
+    if (this.isAnyFieldNotEmpty) {
+      console.log('something is written')
+      this.routeSignalService.show_pop_up_route.set(true);
+    }
+    else {
+      console.log('All is empty')
+      this.routeSignalService.show_pop_up_route.set(false);
+
+    }
+
+    // You can perform additional actions based on the field name or value if needed
+  }
 
   //GET THE STATUS CLASS
   getStatusClass(status: string): string {
@@ -302,23 +337,33 @@ export class TicketsComponent {
     });
   }
 
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
+
 
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
     this.ShowAddButoon = false;
-    this.editedTicket = { ...obj };
-    this.open_expansion_value = 1;
+    this.ADDED_TICKET = { ...obj };
     this.currentAction = 'Update Ticket';
+
+    this.open_expansion_value = 1;
+    this.panelOpenState = true;
+
+    this.routeSignalService.show_pop_up_route.set(false);
   }
 
 
   //UPDATE TICKET
   UPDATE_TICKET() {
-    this.ticketingService.UPDATE_TICKETING(this.editedTicket).subscribe({
+    this.ticketingService.UPDATE_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
         this.FETCH_TICKETINGS();
-        this.CLEAR_VALUES(this.editedTicket)
+        this.CLEAR_VALUES(this.ADDED_TICKET)
         this.currentAction = 'Add Ticket';
         this.open_expansion_value = -1;
       },
@@ -332,12 +377,26 @@ export class TicketsComponent {
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Tickets) {
-    obj._id = '';
-    obj.name = '';
-    obj.source = '';
-    obj.destination = '';
-    obj.note = '';
+    this.ADDED_TICKET = {   
+      _id: '',
+      name: '',
+      wholesaler: {
+        id: '',
+        name: ''
+      },
+      source: '',
+      destination: '',
+      balance: '',
+      cost: '',
+      credit: '',
+      note: '',
+      seats: ''
+  }
 
+    this.open_expansion_value = -1;
+    this.routeSignalService.show_pop_up_route.set(false);
+
+    this.panelClosed()
   }
 }
 interface month {
