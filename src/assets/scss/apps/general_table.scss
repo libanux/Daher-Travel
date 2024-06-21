@@ -39,15 +39,15 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            align-items: center;
+            // align-items: center;
             column-gap: 10px;
             section {
                 display: flex;
                 width: 100%;
                 flex-direction: row;
                 column-gap: 10px;
-                justify-content: flex-end;
-
+                justify-content: center;
+                align-items: center;
                 .date_picker {
                     max-width: 250px;
                 }
@@ -59,8 +59,49 @@
                 justify-content: center;
                 align-items: center;
             }
+
+            // .buttons_reports {
+            //     display: flex;
+            //     flex-direction: row;
+            //     column-gap: 10px;
+            //     justify-content: center;
+
+            //     .w50 {
+            //         height: 55px;
+            //         min-width: 120px;
+            //         font-size: 14px;
+            //         background: #f5ba18;
+            //         border-radius: 8px;
+            //         border-style: none;
+            //         border-color: #f5ba18;
+            //         color: white;
+            //     }
+            //     .w50:hover {
+            //         background: #f5ba18cd;
+            //         cursor: pointer;
+            //     }
+            // }
         }
+ 
+        .filter-date-report {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            section {
+                display: flex;
+                flex-direction: row;
+                column-gap: 10px;
+                justify-content: center;
+                align-items: center;
+                .date_picker {
+                    max-width: 250px;
+                }
+            }
+        }
+ 
     }
+
     .table-responsive {
     table {
 
@@ -111,7 +152,7 @@
         }
     
     }
-}
+    }
 }
 
 
@@ -144,7 +185,7 @@ tr.example-detail-row {
                 width: 100%;
                 display: flex;
                 justify-content: flex-end;
-                align-items: flex-end;
+                // align-items: center;
                 section {
                     display: flex;
                     width: 100%;
@@ -187,6 +228,22 @@ tr.example-detail-row {
                     flex-direction: row;
                 }
             }
+
+            .filter-date-report {
+                display: flex;
+                flex-direction: column;
+                section {
+                    display: flex;
+                    flex-direction: row;
+                    column-gap: 10px;
+                    justify-content: center;
+                    align-items: center;
+                    .date_picker {
+                        max-width: 250px;
+                    }
+                }
+            }
+     
         }
     }
 }

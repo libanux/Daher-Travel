@@ -88,7 +88,8 @@ export const Reports_Month_Filter_Array: any[] = [
   { value: 'thisMonth', viewValue: 'This Month' },
   { value: 'lastMonth', viewValue: 'Last Month' },
   { value: 'lastSixMonth', viewValue: 'Last 6 Month' },
-  { value: 'thisYear', viewValue: 'This Year' }
+  { value: 'thisYear', viewValue: 'This Year' },
+  { value: 'Calendar', viewValue: 'Custom' }
 ];
 
 export const Date_Filter_Array: any[] = [
@@ -100,8 +101,7 @@ export const Date_Filter_Array: any[] = [
 
 export const Download_Options: any[] = [
   { value: 'PDF', viewValue: 'PDF' },
-  { value: 'Excel', viewValue: 'Excel' },
-  { value: 'Image', viewValue: 'Image' }
+  { value: 'Excel', viewValue: 'Excel' }
 ]
 
 export const Categories: any[] =
