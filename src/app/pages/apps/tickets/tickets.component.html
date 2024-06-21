@@ -85,16 +85,28 @@
           </div>
           <mat-form-field appearance="outline" class="w-100">
 
-            <input matInput placeholder="WholeSaler" [(ngModel)]="ADDED_TICKET.wholesaler.name"
-              (ngModelChange)="onInputChange()" />
-
+            <input matInput placeholder="Search Wholesalers....." aria-label="Wholesaler" [matAutocomplete]="auto2"
+              [(ngModel)]="searchQuery" (input)="filterWholesalers()">
             <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
+                width="24px" fill="#5f6368">
                 <path
-                  d="M40-120v-720h560v720H360v-160h-80v160H40Zm80-80h80v-160h240v160h80v-560H120v560Zm80-240h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm420 260-56-56 43-44H640v-80h127l-43-44 56-56 140 140-140 140ZM200-200v-160h240v160-160H200v160Z" />
+                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg>
             </mat-icon>
+            <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let customer of filteredWholeSalers" [value]="customer">
+                {{customer.name}}
+              </mat-option>
+              <mat-option class="add-new-customer-option" (click)="addNewProduct()">
+                <div class="option-content">
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                  <span>Add new customer</span>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 

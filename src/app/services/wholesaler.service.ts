@@ -38,6 +38,21 @@ export class WholesalerService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_WHOLESALERS', requestBody, { headers });
   }
 
+  //GET ALL WHOLESALERS WITH NO PAGING
+  GET_ALL_WHOLESALERS_WITH_NO_PAGING(): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json' 
+    });
+
+    const requestBody = {
+
+    }
+
+    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_WHOLESALERS_WITH_NO_PAGING', requestBody, { headers });
+  }
+
   //UPDATE WHOLESALER
 UPDATE_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 
