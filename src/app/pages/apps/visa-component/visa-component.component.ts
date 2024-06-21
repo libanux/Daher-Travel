@@ -7,6 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { VisaService } from 'src/app/services/visa.service';
 import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
   selector: 'app-visa-component',
@@ -62,20 +63,20 @@ export class VisaComponentComponent implements OnInit {
     'sell',
     'note',
     'status',
-    'createdAt',
+    'Created',
     'action'
   ];
 
   // This is the added or updated VISA fdefualt values
   ADDED_VISA: VisaClass = {
-    _id: -1,
+    _id: '',
     name: '',
     country: '',
     note: '',
     sell: '',
-    status: 'pending',
+    status: '',
     type: '',
-    createdAt: '',
+    Created: '',
     updatedAt: ''
   }
 
@@ -99,7 +100,7 @@ export class VisaComponentComponent implements OnInit {
   startDateValue: string = '';
   endDateValue: string = '';
 
-  constructor(private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+  constructor(private routeSignalService:RouteSignalService, private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
@@ -166,6 +167,28 @@ export class VisaComponentComponent implements OnInit {
     this.Current_page = event.pageIndex + 1;
     this.FETCH_VISA(this.Current_page);
   }
+
+  isAnyFieldNotEmpty = false; // Flag to track if any field has content
+
+// Function to log input changes
+onInputChange(fieldName: string, value: any) {
+
+  // Check only specific fields for content
+  this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
+    const fieldValue = this.ADDED_VISA[key as keyof VisaClass] || ''; // Using || for fallback value
+    return fieldValue !== '' && fieldValue !== null;
+  });
+
+  if (this.isAnyFieldNotEmpty) {
+    this.routeSignalService.show_pop_up_route.set(true);
+  } 
+  else {
+    this.routeSignalService.show_pop_up_route.set(false);
+  }
+
+  // You can perform additional actions based on the field name or value if needed
+}
+
 
 
   // Method to handle changes in start date input
@@ -252,14 +275,10 @@ export class VisaComponentComponent implements OnInit {
     this.show_shimmer = true;
     this.visaService.GET_ALL_VISA(currentPage, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.current_page_array_length = response.visas.length
-
         this.VisaArray = new MatTableDataSource(response.visas);
         this.Visa_Array_length = response.pagination.totalVisas;
-      
-        console.log(this.Visa_Array_length);
-      },
+        },
       error: (error) => { },
       complete: () => { this.show_shimmer = false; }
 
@@ -303,6 +322,9 @@ export class VisaComponentComponent implements OnInit {
 
   // SELECT OBJECT TO UPDATE
   SELECTED_VISA(obj: any): void {
+
+    this.routeSignalService.show_pop_up_route.set(false)
+
     this.ShowAddButoon = false
     this.CurrentAction = 'Update Visa';
 
@@ -317,7 +339,7 @@ export class VisaComponentComponent implements OnInit {
       sell: obj.sell,
       status: obj.status,
       type: obj.type,
-      createdAt: obj.createdAt,
+      Created: obj.Created,
       updatedAt: obj.updatedAt
     }
 
@@ -327,18 +349,19 @@ export class VisaComponentComponent implements OnInit {
   CANCEL_UPDATE(): void {
     this.CurrentAction = 'Add Visa';
     this.ShowAddButoon = true;
+    this.routeSignalService.show_pop_up_route.set(false)
 
     this.panelClosed()
 
     this.ADDED_VISA = {
-      _id: -1,
+      _id: '',
       name: '',
       country: '',
       note: '',
       sell: '',
       status: '',
       type: '',
-      createdAt: '',
+      Created: '',
       updatedAt: '',
     }
   }

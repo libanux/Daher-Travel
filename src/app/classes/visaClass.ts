@@ -1,15 +1,14 @@
 export class VisaClass {
     constructor(
-      public _id: number = 0,
+      public _id: string = '',
       public name: string = '',
       public country: string = '',
       public note: string = '',
       public sell: string = '',
       public status: string = '',
       public type: string = '',
-      public createdAt: string = '',
+      public Created: string = '',
       public updatedAt: string = '',
-
     ) {}
   }
 

@@ -54,7 +54,7 @@ export class VisaService {
         "sell": VISA.sell,
         "status": VISA.status,
         "type": VISA.type,
-        "createdAt": VISA.createdAt,
+        "createdAt": VISA.Created,
         "updatedAt": VISA.updatedAt
       }
 
@@ -79,7 +79,7 @@ export class VisaService {
       "sell": VISA.sell,
       "status": VISA.status,
       "type": VISA.type,
-      "createdAt": VISA.createdAt,
+      "createdAt": VISA.Created,
       "updatedAt": VISA.updatedAt
     };
 
