@@ -22,7 +22,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Name" [(ngModel)]="ADDED_VISA.name" (ngModelChange)="onInputChange('Name', $event)" />
+            <input matInput placeholder="Name" [(ngModel)]="ADDED_VISA.name" (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -39,7 +39,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Country</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Country" [(ngModel)]="ADDED_VISA.country" (ngModelChange)="onInputChange('Country', $event)"/>
+            <input matInput placeholder="Country" [(ngModel)]="ADDED_VISA.country" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -57,7 +57,7 @@
           </div>
 
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Note" [(ngModel)]="ADDED_VISA.note"  (ngModelChange)="onInputChange('Note', $event)">
+            <input matInput placeholder="Note" [(ngModel)]="ADDED_VISA.note"  (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -78,7 +78,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Sell" [(ngModel)]="ADDED_VISA.sell" (ngModelChange)="onInputChange('Sell', $event)" type="number" min="0">
+            <input matInput placeholder="Sell" [(ngModel)]="ADDED_VISA.sell" (ngModelChange)="onInputChange()" type="number" min="0">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -95,7 +95,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Type</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Type" [(ngModel)]="ADDED_VISA.type"  (ngModelChange)="onInputChange('Type', $event)">
+            <mat-select placeholder="Type" [(ngModel)]="ADDED_VISA.type"  (ngModelChange)="onInputChange()">
               @for(type of VisaType; track type) {
               <mat-option value={{type.value}}>{{type.viewValue}}</mat-option>
               }
@@ -113,7 +113,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Pending" [(ngModel)]="ADDED_VISA.status" (ngModelChange)="onInputChange('Type', $event)">
+            <mat-select placeholder="Pending" [(ngModel)]="ADDED_VISA.status" (ngModelChange)="onInputChange()">
               @for(status of Status_Array; track status) {
                 <mat-option value={{status.value}}>{{status.viewValue}}</mat-option>
                 }
