@@ -285,7 +285,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //FILTER RECRUITING RECORDS BY DATE
   FILTER_RECRUITING_BY_DATE(filter: string) {
-    this.recruitingService.FILTER_RECRUITING_BY_DATE(filter).subscribe({
+    this.recruitingService.FILTER_RECRUITING_BY_DATE(filter,this.startDateValue,this.endDateValue).subscribe({
       next: (response: any) => {
         this.recruitings = response;
         this.dataSource = new MatTableDataSource(this.recruitings);
@@ -296,6 +296,52 @@ export class LaborMainComponent implements AfterViewInit {
       complete: () => { }
     });
   }
+
+  startDateValue: string = ''; // Variable to store the start date
+  endDateValue: string = ''; // Variable to store the end date
+  // Method to handle changes in start date input
+  handleStartDateChange(event: any): void {
+    this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_RECRUITING_BY_DATE('custom')
+
+  }
+
+  // Method to handle changes in end date input
+  handleEndDateChange(event: any): void {
+    this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_RECRUITING_BY_DATE('custom')
+
+  }
+
+
+  FORMAT_DATE_YYYYMMDD(date: Date): string {
+    // Extract year, month, and day from the Date object
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
+    const day = ('0' + date.getDate()).slice(-2);
+
+    // Return the formatted date string in YYYY-MM-DD format
+    return `${year}-${month}-${day}`;
+  }
+
+
+  // Function to format date
+  FORMAT_DATE(dateString: string): string {
+    const dateObj = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+      timeZone: 'UTC' // Optional: Adjust to your timezone
+    };
+
+    return dateObj.toLocaleString('en-US', options);
+  }
+
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: LaborList) {
@@ -323,7 +369,7 @@ export class LaborMainComponent implements AfterViewInit {
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(value: string, dropdown: string) {
     if (dropdown == 'month') {
-      if (value === 'custom') {
+      if (value === 'Calendar') {
         this.showDatePicker = true;
       }
 

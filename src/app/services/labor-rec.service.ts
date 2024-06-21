@@ -141,7 +141,7 @@ FILTER_RECRUITINGS(pageSize:number, currentPage: number,status: String): Observa
 
 
 // FILTER RECRUITING RECORDS
-FILTER_RECRUITING_BY_DATE(filter: String): Observable<any> {
+FILTER_RECRUITING_BY_DATE(filter: String,startDate:string, endDate: string): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.getToken()}`,
     'Content-Type': 'application/json'
@@ -149,8 +149,8 @@ FILTER_RECRUITING_BY_DATE(filter: String): Observable<any> {
 
   const requestBody = {
       "filterType": filter,
-      "startDate": 'this.dateSignal.startDate()',
-      "endDate": 'this.dateSignal.endDate()'
+      "startDate": startDate,
+      "endDate": endDate
 
   };
 

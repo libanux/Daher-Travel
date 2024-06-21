@@ -11,7 +11,7 @@ import { Tickets } from 'src/app/classes/tickets.class';
 @Component({
   selector: 'app-tickets',
   templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss','../../../../assets/scss/apps/_add_expand.scss'],
+  styleUrls: ['./tickets.component.scss', '../../../../assets/scss/apps/_add_expand.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -32,7 +32,8 @@ export class TicketsComponent {
   tickets: any[] = []
   showCalendar: boolean = false;
   selectedDate: Date | null = null;
-
+  startDateValue: string = ''; // Variable to store the start date
+  endDateValue: string = ''; // Variable to store the end date
 
   currentAction: string = 'Add Ticket';
 
@@ -62,16 +63,16 @@ export class TicketsComponent {
   Inprogress = -1;
   Completed = -1;
 
-     // 1 basic
-     panelOpenState = false;
-     open_expansion_value = 0;
+  // 1 basic
+  panelOpenState = false;
+  open_expansion_value = 0;
 
   //MONTHS FOR FILTER DROPDOWN
-  months: any[]=Month_Filter_Array
+  months: any[] = Month_Filter_Array
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
 
-  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService : BreadCrumbSignalService) {
+  constructor(public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
     this.editedTicket = new Tickets()
 
   }
@@ -89,8 +90,8 @@ export class TicketsComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-  pageSize= 10;
-  currentPage= 1;
+  pageSize = 10;
+  currentPage = 1;
 
 
   //FETCH TICKETINGS FROM API
@@ -111,11 +112,55 @@ export class TicketsComponent {
   }
 
 
-  showDatePicker:boolean = false;
+  // Method to handle changes in start date input
+  handleStartDateChange(event: any): void {
+    this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_TICKETS_BY_DATE('custom')
+
+  }
+
+  // Method to handle changes in end date input
+  handleEndDateChange(event: any): void {
+    this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.FILTER_TICKETS_BY_DATE('custom')
+
+  }
+
+
+  FORMAT_DATE_YYYYMMDD(date: Date): string {
+    // Extract year, month, and day from the Date object
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
+    const day = ('0' + date.getDate()).slice(-2);
+
+    // Return the formatted date string in YYYY-MM-DD format
+    return `${year}-${month}-${day}`;
+  }
+
+
+  // Function to format date
+  FORMAT_DATE(dateString: string): string {
+    const dateObj = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+      timeZone: 'UTC' // Optional: Adjust to your timezone
+    };
+
+    return dateObj.toLocaleString('en-US', options);
+  }
+
+
+  showDatePicker: boolean = false;
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(value: string, dropdown: string) {
     if (dropdown == 'month') {
-      if (value === 'custom') {
+      if (value === 'Calendar') {
         this.showDatePicker = true;
       }
 
@@ -124,32 +169,23 @@ export class TicketsComponent {
         this.FILTER_TICKETS_BY_DATE(value)
       }
     }
-
-    // else if (dropdown == 'status') {
-    //   if (value == 'all') {
-    //     this.FETCH_PACKAGES()
-    //   }
-    //   else {
-    //     console.log("Value", value)
-    //     this.FILTER_PACKAGES(value)
-    //   }
-    // }
   }
 
 
-    //FILTER PACKAGES BY DATE
-    FILTER_TICKETS_BY_DATE(filter: string) {
-      this.ticketingService.FILTER_TICKETS_BY_DATE(filter).subscribe({
-        next: (response: any) => {
-          this.tickets = response;
-          this.dataSource = new MatTableDataSource(this.tickets);
-        },
-        error: (error: any) => {
-          console.error('Error:', error.error);
-        },
-        complete: () => { }
-      });
-    }
+  //FILTER PACKAGES BY DATE
+  FILTER_TICKETS_BY_DATE(filter: string) {
+    this.ticketingService.FILTER_TICKETS_BY_DATE(filter, this.startDateValue, this.endDateValue).subscribe({
+      next: (response: any) => {
+        this.tickets = response;
+        console.log("Response:", response)
+        this.dataSource = new MatTableDataSource(this.tickets);
+      },
+      error: (error: any) => {
+        console.error('Error:', error.error);
+      },
+      complete: () => { }
+    });
+  }
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
@@ -175,26 +211,26 @@ export class TicketsComponent {
     });
   }
 
-    //FETCH TICKETS FROM API
-    SEARCH_TICKETS(event: any): void {
-      this.currentPage = 1;
-    
-      this.ticketingService.SEARCH_TICKETS(this.pageSize, this.currentPage, event.target.value).subscribe({
-        next: (response: any) => {
-  
-          this.tickets = response.tickets;
-          this.dataSource = new MatTableDataSource(this.tickets);
-          this.totalCount = response.pagination.totalTickets
-        },
-        error: (error: any) => {
-          this.tickets =[]
-          this.totalCount =0;
-          console.log("Error:", error)
-        },
-        complete: () => {
-        }
-      });
-    }
+  //FETCH TICKETS FROM API
+  SEARCH_TICKETS(event: any): void {
+    this.currentPage = 1;
+
+    this.ticketingService.SEARCH_TICKETS(this.pageSize, this.currentPage, event.target.value).subscribe({
+      next: (response: any) => {
+
+        this.tickets = response.tickets;
+        this.dataSource = new MatTableDataSource(this.tickets);
+        this.totalCount = response.pagination.totalTickets
+      },
+      error: (error: any) => {
+        this.tickets = []
+        this.totalCount = 0;
+        console.log("Error:", error)
+      },
+      complete: () => {
+      }
+    });
+  }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -218,7 +254,7 @@ export class TicketsComponent {
 
   CancelUpdate(): void {
     this.ShowAddButoon = true;
-    this.open_expansion_value =-1;
+    this.open_expansion_value = -1;
     this.CLEAR_VALUES(this.editedTicket);
     this.currentAction = 'Add Ticket';
   }
@@ -272,7 +308,7 @@ export class TicketsComponent {
   UPDATE(obj: Tickets): void {
     this.ShowAddButoon = false;
     this.editedTicket = { ...obj };
-    this.open_expansion_value =1;
+    this.open_expansion_value = 1;
     this.currentAction = 'Update Ticket';
   }
 
@@ -284,7 +320,7 @@ export class TicketsComponent {
         this.FETCH_TICKETINGS();
         this.CLEAR_VALUES(this.editedTicket)
         this.currentAction = 'Add Ticket';
-        this.open_expansion_value =-1;
+        this.open_expansion_value = -1;
       },
       error: (error: any) => {
         console.error('Error:', error.error);
@@ -322,7 +358,7 @@ export class AppTicketingDialogContentComponent {
 
 
   action: string;
- TICKET_SELECTED: any;
+  TICKET_SELECTED: any;
 
   constructor(
     public dialogRef: MatDialogRef<AppTicketingDialogContentComponent>,

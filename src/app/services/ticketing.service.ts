@@ -120,15 +120,15 @@ export class TicketingService {
 }
 
   // FILTER TICKETS BY DATE
-  FILTER_TICKETS_BY_DATE(filter: string): Observable<any> {
+  FILTER_TICKETS_BY_DATE(filterType: string, startDate: string, endDate: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "filterType": filter,
-      "startDate": 'this.dateSignal.startDate()',
-      "endDate": 'this.dateSignal.endDate()'
+      "filterType": filterType,
+      "startDate": startDate,
+      "endDate": endDate
     };
     return this.http.post<any>(this.apiUrl + '/FILTER_TICKETING_BY_DATE', requestBody, { headers })
   }

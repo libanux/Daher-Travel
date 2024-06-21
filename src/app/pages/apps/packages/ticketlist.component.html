@@ -244,18 +244,18 @@
     <div class="filter-date">
 
       @if(showDatePicker) {
-      <mat-form-field appearance="outline" class="date_picker">
-
-        <mat-date-range-input [rangePicker]="custompicker">
-          <input matStartDate placeholder="Start date" />
-          <input matEndDate placeholder="End date" />
-        </mat-date-range-input>
-
-        <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #custompicker></mat-date-range-picker>
-
-      </mat-form-field>
-      }
+        <mat-form-field appearance="outline" class="date_picker">
+  
+          <mat-date-range-input [rangePicker]="custompicker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue" (ngModelChange)="handleStartDateChange($event)"/>
+            <input matEndDate placeholder="End date" [(ngModel)]="endDateValue" (ngModelChange)="handleEndDateChange($event)"/>
+          </mat-date-range-input>
+  
+          <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #custompicker></mat-date-range-picker>
+  
+        </mat-form-field>
+        }
 
       <div class="dropdown">
         <mat-form-field class="theme-select" appearance="outline">
@@ -278,6 +278,11 @@
     </div>
   </header>
   <mat-card-content>
+
+    @if(show_shimmer){
+      <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
+    }
+@else{
     <div class="table-responsive">
       <table mat-table [dataSource]="packages" multiTemplateDataRows>
         <!-- Iterate over displayedColumns using ngFor -->
@@ -354,7 +359,7 @@
       <!-- NO ITEMS FOUND ROW -->
       <app-no-items-found *ngIf="packages.length === 0"></app-no-items-found>
     </div>
-
+  }
     <!-- TABLE PAGINATION -->
     <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="totalCount" [pageSize]="pageSize" aria-label="Select page"
       showFirstLastButtons (page)="onPageChange($event)">

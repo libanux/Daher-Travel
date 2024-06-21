@@ -137,15 +137,15 @@ export class PackageService {
 
 
   // FILTER PACKAGE BY DATE
-  FILTER_PACKAGE_BY_DATE(filter: string): Observable<any> {
+  FILTER_PACKAGE_BY_DATE(filter: string, startDate: string, endDate: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
       "filterType": filter,
-      "startDate": 'this.dateSignal.startDate(),',
-      "endDate": 'this.dateSignal.endDate()'
+      "startDate": startDate,
+      "endDate": endDate
     };
     return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_DATE', requestBody, { headers })
   }
