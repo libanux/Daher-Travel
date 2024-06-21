@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { Categories, Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
+import { Categories, Download_Options, GeneralService, Reports_Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 // Define the headers as an array of Header objects
@@ -31,7 +31,7 @@ export class ReportsComponent implements OnInit {
   selectedDownloadOption: string = '';
 
 
-  months: any[] = Month_Filter_Array
+  months: any[] = Reports_Month_Filter_Array
   Options: any [] = Download_Options
 TableData = new MatTableDataSource(tableData);
 headers: any [] = headers;

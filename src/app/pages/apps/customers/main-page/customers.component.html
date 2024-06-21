@@ -3,7 +3,7 @@
   <mat-expansion-panel 
   [expanded]="open_expansion_value === 1"
   (opened)="panelOpenState = true"
-  (closed)="panelClosed()"
+  (closed)="CLOSE_PANEL()"
   >
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{currentAction}}</mat-panel-title>
@@ -20,7 +20,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Name" [(ngModel)]="ADDED_CUSTOMER.name"  (ngModelChange)="onInputChange('Name', $event)"/>
+              <input matInput placeholder="Name" [(ngModel)]="ADDED_CUSTOMER.name"  (ngModelChange)="onInputChange()"/>
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -37,7 +37,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone-Number</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Phone-Number" type="number" [(ngModel)]="ADDED_CUSTOMER.phoneNumber"  (ngModelChange)="onInputChange('phoneNumber', $event)"/>
+              <input matInput placeholder="Phone-Number" type="number" [(ngModel)]="ADDED_CUSTOMER.phoneNumber"  (ngModelChange)="onInputChange()"/>
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -55,7 +55,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Address" (ngModelChange)="onInputChange('Address', $event)" [(ngModel)]="ADDED_CUSTOMER.address" />
+              <input matInput placeholder="Address" (ngModelChange)="onInputChange()" [(ngModel)]="ADDED_CUSTOMER.address" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                     width="24px" fill="#5f6368">
