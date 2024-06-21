@@ -6,6 +6,7 @@ import { CustomerService } from 'src/app/services/Customer.service';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Router } from '@angular/router';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
   selector: 'app-customers',
@@ -69,7 +70,7 @@ export class CustomersComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
+  constructor(private routeSignalService: RouteSignalService,private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
 
   }
 
@@ -100,7 +101,22 @@ export class CustomersComponent implements OnInit {
   }
 
 
+  isAnyFieldNotEmpty = false; // Flag to track if any field has content
 
+  // Function to log input changes
+  onInputChange(fieldName: string, value: any) {
+    this.isAnyFieldNotEmpty = Object.values(this.ADDED_CUSTOMER).some(val => val !== '' && val !== null);
+    
+    if (this.isAnyFieldNotEmpty) {
+      this.routeSignalService.show_pop_up_route.set(true);
+    } 
+    else {
+      this.routeSignalService.show_pop_up_route.set(false);
+
+    }
+
+    // You can perform additional actions based on the field name or value if needed
+  }
 
   //STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
@@ -181,6 +197,9 @@ export class CustomersComponent implements OnInit {
 
     this.open_expansion_value = 1;
     this.panelOpenState = true;
+
+    this.routeSignalService.show_pop_up_route.set(false);
+
   }
 
   // Method to handle the panel closed event
@@ -194,6 +213,7 @@ export class CustomersComponent implements OnInit {
     this.ShowAddButoon = true;
     this.currentAction = "Add Customer"
     this.open_expansion_value = -1;
+    this.routeSignalService.show_pop_up_route.set(false);
 
     this.panelClosed()
 

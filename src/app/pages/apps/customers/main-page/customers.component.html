@@ -20,7 +20,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Name" [(ngModel)]="ADDED_CUSTOMER.name" />
+              <input matInput placeholder="Name" [(ngModel)]="ADDED_CUSTOMER.name"  (ngModelChange)="onInputChange('Name', $event)"/>
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -37,7 +37,7 @@
               <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone-Number</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Phone-Number" type="number" [(ngModel)]="ADDED_CUSTOMER.phoneNumber" />
+              <input matInput placeholder="Phone-Number" type="number" [(ngModel)]="ADDED_CUSTOMER.phoneNumber"  (ngModelChange)="onInputChange('phoneNumber', $event)"/>
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#5f6368">
@@ -55,7 +55,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput placeholder="Address" [(ngModel)]="ADDED_CUSTOMER.address" />
+              <input matInput placeholder="Address" (ngModelChange)="onInputChange('Address', $event)" [(ngModel)]="ADDED_CUSTOMER.address" />
               <mat-icon matPrefix class="op-5">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                     width="24px" fill="#5f6368">

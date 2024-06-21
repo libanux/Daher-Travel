@@ -22,7 +22,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Name" [(ngModel)]="ADDED_VISA.name" />
+            <input matInput placeholder="Name" [(ngModel)]="ADDED_VISA.name" (ngModelChange)="onInputChange('Name', $event)" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -39,7 +39,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Country</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Country" [(ngModel)]="ADDED_VISA.country" />
+            <input matInput placeholder="Country" [(ngModel)]="ADDED_VISA.country" (ngModelChange)="onInputChange('Country', $event)"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -49,6 +49,7 @@
             </mat-icon>
           </mat-form-field>
         </div>
+
         <!-- note-->
         <div class="col-md-4 d-flex flex-column">
           <div class="d-flex align-items-center">
@@ -56,7 +57,7 @@
           </div>
 
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Note" [(ngModel)]="ADDED_VISA.note" />
+            <input matInput placeholder="Note" [(ngModel)]="ADDED_VISA.note"  (ngModelChange)="onInputChange('Note', $event)">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -77,7 +78,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Sell" [(ngModel)]="ADDED_VISA.sell" type="number" min="0">
+            <input matInput placeholder="Sell" [(ngModel)]="ADDED_VISA.sell" (ngModelChange)="onInputChange('Sell', $event)" type="number" min="0">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -94,7 +95,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Type</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Type" [(ngModel)]="ADDED_VISA.type">
+            <mat-select placeholder="Type" [(ngModel)]="ADDED_VISA.type"  (ngModelChange)="onInputChange('Type', $event)">
               @for(type of VisaType; track type) {
               <mat-option value={{type.value}}>{{type.viewValue}}</mat-option>
               }
@@ -112,7 +113,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Pending" [(ngModel)]="ADDED_VISA.status">
+            <mat-select placeholder="Pending" [(ngModel)]="ADDED_VISA.status" (ngModelChange)="onInputChange('Type', $event)">
               @for(status of Status_Array; track status) {
                 <mat-option value={{status.value}}>{{status.viewValue}}</mat-option>
                 }
@@ -233,7 +234,7 @@
           <!-- display row objects -->
           <ng-container *ngIf="column !== 'status'; else statusColumn">
             <ng-container *ngIf="column !== 'action'; else actionColumn">
-              <ng-container *ngIf="column !== 'createdAt'; else dateColumn">
+              <ng-container *ngIf="column !== 'Created'; else dateColumn">
                 <ng-container *ngIf="column !== 'note'; else noteColumn">
                   {{ element[column] }}
                 </ng-container>
@@ -286,7 +287,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="detail-field"><strong>status:</strong> {{ element.status }}</div>
-                    <div class="detail-field"><strong>createdAt:</strong> {{ element.createdAt }}</div>
+                    <div class="detail-field"><strong>Created At:</strong> {{ element.Created }}</div>
                     <div class="detail-field"><strong>updatedAt:</strong> {{ element.updatedAt }}</div>
                   </div>
                 </div>

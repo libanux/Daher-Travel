@@ -12,6 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
   selector: 'app-nav-item',
@@ -41,7 +42,7 @@ export class AppNavItemComponent implements OnChanges,OnInit{
   @Input() item: NavItem | any;
   @Input() depth: any;
 
-  constructor(private dialog: MatDialog, public navService: NavService, public router: Router, private authService : AuthService,private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private routeSignalService: RouteSignalService,private dialog: MatDialog, public navService: NavService, public router: Router, private authService : AuthService,private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -84,18 +85,26 @@ export class AppNavItemComponent implements OnChanges,OnInit{
   }
 
   OPEN_DIALOG(obj: any): void {
-    const dialogRef = this.dialog.open(NavbarItemDialogContentComponent, {
-      data: obj,
-    });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result.event != 'Cancel') {       
-        this.onItemSelected(obj);
-      }
-      else {
-        dialogRef.close({ event: 'Cancel' });
-      }
-    });
+    if(this.routeSignalService.show_pop_up_route() == true){
+      const dialogRef = this.dialog.open(NavbarItemDialogContentComponent, {
+        data: obj,
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result.event != 'Cancel') {       
+          this.onItemSelected(obj);
+        }
+        else {
+          dialogRef.close({ event: 'Cancel' });
+        }
+      });
+    }
+
+    else {
+      this.onItemSelected(obj);
+    }
+  
   }
 
   onSubItemSelected(item: NavItem) {
