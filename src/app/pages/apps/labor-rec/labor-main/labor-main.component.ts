@@ -69,7 +69,7 @@ export class LaborMainComponent implements AfterViewInit {
   pageSize: number = 10;
   currentPage: number = 1;
   selectedStatusFilteraTION: string = '';
-
+  show_shimmer=true
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -111,6 +111,7 @@ export class LaborMainComponent implements AfterViewInit {
   FETCH_RECRUITINGS(): void {
     this.recruitingService.GET_RECRUITING(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
+        this.show_shimmer = false;
         this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
         this.Inprogress = this.btnCategoryClick('pending');

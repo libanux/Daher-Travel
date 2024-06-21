@@ -11,15 +11,18 @@
     expanded: expanded
   }"
   class="menu-list-item rounded-pill">
-<!-- <mat-icon *ngIf="item.iconName" svgIcon="{{ item.iconName }}" class="routeIcon" matListItemIcon></mat-icon> -->
-<mat-icon *ngIf="item.iconName" svgIcon="custom-icon" class="routeIcon" matListItemIcon></mat-icon>
-
-<span class="hide-menu">{{ item.displayName | translate }}</span>
-<span class="arrow-icon" fxFlex *ngIf="item.children && item.children.length">
-<span fxFlex></span>
-<mat-icon [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">expand_more</mat-icon>
-</span>
+  <!-- Render the SVG icon using the safeHtml pipe -->
+  <mat-icon *ngIf="item.iconName" class="routeIcon" matListItemIcon>
+    <div [innerHTML]="getSafeHtml(item.iconName)" ></div>
+  </mat-icon>
+  <span class="hide-menu">{{ item.displayName | translate }}</span>
+  <span class="arrow-icon" fxFlex *ngIf="item.children && item.children.length">
+    <span fxFlex></span>
+    <mat-icon [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">expand_more</mat-icon>
+  </span>
 </mat-list-item>
+
+
 
 }
 

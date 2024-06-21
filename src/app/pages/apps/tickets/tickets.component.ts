@@ -34,7 +34,7 @@ export class TicketsComponent {
   selectedDate: Date | null = null;
   startDateValue: string = ''; // Variable to store the start date
   endDateValue: string = ''; // Variable to store the end date
-
+  show_shimmer = true
   currentAction: string = 'Add Ticket';
 
   //TICKET ON EDIT
@@ -98,8 +98,8 @@ export class TicketsComponent {
   FETCH_TICKETINGS(): void {
     this.ticketingService.GET_TICKETINGS(this.pageSize, this.currentPage).subscribe({
       next: (response: any) => {
+        this.show_shimmer = false;
         this.tickets = response.ticketings;
-        console.log("rewsponse:", response)
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTicketings
       },
