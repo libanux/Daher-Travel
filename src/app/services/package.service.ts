@@ -36,15 +36,15 @@ export class PackageService {
   }
 
   // GET PACKAGES
-  GET_PACKAGES(page:number, size: number): Observable<any> {
+  GET_PACKAGES(page: number, size: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
     const requestBody = {
-      "pageSize":size,
-      "page":page
+      "pageSize": size,
+      "page": page
     };
 
     return this.http.post<any>(this.apiUrl + '/GET_ALL_PACKAGES', requestBody, { headers })
@@ -62,6 +62,7 @@ export class PackageService {
       "numberOfPeople": newPackage.numberOfPeople,
       "duration": newPackage.duration,
       "price": newPackage.price,
+      "source": newPackage.source,
       "hotels": newPackage.hotels,
       "status": newPackage.status,
       "sell": newPackage.sell,
@@ -84,6 +85,7 @@ export class PackageService {
         "numberOfPeople": editedPackage.numberOfPeople,
         "duration": editedPackage.duration,
         "price": editedPackage.price,
+        "source": editedPackage.source,
         "hotels": editedPackage.hotels,
         "status": editedPackage.status,
         "sell": editedPackage.sell,
@@ -107,30 +109,30 @@ export class PackageService {
     return this.http.post<any>(this.apiUrl + '/DELETE_PACKAGE', requestBody, { headers })
   }
 
-    // FILTER PACKAGE BY DATE
- SEARCH_PACKAGE(pageSize:number, currentPage: number,searchkey:string): Observable<any> {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.getToken()}`,
-        'Content-Type': 'application/json'
-      });
-      const requestBody = {
-          "name":searchkey,
-           "page": currentPage,
-           "pageSize": pageSize
-      };
-      return this.http.post<any>(this.apiUrl + '/SEARCH_PACKAGE_BY_FIELDS', requestBody, { headers })
-    }
-
-      // FILTER PACKAGE BY DATE
-  FILTER_PACKAGES_BY_STATUS(pageSize: number, currentPage: number,status: string): Observable<any> {
+  // FILTER PACKAGE BY DATE
+  SEARCH_PACKAGE(pageSize: number, currentPage: number, searchkey: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-        "status": status,
-        "page": currentPage,
-        "pageSize": pageSize
+      "name": searchkey,
+      "page": currentPage,
+      "pageSize": pageSize
+    };
+    return this.http.post<any>(this.apiUrl + '/SEARCH_PACKAGE_BY_FIELDS', requestBody, { headers })
+  }
+
+  // FILTER PACKAGE BY DATE
+  FILTER_PACKAGES_BY_STATUS(pageSize: number, currentPage: number, status: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "status": status,
+      "page": currentPage,
+      "pageSize": pageSize
     };
     return this.http.post<any>(this.apiUrl + '/FILTER_PACKAGES_BY_STATUS', requestBody, { headers })
   }

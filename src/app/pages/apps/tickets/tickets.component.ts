@@ -106,8 +106,7 @@ export class TicketsComponent {
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Ticketing')
     this.FETCH_TICKETINGS();
-    this.FETCH_CUSTOMER()
-    this.FETCH_WHOLESALERS()
+
   }
 
   ngAfterViewInit(): void {
@@ -125,11 +124,15 @@ export class TicketsComponent {
         this.tickets = response.ticketings
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTicketings
+
+        console.log("In tickets")
       },
       error: (error: any) => {
         console.log("Error:", error)
       },
       complete: () => {
+        this.FETCH_CUSTOMER()
+
       }
     });
   }
@@ -141,8 +144,11 @@ export class TicketsComponent {
       next: (response: any) => {
         this.allWholesalers = response.wholesalers
         this.filteredWholeSalers = response.wholesalers
+        console.log("In wholesalers")
       },
-      error: (error) => { },
+      error: (error) => {
+        console.log("Error wholesaler", error)
+      },
       complete: () => { }
     });
   }
@@ -154,19 +160,22 @@ export class TicketsComponent {
       next: (response: any) => {
         this.allCustomers = response.customers;
         this.filteredCustomers = response.customers;
+
       },
       error: (error) => { },
-      complete: () => { this.show_shimmer = false; }
+      complete: () => {
+        this.FETCH_WHOLESALERS()
+      }
     });
   }
-searchQuery1: string =''
+  searchQuery1: string = ''
   filterCustomers() {
-    const query = this.searchQuery1.toLowerCase();
+    const query = this.ADDED_TICKET.name.toLowerCase();
     this.filteredCustomers = this.allCustomers.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
   }
 
   filterWholesalers() {
-    const query = this.searchQuery.toLowerCase();
+    const query = this.ADDED_TICKET.wholesaler.name.toLowerCase();
     this.filteredWholeSalers = this.allWholesalers.filter(supplier => supplier.name.toLowerCase().includes(query));
   }
 
@@ -268,7 +277,7 @@ searchQuery1: string =''
 
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        console.log("Response on add ",response)
+        console.log("Response on add ", response)
         this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
       },
@@ -337,16 +346,16 @@ searchQuery1: string =''
     this.dataSource.filter = val.trim().toLowerCase();
     return this.dataSource.filteredData.length;
   }
-  onOptionSelected(event: MatAutocompleteSelectedEvent,source:string) {
-    if(source == 'customer'){
-    this.ADDED_TICKET.name = event.option.value.name
-    }else{
+  onOptionSelected(event: MatAutocompleteSelectedEvent, source: string) {
+    if (source == 'customer') {
+      this.ADDED_TICKET.name = event.option.value.name
+    } else {
       this.choosenWholesaler = event.option.value;
       this.ADDED_TICKET.wholesaler.id = event.option.value._id; // Assigning id
       this.ADDED_TICKET.wholesaler.name = event.option.value.name;
       console.log('Selected wholesaler:', this.choosenWholesaler);
     }
-  
+
   }
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
   // Function to log input changes
@@ -412,10 +421,11 @@ searchQuery1: string =''
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
+    console.log("Ticket to update:", obj)
     this.ShowAddButoon = false;
     this.ADDED_TICKET = { ...obj };
     this.currentAction = 'Update Ticket';
-
+    console.log(" updated:", this.ADDED_TICKET)
     this.open_expansion_value = 1;
     this.panelOpenState = true;
 
@@ -457,7 +467,8 @@ searchQuery1: string =''
       note: '',
       seats: ''
     }
-
+    this.searchQuery = ''
+    this.searchQuery1 = ''
     this.open_expansion_value = -1;
     this.routeSignalService.show_pop_up_route.set(false);
 
