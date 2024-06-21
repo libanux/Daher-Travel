@@ -100,7 +100,8 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     LaborReportsComponent,
     NoItemsFoundComponent,
     TableShimmerComponent,
-    WholesalerComponent
+    WholesalerComponent,
+    TicketsComponent
   ],
   providers: [DatePipe],
 })

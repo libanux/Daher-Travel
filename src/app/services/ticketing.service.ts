@@ -76,6 +76,7 @@ export class TicketingService {
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
+    console.log("New tixcket",newTicket)
     const requestBody = {
       "name": newTicket.name,
       "source": newTicket.source,
@@ -85,8 +86,8 @@ export class TicketingService {
       "credit": newTicket.credit,
       "balance": newTicket.balance,
       "wholesaler": {
-        "id": "6671874cd0f3f073ad99ba0e",
-        "name": "Example Wholesaler"
+        "id": newTicket.wholesaler.id,
+        "name": newTicket.wholesaler.name
       },
     };
     return this.http.post<any>(this.apiUrl + '/ADD_TICKETING', requestBody, { headers })
