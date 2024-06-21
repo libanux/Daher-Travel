@@ -45,17 +45,15 @@ export class VisaService {
     });
 
     const requestBody = {
-      "id": VISA._id,
+      "id": VISA.customerId,
 
       "updateData": {
-        "name": VISA.name,
+        "customerName": VISA.customerName,
         "country": VISA.country,
         "note": VISA.note,
         "sell": VISA.sell,
         "status": VISA.status,
         "type": VISA.type,
-        "createdAt": VISA.createdAt,
-        "updatedAt": VISA.updatedAt
       }
 
     };
@@ -73,15 +71,16 @@ export class VisaService {
 
     // Define the request body
     const requestBody = {
-      "name": VISA.name,
+      "customerId": "60d21b4667d0d8992e610c85",
+      "customerName": VISA.customerName,
+      "phoneNumber": "1234567890",
       "country": VISA.country,
       "note": VISA.note,
       "sell": VISA.sell,
       "status": VISA.status,
       "type": VISA.type,
-      "createdAt": VISA.createdAt,
-      "updatedAt": VISA.updatedAt
     };
+
 
     return this.httpClient.post<any>(this.apiUrl + '/ADD_VISA', requestBody, { headers });
   }

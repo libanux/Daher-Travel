@@ -57,27 +57,24 @@ export class VisaComponentComponent implements OnInit {
 
   // These are the column of the table 
   displayedColumns: string[] = [
-    'name',
+    'customerName',
     'country',
     'type',
     'sell',
     'note',
     'status',
-    'createdAt',
     'action'
   ];
 
   // This is the added or updated VISA fdefualt values
   ADDED_VISA: VisaClass = {
-    _id: '',
-    name: '',
+    customerId: '',
+    customerName: '',
     country: '',
     note: '',
     sell: '',
     status: '',
     type: '',
-    createdAt: '',
-    updatedAt: ''
   }
 
   pageSize = 10;
@@ -269,15 +266,13 @@ export class VisaComponentComponent implements OnInit {
     this.CLOSE_PANEL()
 
     this.ADDED_VISA = {
-      _id: '',
-      name: '',
+      customerId: '',
+      customerName: '',
       country: '',
       note: '',
       sell: '',
       status: '',
       type: '',
-      createdAt: '',
-      updatedAt: '',
     }
   }
 

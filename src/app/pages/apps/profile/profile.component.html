@@ -5,7 +5,7 @@
       <mat-card-content>
         <mat-card-title class="title">
           <img src="./assets/images/backgrounds/profile.png" alt="">
-          {{admin.firstname}}'s Personal Details
+          {{ admin?.firstname }}'s Personal Details <!-- Use safe navigation operator -->
         </mat-card-title>
 
         <div class="row m-t-24">
@@ -14,13 +14,13 @@
             <!-- firstname -->
             <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">First Name</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="text" [(ngModel)]="admin.firstname" placeholder="{{admin.firstname}}" />
+              <input matInput type="text"  name="firstname" [(ngModel)]="UPDATED_ADMIN.firstname" [readonly]="!UpdateProfile"/>
             </mat-form-field>
 
             <!-- Email -->
             <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Email</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="email" placeholder="{{admin.email}}" [(ngModel)]="admin.email" />
+              <input matInput type="email" name="email" [(ngModel)]="UPDATED_ADMIN.email" [readonly]="!UpdateProfile"/>
             </mat-form-field>
           </div>
 
@@ -28,13 +28,13 @@
             <!-- Last Name -->
             <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Last Name</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="text" [(ngModel)]="admin.lastname" placeholder="{{admin.lastname}}" />
+              <input matInput type="text" [(ngModel)]="UPDATED_ADMIN.lastname" [readonly]="!UpdateProfile"/>
             </mat-form-field>
 
             <!-- Phone Number -->
             <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Phone</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="text" placeholder="{{admin.phone}}" [(ngModel)]="admin.phone" />
+              <input matInput type="text" [(ngModel)]="UPDATED_ADMIN.phone" [readonly]="!UpdateProfile"/>
             </mat-form-field>
           </div>
 
@@ -50,7 +50,7 @@
                 <div>
                   <span>
                     <mat-checkbox [checked]="task.completed" [color]="task.color" [indeterminate]="someComplete(task)"
-                      (change)="setAll(task, $event.checked)">
+                      (change)="setAll(task, $event.checked)" [disabled]="!UpdateProfile">
                       {{ task.name }}
                     </mat-checkbox>
                   </span>
@@ -60,7 +60,7 @@
                     <div class="m-l-16">
                       <div>
                         <mat-checkbox [(ngModel)]="subTask.completed" [color]="subTask.color"
-                          (ngModelChange)="updateAllComplete(task)">
+                          (ngModelChange)="updateAllComplete(task)" [disabled]="!UpdateProfile">
                           {{ subTask.name }}
                         </mat-checkbox>
                       </div>
@@ -78,10 +78,21 @@
         <br>
         <br>
 
-        <div class="text-right p-24 p-t-0">
-          <button mat-stroked-button color="warn" class="m-r-8">Cancel</button>
-          <button mat-flat-button color="primary">Save</button>
-        </div>
+        @if(UpdateProfile){
+          <div class="text-right p-24 p-t-0">
+            <button mat-stroked-button color="warn" (click)="CANCEL_UPDATE()" class="m-r-8">Cancel</button>
+            <button mat-flat-button color="primary" (click)="SAVE_EDIT()">Save</button>
+          </div>
+        }
+
+        @else {
+          <div class="text-right p-24 p-t-0">
+            <button  mat-flat-button color="primary" (click)="EDIT_PROFILE()">Edit Profile</button>
+          </div>
+  
+        }
+
+
 
       </mat-card-content>
     </mat-card>
