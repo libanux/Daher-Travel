@@ -28,6 +28,12 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 })
 
 export class VisaComponentComponent implements OnInit {
+
+  // These two valus are used for the add expnad row in the top of the page
+  panelOpenState = false;
+  open_expansion_value = 0;
+
+  // shimmer --> show shimmer until data is fetched
   show_shimmer = true;
 
   months: any[] = Month_Filter_Array
@@ -37,11 +43,18 @@ export class VisaComponentComponent implements OnInit {
 
   ShowAddButoon = true;
 
+  // This value is used to check the size of array in current page
+  // In case of deletion --> when array length becomes zero 
+  // current page is current page -1 
+  //  used in delete function
+  current_page_array_length = 0;
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   searchText: any;
 
+  // These are the column of the table 
   displayedColumns: string[] = [
     'name',
     'country',
@@ -53,8 +66,7 @@ export class VisaComponentComponent implements OnInit {
     'action'
   ];
 
-  // displayedColumns : any [] = VisaColumns
-
+  // This is the added or updated VISA fdefualt values
   ADDED_VISA: VisaClass = {
     _id: -1,
     name: '',
@@ -81,21 +93,20 @@ export class VisaComponentComponent implements OnInit {
   expandedElement: VisaClass | null = null;
   VisaArray = new MatTableDataSource();
 
-  startDateValue: string = ''; // Variable to store the start date
-  endDateValue: string = ''; // Variable to store the end date
+
+  // Storing the start and end date selected in filtering by Date
+  // Used in filter by date
+  startDateValue: string = '';
+  endDateValue: string = '';
 
   constructor(private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
-  // 1 basic
-  panelOpenState = false;
-  open_expansion_value = 0;
-
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Visa')
     this.pageSize = this.generalService.PageSizing
-    this.FETCH_VISA();
+    this.FETCH_VISA(this.Current_page);
   }
 
   showDatePicker = false;
@@ -119,7 +130,7 @@ export class VisaComponentComponent implements OnInit {
     // Status filtering
     else if (dropdown == 'status') {
       if (value == 'all') {
-        this.FETCH_VISA()
+        this.FETCH_VISA(this.Current_page)
       }
       else {
         this.FILTER_ARRAY_BY_STATUS(value)
@@ -142,18 +153,18 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
-    // Method to handle the panel closed event
-    panelClosed() {
-      this.open_expansion_value = 0;
-      this.panelOpenState = false;
-    }
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
 
 
   // function when page number changes
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-    this.FETCH_VISA();
+    this.FETCH_VISA(this.Current_page);
   }
 
 
@@ -235,45 +246,37 @@ export class VisaComponentComponent implements OnInit {
 
   // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
-  // GET ALL VISA'S 
-  // FETCH_VISA() {
-  //   this.show_shimmer = true;
-  //   this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
-  //     next: (response: any) => {
-  //       this.VisaArray = new MatTableDataSource(response.visas);
-  //       this.Visa_Array_length = response.pagination.totalVisas;
-  //     },
-  //     error: (error) => { },
-  //     complete: () => { this.CANCEL_UPDATE(); this.show_shimmer = false; }
-
-  //   });
-  // }
 
   // GET ALL VISA'S 
-FETCH_VISA() {
-  this.show_shimmer = true;
-  this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
-    next: (response: any) => {
-      // Sort visas array by createdAt date in descending order
-      response.visas.sort((a: VisaClass, b: VisaClass) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      });
+  FETCH_VISA(currentPage: number) {
+    this.show_shimmer = true;
+    this.visaService.GET_ALL_VISA(currentPage, this.pageSize).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.current_page_array_length = response.visas.length
 
-      this.VisaArray = new MatTableDataSource(response.visas);
-      this.Visa_Array_length = response.pagination.totalVisas;
-    },
-    error: (error) => { },
-    complete: () => { this.CANCEL_UPDATE(); this.show_shimmer = false; }
-  });
-}
+        this.VisaArray = new MatTableDataSource(response.visas);
+        this.Visa_Array_length = response.pagination.totalVisas;
+      
+        console.log(this.Visa_Array_length);
+      },
+      error: (error) => { },
+      complete: () => { this.show_shimmer = false; }
+
+    });
+  }
 
 
   // DELETE 
   DELETE_VISA(ID: number): void {
     this.visaService.DELETE_VISA(ID).subscribe({
-      next: (response: any) => { },
+      next: (response: any) => {
+        if (this.current_page_array_length == 1) {
+          this.Current_page = this.Current_page - 1
+        }
+      },
       error: (error) => { },
-      complete: () => { this.FETCH_VISA(); }
+      complete: () => { this.FETCH_VISA(this.Current_page); }
     });
   }
 
@@ -282,8 +285,8 @@ FETCH_VISA() {
     this.visaService.ADD_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { 
-        this.FETCH_VISA();     
+      complete: () => {
+        this.FETCH_VISA(this.Current_page); this.CANCEL_UPDATE();
       }
     });
   }
@@ -293,7 +296,7 @@ FETCH_VISA() {
     this.visaService.UPDATE_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_VISA(); }
+      complete: () => { this.FETCH_VISA(this.Current_page); this.CANCEL_UPDATE(); }
     });
   }
 
@@ -364,8 +367,8 @@ FETCH_VISA() {
   // SEARCH FUNCTION
   APPLY_SEARCH_FILTER(filterValue: string): void {
     this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue).subscribe({
-      next: (response: any) => {this.VisaArray = new MatTableDataSource(response.visas);},
-      error: (error) => {this.VisaArray = new MatTableDataSource();},
+      next: (response: any) => { this.VisaArray = new MatTableDataSource(response.visas); },
+      error: (error) => { this.VisaArray = new MatTableDataSource(); },
       complete: () => { }
     });
   }
