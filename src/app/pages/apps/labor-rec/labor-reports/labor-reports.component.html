@@ -1,155 +1,155 @@
 <div class="row">
 
-    <!-- FROM DATE -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <mat-card class="shadow-none">
-          <mat-card-header>
-            <mat-card-title>From</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Choose a date</mat-label>
-              <input matInput [matDatepicker]="pickerFrom" />
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-              <mat-datepicker #pickerFrom></mat-datepicker>
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    
-    <!-- TO DATE -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <mat-card class="shadow-none">
-          <mat-card-header>
-            <mat-card-title>To</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Choose a date</mat-label>
-              <input matInput [matDatepicker]="pickerTo" />
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="pickerTo"></mat-datepicker-toggle>
-              <mat-datepicker #pickerTo></mat-datepicker>
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    
-      <!-- PERIOD TIME -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <mat-card class="shadow-none">
-          <mat-card-header>
-            <mat-card-title>Period</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select placeholder="Period Time">
-                @for(month of months; track month) {
-                <mat-option value={{month.value}}>{{month.viewValue}}</mat-option>
-                }
-              </mat-select>
-    
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <mat-card class="shadow-none">
-          <mat-card-header>
-            <mat-card-title>Track Column By</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select placeholder="Category">
-                @for(category of Categories; track category) {
-                <mat-option value={{category}}>{{category}}</mat-option>
-                }
-              </mat-select>
-    
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    
-    </div>
-    
-    <mat-card class="cardWithShadow">
-    
-      <!-- HEADER : search + dropdowns -->
-      <header>
-        <div class="searchbar p-20">
+  <!-- FROM DATE -->
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <mat-card-title>From</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Search...">
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
-                width="24px" fill="#5f6368">
-                <path
-                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-              </svg>
-            </mat-icon>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="pickerFrom" />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFrom></mat-datepicker>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+  <!-- TO DATE -->
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <mat-card-title>To</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="pickerTo" />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="pickerTo"></mat-datepicker-toggle>
+            <mat-datepicker #pickerTo></mat-datepicker>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- PERIOD TIME -->
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <mat-card-title>Period</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select placeholder="Period Time">
+              @for(month of months; track month) {
+              <mat-option value={{month.value}}>{{month.viewValue}}</mat-option>
+              }
+            </mat-select>
+  
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="col-lg-3 col-md-6 col-sm-6">
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <mat-card-title>Track Column By</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select placeholder="Category">
+              @for(category of Categories; track category) {
+              <mat-option value={{category}}>{{category}}</mat-option>
+              }
+            </mat-select>
+  
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+  </div>
+  
+  <mat-card class="cardWithShadow">
+  
+    <!-- HEADER : search + dropdowns -->
+    <header>
+      <div class="searchbar p-20">
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput placeholder="Search...">
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
+              width="24px" fill="#5f6368">
+              <path
+                d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+  
+      <div class="Buttons_div">
+        <div class="dropdown">
+          <mat-form-field class="theme-select" appearance="outline">
+            <mat-select [(ngModel)]="selectedDownloadOption" (selectionChange)="onChange($event.value, 'Download')"
+              placeholder="Download as ">
+              <mat-option *ngFor="let option of Options" [value]="option.value">{{ option.viewValue }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
-    
-        <div class="Buttons_div">
-          <div class="dropdown">
-            <mat-form-field class="theme-select" appearance="outline">
-              <mat-select [(ngModel)]="selectedDownloadOption" (selectionChange)="onChange($event.value, 'Download')"
-                placeholder="Download as ">
-                <mat-option *ngFor="let option of Options" [value]="option.value">{{ option.viewValue }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </header>
-    
-      <mat-card-content>
-    
-        <div class="table-responsive">
-          <table mat-table [dataSource]="TableData" multiTemplateDataRows>
-            @for( column of headers; track column) {
-    
-            <ng-container matColumnDef="{{ column }}">
-              <!-- table headers -->
-              <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ column |
-                titlecase}}</th>
-              <!-- table Data -->
-              <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0">
-                <!-- <ng-container *ngIf="column !== 'action'; else actionColumn"> {{ element[column] }} </ng-container> -->
-                <ng-container *ngIf="column !== 'category'; else categoryColumn"> {{ element[column] }} </ng-container>
-    
-                <ng-template #categoryColumn>
-                  <span class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ element[column] }}</span>
-                </ng-template>
-    
-                <!-- <ng-template #actionColumn>
-                  <div class="action-link">
-                    <a (click)="SELECTED_CUSTOMER(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit"
-                        class="icon-18"></i-tabler></a>
-                    <a (click)="OPEN_DIALOG('delete', element)" class="m-r-10 cursor-pointer"><i-tabler name="trash"
-                        class="icon-18"></i-tabler></a>
-                  </div>
-                </ng-template> -->
-              </td>
-            </ng-container>
-            }
-    
-            <!-- HEADER AND ROW DEFINITIONS -->
-            <tr mat-header-row *matHeaderRowDef="headers"></tr>
-            <tr mat-row *matRowDef="let element; columns: headers"></tr>
-    
-          </table>
-        </div>
-    
-        <!-- <mat-paginator 
-        [pageSizeOptions]="[10, 20, 30]" 
-        [length]="CUSTOMERS_Array_length" 
-        [pageSize]="pageSize"
-        aria-label="Select page" 
-        showFirstLastButtons (page)="onPageChange($event)">
-      </mat-paginator> -->
-    
-      </mat-card-content>
-    
-    </mat-card>
+      </div>
+    </header>
+  
+    <mat-card-content>
+  
+      <div class="table-responsive">
+        <table mat-table [dataSource]="TableData" multiTemplateDataRows>
+          @for( column of headers; track column) {
+  
+          <ng-container matColumnDef="{{ column }}">
+            <!-- table headers -->
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ column |
+              titlecase}}</th>
+            <!-- table Data -->
+            <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0">
+              <!-- <ng-container *ngIf="column !== 'action'; else actionColumn"> {{ element[column] }} </ng-container> -->
+              <ng-container *ngIf="column !== 'category'; else categoryColumn"> {{ element[column] }} </ng-container>
+  
+              <ng-template #categoryColumn>
+                <span class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ element[column] }}</span>
+              </ng-template>
+  
+              <!-- <ng-template #actionColumn>
+                <div class="action-link">
+                  <a (click)="SELECTED_CUSTOMER(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit"
+                      class="icon-18"></i-tabler></a>
+                  <a (click)="OPEN_DIALOG('delete', element)" class="m-r-10 cursor-pointer"><i-tabler name="trash"
+                      class="icon-18"></i-tabler></a>
+                </div>
+              </ng-template> -->
+            </td>
+          </ng-container>
+          }
+  
+          <!-- HEADER AND ROW DEFINITIONS -->
+          <tr mat-header-row *matHeaderRowDef="headers"></tr>
+          <tr mat-row *matRowDef="let element; columns: headers"></tr>
+  
+        </table>
+      </div>
+  
+      <!-- <mat-paginator 
+      [pageSizeOptions]="[10, 20, 30]" 
+      [length]="CUSTOMERS_Array_length" 
+      [pageSize]="pageSize"
+      aria-label="Select page" 
+      showFirstLastButtons (page)="onPageChange($event)">
+    </mat-paginator> -->
+  
+    </mat-card-content>
+  
+  </mat-card>

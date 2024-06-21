@@ -8,6 +8,7 @@ import { Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Tickets } from 'src/app/classes/tickets.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
+import { CustomerService } from 'src/app/services/Customer.service';
 
 @Component({
   selector: 'app-tickets',
@@ -72,7 +73,7 @@ export class TicketsComponent {
   //TICKETS
   dataSource = new MatTableDataSource(this.tickets);
   //TICKET ON EDIT
-  ADDED_TICKET: Tickets = {   
+  ADDED_TICKET: Tickets = {
     _id: '',
     name: '',
     wholesaler: {
@@ -86,8 +87,10 @@ export class TicketsComponent {
     credit: '',
     note: '',
     seats: ''
-}
-  constructor(private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  }
+
+  searchQuery: string;
+  constructor(private customerService : CustomerService, private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
 
 
   }
@@ -100,6 +103,7 @@ export class TicketsComponent {
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Ticketing')
     this.FETCH_TICKETINGS();
+    this.FETCH_CUSTOMER()
   }
 
   ngAfterViewInit(): void {
@@ -107,14 +111,14 @@ export class TicketsComponent {
   }
   pageSize = 10;
   currentPage = 1;
-
+  filteredCustomers: any[] = []
 
   //FETCH TICKETINGS FROM API
   FETCH_TICKETINGS(): void {
     this.ticketingService.GET_TICKETINGS(this.pageSize, this.currentPage).subscribe({
       next: (response: any) => {
         this.show_shimmer = false;
-        this.tickets = response.ticketings;
+        this.tickets = response.ticketings
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTicketings
       },
@@ -124,6 +128,30 @@ export class TicketsComponent {
       complete: () => {
       }
     });
+  }
+  // GET ALL CUSTOMER'S 
+  FETCH_CUSTOMER() {
+    this.show_shimmer = true;
+
+    this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
+      next: (response: any) => {
+        this.filteredCustomers = response.customers;
+      },
+      error: (error) => { },
+      complete: () => { this.show_shimmer = false; }
+    });
+  }
+  filterCustomers() {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredCustomers = this.tickets.filter(supplier => supplier.name.toLowerCase().includes(query));
+  }
+
+  displayFn(product: { id: number, name: string }): string {
+    return product ? product.name : '';
+  }
+  addNewProduct() {
+    // Logic to add a new product
+    console.log('Add new product clicked');
   }
 
 
@@ -377,7 +405,7 @@ export class TicketsComponent {
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Tickets) {
-    this.ADDED_TICKET = {   
+    this.ADDED_TICKET = {
       _id: '',
       name: '',
       wholesaler: {
@@ -391,7 +419,7 @@ export class TicketsComponent {
       credit: '',
       note: '',
       seats: ''
-  }
+    }
 
     this.open_expansion_value = -1;
     this.routeSignalService.show_pop_up_route.set(false);

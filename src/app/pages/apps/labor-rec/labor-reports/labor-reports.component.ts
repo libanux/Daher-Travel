@@ -4,7 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Month_Filter_Array, Download_Options, Categories, GeneralService } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
-// Define the headers as an array of Header objects
 const headers: any[] = [
   'category',
   'Cost',
@@ -22,7 +21,7 @@ const tableData: any[] = [
 @Component({
   selector: 'app-labor-reports',
   templateUrl: './labor-reports.component.html',
-  styleUrl: './labor-reports.component.scss'
+  styleUrls: ['./labor-reports.component.scss', '../../../../../assets/scss/apps/general_table.scss']
 })
 export class LaborReportsComponent {
 
