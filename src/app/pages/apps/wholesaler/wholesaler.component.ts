@@ -197,16 +197,28 @@ export class WholesalerComponent implements OnInit {
   // SELECT OBJECT TO UPDATE
   SELECTED_WHOLESALER(obj: WholesalerClass): void {
     this.ShowAddButoon = false;
-    this.open_expansion_value = 1 ;
     this.currentAction = "Update Customer"
-    this.ADDED_WHOLESALER = obj
+    this.ADDED_WHOLESALER = obj;
+
+    this.open_expansion_value = 1;
+    this.panelOpenState = true;
   }
+
+    // Method to handle the panel closed event
+    panelClosed() {
+      this.open_expansion_value = 0;
+      this.panelOpenState = false;
+    }
+  
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
     this.ShowAddButoon = true;
     this.currentAction = "Add Customer"
-    this.open_expansion_value = -1 ;
+    this.open_expansion_value = -1;
+
+    this.panelClosed()
+
     this.ADDED_WHOLESALER = {
       _id: '',
       name: '',

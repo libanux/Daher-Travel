@@ -32,10 +32,6 @@ export class AppLoginComponent {
   //LOGIN FUNCTION
   login() {
 
-    // this.router.navigate(['/apps/package']).then(() => {
-    //   window.scrollTo(0, 0);
-    // })
-
     const authenticationParams: Params_Authenticate = {
       email: this.form.value.uname ?? undefined,
       password: this.form.value.password ?? undefined // Use nullish coalescing to convert null to undefined
@@ -43,8 +39,7 @@ export class AppLoginComponent {
 
       this.authserivece.SIGN_IN(authenticationParams).subscribe({
         next: (response: any) => {
-          console.log(response)
-            this.router.navigate(['/apps/package']).then(() => {
+            this.router.navigate(['/apps/tickets']).then(() => {
               window.scrollTo(0, 0);
             }),
               localStorage.setItem('TICKET', response.token),

@@ -11,17 +11,17 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
   selector: 'app-customers',
   templateUrl: './customers.component.html',
   styleUrls: [
-     '../../../../../assets/scss/apps/_add_expand.scss',
-     '../../../../../assets/scss/apps/general_table.scss'
-    ],
+    '../../../../../assets/scss/apps/_add_expand.scss',
+    '../../../../../assets/scss/apps/general_table.scss'
+  ],
 })
 
 export class CustomersComponent implements OnInit {
-   // 1 basic
-   panelOpenState = false;
-   open_expansion_value = 0;
+  // 1 basic
+  panelOpenState = false;
+  open_expansion_value = 0;
 
- show_shimmer = true;
+  show_shimmer = true;
 
   rangeStart = signal('');
   rangeEnd = signal('');
@@ -61,7 +61,7 @@ export class CustomersComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private breadCrumbService: BreadCrumbSignalService ,private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
+  constructor(private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
     ))
@@ -71,7 +71,7 @@ export class CustomersComponent implements OnInit {
     this.breadCrumbService.currentRoute.set('Customers')
     this.FETCH_CUSTOMER();
   }
-  
+
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
@@ -87,7 +87,7 @@ export class CustomersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'delete') {       
+      if (result.event === 'delete') {
         this.DELETE_CUSTOMER(obj._id);
       }
     });
@@ -112,14 +112,13 @@ export class CustomersComponent implements OnInit {
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: CustomerClass, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
-    else
-     { 
+    else {
       localStorage.setItem('viewed_cutomer_id', element._id)
       this.VIEW_CUSTOMER()
-     }
+    }
   }
 
-// ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
+  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE 
 
 
   // GET ALL CUSTOMER'S 
@@ -128,12 +127,12 @@ export class CustomersComponent implements OnInit {
 
     this.customerService.GET_ALL_CUSTOMER(this.Current_page).subscribe({
       next: (response: any) => {
-        this.CustomersArray = new MatTableDataSource(response.customers); 
-       this.CUSTOMERS_Array_length = response.pagination.totalCustomers
+        this.CustomersArray = new MatTableDataSource(response.customers);
+        this.CUSTOMERS_Array_length = response.pagination.totalCustomers
       },
-      error: (error) => {  },
+      error: (error) => { },
       complete: () => {
-        this.CANCEL_UPDATE();     
+        this.CANCEL_UPDATE();
         this.show_shimmer = false;
       }
     });
@@ -153,7 +152,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => {this.FETCH_CUSTOMER(); }
+      complete: () => { this.FETCH_CUSTOMER(); }
     });
   }
 
@@ -162,7 +161,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => {this.FETCH_CUSTOMER();}
+      complete: () => { this.FETCH_CUSTOMER(); }
     });
   }
 
@@ -171,7 +170,15 @@ export class CustomersComponent implements OnInit {
     this.ShowAddButoon = false;
     this.currentAction = "Update Customer";
     this.ADDED_CUSTOMER = obj;
+
     this.open_expansion_value = 1;
+    this.panelOpenState = true;
+  }
+
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
   }
 
   // CANCEL UPDATE
@@ -179,6 +186,8 @@ export class CustomersComponent implements OnInit {
     this.ShowAddButoon = true;
     this.currentAction = "Add Customer"
     this.open_expansion_value = -1;
+
+    this.panelClosed()
 
     this.ADDED_CUSTOMER = {
       _id: '',
@@ -188,12 +197,13 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  APPLY_SEARCH_FILTER(filterValue: string): void {  
+  APPLY_SEARCH_FILTER(filterValue: string): void {
     this.customerService.FILTER_BY_SEARCH_KEY(filterValue, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => { this.CustomersArray = new MatTableDataSource(response.customers); },
       error: (error) => { this.CustomersArray = new MatTableDataSource() },
       complete: () => { }
-    });   }
+    });
+  }
 
 }
 
@@ -209,7 +219,7 @@ export class CustomersComponent implements OnInit {
   styleUrl: '../customers-dialog-content/customers-dialog-content.component.scss'
 })
 // tslint:disable-next-line: component-class-suffix
-export class CustomerDialogContentComponent{
+export class CustomerDialogContentComponent {
   package = { selected: false, read: false, write: false };
   visa = { selected: false, read: false, write: false };
 
@@ -220,8 +230,7 @@ export class CustomerDialogContentComponent{
   constructor(
     public dialogRef: MatDialogRef<CustomerDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: CustomerClass,
-  ) 
-  {
+  ) {
     this.CUSTOMER_SELECTED = { ...data };
     this.action = this.CUSTOMER_SELECTED.action;
   }

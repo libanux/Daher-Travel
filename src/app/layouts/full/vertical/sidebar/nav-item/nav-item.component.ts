@@ -66,7 +66,6 @@ export class AppNavItemComponent implements OnChanges,OnInit{
     }
 
     else {
-      console.log('here in else after closed')
       if (!item.children || !item.children.length) {
         this.router.navigate([item.route]); 
       }
@@ -85,7 +84,6 @@ export class AppNavItemComponent implements OnChanges,OnInit{
   }
 
   OPEN_DIALOG(obj: any): void {
-    console.log('here')
     const dialogRef = this.dialog.open(NavbarItemDialogContentComponent, {
       data: obj,
     });
@@ -95,7 +93,6 @@ export class AppNavItemComponent implements OnChanges,OnInit{
         this.onItemSelected(obj);
       }
       else {
-        console.log('cancel')
         dialogRef.close({ event: 'Cancel' });
       }
     });
@@ -158,7 +155,6 @@ export class NavbarItemDialogContentComponent{
   ) 
   {
     this.Selected_Route = { ...data };
-    console.log('hello ', this.Selected_Route)
   }
 
   doAction(): void {

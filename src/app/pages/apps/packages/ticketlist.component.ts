@@ -235,9 +235,16 @@ export class AppTicketlistComponent implements OnInit {
   UPDATE(obj: Package): void {
     this.ShowAddButoon = false;
     this.editedpackage = { ...obj };
+    
     this.open_expansion_value = 1;
+    this.panelOpenState = true;
   }
 
+    // Method to handle the panel closed event
+    panelClosed() {
+      this.open_expansion_value = 0;
+      this.panelOpenState = false;
+    }
 
   //UPDATE PACKAGE VALUES
   UPDATE_PACKAGE() {
@@ -276,7 +283,6 @@ export class AppTicketlistComponent implements OnInit {
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Package) {
-    console.log("Here")
     obj._id = '';
     obj.name = '';
     obj.source = '';
@@ -289,7 +295,9 @@ export class AppTicketlistComponent implements OnInit {
     obj.netprofit = 0;
     obj.note = '';
     obj.status = '';
-    console.log("Edited cleared:", obj)
+    console.log("Edited cleared:", obj);
+
+    this.panelClosed()
   }
 
 

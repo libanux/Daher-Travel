@@ -146,7 +146,6 @@ export class VisaComponentComponent implements OnInit {
     panelClosed() {
       this.open_expansion_value = 0;
       this.panelOpenState = false;
-      console.log('closed')
     }
 
 
@@ -237,18 +236,37 @@ export class VisaComponentComponent implements OnInit {
   // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
   // GET ALL VISA'S 
-  FETCH_VISA() {
-    this.show_shimmer = true;
-    this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
-      next: (response: any) => {
-        this.VisaArray = new MatTableDataSource(response.visas);
-        this.Visa_Array_length = response.pagination.totalVisas;
-      },
-      error: (error) => { },
-      complete: () => { this.CANCEL_UPDATE(); this.show_shimmer = false; }
+  // FETCH_VISA() {
+  //   this.show_shimmer = true;
+  //   this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
+  //     next: (response: any) => {
+  //       this.VisaArray = new MatTableDataSource(response.visas);
+  //       this.Visa_Array_length = response.pagination.totalVisas;
+  //     },
+  //     error: (error) => { },
+  //     complete: () => { this.CANCEL_UPDATE(); this.show_shimmer = false; }
 
-    });
-  }
+  //   });
+  // }
+
+  // GET ALL VISA'S 
+FETCH_VISA() {
+  this.show_shimmer = true;
+  this.visaService.GET_ALL_VISA(this.Current_page).subscribe({
+    next: (response: any) => {
+      // Sort visas array by createdAt date in descending order
+      response.visas.sort((a: VisaClass, b: VisaClass) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      });
+
+      this.VisaArray = new MatTableDataSource(response.visas);
+      this.Visa_Array_length = response.pagination.totalVisas;
+    },
+    error: (error) => { },
+    complete: () => { this.CANCEL_UPDATE(); this.show_shimmer = false; }
+  });
+}
+
 
   // DELETE 
   DELETE_VISA(ID: number): void {
