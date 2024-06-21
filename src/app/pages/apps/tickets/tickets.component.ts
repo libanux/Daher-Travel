@@ -9,6 +9,7 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 import { Tickets } from 'src/app/classes/tickets.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerService } from 'src/app/services/Customer.service';
+import { WholesalerService } from 'src/app/services/wholesaler.service';
 
 @Component({
   selector: 'app-tickets',
@@ -90,7 +91,7 @@ export class TicketsComponent {
   }
 
   searchQuery: string;
-  constructor(private customerService : CustomerService, private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(private wholesaler : WholesalerService,private customerService : CustomerService, private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
 
 
   }
@@ -104,6 +105,7 @@ export class TicketsComponent {
     this.breadCrumbService.currentRoute.set('Ticketing')
     this.FETCH_TICKETINGS();
     this.FETCH_CUSTOMER()
+    this.FETCH_WHOLESALERS()
   }
 
   ngAfterViewInit(): void {
@@ -129,21 +131,41 @@ export class TicketsComponent {
       }
     });
   }
+allWholesalers: any[] =[]
+filteredWholeSalers: any[]=[]
+    // GET ALL WHOLESALERS
+    FETCH_WHOLESALERS() {
+      this.wholesaler.GET_ALL_WHOLESALERS_WITH_NO_PAGING().subscribe({
+        next: (response: any) => {
+          this.allWholesalers = response.wholesalers
+          this.filteredWholeSalers = response.wholesalers
+        },
+        error: (error) => { },
+        complete: () => { }
+      });
+    }
+  
+    allCustomers: any =[]
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
-    this.show_shimmer = true;
-
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
       next: (response: any) => {
+        this.allCustomers = response.customers;
         this.filteredCustomers = response.customers;
       },
       error: (error) => { },
       complete: () => { this.show_shimmer = false; }
     });
   }
+  
   filterCustomers() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredCustomers = this.tickets.filter(supplier => supplier.name.toLowerCase().includes(query));
+    this.filteredCustomers = this.allCustomers.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
+  }
+
+  filterWholesalers() {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredWholeSalers = this.allWholesalers.filter(supplier => supplier.name.toLowerCase().includes(query));
   }
 
   displayFn(product: { id: number, name: string }): string {
