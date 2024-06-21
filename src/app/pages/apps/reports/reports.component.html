@@ -2,9 +2,7 @@
 
   <!-- HEADER : search + dropdowns -->
   <header>
-
     <div class="filter-date-report p-20">
-
       <section>
 
         <!-- DATE -->
@@ -28,40 +26,40 @@
         </div>
 
         @if(showDatePicker) {
-          <mat-form-field appearance="outline" class="date_picker">
-  
-            <mat-date-range-input [rangePicker]="custompicker">
-              <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue"
-                (ngModelChange)="handleStartDateChange($event)" />
-              <input matEndDate placeholder="End date" [(ngModel)]="endDateValue"
-                (ngModelChange)="handleEndDateChange($event)" />
-            </mat-date-range-input>
-  
-            <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
-            <mat-date-range-picker #custompicker></mat-date-range-picker>
-  
-          </mat-form-field>
-          }
+        <mat-form-field appearance="outline" class="date_picker">
+
+          <mat-date-range-input [rangePicker]="custompicker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue"
+              (ngModelChange)="handleStartDateChange($event)" />
+            <input matEndDate placeholder="End date" [(ngModel)]="endDateValue"
+              (ngModelChange)="handleEndDateChange($event)" />
+          </mat-date-range-input>
+
+          <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #custompicker></mat-date-range-picker>
+
+        </mat-form-field>
+        }
       </section>
 
-        <!-- Download As -->
-        <div class="dropdown">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select p placeholder="Download as" [(ngModel)]="selectedDownloadOption"
-              (selectionChange)="onChange($event.value, 'option')">
-              @for(option of Options; track option) {
-              <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-              }
-            </mat-select>
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
-            </mat-icon>
-          </mat-form-field>
-        </div>
-
+      <!-- Download As -->
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+            (selectionChange)="onChange($event.value, 'Download')">
+            @for(option of Options; track option) {
+            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+            }
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
     </div>
-
-
   </header>
 
   <mat-card-content>
@@ -82,15 +80,6 @@
             <ng-template #categoryColumn>
               <span class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ element[column] }}</span>
             </ng-template>
-
-            <!-- <ng-template #actionColumn>
-              <div class="action-link">
-                <a (click)="SELECTED_CUSTOMER(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit"
-                    class="icon-18"></i-tabler></a>
-                <a (click)="OPEN_DIALOG('delete', element)" class="m-r-10 cursor-pointer"><i-tabler name="trash"
-                    class="icon-18"></i-tabler></a>
-              </div>
-            </ng-template> -->
           </td>
         </ng-container>
         }

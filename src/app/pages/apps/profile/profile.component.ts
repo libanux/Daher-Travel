@@ -12,6 +12,8 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 export class ProfileComponent implements OnInit {
 
   admin: Admin;
+  UPDATED_ADMIN: Admin;
+
   adminID: string = '';
   permissions: any = PERMISSIONS
 
@@ -24,6 +26,8 @@ export class ProfileComponent implements OnInit {
   //   basic
   allComplete: boolean = false;
 
+  UpdateProfile = false;
+
   constructor(private adminService: AdminService, private breadCrumbService: BreadCrumbSignalService) {
     this.admin = new Admin();
   }
@@ -32,16 +36,37 @@ export class ProfileComponent implements OnInit {
     this.breadCrumbService.currentRoute.set('Profile');
     this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
     this.GET_ADMIN_PROFILE_BY_ID(this.adminID);
+
   }
 
+  EDIT_PROFILE(){
+    this.UpdateProfile = true;
+    this.UPDATED_ADMIN = {...this.admin}
+  }
+
+  CANCEL_UPDATE(){
+    this.UpdateProfile = false;
+    this.GET_ADMIN_PROFILE_BY_ID(this.adminID);
+  }
+
+  SAVE_EDIT(){
+
+  }
+
+
   GET_ADMIN_PROFILE_BY_ID(ID: string) {
-    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+    this.adminService.GET_ADMIN_BY_ID(ID).subscribe({
       next: (response: any) => {
         this.admin = response;
         this.permissions = this.mapPermissions(response.permissions);
       },
-      error: (error: any) => { console.error('Error:', error); },
-      complete: () => { }
+      error: (error: any) => { 
+       this.UPDATED_ADMIN = new Admin();
+      },
+      complete: () => { 
+        this.UPDATED_ADMIN = this.admin;
+        console.log(this.UPDATED_ADMIN)
+      }
     });
   }
 

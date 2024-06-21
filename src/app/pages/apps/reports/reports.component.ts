@@ -28,7 +28,7 @@ export class ReportsComponent implements OnInit {
 
   ShowAddButoon = true;
   selectedMonth: string = '';
-  selectedDownloadOption: string = '';
+  selectedDownloadOption: string = 'Download as';
 
   // Storing the start and end date selected in filtering by Date
   // Used in filter by date
@@ -69,13 +69,12 @@ onChange(value: string, dropdown: string) {
   }
 
   else if (dropdown == 'Download') {
-    if (value == 'all') {
-      // this.FETCH_VISA()
-    }
-    else {
-      // this.FILTER_ARRAY_BY_STATUS(value)
-    }
+      this.DOWNLOAD(value);
   }
+}
+
+DOWNLOAD(OPTION : string): string{
+  return this.selectedDownloadOption = 'Download As'
 }
 
 FORMAT_DATE_YYYYMMDD(date: Date): string {

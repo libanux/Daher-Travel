@@ -20,7 +20,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Name" [(ngModel)]="ADDED_VISA.name" (ngModelChange)="onInputChange()" />
+            <input matInput placeholder="customerName" [(ngModel)]="ADDED_VISA.customerName" (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -301,7 +301,7 @@
 
                 <div class="detail-body mt-3">
                   <div class="col-md-4">
-                    <div class="detail-field"><strong>name:</strong> {{ element.name }}</div>
+                    <div class="detail-field"><strong>name:</strong> {{ element.customerName }}</div>
                     <div class="detail-field"><strong>country:</strong> {{ element.country }}</div>
                     <div class="detail-field"><strong>destination:</strong> {{ element.destination }}</div>
                   </div>
@@ -312,7 +312,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="detail-field"><strong>status:</strong> {{ element.status }}</div>
-                    <div class="detail-field"><strong>Created At:</strong> {{ element.createdAt }}</div>
+                    <!-- <div class="detail-field"><strong>Created At:</strong> {{ element.createdAt }}</div> -->
                     <div class="detail-field"><strong>updatedAt:</strong> {{ element.updatedAt }}</div>
                   </div>
                 </div>

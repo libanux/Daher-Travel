@@ -77,25 +77,10 @@ show_shimmer = true;
 
   OPEN_DIALOG(action: string, obj: any): void {
 
-    this.ADDED_ADMIN = {
-      _id: obj._id,
-      firstname: obj.firstname,
-      lastname: obj.lastname,
-      email: obj.email,
-      phone: obj.phone,
-      password: obj.password,
-      permissions: {
-          packages: obj.packages,
-          visa: obj.visa,
-          recruitment: obj.recruitment,
-          accounting: obj.accounting,
-          users: obj.users,
-          notes:obj.notes,
-      },
-      token: '',
-    }
-
+    this.ADDED_ADMIN = obj
     obj.action = action;
+
+    console.log(obj)
 
     const dialogRef = this.dialog.open(AdminDialogContentComponent, {
       data: obj,
@@ -116,11 +101,13 @@ show_shimmer = true;
   }
 
   ADD_ADMIN(object: Admin): void {
-    this.adminService.ADD_ADMIN(object).subscribe({
-      next: (response: any) => { },
-      error: (error) => { },
-      complete: () => { this.FETCH_ADMINS(); }
-    });
+
+    console.log(object)
+    // this.adminService.ADD_ADMIN(object).subscribe({
+    //   next: (response: any) => { },
+    //   error: (error) => { },
+    //   complete: () => { this.FETCH_ADMINS(); }
+    // });
   }
 
   UPDATE_ADMIN(row_obj: Admin): void {
@@ -202,7 +189,7 @@ export class AdminDialogContentComponent{
     this.dialogRef.close({ event: this.action, data: this.ADMIN_SELECTED });
   }
 
-  ADD(){
+  ADD_ADMIN(){
   }
 
   CLOSE_DIALOG(): void {
