@@ -50,7 +50,7 @@ export class AppTicketlistComponent implements OnInit {
     duration: 0,
     hotels: '',
     numberOfPeople: 0,
-    price: 0,
+    cost: 0,
     sell: 0,
     netprofit: 0,
     note: '',
@@ -58,7 +58,7 @@ export class AppTicketlistComponent implements OnInit {
   }
 
   //TABLE COLUMNS
-  displayedColumns: string[] = ['name', 'source', 'destination', 'numberOfPeople', 'duration', 'price', 'sell', 'hotels', 'note', 'status', 'action'];
+  displayedColumns: string[] = ['name', 'source', 'destination', 'numberOfPeople', 'duration', 'cost', 'sell', 'hotels', 'note', 'status', 'action'];
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Package | null = null;
@@ -97,7 +97,7 @@ export class AppTicketlistComponent implements OnInit {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
     this.editedpackage.sell = 1
-    this.editedpackage.price = 1
+    this.editedpackage.cost = 1
     this.editedpackage.numberOfPeople = 1
     this.editedpackage.duration = 1
 
@@ -108,7 +108,7 @@ export class AppTicketlistComponent implements OnInit {
     this.FETCH_PACKAGES();
   }
   onDateSelect(date: Date) {
-    console.log('Selected Date:', date);
+    // console.log('Selected Date:', date);
   }
 
 
@@ -155,7 +155,7 @@ export class AppTicketlistComponent implements OnInit {
 
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -175,7 +175,7 @@ export class AppTicketlistComponent implements OnInit {
       error: (error: any) => {
         this.packages = []
         this.totalCount = 0;
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -206,7 +206,6 @@ export class AppTicketlistComponent implements OnInit {
         this.FETCH_PACKAGES()
       }
       else {
-        console.log("Value", value)
         this.FILTER_PACKAGES(value)
       }
     }
@@ -308,14 +307,10 @@ export class AppTicketlistComponent implements OnInit {
 
   //UPDATE PACKAGE VALUES
   UPDATE_PACKAGE() {
-    console.log("Edited pack", this.editedpackage)
     this.packagesService.UPDATE_PACKAGE(this.editedpackage).subscribe({
       next: (response: any) => {
-        console.log('Response:', response);
-        console.log("Edited pack after edit", this.editedpackage)
         this.FETCH_PACKAGES();
         this.CLEAR_VALUES(this.editedpackage)
-
       },
       error: (error: any) => {
         console.error('Error:', error.error);
@@ -329,12 +324,11 @@ export class AppTicketlistComponent implements OnInit {
   ADD_PACKAGE(): void {
     this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
       next: (response: any) => {
-        console.log('Added package', this.editedpackage)
         this.CLEAR_VALUES(this.editedpackage)
         this.FETCH_PACKAGES()
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -350,7 +344,7 @@ export class AppTicketlistComponent implements OnInit {
     obj.duration = 0;
     obj.hotels = '';
     obj.numberOfPeople = 0;
-    obj.price = 0;
+    obj.cost = 0;
     obj.sell = 0;
     obj.netprofit = 0;
     obj.note = '';
@@ -368,7 +362,6 @@ export class AppTicketlistComponent implements OnInit {
       if (result && result.event === 'Delete') {
         this.packagesService.DELETE_PACKAGE(delPackage).subscribe({
           next: (response: any) => {
-            console.log('Response:', response);
             this.FETCH_PACKAGES()
           },
           error: (error: any) => {
@@ -435,11 +428,9 @@ export class AppTicketDialogContentComponent {
   ) {
     this.PACKAGE_SELECTED = { ...data };
     this.action = this.PACKAGE_SELECTED.action;
-    console.log(this.PACKAGE_SELECTED)
   }
 
   doAction(): void {
-    console.log(this.PACKAGE_SELECTED)
     this.dialogRef.close({ event: this.action, data: this.PACKAGE_SELECTED });
   }
 

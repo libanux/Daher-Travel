@@ -124,11 +124,9 @@ export class TicketsComponent {
         this.tickets = response.ticketings
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTicketings
-
-        console.log("In tickets")
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
         this.FETCH_CUSTOMER()
@@ -144,10 +142,9 @@ export class TicketsComponent {
       next: (response: any) => {
         this.allWholesalers = response.wholesalers
         this.filteredWholeSalers = response.wholesalers
-        console.log("In wholesalers")
-      },
+            },
       error: (error) => {
-        console.log("Error wholesaler", error)
+        console.error("Error wholesaler", error)
       },
       complete: () => { }
     });
@@ -184,7 +181,7 @@ export class TicketsComponent {
   }
   addNewProduct() {
     // Logic to add a new product
-    console.log('Add new product clicked');
+    // console.log('Add new product clicked');
   }
 
 
@@ -253,7 +250,6 @@ export class TicketsComponent {
     this.ticketingService.FILTER_TICKETS_BY_DATE(filter, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
         this.tickets = response;
-        console.log("Response:", response)
         this.dataSource = new MatTableDataSource(this.tickets);
       },
       error: (error: any) => {
@@ -272,17 +268,13 @@ export class TicketsComponent {
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
 
-
-    console.log("Added ticket:", this.ADDED_TICKET);
-
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        console.log("Response on add ", response)
         this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
       },
       error: (error: any) => {
-        console.log("Error:", error);
+        console.error("Error:", error);
       },
       complete: () => {
         this.open_expansion_value = -1;
@@ -305,7 +297,7 @@ export class TicketsComponent {
       error: (error: any) => {
         this.tickets = []
         this.totalCount = 0;
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -353,7 +345,6 @@ export class TicketsComponent {
       this.choosenWholesaler = event.option.value;
       this.ADDED_TICKET.wholesaler.id = event.option.value._id; // Assigning id
       this.ADDED_TICKET.wholesaler.name = event.option.value.name;
-      console.log('Selected wholesaler:', this.choosenWholesaler);
     }
 
   }
@@ -361,7 +352,6 @@ export class TicketsComponent {
   // Function to log input changes
   onInputChange() {
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_TICKET).some(val => val !== '' && val !== null);
-    console.log(this.ADDED_TICKET)
 
     if (this.isAnyFieldNotEmpty) {
 
@@ -399,7 +389,6 @@ export class TicketsComponent {
       if (result && result.event === 'Delete') {
         this.ticketingService.DELETE_TICKETING(delTicket).subscribe({
           next: (response: any) => {
-            console.log('Response:', response);
             this.FETCH_TICKETINGS()
           },
           error: (error: any) => {
@@ -421,14 +410,11 @@ export class TicketsComponent {
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
-    console.log("Ticket to update:", obj)
     this.ShowAddButoon = false;
     this.ADDED_TICKET = { ...obj };
     this.currentAction = 'Update Ticket';
-    console.log(" updated:", this.ADDED_TICKET)
     this.open_expansion_value = 1;
     this.panelOpenState = true;
-
     this.routeSignalService.show_pop_up_route.set(false);
   }
 
@@ -501,7 +487,6 @@ export class AppTicketingDialogContentComponent {
   ) {
     this.TICKET_SELECTED = { ...data };
     this.action = this.TICKET_SELECTED.action;
-    console.log(this.TICKET_SELECTED)
   }
 
   doAction(): void {

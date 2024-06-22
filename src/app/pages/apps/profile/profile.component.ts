@@ -53,19 +53,19 @@ export class ProfileComponent implements OnInit {
 
   }
 
-
+SHOW_PROFILE = false;
   GET_ADMIN_PROFILE_BY_ID(ID: string) {
     this.adminService.GET_ADMIN_BY_ID(ID).subscribe({
       next: (response: any) => {
         this.admin = response;
+        this.UPDATED_ADMIN = response
         this.permissions = this.mapPermissions(response.permissions);
       },
       error: (error: any) => { 
        this.UPDATED_ADMIN = new Admin();
       },
       complete: () => { 
-        this.UPDATED_ADMIN = this.admin;
-        console.log(this.UPDATED_ADMIN)
+        this.SHOW_PROFILE = true
       }
     });
   }

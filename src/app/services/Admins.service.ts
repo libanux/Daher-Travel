@@ -60,7 +60,7 @@ export class AdminService {
     return this.httpClient.post<any>(this.apiUrl + '/EDIT_USER', requestBody, { headers })
   }
 
-  // ADD ADMIN
+  // DELETE ADMIN
   DELETE_ADMIN(ID: string): Observable<any> {
     const jwt = this.generalService.storedToken;
 
@@ -70,10 +70,10 @@ export class AdminService {
     });
 
     const requestBody = {
-      "id": ID
+      "adminId": ID
     }
 
-    return this.httpClient.post<any>(this.apiUrl + '/DELETE_ADMIN', requestBody, { headers })
+    return this.httpClient.post<any>(this.apiUrl + '/DELETE_ADMIN_BY_ID', requestBody, { headers })
   }
 
   //GET USER BY ID

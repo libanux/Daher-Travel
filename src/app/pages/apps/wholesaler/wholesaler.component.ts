@@ -94,7 +94,6 @@ export class WholesalerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'delete') {
-        console.log(obj)
         this.DELETE_WHOLESALER(obj._id);
       }
     });
@@ -112,7 +111,7 @@ export class WholesalerComponent implements OnInit {
       error: (error: any) => {
         this.WholesalerArray = [];
         this.WHOLESALER_Array_length = 0;
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -160,7 +159,6 @@ export class WholesalerComponent implements OnInit {
   DELETE_WHOLESALER(ID: number): void {
     this.wholesaler.DELETE_WHOLESALER(ID).subscribe({
       next: (response: any) => {
-        console.log(response)
       },
       error: (error) => { },
       complete: () => { this.FETCH_WHOLESALERS(); this.CANCEL_UPDATE(); }
@@ -169,10 +167,8 @@ export class WholesalerComponent implements OnInit {
 
   // ADD
   ADD_CUSTOMER(obj: WholesalerClass) {
-    console.log(obj)
     this.wholesaler.ADD_WHOLESALER(obj).subscribe({
       next: (response: any) => {
-        console.log(response)
       },
       error: (error) => { },
       complete: () => { this.CANCEL_UPDATE(); this.FETCH_WHOLESALERS(); }
@@ -184,7 +180,6 @@ export class WholesalerComponent implements OnInit {
     this.wholesaler.UPDATE_WHOLESALER(obj).subscribe({
       next: (response: any) => { },
       error: (error: any) => {
-        console.log("error", error)
       },
       complete: () => {
         this.CANCEL_UPDATE();
@@ -251,11 +246,9 @@ export class DeleteWholesalerDialogContentComponent {
   ) {
     this.LABOR_SELECTED = { ...data };
     this.action = this.LABOR_SELECTED.action;
-    console.log(this.LABOR_SELECTED)
   }
 
   doAction(): void {
-    console.log(this.LABOR_SELECTED)
     this.dialogRef.close({ event: this.action, data: this.LABOR_SELECTED });
   }
 

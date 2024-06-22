@@ -76,7 +76,7 @@ export class TicketingService {
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
-    console.log("New tixcket",newTicket)
+
     const requestBody = {
       "name": newTicket.name,
       "source": newTicket.source,

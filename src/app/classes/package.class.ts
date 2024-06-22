@@ -7,7 +7,7 @@ export class Package {
     public duration: number = 0,
     public hotels: string = '',
     public numberOfPeople: number = 0,
-    public price: number = 0, //this is cost
+    public cost: number = 0, //this is cost
     public sell: number =0,
     public netprofit: number = 0,
     public note: string = '',

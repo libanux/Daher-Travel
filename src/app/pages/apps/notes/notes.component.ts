@@ -46,7 +46,7 @@ export class AppNotesComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.log("Error:", error);
+        console.error("Error:", error);
       },
       complete: () => {
       }
@@ -69,7 +69,7 @@ export class AppNotesComponent implements OnInit {
         this.FETCH_NOTES()
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -87,7 +87,7 @@ export class AppNotesComponent implements OnInit {
         this.FETCH_NOTES()
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -101,7 +101,7 @@ export class AppNotesComponent implements OnInit {
         this.FETCH_NOTES()
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }

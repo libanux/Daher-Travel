@@ -120,7 +120,7 @@ export class LaborMainComponent implements AfterViewInit {
         this.totalCount = response.pagination.totalRecruitings;
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -139,7 +139,7 @@ export class LaborMainComponent implements AfterViewInit {
       error: (error: any) => {
         this.recruitings =[]
         this.totalCount =0;
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -231,7 +231,7 @@ export class LaborMainComponent implements AfterViewInit {
         this.open_expansion_value = -1;
       },
       error: (error: any) => {
-        console.log("Error:", error)
+        console.error("Error:", error)
       },
       complete: () => {
       }
@@ -392,7 +392,7 @@ export class LaborMainComponent implements AfterViewInit {
 
 
   onDateSelect(date: Date) {
-    console.log('Selected Date:', date);
+    // console.log('Selected Date:', date);
   }
 
 }
@@ -418,11 +418,9 @@ export class AppRecruitingDialogContentComponent {
   ) {
     this.LABOR_SELECTED = { ...data };
     this.action = this.LABOR_SELECTED.action;
-    console.log(this.LABOR_SELECTED)
   }
 
   doAction(): void {
-    console.log(this.LABOR_SELECTED)
     this.dialogRef.close({ event: this.action, data: this.LABOR_SELECTED });
   }
 

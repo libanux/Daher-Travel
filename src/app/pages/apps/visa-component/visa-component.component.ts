@@ -174,8 +174,6 @@ export class VisaComponentComponent implements OnInit {
 
   // Function to log input changes
   onInputChange() {
-
-    console.log(this.ADDED_VISA)
     // Check only specific fields for content
     this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
       const fieldValue = this.ADDED_VISA[key as keyof VisaClass] || ''; // Using || for fallback value
@@ -244,7 +242,6 @@ export class VisaComponentComponent implements OnInit {
     this.show_shimmer = true;
     this.visaService.GET_ALL_VISA(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.current_page_array_length = response.visas.length
         this.VisaArray = new MatTableDataSource(response.visas);
         // LENGTH : FOR PAGINATION 
@@ -329,7 +326,7 @@ export class VisaComponentComponent implements OnInit {
         this.VisaArray = new MatTableDataSource(response.visas);
         this.Visa_Array_length = response.pagination.totalVisas;
       },
-      error: (error) => { },
+      error: (error) => { this.VisaArray = new MatTableDataSource(); },
       complete: () => { }
     });
   }
