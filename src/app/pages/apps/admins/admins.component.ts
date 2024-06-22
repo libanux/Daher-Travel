@@ -80,8 +80,6 @@ show_shimmer = true;
     this.ADDED_ADMIN = obj
     obj.action = action;
 
-    console.log(obj)
-
     const dialogRef = this.dialog.open(AdminDialogContentComponent, {
       data: obj,
     });
@@ -102,7 +100,7 @@ show_shimmer = true;
 
   ADD_ADMIN(object: Admin): void {
 
-    console.log(object)
+    // console.log(object)
     // this.adminService.ADD_ADMIN(object).subscribe({
     //   next: (response: any) => { },
     //   error: (error) => { },
@@ -117,7 +115,7 @@ show_shimmer = true;
   DELETE_ADMIN(ID: string): void {
     this.adminService.DELETE_ADMIN(ID).subscribe({
       next: (response: any) => { },
-      error: (error) => { },
+      error: (error) => { console.error(error)},
       complete: () => { this.FETCH_ADMINS(); }
     });
   }

@@ -126,10 +126,10 @@
         <!-- PRICE -->
         <div class="col-md-3 d-flex flex-column">
           <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Price</mat-label>
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">cost</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Price" aria-label="Product" [(ngModel)]="editedpackage.price">
+            <input type="number" matInput placeholder="cost" aria-label="Product" [(ngModel)]="editedpackage.cost">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -333,7 +333,7 @@
               <ng-container *ngIf="column !== 'action'; else actionColumn">
                 <ng-container *ngIf="column !== 'status'; else statusColumn">
                   <!-- Check if the column is 'price' or 'sell' -->
-                  <ng-container *ngIf="column !== 'price' && column !== 'sell'; else priceColumn">
+                  <ng-container *ngIf="column !== 'price' && column !== 'cost'; else priceColumn">
                     <ng-container *ngIf="column !== 'duration'; else durationColumn">
                       <ng-container *ngIf="column !== 'note'; else noteColumn">
                         {{ truncateText(element[column], 20) }}
