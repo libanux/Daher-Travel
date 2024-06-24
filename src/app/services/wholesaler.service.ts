@@ -14,19 +14,35 @@ export class WholesalerService {
 
   private apiUrl = '';
   private pagingSize = 10;
-  private storedToken = '';
 
   constructor(private httpClient: HttpClient, private generalService: GeneralService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
-    this.storedToken = this.generalService.storedToken
   }
+
+    // VALIDATE TOKEN
+    isTokenExpired1(): boolean {
+      const token = this.getToken();
+      if (!token) return true;
+      const tokenParts = token.split('.');
+      if (tokenParts.length !== 3) return true;
+      const payload = JSON.parse(atob(tokenParts[1]));
+      if (!payload.exp) return true;
+      const expirationTime = payload.exp * 1000;
+      const currentTime = new Date().getTime();
+      return expirationTime < currentTime;
+    }
+  
+    // GET TOKEN FROM LOCAL STORAGE
+    getToken(): string | null {
+      return localStorage.getItem('TICKET');
+    }
 
   //GET ALL WHOLESALERS
   GET_ALL_WHOLESALERS(currentPage: number): Observable<any> {
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json' 
     });
 
@@ -42,7 +58,7 @@ export class WholesalerService {
   GET_ALL_WHOLESALERS_WITH_NO_PAGING(): Observable<any> {
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json' 
     });
 
@@ -57,7 +73,7 @@ export class WholesalerService {
 UPDATE_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 
   const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
+    'Authorization': `Bearer ${this.getToken()}`,
     'Content-Type': 'application/json' 
   });
 
@@ -79,7 +95,7 @@ UPDATE_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json' 
     });
 
@@ -99,7 +115,7 @@ ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 //DELETE DELETE_WHOLESALER
 DELETE_WHOLESALER(ID: number): Observable<any> {
   const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
+    'Authorization': `Bearer ${this.getToken()}`,
     'Content-Type': 'application/json' 
   });
 
@@ -112,7 +128,7 @@ DELETE_WHOLESALER(ID: number): Observable<any> {
   GET_WHOLESALER_BY_ID(ID: string): Observable<any> {
     const jwt = this.generalService.storedToken;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
@@ -124,7 +140,7 @@ DELETE_WHOLESALER(ID: number): Observable<any> {
      // FILTER PACKAGE BY DATE
  SEARCH_WHOLESALER(pageSize:number, currentPage: number,searchkey:string): Observable<any> {
   const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.storedToken}`,
+    'Authorization': `Bearer ${this.getToken()}`,
     'Content-Type': 'application/json'
   });
   const requestBody = {
