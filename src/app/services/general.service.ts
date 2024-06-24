@@ -70,7 +70,9 @@ export class GeneralService {
     }
   }
 
-
+  GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
+    return Array.from({ length: count }, (_, index) => (index + 1).toString());
+  }
 
 }
 

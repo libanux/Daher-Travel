@@ -37,19 +37,19 @@ export class CustomerService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS', requestBody, { headers });
   }
 
-    //GET ALL CUSTOMERS WITH NO PAGING
-    GET_ALL_CUSTOMERS_WITH_NO_PAGING(): Observable<any> {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.storedToken}`,
-        'Content-Type': 'application/json'
-      });
-  
-      const requestBody = {
+  //GET ALL CUSTOMERS WITH NO PAGING
+  GET_ALL_CUSTOMERS_WITH_NO_PAGING(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
 
-      }
-      return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS_WITH_NO_PAGING', requestBody, { headers });
+    const requestBody = {
+
     }
-  
+    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS_WITH_NO_PAGING', requestBody, { headers });
+  }
+
 
   //UPDATE CUSTOMER
   UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
@@ -94,9 +94,7 @@ export class CustomerService {
       'Authorization': `Bearer ${this.storedToken}`,
       'Content-Type': 'application/json'
     });
-
     const requestBody = { "id": ID };
-
     return this.httpClient.post<any>(this.apiUrl + '/DELETE_CUSTOMER', requestBody, { headers });
   }
 
@@ -114,19 +112,37 @@ export class CustomerService {
   }
 
   //SEARCH CUSTOMER BY NAME
-  FILTER_BY_SEARCH_KEY(SearchKey: string, CurrentPage: number, PageSize: number): Observable<any> {
-    const jwt = this.generalService.storedToken;
+  // FILTER_BY_SEARCH_KEY(SearchKey: string, CurrentPage: number, PageSize: number): Observable<any> {
+  //   const jwt = this.generalService.storedToken;
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${this.storedToken}`,
+  //     'Content-Type': 'application/json'
+  //   });
+  //   const requestBody = {
+  //     "name": SearchKey,
+  //     "page": CurrentPage,
+  //     "pageSize": PageSize
+  //   }
+
+  //   return this.httpClient.post<any>(this.apiUrl + '/SEARCH_CUSTOMERS_BY_FIELDS', requestBody, { headers });
+  // }
+
+  FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string, CURRENT_PAGE: number, PAGE_SIZE: number){
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "name": SearchKey,
-      "page": CurrentPage,
-      "pageSize": PageSize
-    }
+      "search": SEARCK_KEY,
+      "filterType": FILTER_TYPE,
+      "startDate": START_DATE,
+      "endDate": END_DATE,
+      "status": STATUS,
+      "page": CURRENT_PAGE,
+      "pageSize": PAGE_SIZE
+    };
 
-    return this.httpClient.post<any>(this.apiUrl + '/SEARCH_CUSTOMERS_BY_FIELDS', requestBody, { headers });
+    return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_CUSTOMERS', requestBody, { headers });
   }
-
 }

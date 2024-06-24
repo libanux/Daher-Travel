@@ -29,9 +29,9 @@
         <mat-form-field appearance="outline" class="date_picker">
 
           <mat-date-range-input [rangePicker]="custompicker">
-            <input matStartDate placeholder="Start date" [(ngModel)]="startDateValue"
+            <input matStartDate placeholder="Start date" [(ngModel)]="START_DATE"
               (ngModelChange)="handleStartDateChange($event)" />
-            <input matEndDate placeholder="End date" [(ngModel)]="endDateValue"
+            <input matEndDate placeholder="End date" [(ngModel)]="END_DATE"
               (ngModelChange)="handleEndDateChange($event)" />
           </mat-date-range-input>
 
@@ -64,8 +64,13 @@
 
   <mat-card-content>
 
+    @if(show_shimmer){
+      <app-table-shimmer [headers]="headers" [ROWS_COUNT]="ROWS_COUNT_SHIMMER"></app-table-shimmer>
+      }
+
+      @else {
     <div class="table-responsive">
-      <table mat-table [dataSource]="TableData" multiTemplateDataRows>
+      <table mat-table [dataSource]="REPORTS_ARRAY" multiTemplateDataRows>
         @for( column of headers; track column) {
 
         <ng-container matColumnDef="{{ column }}">
@@ -75,11 +80,13 @@
           <!-- table Data -->
           <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0">
             <!-- <ng-container *ngIf="column !== 'action'; else actionColumn"> {{ element[column] }} </ng-container> -->
-            <ng-container *ngIf="column !== 'category'; else categoryColumn"> {{ element[column] }} </ng-container>
+            <ng-container *ngIf="column !== 'category'; else categoryColumn">$ {{ element[column] }} </ng-container>
 
             <ng-template #categoryColumn>
               <span class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">{{ element[column] }}</span>
             </ng-template>
+
+
           </td>
         </ng-container>
         }
@@ -90,7 +97,7 @@
 
       </table>
     </div>
-
+  }
     <!-- <mat-paginator 
     [pageSizeOptions]="[10, 20, 30]" 
     [length]="CUSTOMERS_Array_length" 

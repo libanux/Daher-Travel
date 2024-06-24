@@ -1,5 +1,6 @@
 export class VisaClass {
   constructor(
+    public _id: string = '',
     public customer: {
       id: string;
       name: string;
@@ -15,7 +16,6 @@ export class VisaClass {
   ) {}
 }
 
-  
   export const Visa_Status_Array: any [] = [
     { value: 'rejected', viewValue: 'Rejected' },
     { value: 'approved', viewValue: 'Approved' },
