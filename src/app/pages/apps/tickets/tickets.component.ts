@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TicketingService } from 'src/app/services/ticketing.service';
-import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
+import { Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Tickets } from 'src/app/classes/tickets.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
@@ -96,6 +96,8 @@ export class TicketsComponent {
 
   searchQuery: string;
   searchQuery1: string = ''
+  selectedDownloadOption:string ='Download'
+  Options: any[] = Download_Options;
 
   constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public generalService: GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
   }

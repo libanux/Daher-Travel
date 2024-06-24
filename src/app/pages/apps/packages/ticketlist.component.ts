@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dia
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PackageService } from 'src/app/services/package.service';
-import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
+import { Date_Filter_Array, Download_Options, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Package } from 'src/app/classes/package.class';
 
@@ -58,7 +58,8 @@ export class AppTicketlistComponent implements OnInit {
     note: '',
     status: ''
   }
-
+  selectedDownloadOption:string ='Download'
+  Options: any[] = Download_Options;
   //TABLE COLUMNS
   displayedColumns: string[] = ['customer', 'source', 'destination', 'numberOfPeople', 'duration', 'cost', 'sell', 'hotels', 'note', 'status', 'action'];
 
@@ -141,6 +142,8 @@ export class AppTicketlistComponent implements OnInit {
       event.stopPropagation();
     }
   }
+
+  
 
   //FETCH PACKAGES FROM API
   FETCH_PACKAGES(): void {
