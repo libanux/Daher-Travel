@@ -45,7 +45,9 @@ export class AppTicketlistComponent implements OnInit {
   //PACKAGE ON EDIT
   editedpackage: Package = {
     _id: '',
-    name: '',
+    customerId:'',
+    phoneNumber:'',
+    customerName: '',
     source: '',
     destination: '',
     duration: 0,
@@ -53,13 +55,12 @@ export class AppTicketlistComponent implements OnInit {
     numberOfPeople: 0,
     cost: 0,
     sell: 0,
-    netprofit: 0,
     note: '',
     status: ''
   }
 
   //TABLE COLUMNS
-  displayedColumns: string[] = ['name', 'source', 'destination', 'numberOfPeople', 'duration', 'cost', 'sell', 'hotels', 'note', 'status', 'action'];
+  displayedColumns: string[] = ['customerName', 'source', 'destination', 'numberOfPeople', 'duration', 'cost', 'sell', 'hotels', 'note', 'status', 'action'];
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Package | null = null;
@@ -145,6 +146,7 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
+        console.log("Response:",response)
         this.show_shimmer = false
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
@@ -333,7 +335,7 @@ export class AppTicketlistComponent implements OnInit {
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Package) {
     obj._id = '';
-    obj.name = '';
+    obj.customerName = '';
     obj.source = '';
     obj.destination = '';
     obj.duration = 0;
@@ -341,7 +343,6 @@ export class AppTicketlistComponent implements OnInit {
     obj.numberOfPeople = 0;
     obj.cost = 0;
     obj.sell = 0;
-    obj.netprofit = 0;
     obj.note = '';
     obj.status = '';
     this.panelClosed()

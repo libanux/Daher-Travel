@@ -91,6 +91,7 @@ ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
       'comapny':WHOLESALER.company,
       'email':WHOLESALER.email
     };
+    console.log("Request",requestBody)
     
     return this.httpClient.post<any>(this.apiUrl + '/ADD_WHOLESALER', requestBody, { headers });
 }
