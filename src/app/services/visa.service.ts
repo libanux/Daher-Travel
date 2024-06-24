@@ -45,10 +45,10 @@ export class VisaService {
     });
 
     const requestBody = {
-      "id": VISA.customerId,
+      "id": VISA.customer.id,
 
       "updateData": {
-        "customerName": VISA.customerName,
+        "customerName": VISA.customer.name,
         "country": VISA.country,
         "note": VISA.note,
         "sell": VISA.sell,
@@ -71,9 +71,9 @@ export class VisaService {
 
     // Define the request body
     const requestBody = {
-      "customerId": "60d21b4667d0d8992e610c85",
-      "customerName": VISA.customerName,
-      "phoneNumber": "1234567890",
+      "customerId": VISA.customer.id,
+      "customerName": VISA.customer.name,
+      "phoneNumber": VISA.customer.phoneNumber,
       "country": VISA.country,
       "note": VISA.note,
       "sell": VISA.sell,

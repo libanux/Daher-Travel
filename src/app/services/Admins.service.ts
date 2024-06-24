@@ -23,13 +23,19 @@ export class AdminService {
   }
 
   //GET USERS
-  GET_ALL_ADMINS(): Observable<any> {
+  GET_ALL_ADMINS(currentPage: number, pageSize: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.storedToken}`,
       'Content-Type': 'application/json'
     });
 
-    return this.httpClient.get<any>(this.apiUrl + '/GET_ALL_ADMINS', { headers });
+    const requestBody = {
+      "page": currentPage,
+      "pageSize": pageSize
+    }
+
+
+    return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_ADMINS',requestBody, { headers });
   }
 
   // ADD ADMIN
@@ -75,6 +81,23 @@ export class AdminService {
 
     return this.httpClient.post<any>(this.apiUrl + '/DELETE_ADMIN_BY_ID', requestBody, { headers })
   }
+
+  // DELETE ADMIN
+  UPDATE_ADMIN(admin: Admin): Observable<any> {
+    const jwt = this.generalService.storedToken;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+
+    const requestBody = {
+      // "adminId": ID
+    }
+
+    return this.httpClient.post<any>(this.apiUrl + '/DELETE_ADMIN_BY_ID', requestBody, { headers })
+  }
+
 
   //GET USER BY ID
   GET_ADMIN_BY_ID(ID: string): Observable<any> {

@@ -65,7 +65,8 @@ SHOW_PROFILE = false;
        this.UPDATED_ADMIN = new Admin();
       },
       complete: () => { 
-        this.SHOW_PROFILE = true
+        this.SHOW_PROFILE = true;
+        console.log(this.admin)
       }
     });
   }
