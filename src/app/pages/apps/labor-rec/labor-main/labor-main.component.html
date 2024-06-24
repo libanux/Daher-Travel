@@ -309,13 +309,21 @@
             (click)=" expandRow($event, element, column)">
 
             <ng-container *ngIf="column !== 'status'; else statusColumn">
+              <ng-container *ngIf="column !== 'sell' && column !== 'cost'; else priceColumn">
               <!-- CHECKS IF COLUMN 'ACTION'-->
               <ng-container *ngIf="column !== 'action'; else actionColumn">
                 <ng-container *ngIf="column !== 'note'; else noteColumn">
-                  {{ truncateText(element[column], 20) }}
+                  {{ element[column] }}
                 </ng-container>
               </ng-container>
+            </ng-container>
               <!-- SHOW ACTION TEMPLATE -->
+
+                  <!-- Handle 'price' and 'sell' columns separately -->
+                  <ng-template #priceColumn>
+                    $ {{ element[column] }}
+                  </ng-template>
+    
               <ng-template #actionColumn>
                 <div class="action-link">
                   <a (click)="UPDATE(element)" class="m-r-10 cursor-pointer">
@@ -337,7 +345,7 @@
             </ng-template>
             <!-- Handle 'note' column separately -->
             <ng-template #noteColumn>
-              {{ truncateText(element[column], 20) }}
+              {{ truncateText(element[column], 10) }}
             </ng-template>
           </td>
         </ng-container>
