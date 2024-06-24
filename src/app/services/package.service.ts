@@ -110,17 +110,21 @@ export class PackageService {
   }
 
   // FILTER PACKAGE BY DATE
-  SEARCH_PACKAGE(pageSize: number, currentPage: number, searchkey: string): Observable<any> {
+  SEARCH_FILTER_PACKAGE(pageSize:number, currentPage: number,searchkey:string,filterType: string ,statusValue: string, startDate: string , endDate: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "name": searchkey,
+      "search": searchkey,
+      "filterType":filterType,
+      "startDate": startDate,
+      "endDate": endDate,
+      "status": statusValue,
       "page": currentPage,
       "pageSize": pageSize
     };
-    return this.http.post<any>(this.apiUrl + '/SEARCH_PACKAGE_BY_FIELDS', requestBody, { headers })
+    return this.http.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_PACKAGES', requestBody, { headers })
   }
 
   // FILTER PACKAGE BY DATE

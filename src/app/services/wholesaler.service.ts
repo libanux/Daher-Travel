@@ -127,11 +127,14 @@ DELETE_WHOLESALER(ID: number): Observable<any> {
     'Content-Type': 'application/json'
   });
   const requestBody = {
-      "name":searchkey,
-       "page": currentPage,
-       "pageSize": pageSize
+    "search": searchkey,
+    "filterType": "",
+    "startDate": "",
+    "endDate": "",
+    "page": currentPage,
+    "pageSize":pageSize
   };
-  return this.httpClient.post<any>(this.apiUrl + '/SEARCH_WHOLESALERS_BY_FIELDS', requestBody, { headers })
+  return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_WHOLESALERS', requestBody, { headers })
 }
 
 }
