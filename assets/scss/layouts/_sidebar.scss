@@ -15,6 +15,9 @@
 }
 
 .sidebarNav-mini {
+  .branding a img {
+    width: 70px;
+  }
   .sidebarNav {
     width: $sidenav-mini;
     .profile-bar {
@@ -134,6 +137,8 @@
         .mat-mdc-list-item-icon {
           color: $white !important;
         }
+
+        
       }
 
       .mdc-list-item__start {

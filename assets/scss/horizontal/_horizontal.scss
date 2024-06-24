@@ -68,6 +68,10 @@
       .activeMenu {
         color: $white;
         background-color: $accent;
+
+        .routeIcon {
+          background: #000;
+        }
       }
       .down-icon .mat-icon {
         width: 18px;
