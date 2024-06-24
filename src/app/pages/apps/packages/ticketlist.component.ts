@@ -33,7 +33,8 @@ export class AppTicketlistComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   ShowAddButoon = true;
-  selectedMonth: string = '';
+  selectedMonth: string = 'thisMonth';
+  statusValue: string = ''
   show_shimmer = true;
   //MAIN PACKAGE ARRAY
   packages: any[] = []
@@ -147,9 +148,6 @@ export class AppTicketlistComponent implements OnInit {
         this.show_shimmer = false
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);
-        this.Inprogress = this.btnCategoryClick('pending');
-        this.Completed = this.btnCategoryClick('completed');
-        this.Cancelled = this.btnCategoryClick('canceled');
         this.totalCount = response.pagination.totalPackages
         this.btnCategoryClick('')
 
@@ -161,12 +159,11 @@ export class AppTicketlistComponent implements OnInit {
       }
     });
   }
-statusValue:string =''
+
   //SEARCH & FILTER  PACKAGES 
   SEARCH_PACKAGES(): void {
     this.currentPage = 1;
-    console.log("Status value:",this.statusValue)
-    this.packagesService.SEARCH_FILTER_PACKAGE(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue,this.startDateValue, this.endDateValue).subscribe({
+    this.packagesService.SEARCH_FILTER_PACKAGE(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
         this.packages = response.packages;
@@ -191,26 +188,21 @@ statusValue:string =''
 
 
   //DATE AND STATUS DROPDOWN CHANGE
-  onChange(value: string, dropdown: string) {
+  onChange(dropdown: string) {
     if (dropdown == 'month') {
-      if (value === 'Calendar') {
+      if (this.selectedMonth === 'Calendar') {
+        this.selectedMonth = 'custom'
         this.showDatePicker = true;
       }
 
       else {
         this.showDatePicker = false;
-        this.selectedMonth = value;
         this.SEARCH_PACKAGES()
       }
     }
 
     else if (dropdown == 'status') {
-      if (value == 'all') {
-        this.FETCH_PACKAGES()
-      }
-      else {
-        this.FILTER_PACKAGES(value)
-      }
+      this.SEARCH_PACKAGES()
     }
   }
 
@@ -358,7 +350,7 @@ statusValue:string =''
 
   // OPEN UPDATE & DELETE DIALOGS
   openDialog(action: string, delPackage: Package): void {
-    const dialogRef = this.dialog.open(AppTicketDialogContentComponent, {
+    const dialogRef = this.dialog.open(AppPackageDialogContentComponent, {
       data: { action, delPackage }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -417,7 +409,7 @@ interface month {
   templateUrl: 'ticket-dialog-content.html',
 })
 // tslint:disable-next-line - Disables all
-export class AppTicketDialogContentComponent {
+export class AppPackageDialogContentComponent {
   package = { selected: false, read: false, write: false };
   visa = { selected: false, read: false, write: false };
 
@@ -426,7 +418,7 @@ export class AppTicketDialogContentComponent {
   PACKAGE_SELECTED: any;
 
   constructor(
-    public dialogRef: MatDialogRef<AppTicketDialogContentComponent>,
+    public dialogRef: MatDialogRef<AppPackageDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Package,
   ) {
     this.PACKAGE_SELECTED = { ...data };

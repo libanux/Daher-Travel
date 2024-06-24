@@ -34,7 +34,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   ShowAddButoon = true;
   selectedMonth: string = 'thisMonth';
-  statusValue : string ='all'
+  statusValue: string = 'all'
   CurrentAction: string = 'Add Recruiting'
   //MAIN RECRUITING ARRAY
   recruitings: any[] = []
@@ -70,7 +70,7 @@ export class LaborMainComponent implements AfterViewInit {
   pageSize: number = 10;
   currentPage: number = 1;
   selectedStatusFilteraTION: string = '';
-  show_shimmer=true
+  show_shimmer = true
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -127,7 +127,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   // Function to handle input change
   onInputChange() {
-    this.recruitingService.SEARCH_FILTER_RECRUITING(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue,this.startDateValue, this.endDateValue).subscribe({
+    this.recruitingService.SEARCH_FILTER_RECRUITING(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
         this.recruitings = response.recruitings;
@@ -135,8 +135,8 @@ export class LaborMainComponent implements AfterViewInit {
         this.totalCount = response.pagination.totalRecruitings;
       },
       error: (error: any) => {
-        this.recruitings =[]
-        this.totalCount =0;
+        this.recruitings = []
+        this.totalCount = 0;
         console.error("Error:", error)
       },
       complete: () => {
@@ -242,7 +242,7 @@ export class LaborMainComponent implements AfterViewInit {
     this.ShowAddButoon = false;
     this.editedrecruiting = { ...obj };
     this.CurrentAction = 'Update Recruiting'
-  
+
     this.open_expansion_value = 1;
     this.panelOpenState = true;
   }
@@ -256,7 +256,7 @@ export class LaborMainComponent implements AfterViewInit {
         this.CLEAR_VALUES(this.editedrecruiting)
         this.CurrentAction = 'Add Recruiting'
         this.open_expansion_value = -1;
-        console.log("Response on update:",response)
+        console.log("Response on update:", response)
       },
       error: (error: any) => {
         console.error('Error:', error.error);
@@ -285,7 +285,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //FILTER RECRUITING RECORDS BY DATE
   FILTER_RECRUITING_BY_DATE(filter: string) {
-    this.recruitingService.FILTER_RECRUITING_BY_DATE(filter,this.startDateValue,this.endDateValue).subscribe({
+    this.recruitingService.FILTER_RECRUITING_BY_DATE(filter, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
         this.recruitings = response;
         this.dataSource = new MatTableDataSource(this.recruitings);
@@ -359,33 +359,31 @@ export class LaborMainComponent implements AfterViewInit {
     this.panelClosed()
   }
 
-    // Method to handle the panel closed event
-    panelClosed() {
-      this.open_expansion_value = 0;
-      this.panelOpenState = false;
-    }
-  
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
+
 
   //DATE AND STATUS DROPDOWN CHANGE
-  onChange(value: string, dropdown: string) {
+  onChange(dropdown: string) {
     if (dropdown == 'month') {
-      if (value === 'Calendar') {
+      if (this.selectedMonth === 'Calendar') {
+        this.selectedMonth = 'custom'
         this.showDatePicker = true;
       }
 
       else {
         this.showDatePicker = false;
-        this.FILTER_RECRUITING_BY_DATE(value)
+        this.onInputChange()
       }
     }
 
     else if (dropdown == 'status') {
-      if (value == 'all') {
-        this.FETCH_RECRUITINGS()
-      }
-      else {
-        this.FILTER_RECRUITING(value)
-      }
+
+      this.onInputChange()
+
     }
   }
 
