@@ -35,13 +35,17 @@ const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full',
   },
+  {
+    path: '**', redirectTo: '/'
+  }
 
 
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
+
   ],
   exports: [RouterModule],
 })
