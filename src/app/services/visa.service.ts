@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
@@ -115,5 +115,38 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_VISAS', requestBody, { headers });
   }
 
-  
+  DOWNLOAD_AS(VALUE: string): Observable<any>{
+    // if(VALUE == 'PDF'){
+    //   return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
+    // }
+
+    // else {
+    //   console.log('here')
+      return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
+    }
+  // }
+
+
+  getData() {
+    this.httpClient.get('https://api.dahertravellb.com/DaherTravel/api/EXPORT_VISAS_TO_EXCEL', { responseType: 'text' })
+      .subscribe(
+        (response: any) => {
+          console.log('Raw Response:', response); // Log the raw response first
+          try {
+            const jsonData = JSON.parse(response); // Try parsing the response as JSON
+            console.log('Parsed JSON Data:', jsonData);
+            // Further processing with jsonData
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
+            // Handle parsing error, e.g., show an error message to the user
+          }
+        },
+        (error: HttpErrorResponse) => {
+          console.error('HTTP Error:', error);
+          console.error('Server error message:', error.error); // Log the server's error message
+          // Handle HTTP request error, e.g., show an error message to the user
+        }
+      );
+  }
+
 }
