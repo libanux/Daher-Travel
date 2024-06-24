@@ -12,6 +12,7 @@ import { CustomerService } from 'src/app/services/Customer.service';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
 import { WholesalerClass } from 'src/app/classes/wholesaler.class';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { CustomerClass } from 'src/app/classes/customer.class';
 
 @Component({
   selector: 'app-tickets',
@@ -48,7 +49,8 @@ export class TicketsComponent {
   ROWS_COUNT_SHIMMER: any[] = ['1', '2', '3', '4'];
   ADDED_WHOLESALER: WholesalerClass
   choosenWholesaler: WholesalerClass
-
+  CUSTOMER_SELECTED: CustomerClass
+  NEW_CUSTOMER_ADDED: CustomerClass
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -82,6 +84,7 @@ export class TicketsComponent {
       id: '',
       name: ''
     },
+
     source: '',
     destination: '',
     balance: '',
@@ -134,11 +137,35 @@ export class TicketsComponent {
       data: { action, obj },
     });
     dialogRef.afterClosed().subscribe((result) => {
+      console.log("result . data",result.event)
       if (result.event === 'Add Wholesaler') {
         this.ADD_WHOLESALER(result.data);
       }
       else if (result.event === 'Delete') {
         this.DELETE_TICKETING(obj)
+      }
+      else if (result.event === 'Add New Customer') {
+       
+        this.ADD_NEW_CUSTOMER(result.data)
+        this.CUSTOMER_SELECTED = result.data.name
+      }
+    });
+  }
+
+
+
+  ADD_NEW_CUSTOMER(obj: CustomerClass) {
+    console.log("Object", obj)
+    this.customerService.ADD_CUSTOMER(obj).subscribe({
+
+      next: (response: any) => {
+
+        this.ADDED_TICKET.name = response.name
+        console.log('Response:', response)
+      },
+      error: (error) => { },
+      complete: () => {
+        this.FETCH_CUSTOMER();
       }
     });
   }
@@ -148,6 +175,8 @@ export class TicketsComponent {
   ADD_WHOLESALER(wholesaler: any) {
     this.wholesaler.ADD_WHOLESALER(wholesaler).subscribe({
       next: (response: any) => {
+        this.ADDED_TICKET.wholesaler.name= wholesaler.name;
+        this.ADDED_TICKET.wholesaler.id = wholesaler._id
         console.log("Response:", response)
       },
       error: (error: any) => {
@@ -470,14 +499,13 @@ export class AppTicketingDialogContentComponent {
   action: string;
   TICKET_SELECTED: any = new Tickets();
   ADDED_WHOLESALER: WholesalerClass = new WholesalerClass();
-
+  NEW_CUSTOMER: CustomerClass = new CustomerClass()
   constructor(
     public dialogRef: MatDialogRef<AppTicketingDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.TICKET_SELECTED = { ...data };
     this.action = this.data.action;
-    console.log("Selected ticket",this.TICKET_SELECTED)
   }
 
   doAction(): void {
@@ -486,6 +514,9 @@ export class AppTicketingDialogContentComponent {
     }
     else if (this.action = 'Add Wholesaler') {
       this.dialogRef.close({ event: this.action, data: this.ADDED_WHOLESALER });
+    }
+    else if (this.action == 'Add New Customer') {
+      this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });
     }
   }
   CLOSE_DIALOG(): void {
