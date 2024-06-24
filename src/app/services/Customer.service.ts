@@ -85,6 +85,8 @@ export class CustomerService {
       "address": CUSTOMER.address
     };
 
+    console.log(requestBody)
+    
     return this.httpClient.post<any>(this.apiUrl + '/ADD_CUSTOMER', requestBody, { headers });
   }
 
