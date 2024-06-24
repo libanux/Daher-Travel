@@ -100,7 +100,12 @@ export const PERMISSIONS: Permission [] = [
   
 ];
 
-
+export const Permissions_Array: any [] = [
+    { name: 'None', value: 'none' },
+    { name: 'Read', value: 'read' },
+    { name: 'Write', value: 'write' },
+    { name: 'Read & Write', value: 'read write' },
+];
 
 
 
