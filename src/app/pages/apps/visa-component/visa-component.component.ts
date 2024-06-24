@@ -10,6 +10,7 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { CustomerClass } from 'src/app/classes/customer.class';
 
 @Component({
   selector: 'app-visa-component',
@@ -47,6 +48,8 @@ export class VisaComponentComponent implements OnInit {
 
   ShowAddButoon = true;
 
+
+  NEW_CUSTOMER_ADDED: CustomerClass[] = []
   // This value is used to check the size of array in current page
   // In case of deletion --> when array length becomes zero 
   // current page is current page -1 
@@ -118,7 +121,7 @@ export class VisaComponentComponent implements OnInit {
   }
 
   selectedDownloadOption: string = 'Download as';
- 
+
   DOWNLOAD(OPTION: string): string {
     return this.selectedDownloadOption = OPTION
   }
@@ -169,6 +172,11 @@ export class VisaComponentComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'delete') {
         this.DELETE_VISA(obj._id);
+      }
+
+      else if (result.event === 'Add New Customer') {
+        this.ADD_NEW_CUSTOMER(result.data);
+        this.CUSTOMER_SELECTED = result.data.name
       }
     });
   }
@@ -251,8 +259,18 @@ export class VisaComponentComponent implements OnInit {
     return customer ? customer.name : '';
   }
 
-  ADD_NEW_CUSTOMER() {
-
+  ADD_NEW_CUSTOMER(obj: CustomerClass) {
+    this.customerService.ADD_CUSTOMER(obj).subscribe({
+      next: (response: any) => {
+        this.ADDED_VISA.customer.id = response._id
+        this.ADDED_VISA.customer.name = response.name
+        this.ADDED_VISA.customer.phoneNumber = response.phoneNumber
+      },
+      error: (error) => { },
+      complete: () => { 
+        this.FETCH_CUSTOMER();
+      }
+    });
   }
 
   // Method to handle changes in start date input
@@ -283,7 +301,6 @@ export class VisaComponentComponent implements OnInit {
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   EXPAND_ROW(event: Event, element: any, column: string): void {
-    console.log(element)
     if (column === 'action') {
       this.expandedElement = element;
     }
@@ -298,7 +315,6 @@ export class VisaComponentComponent implements OnInit {
   GET_STATUS_CLASS(status: string): string {
     return this.generalService.GET_STATUS_CLASS(status, 'pending', 'approved', 'rejected')
   }
-
 
   // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
@@ -433,27 +449,38 @@ export class VisaComponentComponent implements OnInit {
   // tslint:disable-next-line: component-selector
   selector: 'app-dialog-content',
   templateUrl: './visa-dialog-content/visa-dialog-content.component.html',
-  styleUrl: './visa-dialog-content/visa-dialog-content.component.scss'
 })
 // tslint:disable-next-line: component-class-suffix
 export class visaDialogContentComponent {
-  package = { selected: false, read: false, write: false };
-  visa = { selected: false, read: false, write: false };
-
 
   action: string;
+  action_btn: string = 'Add'
+
   VISA_SELECTED: any;
+  NEW_CUSTOMER: CustomerClass = new CustomerClass ();
 
   constructor(
     public dialogRef: MatDialogRef<visaDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: VisaClass,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.VISA_SELECTED = { ...data };
-    this.action = this.VISA_SELECTED.action;
+      this.VISA_SELECTED = { ...data };
+      this.action = data.action;
+
+      if (this.action == 'Add New Customer') {
+        this.action_btn = 'Add Customer'
+      }
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.VISA_SELECTED });
+
+    if (this.action == 'Add New Customer') {
+      this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });
+    }
+
+    else {
+      this.dialogRef.close({ event: this.action, data: this.VISA_SELECTED });
+
+    }
   }
 
   CLOSE_DIALOG(): void {

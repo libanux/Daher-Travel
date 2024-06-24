@@ -211,7 +211,7 @@ export class CustomersComponent implements OnInit {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
-      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
+      complete: () => { }
     });
   }
 
