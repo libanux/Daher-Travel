@@ -122,8 +122,20 @@ export class VisaComponentComponent implements OnInit {
 
   selectedDownloadOption: string = 'Download as';
 
-  DOWNLOAD(OPTION: string): string {
-    return this.selectedDownloadOption = OPTION
+  DOWNLOAD(OPTION: string) {
+    console.log(OPTION)
+    // return this.selectedDownloadOption = OPTION
+
+    // this.visaService.DOWNLOAD_AS(OPTION).subscribe({
+    //   next: (response: any) => {
+    //    console.log(response)
+    //   },
+    //   error: (error) => { console.error('Download error:', error);      },
+    //   complete: () => { console.log('Download process complete')      }
+    // });
+
+    this.visaService.getData()
+
   }
 
 
@@ -237,7 +249,6 @@ export class VisaComponentComponent implements OnInit {
       complete: () => { }
     });
   }
-
 
   onOptionSelected(event: MatAutocompleteSelectedEvent, source: string) {
 
