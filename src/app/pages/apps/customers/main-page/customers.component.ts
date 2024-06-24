@@ -7,6 +7,7 @@ import { CustomerClass } from 'src/app/classes/customer.class';
 import { Router } from '@angular/router';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
+import { Download_Options } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-customers',
@@ -31,6 +32,7 @@ export class CustomersComponent implements OnInit {
   //  used in delete function
   current_page_array_length = 0;
 
+  Options: any[] = Download_Options;
 
   ShowAddButoon = true;
 
@@ -78,7 +80,11 @@ export class CustomersComponent implements OnInit {
     this.breadCrumbService.currentRoute.set('Customers')
     this.FETCH_CUSTOMER();
   }
-
+  selectedDownloadOption: string = 'Download as';
+ 
+  DOWNLOAD(OPTION: string): string {
+    return this.selectedDownloadOption = OPTION
+  }
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
@@ -123,6 +129,12 @@ export class CustomersComponent implements OnInit {
     this.router.navigate(['apps/customers/view']).then(() => {
       window.scrollTo(0, 0);
     });
+  }
+
+  DROPDOWN_FILTERATION(value: string, dropdown: string) {
+   if (dropdown == 'Download') {
+      this.DOWNLOAD(value);
+    }
   }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND

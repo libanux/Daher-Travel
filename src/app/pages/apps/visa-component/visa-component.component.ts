@@ -5,7 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { VisaClass, VisaType_Array, Visa_Status_Array, Visa_Status_Array_FILTERATION } from '../../../classes/visaClass';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { VisaService } from 'src/app/services/visa.service';
-import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
+import { Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerService } from 'src/app/services/Customer.service';
@@ -43,6 +43,7 @@ export class VisaComponentComponent implements OnInit {
   Status_Array: any[] = Visa_Status_Array
   VisaType: any[] = VisaType_Array
   Status_Array_Filter: any[] = Visa_Status_Array_FILTERATION
+  Options: any[] = Download_Options;
 
   ShowAddButoon = true;
 
@@ -59,7 +60,7 @@ export class VisaComponentComponent implements OnInit {
 
   // These are the column of the table 
   displayedColumns: string[] = [
-    'customerName',
+    'Customer',
     'phoneNumber',
     'country',
     'type',
@@ -71,7 +72,7 @@ export class VisaComponentComponent implements OnInit {
 
   // This is the added or updated VISA fdefualt values
   ADDED_VISA: VisaClass = {
-    _id : '',
+    _id: '',
     customer: {
       id: '',
       name: '',
@@ -105,8 +106,8 @@ export class VisaComponentComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private routeSignalService: RouteSignalService,
-     private breadCrumbService: BreadCrumbSignalService,
-      private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+    private breadCrumbService: BreadCrumbSignalService,
+    private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
@@ -115,6 +116,13 @@ export class VisaComponentComponent implements OnInit {
     this.pageSize = this.generalService.PageSizing
     this.FETCH_VISA();
   }
+
+  selectedDownloadOption: string = 'Download as';
+ 
+  DOWNLOAD(OPTION: string): string {
+    return this.selectedDownloadOption = OPTION
+  }
+
 
   // FILTERING BY DROPDOWN SELECTION : DATE OR STATUS
   showDatePicker = false;
@@ -143,6 +151,10 @@ export class VisaComponentComponent implements OnInit {
       else {
         this.FILTER_ARRAY_BY_STATUS(value)
       }
+    }
+
+    else if (dropdown == 'Download') {
+      this.DOWNLOAD(value);
     }
   }
 
@@ -214,19 +226,19 @@ export class VisaComponentComponent implements OnInit {
         this.filteredCustomers = response.customers;
       },
       error: (error) => { },
-      complete: () => {}
+      complete: () => { }
     });
   }
 
 
   onOptionSelected(event: MatAutocompleteSelectedEvent, source: string) {
 
-    if (source == 'customer') {   
+    if (source == 'customer') {
       this.ADDED_VISA.customer.name = event.option.value.name
       this.ADDED_VISA.customer.id = event.option.value._id
       this.ADDED_VISA.customer.phoneNumber = event.option.value.phoneNumber
 
-    } 
+    }
     else {
       // this.choosenWholesaler = event.option.value;
       this.ADDED_VISA.customer.id = event.option.value._id; // Assigning id
@@ -239,10 +251,10 @@ export class VisaComponentComponent implements OnInit {
     return customer ? customer.name : '';
   }
 
-  ADD_NEW_CUSTOMER(){
+  ADD_NEW_CUSTOMER() {
 
   }
-  
+
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.START_DATE = this.FORMAT_DATE_YYYYMMDD(event);
@@ -271,6 +283,7 @@ export class VisaComponentComponent implements OnInit {
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   EXPAND_ROW(event: Event, element: any, column: string): void {
+    console.log(element)
     if (column === 'action') {
       this.expandedElement = element;
     }
@@ -300,9 +313,9 @@ export class VisaComponentComponent implements OnInit {
         this.Visa_Array_length = response.pagination.totalVisas;
       },
       error: (error) => { },
-      complete: () => { 
-      this.show_shimmer = false; 
-      this.FETCH_CUSTOMER()
+      complete: () => {
+        this.show_shimmer = false;
+        this.FETCH_CUSTOMER()
       }
     });
   }
@@ -317,7 +330,7 @@ export class VisaComponentComponent implements OnInit {
     this.CLOSE_PANEL()
 
     this.ADDED_VISA = {
-      _id : '',
+      _id: '',
       customer: {
         id: '',
         name: '',
@@ -347,7 +360,7 @@ export class VisaComponentComponent implements OnInit {
   // ADD NEW VISA
   ADD_VISA(obj: VisaClass) {
     this.visaService.ADD_VISA(obj).subscribe({
-      next: (response: any) => {},
+      next: (response: any) => { },
       error: (error) => { },
       complete: () => {
         this.FETCH_VISA(); this.CANCEL_UPDATE();
@@ -400,13 +413,13 @@ export class VisaComponentComponent implements OnInit {
   START_DATE = ''
   END_DATE = ''
   STATUS = ''
-  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string){
-    this.visaService.FILTER_AND_SEARCH_VISAS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE,STATUS, this.Current_page, this.pageSize).subscribe({
+  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
+    this.visaService.FILTER_AND_SEARCH_VISAS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
-      this.current_page_array_length = response.visas.length
-      this.VisaArray = new MatTableDataSource(response.visas);
-      // LENGTH : FOR PAGINATION 
-      this.Visa_Array_length = response.pagination.totalVisas;
+        this.current_page_array_length = response.visas.length
+        this.VisaArray = new MatTableDataSource(response.visas);
+        // LENGTH : FOR PAGINATION 
+        this.Visa_Array_length = response.pagination.totalVisas;
       },
       error: (error) => { this.VisaArray = new MatTableDataSource() },
       complete: () => { }
