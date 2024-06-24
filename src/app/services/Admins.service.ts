@@ -13,19 +13,36 @@ export class AdminService {
 
   private apiUrl = '';
   private pagingSize = 10;
-  private storedToken = '';
   searchKey: string = '';
 
   constructor(private httpClient: HttpClient, private generalService: GeneralService, private searchService: SearchService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
-    this.storedToken = this.generalService.storedToken
+  }
+
+  
+  // VALIDATE TOKEN
+  isTokenExpired1(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+    const tokenParts = token.split('.');
+    if (tokenParts.length !== 3) return true;
+    const payload = JSON.parse(atob(tokenParts[1]));
+    if (!payload.exp) return true;
+    const expirationTime = payload.exp * 1000;
+    const currentTime = new Date().getTime();
+    return expirationTime < currentTime;
+  }
+
+  // GET TOKEN FROM LOCAL STORAGE
+  getToken(): string | null {
+    return localStorage.getItem('TICKET');
   }
 
   //GET USERS
   GET_ALL_ADMINS(currentPage: number, pageSize: number): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
@@ -43,7 +60,7 @@ export class AdminService {
     const jwt = this.generalService.storedToken;
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
@@ -73,7 +90,7 @@ export class AdminService {
     const jwt = this.generalService.storedToken;
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
@@ -89,7 +106,7 @@ export class AdminService {
     const jwt = this.generalService.storedToken;
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
@@ -119,7 +136,7 @@ export class AdminService {
     const jwt = this.generalService.storedToken;
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
@@ -134,7 +151,7 @@ export class AdminService {
     const jwt = this.generalService.storedToken;
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.storedToken}`,
+      'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
     const requestBody = {
