@@ -4,20 +4,18 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AdminService } from 'src/app/services/Admins.service';
-import { Admin, PERMISSIONS } from 'src/app/classes/admin.class';
+import { Admin, PERMISSIONS, Permissions_Array } from 'src/app/classes/admin.class';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Permission } from 'src/app/classes/adminPermissions.class';
 import { GeneralService } from 'src/app/services/general.service';
 
 @Component({
   templateUrl: './admins.component.html',
-  styleUrl: 'admins.component.scss'
+  styleUrls: ['admins.component.scss', '../../../../assets/scss/apps/_add_expand.scss']
 })
 export class AdminsComponent implements OnInit {
 
-  // admins: Admin[] = [];
-
- ADDED_ADMIN: Admin = {
+  ADDED_ADMIN: Admin = {
     _id: '',
     firstname: '',
     lastname: '',
@@ -25,27 +23,32 @@ export class AdminsComponent implements OnInit {
     phone: '',
     password: '',
     permissions: {
-        packages: 'write',
-        visa: 'write',
-        recruitment: 'write',
-        accounting: 'write',
-        users: 'write',
-        notes: 'write'
+      packages: '',
+      visa: '',
+      recruitment: '',
+      accounting: '',
+      users: '',
+      notes: ''
     },
     token: ''
-};
+  };
 
-// TABLE SHIMMER
-show_shimmer = true;
-ROWS_COUNT_SHIMMER: any[] = ['1', '2','3', '4'];
+  permissions: any[] = Permissions_Array
 
+  // These two valus are used for the add expnad row in the top of the page
+  panelOpenState = false;
+  open_expansion_value = 0;
+  CurrentAction = 'Add Admin'
 
-pageSize = 10;
-Current_page = 1
-admins_Array_length = 0
+  // TABLE SHIMMER
+  show_shimmer = true;
+  ROWS_COUNT_SHIMMER: any[] = ['1', '2', '3', '4'];
+
+  pageSize = 10;
+  Current_page = 1
+  admins_Array_length = 0
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  searchText: any;
 
   displayedColumns: string[] = [
     'firstname',
@@ -60,7 +63,7 @@ admins_Array_length = 0
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
-  constructor(private generalService: GeneralService,private breadCrumbService:BreadCrumbSignalService ,public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
+  constructor(private generalService: GeneralService, private breadCrumbService: BreadCrumbSignalService, public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Admins')
@@ -68,12 +71,30 @@ admins_Array_length = 0
     this.FETCH_ADMINS()
   }
 
-    // function when page number changes
-    onPageChange(event: PageEvent): void {
-      this.pageSize = event.pageSize;
-      this.Current_page = event.pageIndex + 1;
-      this.FETCH_ADMINS();
+  // function when page number changes
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.Current_page = event.pageIndex + 1;
+    this.FETCH_ADMINS();
+  }
+
+
+  isAnyFieldNotEmpty = false; // Flag to track if any field has content
+  // Function to log input changes
+  onInputChange() {
+    // Check only specific fields for content
+    this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
+      const fieldValue = this.ADDED_ADMIN[key as keyof Admin] || ''; // Using || for fallback value
+      return fieldValue !== '' && fieldValue !== null;
+    });
+
+    if (this.isAnyFieldNotEmpty) {
+      // this.routeSignalService.show_pop_up_route.set(true);
     }
+    else {
+      // this.routeSignalService.show_pop_up_route.set(false);
+    }
+  }
 
   FETCH_ADMINS() {
     this.show_shimmer = true
@@ -88,14 +109,20 @@ admins_Array_length = 0
     });
   }
 
-   GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
+  GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
     return this.generalService.GENERATE_SHIMMER_ROWS_COUNT(count)
   }
-  
 
-
-  APPLY_SEARCH_FILTER(filterValue: string): void {
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
+  APPLY_SEARCH_FILTER(SEARCH_VALUE: string): void {
+    this.adminService.SEARCH_ADMIN(SEARCH_VALUE).subscribe({
+      next: (response: any) => {
+        this.ADMINS_ARRAY = new MatTableDataSource(response);
+        this.admins_Array_length = response.length;
+        this.ROWS_COUNT_SHIMMER = this.GENERATE_SHIMMER_ROWS_COUNT(response.length)
+      },
+      error: (error) => { },
+      complete: () => { }
+    });
   }
 
   OPEN_DIALOG(action: string, obj: any): void {
@@ -109,42 +136,78 @@ admins_Array_length = 0
 
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'Add') {
-        this.ADD_ADMIN(result.data);
-      } 
-      else if (result.event === 'Update') {
-        this.UPDATE_ADMIN(result.data);
-      } 
-      else if (result.event === 'Delete') {
+      if (result.event === 'Delete') {
         this.DELETE_ADMIN(result.data);
       }
     });
   }
 
   ADD_ADMIN(object: Admin): void {
-
-    console.log(object)
-    // this.adminService.ADD_ADMIN(object).subscribe({
-    //   next: (response: any) => { },
-    //   error: (error) => { },
-    //   complete: () => { this.FETCH_ADMINS(); }
-    // });
+   this.adminService.ADD_ADMIN(object).subscribe({
+      next: (response: any) => { },
+      error: (error) => { },
+      complete: () => { this.FETCH_ADMINS(); this.CANCEL_UPDATE()}
+    });
   }
 
-  UPDATE_ADMIN(obj: Admin): void {
-    this.adminService.UPDATE_ADMIN(obj).subscribe({
+  UPDATE_ADMIN(): void {
+    this.adminService.UPDATE_ADMIN(this.ADDED_ADMIN).subscribe({
       next: (response: any) => { },
       error: (error) => { console.error(error)},
-      complete: () => { this.FETCH_ADMINS(); }
+      complete: () => { this.FETCH_ADMINS(); this.CANCEL_UPDATE()}
     });
   }
 
   DELETE_ADMIN(ID: string): void {
     this.adminService.DELETE_ADMIN(ID).subscribe({
       next: (response: any) => { },
-      error: (error) => { console.error(error)},
+      error: (error) => { console.error(error) },
       complete: () => { this.FETCH_ADMINS(); }
     });
+  }
+
+
+  ShowAddButoon = true;
+
+  // CANCEL UPDATE
+  CANCEL_UPDATE(): void {
+    this.CurrentAction = 'Add Admin';
+    this.ShowAddButoon = true;
+    // this.routeSignalService.show_pop_up_route.set(false)
+
+    // CLOSE THE PANEL
+    this.CLOSE_PANEL()
+
+    this.ADDED_ADMIN = {
+      _id: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      password: '',
+      permissions: {
+        packages: '',
+        visa: '',
+        recruitment: '',
+        accounting: '',
+        users: '',
+        notes: ''
+      },
+      token: ''
+    }
+  }
+
+  // SELECT OBJECT TO UPDATE
+  SELECTED_ADMIN(obj: Admin): void {
+    // SECURE THE ROUTE
+    // this.routeSignalService.show_pop_up_route.set(false)
+    // HIDE ADD BUTTON AND SHOW THE UPDATE BUTTON
+    this.ShowAddButoon = false
+    this.CurrentAction = 'Update Admin';
+    // OPEN THE PANEL 
+    this.OPEN_PANEL();
+    // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
+    this.ADDED_ADMIN = { ...obj };
   }
 
   expandedElement: Admin | null = null;
@@ -159,6 +222,15 @@ admins_Array_length = 0
     }
   }
 
+  CLOSE_PANEL() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
+
+  OPEN_PANEL() {
+    this.open_expansion_value = 1;
+    this.panelOpenState = true;
+  }
 
 }
 
@@ -171,21 +243,7 @@ admins_Array_length = 0
   styleUrl: './admin-dialog-content/admin-dialog-content.component.scss'
 })
 // tslint:disable-next-line: component-class-suffix
-export class AdminDialogContentComponent{
-  package = { selected: false, read: false, write: false };
-  visa = { selected: false, read: false, write: false };
-
-  selectedPermission: string = '';
-  permissions: any = PERMISSIONS
-  
-  SELECTED_ADMIN_PERMISSIONS = {
-    accounting: {'Read': null, 'Write': null},
-    notes: {'Read': null, 'Write': null},
-    packages: {'Read': null, 'Write': null},
-    recruitment: {'Read': null, 'Write': null},
-    users: {'Read': null, 'Write': null},
-    visa: {'Read': null, 'Write': null},
-  }
+export class AdminDialogContentComponent {
 
   action: string;
   ADMIN_SELECTED: any;
@@ -193,20 +251,9 @@ export class AdminDialogContentComponent{
   constructor(
     public dialogRef: MatDialogRef<AdminDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Admin,
-  ) 
-  {
+  ) {
     this.ADMIN_SELECTED = { ...data };
     this.action = this.ADMIN_SELECTED.action;
-
- this.SELECTED_ADMIN_PERMISSIONS = {
-  accounting: {'Read': null, 'Write': null},
-  notes: {'Read': null, 'Write': null},
-  packages: {'Read': null, 'Write': null},
-  recruitment: {'Read': null, 'Write': null},
-  users: {'Read': null, 'Write': null},
-  visa: {'Read': null, 'Write': null},
-  }
-  
   }
 
   doAction(): void {
@@ -216,23 +263,6 @@ export class AdminDialogContentComponent{
   CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
-
-
-    // Method to update all subtasks completion status
-    updateAllComplete(permission: Permission): void {
-      permission.subtasks.forEach((subtask: any) => subtask.completed = permission.completed);
-    }
-  
-    // Method to check if some subtasks are completed
-    someComplete(permission: Permission): boolean {
-      return permission.subtasks.some((subtask: any) => subtask.completed) && !permission.completed;
-    }
-  
-    // Method to set completion status for all subtasks
-    setAll(permission: Permission, completed: boolean): void {
-      permission.completed = completed;
-      this.updateAllComplete(permission);
-    }
 
 
 }

@@ -63,7 +63,9 @@ export class AdminService {
       }
     };
 
-    return this.httpClient.post<any>(this.apiUrl + '/EDIT_USER', requestBody, { headers })
+    console.log(requestBody)
+
+    return this.httpClient.post<any>(this.apiUrl + '/SIGN_UP', requestBody, { headers })
   }
 
   // DELETE ADMIN
@@ -92,12 +94,25 @@ export class AdminService {
     });
 
     const requestBody = {
-      // "adminId": ID
+      "adminId": admin._id, // The ID of the admin you want to update
+      "updateData": {
+        "firstname": admin.firstname, 
+        "lastname": admin.lastname,
+        "email": admin.email,
+        "phone": admin.phone,
+        "permissions": { // The updated permissions of the admin
+          "packages": admin.permissions.packages,
+          "visa": admin.permissions.visa,
+          "recruitment": admin.permissions.recruitment,
+          "accounting":admin.permissions.accounting,
+          "users":admin.permissions.users,
+          "notes":admin.permissions.notes
+        }
+      }
     }
 
-    return this.httpClient.post<any>(this.apiUrl + '/DELETE_ADMIN_BY_ID', requestBody, { headers })
+    return this.httpClient.post<any>(this.apiUrl + '/UPDATE_ADMIN_BY_ID', requestBody, { headers })
   }
-
 
   //GET USER BY ID
   GET_ADMIN_BY_ID(ID: string): Observable<any> {
@@ -114,6 +129,19 @@ export class AdminService {
     return this.httpClient.post<any>(this.apiUrl + '/GET_PROFILE_BY_ID', requestBody, { headers });
   }
 
+  //GET USER BY ID
+  SEARCH_ADMIN(SEARCH_VALUE: string): Observable<any> {
+    const jwt = this.generalService.storedToken;
 
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "search":SEARCH_VALUE
+    };
+
+    return this.httpClient.post<any>(this.apiUrl + '/SEARCH_ADMIN_BY_FIELDS', requestBody, { headers });
+  }
 
 }
