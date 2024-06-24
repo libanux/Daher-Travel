@@ -1,19 +1,21 @@
 import { Component, ViewChild, AfterViewInit, Inject, Optional, OnInit } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AdminService } from 'src/app/services/Admins.service';
 import { Admin, PERMISSIONS } from 'src/app/classes/admin.class';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { Permission } from 'src/app/classes/adminPermissions.class';
+import { GeneralService } from 'src/app/services/general.service';
 
 @Component({
   templateUrl: './admins.component.html',
   styleUrl: 'admins.component.scss'
 })
-export class AdminsComponent implements AfterViewInit, OnInit {
+export class AdminsComponent implements OnInit {
 
-  admins: Admin[] = [];
+  // admins: Admin[] = [];
 
  ADDED_ADMIN: Admin = {
     _id: '',
@@ -35,6 +37,10 @@ export class AdminsComponent implements AfterViewInit, OnInit {
 
 show_shimmer = true;
 
+pageSize = 10;
+Current_page = 1
+admins_Array_length = 0
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
 
@@ -46,33 +52,41 @@ show_shimmer = true;
     'action'
   ];
 
-  dataSource = new MatTableDataSource(this.admins);
+  ADMINS_ARRAY = new MatTableDataSource();
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
-  constructor(private breadCrumbService:BreadCrumbSignalService ,public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
+  constructor(private generalService: GeneralService,private breadCrumbService:BreadCrumbSignalService ,public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Admins')
+    this.pageSize = this.generalService.PageSizing
     this.FETCH_ADMINS()
-    this.dataSource = new MatTableDataSource(this.admins);
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
+    // function when page number changes
+    onPageChange(event: PageEvent): void {
+      this.pageSize = event.pageSize;
+      this.Current_page = event.pageIndex + 1;
+      this.FETCH_ADMINS();
+    }
 
   FETCH_ADMINS() {
     this.show_shimmer = true
-    this.adminService.GET_ALL_ADMINS().subscribe({
-      next: (response: any) => {this.admins = response },
+    this.adminService.GET_ALL_ADMINS(this.Current_page, this.pageSize).subscribe({
+      next: (response: any) => {
+        console.log(response)
+        this.ADMINS_ARRAY = new MatTableDataSource(response.admins);
+        this.admins_Array_length = response.pagination.totalAdmins;
+      },
       error: (error) => { },
-      complete: () => {     this.show_shimmer = false }
+      complete: () => { this.show_shimmer = false }
     });
   }
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   OPEN_DIALOG(action: string, obj: any): void {
@@ -100,7 +114,7 @@ show_shimmer = true;
 
   ADD_ADMIN(object: Admin): void {
 
-    // console.log(object)
+    console.log(object)
     // this.adminService.ADD_ADMIN(object).subscribe({
     //   next: (response: any) => { },
     //   error: (error) => { },
@@ -108,8 +122,12 @@ show_shimmer = true;
     // });
   }
 
-  UPDATE_ADMIN(row_obj: Admin): void {
-    this.table.renderRows();
+  UPDATE_ADMIN(obj: Admin): void {
+    this.adminService.UPDATE_ADMIN(obj).subscribe({
+      next: (response: any) => { },
+      error: (error) => { console.error(error)},
+      complete: () => { this.FETCH_ADMINS(); }
+    });
   }
 
   DELETE_ADMIN(ID: string): void {
@@ -131,7 +149,6 @@ show_shimmer = true;
       event.stopPropagation();
     }
   }
-
 
 
 }
@@ -175,7 +192,7 @@ export class AdminDialogContentComponent{
  this.SELECTED_ADMIN_PERMISSIONS = {
   accounting: {'Read': null, 'Write': null},
   notes: {'Read': null, 'Write': null},
-  packages:     {'Read': null, 'Write': null},
+  packages: {'Read': null, 'Write': null},
   recruitment: {'Read': null, 'Write': null},
   users: {'Read': null, 'Write': null},
   visa: {'Read': null, 'Write': null},
@@ -187,43 +204,26 @@ export class AdminDialogContentComponent{
     this.dialogRef.close({ event: this.action, data: this.ADMIN_SELECTED });
   }
 
-  ADD_ADMIN(){
-  }
-
   CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
 
-  toggleSubPermissions(permission: string) {
-    if (this.selectedPermission === permission) {
-      this.selectedPermission = ''; // If the same permission is clicked again, close it
-    } else {
-      this.selectedPermission = permission; // Otherwise, set the selected permission
-    }
-  }
 
-  checkParent(permission: string) {
-    if (permission === 'package') {
-      if (this.package.read || this.package.write) {
-        this.package.selected = true;
-      } else {
-        this.package.selected = false;
-      }
-      if (this.package.write) {
-        this.package.read = true; // Automatically select "Read" when "Write" is selected
-      }
-    } else if (permission === 'visa') {
-      if (this.visa.read || this.visa.write) {
-        this.visa.selected = true;
-      } else {
-        this.visa.selected = false;
-      }
-      if (this.visa.write) {
-        this.visa.read = true; // Automatically select "Read" when "Write" is selected
-      }
+    // Method to update all subtasks completion status
+    updateAllComplete(permission: Permission): void {
+      permission.subtasks.forEach((subtask: any) => subtask.completed = permission.completed);
     }
-    // Add similar logic for other permissions
-  }
+  
+    // Method to check if some subtasks are completed
+    someComplete(permission: Permission): boolean {
+      return permission.subtasks.some((subtask: any) => subtask.completed) && !permission.completed;
+    }
+  
+    // Method to set completion status for all subtasks
+    setAll(permission: Permission, completed: boolean): void {
+      permission.completed = completed;
+      this.updateAllComplete(permission);
+    }
 
 
 }

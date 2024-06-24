@@ -58,6 +58,7 @@ export class VisaComponentComponent implements OnInit {
   // These are the column of the table 
   displayedColumns: string[] = [
     'customerName',
+    'phoneNumber',
     'country',
     'type',
     'sell',
@@ -68,8 +69,11 @@ export class VisaComponentComponent implements OnInit {
 
   // This is the added or updated VISA fdefualt values
   ADDED_VISA: VisaClass = {
-    customerId: '',
-    customerName: '',
+    customer: {
+      id: '',
+      name: '',
+      phoneNumber: '',
+    },
     country: '',
     note: '',
     sell: '',
@@ -97,7 +101,10 @@ export class VisaComponentComponent implements OnInit {
   startDateValue: string = '';
   endDateValue: string = '';
 
-  constructor(private routeSignalService: RouteSignalService, private breadCrumbService: BreadCrumbSignalService, private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+  constructor(
+    private routeSignalService: RouteSignalService,
+     private breadCrumbService: BreadCrumbSignalService,
+      private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
@@ -242,6 +249,7 @@ export class VisaComponentComponent implements OnInit {
     this.show_shimmer = true;
     this.visaService.GET_ALL_VISA(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
+        console.log(response)
         this.current_page_array_length = response.visas.length
         this.VisaArray = new MatTableDataSource(response.visas);
         // LENGTH : FOR PAGINATION 
@@ -263,8 +271,11 @@ export class VisaComponentComponent implements OnInit {
     this.CLOSE_PANEL()
 
     this.ADDED_VISA = {
-      customerId: '',
-      customerName: '',
+      customer: {
+        id: '',
+        name: '',
+        phoneNumber: '',
+      },
       country: '',
       note: '',
       sell: '',
