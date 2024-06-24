@@ -468,7 +468,7 @@ export class TicketsComponent {
 export class AppTicketingDialogContentComponent {
 
   action: string;
-  TICKET_SELECTED: Tickets = new Tickets();
+  TICKET_SELECTED: any = new Tickets();
   ADDED_WHOLESALER: WholesalerClass = new WholesalerClass();
 
   constructor(
@@ -477,6 +477,7 @@ export class AppTicketingDialogContentComponent {
   ) {
     this.TICKET_SELECTED = { ...data };
     this.action = this.data.action;
+    console.log("Selected ticket",this.TICKET_SELECTED)
   }
 
   doAction(): void {
