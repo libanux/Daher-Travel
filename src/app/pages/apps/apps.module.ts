@@ -28,7 +28,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppsRoutes } from './apps.routing';
 import { MatNativeDateModule } from '@angular/material/core';
-import { AppTicketlistComponent, AppTicketDialogContentComponent } from './packages/ticketlist.component';
+import { AppTicketlistComponent, AppPackageDialogContentComponent } from './packages/ticketlist.component';
 
 // labor
 import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor-rec/labor-main/labor-main.component';
@@ -76,7 +76,6 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     AppPermissionComponent,
     AppNotesComponent,
     AppTicketlistComponent,
-    AppTicketDialogContentComponent,
     VisaComponentComponent,
     LaborMainComponent,
     AppTicketlistComponent,
@@ -87,7 +86,7 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     LaborMainComponent,
     AppRecruitingDialogContentComponent,
     ProfileComponent,
-    AppTicketDialogContentComponent,
+    AppPackageDialogContentComponent,
     AppTicketingDialogContentComponent,
     CustomersComponent,
     WholesalerComponent,
@@ -101,7 +100,8 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     NoItemsFoundComponent,
     TableShimmerComponent,
     WholesalerComponent,
-    TicketsComponent
+    TicketsComponent,
+
   ],
   providers: [DatePipe],
 })

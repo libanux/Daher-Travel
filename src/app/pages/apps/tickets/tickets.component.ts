@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TicketingService } from 'src/app/services/ticketing.service';
-import { Month_Filter_Array } from 'src/app/services/general.service';
+import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Tickets } from 'src/app/classes/tickets.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
@@ -16,7 +16,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-tickets',
   templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss', '../../../../assets/scss/apps/_add_expand.scss'],
+  styleUrls: ['./tickets.component.scss', '../../../../assets/scss/apps/_add_expand.scss',
+    '../../../../assets/scss/apps/general_table.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -47,10 +48,11 @@ export class TicketsComponent {
   //TABLE COLUMNS
   displayedColumns: string[] = [
     'name',
-    'cost',
-    'credit',
     'source',
     'destination',
+    'cost',
+    'credit',
+    'balance',
     'note',
     'action',
   ];
@@ -93,7 +95,7 @@ export class TicketsComponent {
   }
 
   searchQuery: string;
-  constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService,public generalService : GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
 
 
   }
@@ -115,7 +117,7 @@ export class TicketsComponent {
   pageSize = 10;
   currentPage = 1;
   filteredCustomers: any[] = []
-
+  ROWS_COUNT_SHIMMER: any[] = ['1', '2','3', '4'];
   //FETCH TICKETINGS FROM API
   FETCH_TICKETINGS(): void {
     this.ticketingService.GET_TICKETINGS(this.pageSize, this.currentPage).subscribe({
@@ -124,6 +126,7 @@ export class TicketsComponent {
         this.tickets = response.ticketings
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTicketings
+        this.ROWS_COUNT_SHIMMER = this.GENERATE_SHIMMER_ROWS_COUNT(response.pagination.totalAdmins)
       },
       error: (error: any) => {
         console.error("Error:", error)
@@ -134,6 +137,67 @@ export class TicketsComponent {
       }
     });
   }
+
+  ADDED_WHOLESALER : WholesalerClass
+  OPEN_DIALOG(action: string, obj: any): void {
+
+    console.log(action)
+    console.log(obj)
+
+    this.ADDED_WHOLESALER = obj
+    // obj.action = action;
+
+    const dialogRef = this.dialog.open(AppTicketingDialogContentComponent, {
+      data: { action, obj },
+    
+    });
+
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.event === 'Add Wholesaler') {
+        // this.ADD_ADMIN(result.data);
+      } 
+      else if (result.event === 'Update') {
+        // this.UPDATE_ADMIN(result.data);
+      } 
+      else if (result.event === 'Delete') {
+        this.ticketingService.DELETE_TICKETING(obj).subscribe({
+                  next: (response: any) => {
+                    this.FETCH_TICKETINGS()
+                  },
+                  error: (error: any) => {
+                    console.error('Error:', error);
+                  },
+                  complete: () => { }
+                });
+      }
+    });
+  }
+
+  // OPEN UPDATE & DELETE DIALOGS
+  // openDialog(action: string, delTicket: Tickets): void {
+  //   const dialogRef = this.dialog.open(AppTicketingDialogContentComponent, {
+  //     data: { action, delTicket }
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result && result.event === 'Delete') {
+  //       this.ticketingService.DELETE_TICKETING(delTicket).subscribe({
+  //         next: (response: any) => {
+  //           this.FETCH_TICKETINGS()
+  //         },
+  //         error: (error: any) => {
+  //           console.error('Error:', error);
+  //         },
+  //         complete: () => { }
+  //       });
+  //     }
+  //   });
+  // }
+
+  GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
+    return this.generalService.GENERATE_SHIMMER_ROWS_COUNT(count)
+  }
+  
   allWholesalers: any[] = []
   filteredWholeSalers: any[] = []
   // GET ALL WHOLESALERS
@@ -239,7 +303,7 @@ export class TicketsComponent {
 
       else {
         this.showDatePicker = false;
-        this.selectedMonth=value;
+        this.selectedMonth = value;
         this.SEARCH_TICKETS()
       }
     }
@@ -285,7 +349,7 @@ export class TicketsComponent {
 
 
   //FETCH TICKETS FROM API
-  SEARCH_TICKETS( ): void {
+  SEARCH_TICKETS(): void {
     this.currentPage = 1;
     this.ticketingService.SEARCH_FILTER_TICKETS(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
@@ -379,25 +443,7 @@ export class TicketsComponent {
     }
   }
 
-  // OPEN UPDATE & DELETE DIALOGS
-  openDialog(action: string, delTicket: Tickets): void {
-    const dialogRef = this.dialog.open(AppTicketingDialogContentComponent, {
-      data: { action, delTicket }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.event === 'Delete') {
-        this.ticketingService.DELETE_TICKETING(delTicket).subscribe({
-          next: (response: any) => {
-            this.FETCH_TICKETINGS()
-          },
-          error: (error: any) => {
-            console.error('Error:', error);
-          },
-          complete: () => { }
-        });
-      }
-    });
-  }
+  
 
   // Method to handle the panel closed event
   panelClosed() {
@@ -469,23 +515,22 @@ interface month {
 @Component({
   // tslint:disable-next-line - Disables all
   selector: 'app-dialogTicket-content',
-  templateUrl: './recruiting-dialog-content.html',
+  templateUrl: './Ticketing-dialog-content.html',
 })
 // tslint:disable-next-line - Disables all
 export class AppTicketingDialogContentComponent {
-  package = { selected: false, read: false, write: false };
-  visa = { selected: false, read: false, write: false };
-
 
   action: string;
   TICKET_SELECTED: any;
+  
 
   constructor(
     public dialogRef: MatDialogRef<AppTicketingDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Tickets,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.TICKET_SELECTED = { ...data };
-    this.action = this.TICKET_SELECTED.action;
+    this.action = this.data.action;
+    console.log("Action:",this.action)
   }
 
   doAction(): void {
@@ -496,6 +541,9 @@ export class AppTicketingDialogContentComponent {
     this.dialogRef.close({ event: 'Cancel' });
   }
 }
+
+
+
 
 
 
