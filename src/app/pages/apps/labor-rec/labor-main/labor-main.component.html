@@ -95,11 +95,11 @@
         <!-- PRICE -->
         <div class="col-md-4 d-flex flex-column">
           <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Price</mat-label>
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
             <input type="number" matInput placeholder="Price." aria-label="Product"
-              [(ngModel)]="editedrecruiting.price">
+              [(ngModel)]="editedrecruiting.cost">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -216,8 +216,8 @@
 
       <div class="searchbar p-20">
         <mat-form-field appearance="outline" class="w-100">
-          <input matInput placeholder="Search Labor..." aria-label="Product"
-            (keyup)="onInputChange($any($event.target).value)">
+          <input matInput placeholder="Search Labor..." aria-label="Product" [(ngModel)]="searchText"
+            (keyup)="onInputChange()">
           <mat-icon matPrefix class="op-5">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
               width="24px" fill="#5f6368">
@@ -250,7 +250,7 @@
           <!-- DATE -->
           <div class="dropdown">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select p placeholder="Today" [(ngModel)]="selectedMonth" (selectionChange)="onChange($event.value, 'month')">
+              <mat-select p placeholder="Today" [(ngModel)]="selectedMonth" (selectionChange)="onInputChange()">
                 @for(month of months; track month) {
                 <mat-option value={{month.value}}>{{month.viewValue}}</mat-option>
                 }
@@ -269,7 +269,7 @@
            <!-- STATUS -->
            <div class="dropdown">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select p placeholder="All" (selectionChange)="onChange($event.value, 'status')">
+              <mat-select p placeholder="All" [(ngModel)]="statusValue" (selectionChange)="onInputChange()">
                 @for(element of Filteration; track element) {
                 <mat-option value={{element.value}}>{{element.viewValue}}</mat-option>
                 }

@@ -100,9 +100,9 @@ export class WholesalerComponent implements OnInit {
   }
 
 
-  APPLY_SEARCH_FILTER(filterValue: string): void {
+  APPLY_SEARCH_FILTER(): void {
     this.Current_page = 1;
-    this.wholesaler.SEARCH_WHOLESALER(this.pageSize, this.Current_page, filterValue).subscribe({
+    this.wholesaler.SEARCH_WHOLESALER(this.pageSize, this.Current_page, this.searchText).subscribe({
       next: (response: any) => {
 
         this.WholesalerArray = response.wholesalers;

@@ -161,11 +161,12 @@ export class AppTicketlistComponent implements OnInit {
       }
     });
   }
-
-  //FETCH PACKAGES FROM API
-  SEARCH_PACKAGES(event: any): void {
+statusValue:string =''
+  //SEARCH & FILTER  PACKAGES 
+  SEARCH_PACKAGES(): void {
     this.currentPage = 1;
-    this.packagesService.SEARCH_PACKAGE(this.pageSize, this.currentPage, event.target.value).subscribe({
+    console.log("Status value:",this.statusValue)
+    this.packagesService.SEARCH_FILTER_PACKAGE(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue,this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
         this.packages = response.packages;
@@ -182,6 +183,7 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
+
   CancelUpdate(): void {
     this.ShowAddButoon = true;
     this.open_expansion_value = -1;
@@ -197,7 +199,8 @@ export class AppTicketlistComponent implements OnInit {
 
       else {
         this.showDatePicker = false;
-        this.FILTER_PACKAGES_BY_DATE(value)
+        this.selectedMonth = value;
+        this.SEARCH_PACKAGES()
       }
     }
 

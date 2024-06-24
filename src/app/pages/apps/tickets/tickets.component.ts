@@ -30,7 +30,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 })
 export class TicketsComponent {
   ShowAddButoon = true;
-  selectedMonth: string = '';
+  selectedMonth: string = 'thisMonth';
   @Input() showAddSection = true;
 
   //MAIN TICKETS ARRAY
@@ -142,7 +142,7 @@ export class TicketsComponent {
       next: (response: any) => {
         this.allWholesalers = response.wholesalers
         this.filteredWholeSalers = response.wholesalers
-            },
+      },
       error: (error) => {
         console.error("Error wholesaler", error)
       },
@@ -239,7 +239,8 @@ export class TicketsComponent {
 
       else {
         this.showDatePicker = false;
-        this.FILTER_TICKETS_BY_DATE(value)
+        this.selectedMonth=value;
+        this.SEARCH_TICKETS()
       }
     }
   }
@@ -284,13 +285,11 @@ export class TicketsComponent {
 
 
   //FETCH TICKETS FROM API
-  SEARCH_TICKETS(event: any): void {
+  SEARCH_TICKETS( ): void {
     this.currentPage = 1;
-
-    this.ticketingService.SEARCH_TICKETS(this.pageSize, this.currentPage, event.target.value).subscribe({
+    this.ticketingService.SEARCH_FILTER_TICKETS(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
-
-        this.tickets = response.tickets;
+        this.tickets = response.ticketings;
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTickets
       },

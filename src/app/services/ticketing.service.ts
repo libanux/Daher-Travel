@@ -72,6 +72,7 @@ export class TicketingService {
 
   // ADD TICKETING
   ADD_TICKETING(newTicket: Tickets): Observable<any> {
+    console.log("The new ticket",newTicket)
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
@@ -133,4 +134,22 @@ export class TicketingService {
     };
     return this.http.post<any>(this.apiUrl + '/FILTER_TICKETING_BY_DATE', requestBody, { headers })
   }
+
+  // SEARCH AND FILTER TICKETS
+ SEARCH_FILTER_TICKETS(pageSize:number, currentPage: number,searchkey:string,filterType: string , startDate: string , endDate: string): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.getToken()}`,
+    'Content-Type': 'application/json'
+  });
+  const requestBody = {
+    "search": searchkey,
+    "filterType":filterType,
+    "startDate": startDate,
+    "endDate": endDate,
+    "status": "",
+    "page": currentPage,
+    "pageSize": pageSize
+  };
+  return this.http.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_TICKETING', requestBody, { headers })
+}
 }

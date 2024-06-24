@@ -93,7 +93,7 @@ export const Reports_Month_Filter_Array: any[] = [
 ];
 
 export const Date_Filter_Array: any[] = [
-  { value: 'all', viewValue: 'All' },
+  { value: '', viewValue: 'All' },
   { value: 'canceled', viewValue: 'Canceled' },
   { value: 'completed', viewValue: 'Completed' },
   { value: 'pending', viewValue: 'Pending' }

@@ -33,7 +33,8 @@ export class LaborMainComponent implements AfterViewInit {
 
 
   ShowAddButoon = true;
-  selectedMonth: string = '';
+  selectedMonth: string = 'thisMonth';
+  statusValue : string ='all'
   CurrentAction: string = 'Add Recruiting'
   //MAIN RECRUITING ARRAY
   recruitings: any[] = []
@@ -55,7 +56,7 @@ export class LaborMainComponent implements AfterViewInit {
     'gender',
     'type',
     'age',
-    'price',
+    'cost',
     'sell',
     'note',
     'status',
@@ -95,7 +96,7 @@ export class LaborMainComponent implements AfterViewInit {
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
     this.editedrecruiting.sell = 1
-    this.editedrecruiting.price = 1
+    this.editedrecruiting.cost = 1
     this.editedrecruiting.age = 1
     this.editedrecruiting.gender = 'female'
   }
@@ -114,9 +115,6 @@ export class LaborMainComponent implements AfterViewInit {
         this.show_shimmer = false;
         this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
-        this.Inprogress = this.btnCategoryClick('pending');
-        this.Completed = this.btnCategoryClick('completed');
-        this.Cancelled = this.btnCategoryClick('canceled');
         this.totalCount = response.pagination.totalRecruitings;
       },
       error: (error: any) => {
@@ -128,8 +126,8 @@ export class LaborMainComponent implements AfterViewInit {
   }
 
   // Function to handle input change
-  onInputChange(event: any) {
-    this.recruitingService.SEARCH_RECRUITING(this.pageSize, this.currentPage, event).subscribe({
+  onInputChange() {
+    this.recruitingService.SEARCH_FILTER_RECRUITING(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue,this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
         this.recruitings = response.recruitings;
@@ -258,6 +256,7 @@ export class LaborMainComponent implements AfterViewInit {
         this.CLEAR_VALUES(this.editedrecruiting)
         this.CurrentAction = 'Add Recruiting'
         this.open_expansion_value = -1;
+        console.log("Response on update:",response)
       },
       error: (error: any) => {
         console.error('Error:', error.error);
@@ -352,7 +351,7 @@ export class LaborMainComponent implements AfterViewInit {
     obj.age = 0;
     obj.type = '';
     obj.sell = 0;
-    obj.price = 0;
+    obj.cost = 0;
     obj.note = '';
     obj.status = '';
 

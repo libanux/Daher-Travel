@@ -39,7 +39,7 @@
                   <span>Add new customer</span>
                 </div>
               </mat-option>
-              
+
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -265,7 +265,8 @@
   <header>
     <div class="searchbar p-20">
       <mat-form-field appearance="outline" class="w-100">
-        <input matInput placeholder="Search Tickets ..." aria-label="Product" (keyup)="SEARCH_TICKETS($any($event))" />
+        <input matInput placeholder="Search Tickets ..." aria-label="Product" [(ngModel)]="searchText"
+          (keyup)="SEARCH_TICKETS()" />
         <mat-icon matPrefix class="op-5">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
             width="24px" fill="#5f6368">
