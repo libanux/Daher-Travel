@@ -35,7 +35,10 @@ export class AdminsComponent implements OnInit {
     token: ''
 };
 
+// TABLE SHIMMER
 show_shimmer = true;
+ROWS_COUNT_SHIMMER: any[] = ['1', '2','3', '4'];
+
 
 pageSize = 10;
 Current_page = 1
@@ -76,14 +79,20 @@ admins_Array_length = 0
     this.show_shimmer = true
     this.adminService.GET_ALL_ADMINS(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.ADMINS_ARRAY = new MatTableDataSource(response.admins);
         this.admins_Array_length = response.pagination.totalAdmins;
+        this.ROWS_COUNT_SHIMMER = this.GENERATE_SHIMMER_ROWS_COUNT(response.pagination.totalAdmins)
       },
       error: (error) => { },
       complete: () => { this.show_shimmer = false }
     });
   }
+
+   GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
+    return this.generalService.GENERATE_SHIMMER_ROWS_COUNT(count)
+  }
+  
+
 
   APPLY_SEARCH_FILTER(filterValue: string): void {
     // this.dataSource.filter = filterValue.trim().toLowerCase();

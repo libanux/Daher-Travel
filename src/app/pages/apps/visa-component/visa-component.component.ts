@@ -8,6 +8,8 @@ import { VisaService } from 'src/app/services/visa.service';
 import { GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
+import { CustomerService } from 'src/app/services/Customer.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-visa-component',
@@ -53,7 +55,7 @@ export class VisaComponentComponent implements OnInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  searchText: any;
+  // searchText: any;
 
   // These are the column of the table 
   displayedColumns: string[] = [
@@ -69,6 +71,7 @@ export class VisaComponentComponent implements OnInit {
 
   // This is the added or updated VISA fdefualt values
   ADDED_VISA: VisaClass = {
+    _id : '',
     customer: {
       id: '',
       name: '',
@@ -98,10 +101,9 @@ export class VisaComponentComponent implements OnInit {
 
   // Storing the start and end date selected in filtering by Date
   // Used in filter by date
-  startDateValue: string = '';
-  endDateValue: string = '';
 
   constructor(
+    private customerService: CustomerService,
     private routeSignalService: RouteSignalService,
      private breadCrumbService: BreadCrumbSignalService,
       private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
@@ -125,8 +127,8 @@ export class VisaComponentComponent implements OnInit {
       }
 
       else {
-        this.startDateValue = '';
-        this.endDateValue = '';
+        this.START_DATE = '';
+        this.END_DATE = '';
 
         this.showDatePicker = false;
         this.FILTER_ARRAY_BY_DATE(value)
@@ -136,7 +138,7 @@ export class VisaComponentComponent implements OnInit {
     // Status filtering
     else if (dropdown == 'status') {
       if (value == 'all') {
-        this.FETCH_VISA()
+        this.FILTER_ARRAY_BY_STATUS('')
       }
       else {
         this.FILTER_ARRAY_BY_STATUS(value)
@@ -193,20 +195,63 @@ export class VisaComponentComponent implements OnInit {
     else {
       this.routeSignalService.show_pop_up_route.set(false);
     }
+  }
 
-    // You can perform additional actions based on the field name or value if needed
+  CUSTOMER_SELECTED: string = '';
+  filteredCustomers: any[] = []
+
+  filterCustomers() {
+    const query = this.ADDED_VISA.customer.name.toLowerCase();
+    this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
+  }
+
+  ALL_CUSTOMERS_ARRAY: any = []
+  // GET ALL CUSTOMER'S 
+  FETCH_CUSTOMER() {
+    this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
+      next: (response: any) => {
+        this.ALL_CUSTOMERS_ARRAY = response.customers;
+        this.filteredCustomers = response.customers;
+      },
+      error: (error) => { },
+      complete: () => {}
+    });
   }
 
 
+  onOptionSelected(event: MatAutocompleteSelectedEvent, source: string) {
+
+    if (source == 'customer') {   
+      this.ADDED_VISA.customer.name = event.option.value.name
+      this.ADDED_VISA.customer.id = event.option.value._id
+      this.ADDED_VISA.customer.phoneNumber = event.option.value.phoneNumber
+
+    } 
+    else {
+      // this.choosenWholesaler = event.option.value;
+      this.ADDED_VISA.customer.id = event.option.value._id; // Assigning id
+      this.ADDED_VISA.customer.name = event.option.value.name;
+    }
+
+  }
+
+  displayFn(customer: { id: number, name: string }): string {
+    return customer ? customer.name : '';
+  }
+
+  ADD_NEW_CUSTOMER(){
+
+  }
+  
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
-    this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.START_DATE = this.FORMAT_DATE_YYYYMMDD(event);
     this.FILTER_ARRAY_BY_DATE('custom')
   }
 
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
-    this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.END_DATE = this.FORMAT_DATE_YYYYMMDD(event);
     this.FILTER_ARRAY_BY_DATE('custom')
   }
 
@@ -249,15 +294,16 @@ export class VisaComponentComponent implements OnInit {
     this.show_shimmer = true;
     this.visaService.GET_ALL_VISA(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.current_page_array_length = response.visas.length
         this.VisaArray = new MatTableDataSource(response.visas);
         // LENGTH : FOR PAGINATION 
         this.Visa_Array_length = response.pagination.totalVisas;
       },
       error: (error) => { },
-      complete: () => { this.show_shimmer = false; }
-
+      complete: () => { 
+      this.show_shimmer = false; 
+      this.FETCH_CUSTOMER()
+      }
     });
   }
 
@@ -271,6 +317,7 @@ export class VisaComponentComponent implements OnInit {
     this.CLOSE_PANEL()
 
     this.ADDED_VISA = {
+      _id : '',
       customer: {
         id: '',
         name: '',
@@ -300,7 +347,7 @@ export class VisaComponentComponent implements OnInit {
   // ADD NEW VISA
   ADD_VISA(obj: VisaClass) {
     this.visaService.ADD_VISA(obj).subscribe({
-      next: (response: any) => { },
+      next: (response: any) => {},
       error: (error) => { },
       complete: () => {
         this.FETCH_VISA(); this.CANCEL_UPDATE();
@@ -332,43 +379,41 @@ export class VisaComponentComponent implements OnInit {
 
   // STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
-    this.visaService.FILTER_VISA_BY_STATUS(val, 1, this.pageSize).subscribe({
-      next: (response: any) => {
-        this.VisaArray = new MatTableDataSource(response.visas);
-        this.Visa_Array_length = response.pagination.totalVisas;
-      },
-      error: (error) => { this.VisaArray = new MatTableDataSource(); },
-      complete: () => { }
-    });
+    this.STATUS = val
+    this.FILTER_VISAS(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, val)
   }
 
   // DATE FILTERATION
   FILTER_ARRAY_BY_DATE(filter_type: any) {
-    this.visaService.FILTER_VISA_BY_DATE(filter_type, this.startDateValue, this.endDateValue).subscribe({
-      next: (response: any) => {
-        this.VisaArray = new MatTableDataSource(response.visas);
-        this.Visa_Array_length = response.pagination.totalVisas;
-      },
-      error: (error) => { this.VisaArray = new MatTableDataSource(); },
-      complete: () => { }
-    });
+    this.FILTER_TYPE = filter_type
+    this.FILTER_VISAS(this.SEARCK_KEY, filter_type, this.START_DATE, this.END_DATE, this.STATUS)
   }
 
   // FILTER BY SEARCH KEY
-  APPLY_SEARCH_FILTER(filterValue: string): void {
-    this.visaService.FILTER_VISA_BY_SEARCH_KEY(filterValue, 1, this.pageSize).subscribe({
+  APPLY_SEARCH_FILTER(searchValue: string): void {
+    this.SEARCK_KEY = searchValue
+    this.FILTER_VISAS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
+  }
+
+  SEARCK_KEY = '';
+  FILTER_TYPE = ''
+  START_DATE = ''
+  END_DATE = ''
+  STATUS = ''
+  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string){
+    this.visaService.FILTER_AND_SEARCH_VISAS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE,STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
-        this.VisaArray = new MatTableDataSource(response.visas);
-        this.Visa_Array_length = response.pagination.totalVisas;
+      this.current_page_array_length = response.visas.length
+      this.VisaArray = new MatTableDataSource(response.visas);
+      // LENGTH : FOR PAGINATION 
+      this.Visa_Array_length = response.pagination.totalVisas;
       },
-      error: (error) => { this.VisaArray = new MatTableDataSource(); },
+      error: (error) => { this.VisaArray = new MatTableDataSource() },
       complete: () => { }
     });
   }
 
 }
-
-
 
 
 @Component({

@@ -125,7 +125,6 @@ export class CustomersComponent implements OnInit {
     });
   }
 
-
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: CustomerClass, column: string): void {
     if (column === 'action') { this.expandedElement = element; }
@@ -134,7 +133,6 @@ export class CustomersComponent implements OnInit {
       this.VIEW_CUSTOMER()
     }
   }
-
 
   // Method to handle the panel closed event
   CLOSE_PANEL() {
@@ -228,9 +226,20 @@ export class CustomersComponent implements OnInit {
   }
 
   // FILTER BY SEARCH KEY
-  APPLY_SEARCH_FILTER(filterValue: string): void {
-    this.customerService.FILTER_BY_SEARCH_KEY(filterValue, this.Current_page, this.pageSize).subscribe({
+  APPLY_SEARCH_FILTER(searchValue: string): void {
+    this.SEARCK_KEY = searchValue
+    this.FILTER_VISAS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
+  }
+
+  SEARCK_KEY = '';
+  FILTER_TYPE = ''
+  START_DATE = ''
+  END_DATE = ''
+  STATUS = ''
+  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string){
+    this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE,STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
+        this.current_page_array_length = response.customers.length
         this.CustomersArray = new MatTableDataSource(response.customers);
         this.CUSTOMERS_Array_length = response.pagination.totalCustomers
       },
@@ -238,7 +247,6 @@ export class CustomersComponent implements OnInit {
       complete: () => { }
     });
   }
-
 }
 
 
