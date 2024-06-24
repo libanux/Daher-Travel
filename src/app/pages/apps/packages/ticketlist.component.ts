@@ -45,8 +45,8 @@ export class AppTicketlistComponent implements OnInit {
   //PACKAGE ON EDIT
   editedpackage: Package = {
     _id: '',
-    customerId:'',
-    phoneNumber:'',
+    customerId: '',
+    phoneNumber: '',
     customerName: '',
     source: '',
     destination: '',
@@ -60,7 +60,7 @@ export class AppTicketlistComponent implements OnInit {
   }
 
   //TABLE COLUMNS
-  displayedColumns: string[] = ['customerName', 'source', 'destination', 'numberOfPeople', 'duration', 'cost', 'sell', 'hotels', 'note', 'status', 'action'];
+  displayedColumns: string[] = ['customer', 'source', 'destination', 'numberOfPeople', 'duration', 'cost', 'sell', 'hotels', 'note', 'status', 'action'];
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Package | null = null;
@@ -146,7 +146,7 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log("Response:",response)
+        console.log("Response:", response)
         this.show_shimmer = false
         this.packages = response.packages;
         this.dataSource = new MatTableDataSource(this.packages);

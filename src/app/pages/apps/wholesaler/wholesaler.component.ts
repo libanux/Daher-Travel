@@ -191,7 +191,7 @@ export class WholesalerComponent implements OnInit {
   // SELECT OBJECT TO UPDATE
   SELECTED_WHOLESALER(obj: WholesalerClass): void {
     this.ShowAddButoon = false;
-    this.currentAction = "Update Customer"
+    this.currentAction = "Update Wholesaler"
     this.ADDED_WHOLESALER = obj;
 
     this.open_expansion_value = 1;
@@ -208,7 +208,7 @@ export class WholesalerComponent implements OnInit {
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
     this.ShowAddButoon = true;
-    this.currentAction = "Add Customer"
+    this.currentAction = "Add Wholesaler"
     this.open_expansion_value = -1;
 
     this.panelClosed()

@@ -468,7 +468,7 @@ export class TicketsComponent {
 export class AppTicketingDialogContentComponent {
 
   action: string;
-  TICKET_SELECTED: any;
+  TICKET_SELECTED: Tickets = new Tickets();
   ADDED_WHOLESALER: WholesalerClass = new WholesalerClass();
 
   constructor(

@@ -333,10 +333,13 @@
               <ng-container *ngIf="column !== 'action'; else actionColumn">
                 <ng-container *ngIf="column !== 'status'; else statusColumn">
                   <!-- Check if the column is 'price' or 'sell' -->
-                  <ng-container *ngIf="column !== 'price' && column !== 'cost'; else priceColumn">
+                  <ng-container *ngIf="column !== 'sell' && column !== 'cost'; else priceColumn">
                     <ng-container *ngIf="column !== 'duration'; else durationColumn">
+
                       <ng-container *ngIf="column !== 'note'; else noteColumn">
-                        {{ truncateText(element[column], 20) }}
+                        {{ column === 'customer' ? element.customer.name : column === 'phoneNumber' ?
+                        element.customer.phoneNumber : element[column] }}
+
                       </ng-container>
                     </ng-container>
                   </ng-container>
@@ -362,7 +365,7 @@
 
               <!-- Handle 'note' column separately -->
               <ng-template #noteColumn>
-                {{ truncateText(element[column], 20) }}
+                {{ truncateText(element[column], 10) }}
               </ng-template>
 
               <!-- Handle 'action' column separately -->
