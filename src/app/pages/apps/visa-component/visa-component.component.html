@@ -267,6 +267,25 @@
             </mat-icon>
           </mat-form-field>
         </div>
+        
+
+<!-- Download As -->
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+            (selectionChange)="DROPDOWN_FILTERATION($event.value, 'Download')">
+            @for(option of Options; track option) {
+            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+            }
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
 
 
     </div>
@@ -302,7 +321,7 @@
               <ng-container *ngIf="column !== 'action'; else actionColumn">
                 <ng-container *ngIf="column !== 'createAt'; else dateColumn">
                   <ng-container *ngIf="column !== 'note'; else noteColumn">
-                    {{ column === 'customerName' ? element.customer.name : column === 'phoneNumber' ? element.customer.phoneNumber : element[column] }}
+                    {{ column === 'Customer' ? element.customer.name : column === 'phoneNumber' ? element.customer.phoneNumber : element[column] }}
                   </ng-container>
                 </ng-container>
               </ng-container>
@@ -342,20 +361,24 @@
 
                 <div class="detail-body mt-3">
                   <div class="col-md-4">
-                    <div class="detail-field"><strong>name:</strong> {{ element.customerName }}</div>
-                    <div class="detail-field"><strong>country:</strong> {{ element.country }}</div>
-                    <div class="detail-field"><strong>destination:</strong> {{ element.destination }}</div>
+                    <div class="detail-field"><strong>Name: </strong> {{ element.customer.name }}</div>
+                    <div class="detail-field"><strong>Country: </strong> {{ element.country }}</div>
+                    <div class="detail-field"><strong>Phone-Nb: </strong> {{ element.customer.phoneNumber }}</div>
                   </div>
                   <div class="col-md-4">
-                    <div class="detail-field"><strong>type:</strong> {{ element.type }}</div>
-                    <div class="detail-field"><strong>price:</strong> {{ element.price }}</div>
-                    <div class="detail-field"><strong>sell:</strong> {{ element.sell }}</div>
+                    <div class="detail-field"><strong>Type: </strong> {{ element.type }}</div>
+                    <div class="detail-field"><strong>Net-Profit: </strong> {{ element.netProfit }}</div>
+                    <div class="detail-field"><strong>Sell: </strong> {{ element.sell }}</div>
                   </div>
                   <div class="col-md-4">
-                    <div class="detail-field"><strong>status:</strong> {{ element.status }}</div>
-                    <!-- <div class="detail-field"><strong>Created At:</strong> {{ element.createdAt }}</div> -->
-                    <div class="detail-field"><strong>updatedAt:</strong> {{ element.updatedAt }}</div>
+                    <div class="detail-field"><strong >Status: </strong> {{ element.status }}</div>
+                    <div class="detail-field"><strong>Created At: </strong>{{ FORMAT_DATE(element.createdAt) }}</div>
+                    <div class="detail-field"><strong>Updated At: </strong> {{ FORMAT_DATE(element.updatedAt) }}</div>
                   </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="detail-field"><strong >Note: </strong> {{ element.note }}</div>
                 </div>
 
                 <div class="invoice-btn-div">

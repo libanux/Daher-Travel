@@ -107,6 +107,9 @@
             }
         
             .invoice-btn-div {
+                display: flex;
+                width: 100%;
+                justify-content: flex-end;
                 .invoice-btn {
                     background-color: #ebb31bfb;
                     border-style: none;
@@ -117,8 +120,8 @@
         
                 .invoice-btn:hover {
                     cursor: pointer;
-                    background-color: #f0cb65fb;
-                    color: rgb(7, 42, 107);
+                    background-color: #ebb41bd8;
+                    color: rgb(255, 255, 255);
                 }
             }
         }

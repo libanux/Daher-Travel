@@ -59,3 +59,52 @@
     letter-spacing: var(--mat-expansion-header-text-tracking);
 }
 
+
+
+
+
+.fixed-option {
+    position: sticky;
+    bottom: 0;
+    background: rgb(224, 224, 224); /* Ensure the background matches the menu */
+    z-index: 1; /* Make sure it stays on top */
+    }
+    
+    .option-content {
+    display: flex;
+    align-items: center;
+    }
+    
+    .option-content svg {
+    margin-right: 8px; /* Adjust spacing between icon and text */
+    }
+    
+    .mat-autocomplete-panel {
+    position: relative;
+    }
+    
+    .add-new-customer-option {
+    position: sticky;
+    bottom: 0;
+    background-color: rgb(217, 219, 241);
+    z-index: 1;
+    margin-bottom: 0;
+    }
+    
+    .add-new-customer-option:hover {
+        position: sticky;
+        bottom: 0;
+        background-color: rgb(233, 241, 200);
+        z-index: 1;
+        margin-bottom: 0;
+        }
+    
+    .option-content {
+    display: flex;
+    align-items: center;
+    }
+    
+    .add-new-customer-option mat-icon {
+    margin-right: 8px;
+    }
+    
