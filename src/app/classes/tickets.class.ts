@@ -6,6 +6,7 @@ export class Tickets {
       id: string,
       name: string
     } = { id: '', name: '' },
+    
     public source: string = '',
     public destination: string = '',
     public note: string = '',
