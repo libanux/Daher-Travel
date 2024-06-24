@@ -1,17 +1,17 @@
-<h2 class="f-w-500" mat-dialog-title><strong>Delete</strong></h2>
+<h2 class="f-w-500" mat-dialog-title><strong>{{action}}</strong></h2>
 
 @if(action == 'Delete') {
 <div class="p-x-24">
-  <p>Sure to delete ticket of<span class="f-w-600"> {{TICKET_SELECTED.delTicket.name}}</span> ?</p>
+    <p>Sure to delete ticket of<span class="f-w-600"> {{TICKET_SELECTED.delTicket.name}}</span> ?</p>
 </div>
 <div mat-dialog-actions class="p-x-24 p-b-24">
-  <button mat-button (click)="CLOSE_DIALOG()" class="m-l-8">Cancel</button>
-  <button mat-button (click)="doAction()" mat-flat-button color="warn">Delete</button>
+    <button mat-button (click)="CLOSE_DIALOG()" class="m-l-8">Cancel</button>
+    <button mat-button (click)="doAction()" mat-flat-button color="warn">Delete</button>
 </div>
 }
 
 @else if (action == 'Add Wholesaler') {
-  <mat-card-content>
+<mat-card-content>
 
     <!-- FIRST ROW :  NAME + phoneNumber + address -->
     <div class="row">
@@ -22,7 +22,7 @@
                 <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Name"  />
+                <input matInput placeholder="Name" [(ngModel)]="ADDED_WHOLESALER.name" />
                 <mat-icon matPrefix class="op-5">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#5f6368">
@@ -39,7 +39,7 @@
                 <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone Number</mat-label>
             </div>
             <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Phone Number "  />
+                <input matInput placeholder="Phone Number " [(ngModel)]="ADDED_WHOLESALER.phoneNumber" />
                 <mat-icon matPrefix class="op-5">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#5f6368">
@@ -57,7 +57,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Email"  />
+                <input matInput placeholder="Email" [(ngModel)]="ADDED_WHOLESALER.email" />
                 <mat-icon matPrefix class="op-5">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#5f6368">
@@ -78,7 +78,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Address"  />
+                <input matInput placeholder="Address" [(ngModel)]="ADDED_WHOLESALER.address" />
                 <mat-icon matPrefix class="op-5">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#5f6368">
@@ -96,7 +96,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Company"  />
+                <input matInput placeholder="Company" [(ngModel)]="ADDED_WHOLESALER.company" />
                 <mat-icon matPrefix class="op-5">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#5f6368">
@@ -108,9 +108,12 @@
         </div>
     </div>
 
-    
 
 
+    <div mat-dialog-actions class="p-x-24 p-b-24">
+        <button mat-button (click)="CLOSE_DIALOG()" class="m-l-8">Cancel</button>
+        <button mat-button (click)="doAction()" mat-flat-button color="warn">Add</button>
+    </div>
 
 </mat-card-content>
 }

@@ -57,7 +57,7 @@ export class PackageService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "name": newPackage.name,
+      "name": newPackage.customerName,
       "destination": newPackage.destination,
       "numberOfPeople": newPackage.numberOfPeople,
       "duration": newPackage.duration,
@@ -80,7 +80,7 @@ export class PackageService {
     const requestBody = {
       "id": editedPackage._id,
       "updateData": {
-        "name": editedPackage.name,
+        "name": editedPackage.customerName,
         "destination": editedPackage.destination,
         "numberOfPeople": editedPackage.numberOfPeople,
         "duration": editedPackage.duration,

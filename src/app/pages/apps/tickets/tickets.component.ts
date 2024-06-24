@@ -16,8 +16,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-tickets',
   templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss', '../../../../assets/scss/apps/_add_expand.scss',
-    '../../../../assets/scss/apps/general_table.scss'],
+  styleUrls: ['../../../../assets/scss/apps/_add_expand.scss', '../../../../assets/scss/apps/general_table.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -38,25 +37,20 @@ export class TicketsComponent {
   tickets: any[] = []
   showCalendar: boolean = false;
   selectedDate: Date | null = null;
-  startDateValue: string = ''; // Variable to store the start date
-  endDateValue: string = ''; // Variable to store the end date
+  startDateValue: string = '';
+  endDateValue: string = '';
   show_shimmer = true
   currentAction: string = 'Add Ticket';
-
-
+  showDatePicker: boolean = false;
+  pageSize = 10;
+  currentPage = 1;
+  filteredCustomers: any[] = []
+  ROWS_COUNT_SHIMMER: any[] = ['1', '2', '3', '4'];
+  ADDED_WHOLESALER: WholesalerClass
+  choosenWholesaler: WholesalerClass
 
   //TABLE COLUMNS
-  displayedColumns: string[] = [
-    'name',
-    'source',
-    'destination',
-    'cost',
-    'credit',
-    'balance',
-    'note',
-    'action',
-  ];
-
+  displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Tickets | null = null;
 
@@ -72,6 +66,9 @@ export class TicketsComponent {
   // These two valus are used for the add expnad row in the top of the page
   panelOpenState = false;
   open_expansion_value = 0;
+  allWholesalers: any[] = []
+  filteredWholeSalers: any[] = []
+  allCustomers: any = []
 
   //MONTHS FOR FILTER DROPDOWN
   months: any[] = Month_Filter_Array
@@ -95,13 +92,9 @@ export class TicketsComponent {
   }
 
   searchQuery: string;
-  constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService,public generalService : GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  searchQuery1: string = ''
 
-
-  }
-
-  trackById(index: number, item: any): number {
-    return item.id; // Return a unique identifier for each item (e.g., item's ID)
+  constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public generalService: GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
   }
 
 
@@ -114,10 +107,7 @@ export class TicketsComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-  pageSize = 10;
-  currentPage = 1;
-  filteredCustomers: any[] = []
-  ROWS_COUNT_SHIMMER: any[] = ['1', '2','3', '4'];
+
   //FETCH TICKETINGS FROM API
   FETCH_TICKETINGS(): void {
     this.ticketingService.GET_TICKETINGS(this.pageSize, this.currentPage).subscribe({
@@ -126,7 +116,6 @@ export class TicketsComponent {
         this.tickets = response.ticketings
         this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTicketings
-        this.ROWS_COUNT_SHIMMER = this.GENERATE_SHIMMER_ROWS_COUNT(response.pagination.totalAdmins)
       },
       error: (error: any) => {
         console.error("Error:", error)
@@ -138,68 +127,50 @@ export class TicketsComponent {
     });
   }
 
-  ADDED_WHOLESALER : WholesalerClass
+
   OPEN_DIALOG(action: string, obj: any): void {
-
-    console.log(action)
-    console.log(obj)
-
     this.ADDED_WHOLESALER = obj
-    // obj.action = action;
-
     const dialogRef = this.dialog.open(AppTicketingDialogContentComponent, {
       data: { action, obj },
-    
     });
-
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Add Wholesaler') {
-        // this.ADD_ADMIN(result.data);
-      } 
-      else if (result.event === 'Update') {
-        // this.UPDATE_ADMIN(result.data);
-      } 
+        this.ADD_WHOLESALER(result.data);
+      }
       else if (result.event === 'Delete') {
-        this.ticketingService.DELETE_TICKETING(obj).subscribe({
-                  next: (response: any) => {
-                    this.FETCH_TICKETINGS()
-                  },
-                  error: (error: any) => {
-                    console.error('Error:', error);
-                  },
-                  complete: () => { }
-                });
+        this.DELETE_TICKETING(obj)
       }
     });
   }
 
-  // OPEN UPDATE & DELETE DIALOGS
-  // openDialog(action: string, delTicket: Tickets): void {
-  //   const dialogRef = this.dialog.open(AppTicketingDialogContentComponent, {
-  //     data: { action, delTicket }
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result && result.event === 'Delete') {
-  //       this.ticketingService.DELETE_TICKETING(delTicket).subscribe({
-  //         next: (response: any) => {
-  //           this.FETCH_TICKETINGS()
-  //         },
-  //         error: (error: any) => {
-  //           console.error('Error:', error);
-  //         },
-  //         complete: () => { }
-  //       });
-  //     }
-  //   });
-  // }
 
-  GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
-    return this.generalService.GENERATE_SHIMMER_ROWS_COUNT(count)
+  //ADD NEW WHOLESALER
+  ADD_WHOLESALER(wholesaler: any) {
+    this.wholesaler.ADD_WHOLESALER(wholesaler).subscribe({
+      next: (response: any) => {
+        console.log("Response:", response)
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      },
+      complete: () => { }
+    });
   }
-  
-  allWholesalers: any[] = []
-  filteredWholeSalers: any[] = []
+
+
+  //DELETE TICKETING RECORD
+  DELETE_TICKETING(ticket: any) {
+    this.ticketingService.DELETE_TICKETING(ticket).subscribe({
+      next: (response: any) => {
+        this.FETCH_TICKETINGS()
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      },
+      complete: () => { }
+    });
+  }
+
   // GET ALL WHOLESALERS
   FETCH_WHOLESALERS() {
     this.wholesaler.GET_ALL_WHOLESALERS_WITH_NO_PAGING().subscribe({
@@ -214,14 +185,12 @@ export class TicketsComponent {
     });
   }
 
-  allCustomers: any = []
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
       next: (response: any) => {
         this.allCustomers = response.customers;
         this.filteredCustomers = response.customers;
-
       },
       error: (error) => { },
       complete: () => {
@@ -229,7 +198,7 @@ export class TicketsComponent {
       }
     });
   }
-  searchQuery1: string = ''
+
   filterCustomers() {
     const query = this.ADDED_TICKET.name.toLowerCase();
     this.filteredCustomers = this.allCustomers.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
@@ -243,17 +212,12 @@ export class TicketsComponent {
   displayFn(product: { id: number, name: string }): string {
     return product ? product.name : '';
   }
-  addNewProduct() {
-    // Logic to add a new product
-    // console.log('Add new product clicked');
-  }
 
 
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
     this.FILTER_TICKETS_BY_DATE('custom')
-
   }
 
   // Method to handle changes in end date input
@@ -262,8 +226,6 @@ export class TicketsComponent {
     this.FILTER_TICKETS_BY_DATE('custom')
 
   }
-
-
   FORMAT_DATE_YYYYMMDD(date: Date): string {
     // Extract year, month, and day from the Date object
     const year = date.getFullYear();
@@ -273,7 +235,6 @@ export class TicketsComponent {
     // Return the formatted date string in YYYY-MM-DD format
     return `${year}-${month}-${day}`;
   }
-
 
   // Function to format date
   FORMAT_DATE(dateString: string): string {
@@ -292,15 +253,12 @@ export class TicketsComponent {
     return dateObj.toLocaleString('en-US', options);
   }
 
-
-  showDatePicker: boolean = false;
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(value: string, dropdown: string) {
     if (dropdown == 'month') {
       if (value === 'Calendar') {
         this.showDatePicker = true;
       }
-
       else {
         this.showDatePicker = false;
         this.selectedMonth = value;
@@ -308,7 +266,6 @@ export class TicketsComponent {
       }
     }
   }
-
 
   //FILTER PACKAGES BY DATE
   FILTER_TICKETS_BY_DATE(filter: string) {
@@ -324,15 +281,15 @@ export class TicketsComponent {
     });
   }
 
+  //PAGING DETECT
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
     this.FETCH_TICKETINGS()
   }
-  choosenWholesaler: WholesalerClass
+
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
-
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
         this.CLEAR_VALUES(this.ADDED_TICKET);
@@ -380,13 +337,11 @@ export class TicketsComponent {
 
   //TRUNCATE THE TEXT INTO 20 CHARS
   truncateText(text: string, limit: number): string {
-    if (text && text.length > limit) {
-      return text.substring(0, limit) + '...';
-    }
-    return text;
+    return this.generalService.truncateText(text, limit)
   }
 
 
+  //CANCEL UPDATE 
   CancelUpdate(): void {
     this.ShowAddButoon = true;
     this.open_expansion_value = -1;
@@ -401,18 +356,22 @@ export class TicketsComponent {
     this.dataSource.filter = val.trim().toLowerCase();
     return this.dataSource.filteredData.length;
   }
+
+  //GET CHOOSEN WHOLESALER OF CUSTOMER
   onOptionSelected(event: MatAutocompleteSelectedEvent, source: string) {
     if (source == 'customer') {
       this.ADDED_TICKET.name = event.option.value.name
     } else {
       this.choosenWholesaler = event.option.value;
-      this.ADDED_TICKET.wholesaler.id = event.option.value._id; // Assigning id
+      this.ADDED_TICKET.wholesaler.id = event.option.value._id;
       this.ADDED_TICKET.wholesaler.name = event.option.value.name;
     }
-
   }
-  isAnyFieldNotEmpty = false; // Flag to track if any field has content
-  // Function to log input changes
+
+
+  isAnyFieldNotEmpty = false;
+
+  //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
   onInputChange() {
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_TICKET).some(val => val !== '' && val !== null);
 
@@ -421,12 +380,10 @@ export class TicketsComponent {
       this.routeSignalService.show_pop_up_route.set(true);
     }
     else {
-
       this.routeSignalService.show_pop_up_route.set(false);
 
     }
 
-    // You can perform additional actions based on the field name or value if needed
   }
 
   //GET THE STATUS CLASS
@@ -443,15 +400,11 @@ export class TicketsComponent {
     }
   }
 
-  
-
   // Method to handle the panel closed event
   panelClosed() {
     this.open_expansion_value = 0;
     this.panelOpenState = false;
   }
-
-
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
@@ -462,7 +415,6 @@ export class TicketsComponent {
     this.panelOpenState = true;
     this.routeSignalService.show_pop_up_route.set(false);
   }
-
 
   //UPDATE TICKET
   UPDATE_TICKET() {
@@ -506,11 +458,6 @@ export class TicketsComponent {
     this.panelClosed()
   }
 }
-interface month {
-  value: string;
-  viewValue: string;
-}
-
 
 @Component({
   // tslint:disable-next-line - Disables all
@@ -522,7 +469,7 @@ export class AppTicketingDialogContentComponent {
 
   action: string;
   TICKET_SELECTED: any;
-  
+  ADDED_WHOLESALER: WholesalerClass = new WholesalerClass();
 
   constructor(
     public dialogRef: MatDialogRef<AppTicketingDialogContentComponent>,
@@ -530,13 +477,16 @@ export class AppTicketingDialogContentComponent {
   ) {
     this.TICKET_SELECTED = { ...data };
     this.action = this.data.action;
-    console.log("Action:",this.action)
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: this.action, data: this.TICKET_SELECTED });
+    if (this.action == 'Delete') {
+      this.dialogRef.close({ event: this.action, data: this.TICKET_SELECTED });
+    }
+    else if (this.action = 'Add Wholesaler') {
+      this.dialogRef.close({ event: this.action, data: this.ADDED_WHOLESALER });
+    }
   }
-
   CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
