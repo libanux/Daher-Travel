@@ -57,7 +57,8 @@ export class PackageService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "name": newPackage.customerName,
+      "customerId": "60d21b4667d0d8992e610c85",
+      "customerName": newPackage.customerName,
       "destination": newPackage.destination,
       "numberOfPeople": newPackage.numberOfPeople,
       "duration": newPackage.duration,

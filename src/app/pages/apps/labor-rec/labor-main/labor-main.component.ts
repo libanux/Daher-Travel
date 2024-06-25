@@ -5,7 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
-import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
+import { Date_Filter_Array, Download_Options, Month_Filter_Array } from 'src/app/services/general.service';
 import { LaborList } from 'src/app/classes/labor.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 
@@ -225,6 +225,7 @@ export class LaborMainComponent implements AfterViewInit {
       if (result && result.event === 'Delete') {
         this.recruitingService.DELETE_RECRUITING(delRecruiting).subscribe({
           next: (response: any) => {
+            console.log("Response",response)
             this.FETCH_RECRUITINGS()
           },
           error: (error: any) => {
@@ -402,7 +403,7 @@ export class LaborMainComponent implements AfterViewInit {
 
     }
   }
-
+  Options: any[] = Download_Options;
 
   onDateSelect(date: Date) {
     // console.log('Selected Date:', date);
@@ -423,14 +424,15 @@ export class AppRecruitingDialogContentComponent {
 
 
   action: string;
-  LABOR_SELECTED: any;
+  LABOR_SELECTED: LaborList = new LaborList()
 
   constructor(
     public dialogRef: MatDialogRef<AppRecruitingDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: LaborList,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.LABOR_SELECTED = { ...data };
-    this.action = this.LABOR_SELECTED.action;
+    this.LABOR_SELECTED = data.delRecruiting  ;
+    this.action = data.action;
+    console.log("Labor",this.LABOR_SELECTED)
   }
 
   doAction(): void {
