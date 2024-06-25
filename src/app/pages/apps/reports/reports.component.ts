@@ -60,14 +60,15 @@ export class ReportsComponent implements OnInit {
   onChange(value: string, dropdown: string) {
 
     if (dropdown == 'month') {
-      if (value === 'Calendar') {
+      if (value === 'custom') {
         this.showDatePicker = true;
+        this.FILTER_TYPE = value
       }
 
       else {
-        console.log(value)
+        this.FILTER_TYPE = value
         this.showDatePicker = false;
-        // this.FILTER_ARRAY_BY_DATE(value)
+        this.FILTER_ARRAY_BY_DATE(value, '', '')
       }
     }
 
@@ -85,19 +86,22 @@ export class ReportsComponent implements OnInit {
   }
 
   FILTER_ARRAY_BY_DATE(date: string, start_date: string, end_date:string){
-
+    this.FILTER_TYPE = date;
+    this.START_DATE = start_date
+    this.END_DATE = end_date
+    this.FETCH_REPORTS()
   }
 
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.START_DATE = this.FORMAT_DATE_YYYYMMDD(event);
-    // this.FILTER_ARRAY_BY_DATE('custom')
+    this.FILTER_ARRAY_BY_DATE(this.FILTER_TYPE, this.START_DATE, this.END_DATE)
   }
 
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.END_DATE = this.FORMAT_DATE_YYYYMMDD(event);
-    // this.FILTER_ARRAY_BY_DATE('custom')
+    this.FILTER_ARRAY_BY_DATE(this.FILTER_TYPE, this.START_DATE, this.END_DATE)
   }
 
   // GET ALL REPORTS
