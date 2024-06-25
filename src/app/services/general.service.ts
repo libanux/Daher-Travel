@@ -1,4 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class GeneralService {
   storedToken: string = '';  // Initialize with an empty string
   admin_id: any = 0
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,private httpClient: HttpClient) {
     this.platformId = platformId;
     if (isPlatformBrowser(platformId)) {
       // runs on client / browser
@@ -74,6 +75,45 @@ export class GeneralService {
     return Array.from({ length: count }, (_, index) => (index + 1).toString());
   }
 
+  getData(urlString: string) {
+    const url = `https://api.dahertravellb.com/DaherTravel/api/${urlString}`;
+
+    this.httpClient.get(url, { responseType: 'blob', observe: 'response' })
+      .subscribe(
+        (response: HttpResponse<Blob>) => {
+          const contentDisposition = response.headers.get('Content-Disposition');
+          const contentType = response.headers.get('Content-Type') || 'application/octet-stream'; // Default to a generic type if Content-Type is null
+
+          const blob = new Blob([response.body as BlobPart], { type: contentType });
+
+          // Create a link element and trigger the download
+          const downloadLink = document.createElement('a');
+          downloadLink.href = window.URL.createObjectURL(blob);
+          downloadLink.download = this.getFileNameFromContentDisposition(contentDisposition);
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        },
+        (error: HttpErrorResponse) => {
+          console.error('HTTP Error:', error);
+          console.error('Server error message:', error.error);
+          // Handle HTTP request error, e.g., show an error message to the user
+        }
+      );
+  }
+
+  private getFileNameFromContentDisposition(contentDisposition: string | null): string {
+    if (!contentDisposition) {
+      return 'downloadedFile.xlsx'; // Provide a default filename if Content-Disposition is missing
+    }
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+    const matches = filenameRegex.exec(contentDisposition);
+    if (matches != null && matches[1]) {
+      return matches[1].replace(/['"]/g, '');
+    }
+    return 'downloadedFile.xlsx';
+  }
+
 }
 
 export const Month_Filter_Array: any[] = [
@@ -108,3 +148,5 @@ export const Download_Options: any[] = [
 
 export const Categories: any[] =
   ['All', 'Pack', 'Visa', 'Ticketing']
+
+  

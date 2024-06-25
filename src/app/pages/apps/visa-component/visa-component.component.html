@@ -1,9 +1,6 @@
 <!-- add expand row -->
 <mat-card class="cardWithShadow">
-  <mat-expansion-panel 
-  [expanded]="open_expansion_value === 1" 
-  (opened)="OPEN_PANEL()" 
-  (closed)="CLOSE_PANEL()">
+  <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="OPEN_PANEL()" (closed)="CLOSE_PANEL()">
 
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{CurrentAction}}</mat-panel-title>
@@ -25,12 +22,8 @@
               [(ngModel)]="CUSTOMER_SELECTED" (input)="filterCustomers()" (ngModelChange)="onInputChange()"
               name="customer" ngDefaultControl> -->
 
-            <input 
-            matInput 
-            placeholder="Search Customers....." aria-label="Customer" 
-            [matAutocomplete]="auto1"
-            [(ngModel)]="CUSTOMER_SELECTED.name" 
-            (input)="filterCustomers()" name="customer">
+            <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
+              [(ngModel)]="CUSTOMER_SELECTED.name" (input)="filterCustomers()" name="customer">
 
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
@@ -64,7 +57,11 @@
           <mat-form-field appearance="outline" class="w-100">
             <input matInput placeholder="Country" [(ngModel)]="ADDED_VISA.country" (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#5f6368">
+                <path
+                  d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z" />
+              </svg>
             </mat-icon>
           </mat-form-field>
         </div>
@@ -165,10 +162,11 @@
         <div class="TwoButtons" *ngIf="!ShowAddButoon">
           <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
 
-          <button mat-flat-button color="primary" (click)="UPDATE_VISA()" [disabled]="SHOW_LOADING_SPINNER || !DATA_CHANGED">
+          <button mat-flat-button color="primary" (click)="UPDATE_VISA()"
+            [disabled]="SHOW_LOADING_SPINNER || !DATA_CHANGED">
             <span *ngIf="!SHOW_LOADING_SPINNER">Update Visa</span>
             <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
-          </button>    
+          </button>
 
         </div>
       </div>

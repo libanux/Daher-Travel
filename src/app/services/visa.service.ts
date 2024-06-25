@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
@@ -18,7 +18,7 @@ export class VisaService {
     this.pagingSize = this.generalService.PageSizing;
   }
 
-  
+
   // VALIDATE TOKEN
   isTokenExpired1(): boolean {
     const token = this.getToken();
@@ -65,14 +65,14 @@ export class VisaService {
       "updateData": {
         "customerName": VISA.customer.name,
         "country": VISA.country,
-        "phoneNumber":VISA.customer.phoneNumber,
+        "phoneNumber": VISA.customer.phoneNumber,
         "note": VISA.note,
         "sell": VISA.sell,
         "status": VISA.status,
         "type": VISA.type,
-      }   
+      }
     };
-    
+
 
     return this.httpClient.post<any>(this.apiUrl + '/UPDATE_VISA', requestBody, { headers });
   }
@@ -114,7 +114,7 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/DELETE_VISA', requestBody, { headers });
   }
 
-  FILTER_AND_SEARCH_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string, CURRENT_PAGE: number, PAGE_SIZE: number){
+  FILTER_AND_SEARCH_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string, CURRENT_PAGE: number, PAGE_SIZE: number) {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
@@ -133,38 +133,55 @@ export class VisaService {
     return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_VISAS', requestBody, { headers });
   }
 
-  DOWNLOAD_AS(VALUE: string): Observable<any>{
+  DOWNLOAD_AS(VALUE: string): Observable<any> {
     // if(VALUE == 'PDF'){
     //   return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
     // }
 
     // else {
     //   console.log('here')
-      return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
-    }
+    return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
+  }
   // }
 
 
+
   getData() {
-    this.httpClient.get('https://api.dahertravellb.com/DaherTravel/api/EXPORT_VISAS_TO_EXCEL', { responseType: 'text' })
+    const url = 'https://api.dahertravellb.com/DaherTravel/api/EXPORT_VISAS_TO_EXCEL';
+
+    this.httpClient.get(url, { responseType: 'blob', observe: 'response' })
       .subscribe(
-        (response: any) => {
-          console.log('Raw Response:', response); // Log the raw response first
-          try {
-            const jsonData = JSON.parse(response); // Try parsing the response as JSON
-            console.log('Parsed JSON Data:', jsonData);
-            // Further processing with jsonData
-          } catch (error) {
-            console.error('Error parsing JSON:', error);
-            // Handle parsing error, e.g., show an error message to the user
-          }
+        (response: HttpResponse<Blob>) => {
+          const contentDisposition = response.headers.get('Content-Disposition');
+          const contentType = response.headers.get('Content-Type') || 'application/octet-stream'; // Default to a generic type if Content-Type is null
+
+          const blob = new Blob([response.body as BlobPart], { type: contentType });
+
+          // Create a link element and trigger the download
+          const downloadLink = document.createElement('a');
+          downloadLink.href = window.URL.createObjectURL(blob);
+          downloadLink.download = this.getFileNameFromContentDisposition(contentDisposition);
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
         },
         (error: HttpErrorResponse) => {
           console.error('HTTP Error:', error);
-          console.error('Server error message:', error.error); // Log the server's error message
+          console.error('Server error message:', error.error);
           // Handle HTTP request error, e.g., show an error message to the user
         }
       );
   }
 
+  private getFileNameFromContentDisposition(contentDisposition: string | null): string {
+    if (!contentDisposition) {
+      return 'downloadedFile.xlsx'; // Provide a default filename if Content-Disposition is missing
+    }
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+    const matches = filenameRegex.exec(contentDisposition);
+    if (matches != null && matches[1]) {
+      return matches[1].replace(/['"]/g, '');
+    }
+    return 'downloadedFile.xlsx';
+  }
 }
