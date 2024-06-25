@@ -7,7 +7,7 @@ import { CustomerClass } from 'src/app/classes/customer.class';
 import { Router } from '@angular/router';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
-import { Download_Options } from 'src/app/services/general.service';
+import { Download_Options, GeneralService } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-customers',
@@ -81,7 +81,13 @@ export class CustomersComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private routeSignalService: RouteSignalService, private breadCrumbService: BreadCrumbSignalService, private router: Router, public dialog: MatDialog, private customerService: CustomerService) {
+  constructor(
+    private generalService: GeneralService,
+    private routeSignalService: RouteSignalService,
+    private breadCrumbService: BreadCrumbSignalService,
+    private router: Router,
+    public dialog: MatDialog,
+    private customerService: CustomerService) {
 
   }
 
@@ -90,10 +96,11 @@ export class CustomersComponent implements OnInit {
     this.FETCH_CUSTOMER();
   }
   selectedDownloadOption: string = 'Download as';
- 
-  DOWNLOAD(OPTION: string): string {
-    return this.selectedDownloadOption = OPTION
+
+  DOWNLOAD(OPTION: string) {
+    this.generalService.getData('EXPORT_CUSTOMERS_TO_EXCEL')
   }
+
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
@@ -121,11 +128,11 @@ export class CustomersComponent implements OnInit {
 
   // Function to log input changes
   onInputChange() {
-        // When inputs changes -> i check if they are the same as the main one
+    // When inputs changes -> i check if they are the same as the main one
     // if they are the same keep the update button disabled
     if (JSON.stringify(this.MAIN_SELECTED_CUSTOMER_DATA) !== JSON.stringify(this.ADDED_CUSTOMER)) {
       this.DATA_CHANGED = true;
-    } 
+    }
     else {
       this.DATA_CHANGED = false;
     }
@@ -151,7 +158,7 @@ export class CustomersComponent implements OnInit {
   }
 
   DROPDOWN_FILTERATION(value: string, dropdown: string) {
-   if (dropdown == 'Download') {
+    if (dropdown == 'Download') {
       this.DOWNLOAD(value);
     }
   }
@@ -232,7 +239,7 @@ export class CustomersComponent implements OnInit {
     this.SHOW_LOADING_SPINNER = true
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
-      error: (error) => {},
+      error: (error) => { },
       complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
     });
   }
@@ -273,8 +280,8 @@ export class CustomersComponent implements OnInit {
   START_DATE = ''
   END_DATE = ''
   STATUS = ''
-  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string){
-    this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE,STATUS, this.Current_page, this.pageSize).subscribe({
+  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
+    this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
         console.log(response)
         this.current_page_array_length = response.customers.length
