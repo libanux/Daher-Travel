@@ -164,7 +164,7 @@ export class VisaComponentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
 
-       if (result.event === 'Cancel') {
+       if (result.event === 'CancelAdd') {
         this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
         this.ADDED_VISA = {
@@ -266,31 +266,59 @@ export class VisaComponentComponent implements OnInit {
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
       next: (response: any) => {
         this.ALL_CUSTOMERS_ARRAY = response.customers;
-        this.filteredCustomers = response.customers;
+        // Transforming each customer object to include only necessary properties
+      this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.map((customer: any) => ({
+        _id: customer._id,
+        name: customer.name,
+        phoneNumber: customer.phoneNumber,
+        disabled: false  // Set disabled to false for all customers initially
+      }));
+
+        console.log(this.filteredCustomers)
       },
       error: (error) => { },
       complete: () => { }
     });
   }
 
+  disabledselection = false;
+ PREVIOUS_CUSTOMER_SELECTED  = { id: '', name: '', phoneNumber: '' }
   onCustomerSelected(event: any ) {
-    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
-    if(event.option.value == 'Add New Customer'){
-        this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
-        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
-    }
+   
+    console.log(event)
+
+if(event != 'Add New Customer'){
+
+  this.CUSTOMER_SELECTED = 
+  {
+    id: event.id,
+    name: event.name,
+    phoneNumber: event.phoneNumber
+  }
+  console.log('CUSTOMER_SELECTED ',this.CUSTOMER_SELECTED)
+
+
+ if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
+      console.log('CUSTOMER_SELECTED EQUAL ', this.CUSTOMER_SELECTED)
+      console.log('prevoius ', this.PREVIOUS_CUSTOMER_SELECTED)
+      console.log('CUSTOMER_SELECTED ',this.CUSTOMER_SELECTED)
+      // this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+  }
 
     else {
-      this.CUSTOMER_SELECTED = 
-      {
-        id: event.option.value._id,
-        name: event.option.value.name,
-        phoneNumber: event.option.value.phoneNumber
-      }
-  
+      this.PREVIOUS_CUSTOMER_SELECTED = {...this.CUSTOMER_SELECTED}
       this.ADDED_VISA.customer = this.CUSTOMER_SELECTED
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
+  }
+
+  else {
+    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+    this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
+    this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+  }
+
+
   }
 
   NEW_CUSTOMER_RESPONSE: any
@@ -398,6 +426,7 @@ export class VisaComponentComponent implements OnInit {
       type: '',
     }
 
+    this.onCustomerSelected(this.CUSTOMER_SELECTED)
 
   }
 
@@ -472,6 +501,8 @@ export class VisaComponentComponent implements OnInit {
       name: this.MAIN_SELECTED_VISA_DATA.customer.name,
       phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
     }
+
+    this.onCustomerSelected(this.CUSTOMER_SELECTED)
 
   }
 
@@ -555,8 +586,8 @@ export class visaDialogContentComponent {
     }
   }
 
-  CLOSE_DIALOG(): void {
-    this.dialogRef.close({ event: 'Cancel' });
+  CLOSE_DIALOG(event: string): void {
+    this.dialogRef.close({ event: event });
   }
 
 }
