@@ -48,7 +48,7 @@ export class VisaComponentComponent implements OnInit {
   ShowAddButoon = true;
 
 
-  NEW_CUSTOMER_ADDED: CustomerClass[] = []
+  NEW_CUSTOMER_ADDED: CustomerClass = new CustomerClass()
   // This value is used to check the size of array in current page
   // In case of deletion --> when array length becomes zero 
   // current page is current page -1 
@@ -89,6 +89,8 @@ export class VisaComponentComponent implements OnInit {
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: VisaClass | null = null;
   VisaArray = new MatTableDataSource();
+  // CUSTOMER_SELECTED: CustomerClass = new CustomerClass();
+  CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
   SHOW_LOADING_SPINNER: boolean = false;
 
@@ -161,7 +163,34 @@ export class VisaComponentComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'delete') {
+
+       if (result.event === 'Cancel') {
+        this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+
+        this.ADDED_VISA = {
+          _id: this.ADDED_VISA._id,
+          customer: {
+            id: this.MAIN_SELECTED_VISA_DATA.customer.id,
+            name: this.MAIN_SELECTED_VISA_DATA.customer.name,
+            phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber,
+          },
+          country: this.ADDED_VISA.country,
+          note: this.ADDED_VISA.note,
+          sell: this.ADDED_VISA.sell,
+          status: this.ADDED_VISA.status,
+          type: this.ADDED_VISA.type
+        }
+
+        this.CUSTOMER_SELECTED = { 
+          id: this.MAIN_SELECTED_VISA_DATA.customer.id,
+           name: this.MAIN_SELECTED_VISA_DATA.customer.name, 
+           phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
+           }
+
+           this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+      }
+
+      else if (result.event === 'delete') {
         this.DELETE_VISA(obj._id);
       }
 
@@ -170,6 +199,15 @@ export class VisaComponentComponent implements OnInit {
         this.CUSTOMER_SELECTED = result.data.name
       }
     });
+  }
+
+  CHECK_IF_CHANGED_CUSTOMER_NAME(){
+    if (this.MAIN_SELECTED_VISA_DATA.customer.name !== this.CUSTOMER_SELECTED.name ) {
+      this.DATA_CHANGED = true;
+    } 
+    else {
+      this.DATA_CHANGED = false;
+    }
   }
 
   // Method to handle the panel closed event
@@ -213,8 +251,8 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
-  CUSTOMER_SELECTED: CustomerClass = new CustomerClass();
   filteredCustomers: any[] = []
+
   filterCustomers() {
     const query = this.CUSTOMER_SELECTED.name.toLowerCase();
     this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.filter((customer: any) =>
@@ -235,36 +273,31 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
-  onCustomerSelected(event: any) {
-    console.log('event ', event);
+  onCustomerSelected(event: any ) {
+    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+    if(event.option.value == 'Add New Customer'){
+        this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
+        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+    }
 
-    this.CUSTOMER_SELECTED.name = event.option.value;
-
-    if (this.MAIN_SELECTED_VISA_DATA.customer.name !== this.CUSTOMER_SELECTED.name ) {
-      this.DATA_CHANGED = true;
-      console.log('changed');
-    } 
     else {
-      this.DATA_CHANGED = false;
-      console.log('same')
-
+      this.CUSTOMER_SELECTED = 
+      {
+        id: event.option.value._id,
+        name: event.option.value.name,
+        phoneNumber: event.option.value.phoneNumber
+      }
+  
+      this.ADDED_VISA.customer = this.CUSTOMER_SELECTED
+      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
   }
 
-  ADD_NEW_CUSTOMER(obj: CustomerClass) {
+  ADD_NEW_CUSTOMER(obj: any) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
-      next: (response: any) => {
-        this.ADDED_VISA.customer.id = response._id
-        this.ADDED_VISA.customer.name = response.name
-        this.ADDED_VISA.customer.phoneNumber = response.phoneNumber;
-
-        this.CUSTOMER_SELECTED = response.name;
-
-      },
+      next: (response: any) => {this.CUSTOMER_SELECTED = response;},
       error: (error) => { },
-      complete: () => {
-        this.FETCH_CUSTOMER();
-      }
+      complete: () => {this.FETCH_CUSTOMER();}
     });
   }
 
@@ -338,7 +371,7 @@ export class VisaComponentComponent implements OnInit {
     this.routeSignalService.show_pop_up_route.set(false)
     this.SHOW_LOADING_SPINNER = false
     this.DATA_CHANGED = false;
-    this.CUSTOMER_SELECTED = new CustomerClass();
+    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
@@ -375,26 +408,25 @@ export class VisaComponentComponent implements OnInit {
 
   
   // ADD NEW VISA
-  ADD_VISA(obj: VisaClass) {
-    obj.customer.name = this.CUSTOMER_SELECTED.name
-    obj.customer.id = '667a7d0bae76e88c389a8c56'
-    obj.customer.phoneNumber = '23423'
-
+  ADD_VISA() {
     this.SHOW_LOADING_SPINNER = true;
-    this.visaService.ADD_VISA(obj).subscribe({
-      next: (response: any) => {    
-      },
-      error: (error) => { console.log(error) },
-      complete: () => {    console.log(obj)
-
-        this.FETCH_VISA(); this.CANCEL_UPDATE();
-      }
+    this.visaService.ADD_VISA(this.ADDED_VISA).subscribe({
+      next: (response: any) => {    },
+      error: (error) => { },
+      complete: () => {this.FETCH_VISA(); this.CANCEL_UPDATE();}
     });
   }
 
   DATA_CHANGED: boolean = false;
   // CONFIRM UPDATE
   UPDATE_VISA() {
+    this.ADDED_VISA.customer = 
+    {
+      id: this.CUSTOMER_SELECTED.id,
+      name: this.CUSTOMER_SELECTED.name,
+      phoneNumber: this.CUSTOMER_SELECTED.phoneNumber,
+    }
+
     this.SHOW_LOADING_SPINNER = true
     this.visaService.UPDATE_VISA(this.ADDED_VISA).subscribe({
       next: (response: any) => { },
@@ -405,8 +437,7 @@ export class VisaComponentComponent implements OnInit {
 
   // SELECT OBJECT TO UPDATE
   SELECTED_VISA(obj: VisaClass): void {
-
-    this.CUSTOMER_SELECTED = new CustomerClass ();
+    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
     // SECURE THE ROUTE
     this.routeSignalService.show_pop_up_route.set(false)
@@ -418,7 +449,15 @@ export class VisaComponentComponent implements OnInit {
     // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
     this.ADDED_VISA = { ...obj };
     this.MAIN_SELECTED_VISA_DATA = obj ;
-    this.CUSTOMER_SELECTED.name = this.ADDED_VISA.customer.name;
+        
+    // this.CUSTOMER_SELECTED = this.MAIN_SELECTED_VISA_DATA.customer;
+    this.CUSTOMER_SELECTED = 
+    {
+      id: this.MAIN_SELECTED_VISA_DATA.customer.id,
+      name: this.MAIN_SELECTED_VISA_DATA.customer.name,
+      phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
+    }
+
   }
 
   // STATUS FILTERATION

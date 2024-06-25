@@ -61,18 +61,16 @@ export class VisaService {
     });
 
     const requestBody = {
-      "id": VISA._id,
-      "updateData": {
-        "customerName": VISA.customer.name,
-        "country": VISA.country,
-        "phoneNumber": VISA.customer.phoneNumber,
-        "note": VISA.note,
-        "sell": VISA.sell,
-        "status": VISA.status,
-        "type": VISA.type,
-      }
+      "visaId": VISA._id,
+      "customerId": VISA.customer.id,
+      "customerName": VISA.customer.name,
+      "phoneNumber": VISA.customer.phoneNumber,
+      "country": VISA.country,
+      "type": VISA.type,
+      "sell": VISA.sell,
+      "status": VISA.status,
+      "note": VISA.note,
     };
-
 
     return this.httpClient.post<any>(this.apiUrl + '/UPDATE_VISA', requestBody, { headers });
   }
