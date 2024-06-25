@@ -7,6 +7,7 @@ import { AdminService } from 'src/app/services/Admins.service';
 import { Admin, Permissions_Array } from 'src/app/classes/admin.class';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { GeneralService } from 'src/app/services/general.service';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
   templateUrl: './admins.component.html',
@@ -64,7 +65,9 @@ export class AdminsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
-  constructor(private generalService: GeneralService, private breadCrumbService: BreadCrumbSignalService, public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
+  constructor(
+    private routeSignalService: RouteSignalService,
+    private generalService: GeneralService, private breadCrumbService: BreadCrumbSignalService, public dialog: MatDialog, public datePipe: DatePipe, private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Admins')
@@ -84,16 +87,13 @@ export class AdminsComponent implements OnInit {
   // Function to log input changes
   onInputChange() {
     // Check only specific fields for content
-    this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
-      const fieldValue = this.ADDED_ADMIN[key as keyof Admin] || ''; // Using || for fallback value
-      return fieldValue !== '' && fieldValue !== null;
-    });
+    this.isAnyFieldNotEmpty = Object.values(this.ADDED_ADMIN).some(val => val !== '' && val !== null);
 
     if (this.isAnyFieldNotEmpty) {
-      // this.routeSignalService.show_pop_up_route.set(true);
+      this.routeSignalService.show_pop_up_route.set(true);
     }
     else {
-      // this.routeSignalService.show_pop_up_route.set(false);
+      this.routeSignalService.show_pop_up_route.set(false);
     }
   }
 

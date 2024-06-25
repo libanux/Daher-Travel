@@ -65,6 +65,7 @@ export class ReportsComponent implements OnInit {
       }
 
       else {
+        console.log(value)
         this.showDatePicker = false;
         // this.FILTER_ARRAY_BY_DATE(value)
       }
@@ -81,6 +82,10 @@ export class ReportsComponent implements OnInit {
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
     return this.generalService.FORMAT_DATE_YYYYMMDD(date)
+  }
+
+  FILTER_ARRAY_BY_DATE(date: string, start_date: string, end_date:string){
+
   }
 
   // Method to handle changes in start date input

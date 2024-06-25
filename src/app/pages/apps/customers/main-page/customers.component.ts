@@ -129,7 +129,6 @@ export class CustomersComponent implements OnInit {
     else {
       this.DATA_CHANGED = false;
     }
-    
 
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_CUSTOMER).some(val => val !== '' && val !== null);
 

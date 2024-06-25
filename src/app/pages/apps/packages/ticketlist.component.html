@@ -52,7 +52,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Source</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Source" [(ngModel)]="editedpackage.source" />
+            <input matInput placeholder="Source" [(ngModel)]="editedpackage.source" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -70,7 +70,7 @@
           </div>
 
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Destination" [(ngModel)]="editedpackage.destination" />
+            <input matInput placeholder="Destination" [(ngModel)]="editedpackage.destination" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -88,7 +88,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Hotels</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Hotels" aria-label="Product" [(ngModel)]="editedpackage.hotels">
+            <input matInput placeholder="Hotels" aria-label="Product" [(ngModel)]="editedpackage.hotels" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -109,7 +109,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Seats </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Seats" [(ngModel)]="editedpackage.numberOfPeople" />
+            <input type="number" matInput placeholder="Seats" [(ngModel)]="editedpackage.numberOfPeople" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -127,7 +127,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Duration</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Duration" [(ngModel)]="editedpackage.duration" />
+            <input type="number" matInput placeholder="Duration" [(ngModel)]="editedpackage.duration" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -144,7 +144,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">cost</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="cost" aria-label="Product" [(ngModel)]="editedpackage.cost">
+            <input type="number" matInput placeholder="cost" aria-label="Product" [(ngModel)]="editedpackage.cost" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -161,7 +161,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Sell" [(ngModel)]="editedpackage.sell" />
+            <input type="number" matInput placeholder="Sell" [(ngModel)]="editedpackage.sell" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -183,7 +183,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Note" [(ngModel)]="editedpackage.note" />
+            <input matInput placeholder="Note" [(ngModel)]="editedpackage.note" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">

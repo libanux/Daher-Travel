@@ -414,7 +414,6 @@ export class TicketsComponent {
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_TICKET).some(val => val !== '' && val !== null);
 
     if (this.isAnyFieldNotEmpty) {
-
       this.routeSignalService.show_pop_up_route.set(true);
     }
     else {

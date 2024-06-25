@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
 import { CustomerDialogContentComponent } from '../customers/main-page/customers.component';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
   selector: 'app-wholesaler',
@@ -67,7 +68,9 @@ export class WholesalerComponent implements OnInit {
   Current_page = 1
 
 
-  constructor(private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService) {
+  constructor(
+    private routeSignalService: RouteSignalService,
+    private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
@@ -99,6 +102,18 @@ export class WholesalerComponent implements OnInit {
     });
   }
 
+  isAnyFieldNotEmpty = false; // Flag to track if any field has content
+  onInputChange() {
+    // Check only specific fields for content
+    this.isAnyFieldNotEmpty = Object.values(this.ADDED_WHOLESALER).some(val => val !== '' && val !== null);
+
+    if (this.isAnyFieldNotEmpty) {
+      this.routeSignalService.show_pop_up_route.set(true);
+    }
+    else {
+      this.routeSignalService.show_pop_up_route.set(false);
+    }
+  }
 
   APPLY_SEARCH_FILTER(): void {
     this.Current_page = 1;

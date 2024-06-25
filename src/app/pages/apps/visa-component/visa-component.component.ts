@@ -215,11 +215,7 @@ export class VisaComponentComponent implements OnInit {
     }
     
     // Check only specific fields for content
-    this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
-      const fieldValue = this.ADDED_VISA[key as keyof VisaClass] || ''; // Using || for fallback value
-      return fieldValue !== '' && fieldValue !== null;
-    });
-
+    this.isAnyFieldNotEmpty = Object.values(this.ADDED_VISA).some(val => val !== '' && val !== null);
     if (this.isAnyFieldNotEmpty) {
       this.routeSignalService.show_pop_up_route.set(true);
     }

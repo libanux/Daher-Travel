@@ -69,6 +69,7 @@ export class AppNavItemComponent implements OnChanges,OnInit{
     else {
       if (!item.children || !item.children.length) {
         this.router.navigate([item.route]); 
+        this.routeSignalService.show_pop_up_route.set(false);
       }
       if (item.children && item.children.length) {
         this.expanded = !this.expanded;
