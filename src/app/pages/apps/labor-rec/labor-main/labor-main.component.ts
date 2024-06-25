@@ -17,7 +17,7 @@ interface month {
 @Component({
   selector: 'app-labor-main',
   templateUrl: './labor-main.component.html',
-  styleUrls: ['./labor-main.component.scss', '../../../../../assets/scss/apps/_add_expand.scss'],
+  styleUrls: ['./labor-main.component.scss', '../../../../../assets/scss/apps/_add_expand.scss', '../../../../../assets/scss/apps/general_table.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),

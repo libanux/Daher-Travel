@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dia
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PackageService } from 'src/app/services/package.service';
-import { Date_Filter_Array, Download_Options, Month_Filter_Array } from 'src/app/services/general.service';
+import { Date_Filter_Array, Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Package } from 'src/app/classes/package.class';
 import { CustomerService } from 'src/app/services/Customer.service';
@@ -100,7 +100,7 @@ export class AppTicketlistComponent implements OnInit {
   CurrentAction: string = 'Add Package'
   NEW_CUSTOMER_ADDED: CustomerClass[] = []
 
-  constructor(private routeSignalService: RouteSignalService,public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService, private customerService : CustomerService) {
+  constructor(private routeSignalService: RouteSignalService,public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService, private customerService : CustomerService, private generalService:GeneralService) {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
     this.editedpackage.sell = 1
@@ -208,10 +208,12 @@ export class AppTicketlistComponent implements OnInit {
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
+    console.log("COlumn",column)
     if (column === 'action') {
       this.expandedElement = element;
     }
     else {
+      console.log("Here")
       this.expandedElement = this.expandedElement === element ? null : element;
       event.stopPropagation();
     }
@@ -284,6 +286,15 @@ export class AppTicketlistComponent implements OnInit {
     else if (dropdown == 'status') {
       this.SEARCH_PACKAGES()
     }
+    else if (dropdown == 'Download') {
+      this.DOWNLOAD();
+    }
+  }
+
+
+  DOWNLOAD() {
+    this.generalService.getData('EXPORT_PACKAGES_TO_EXCEL')
+
   }
 
   //FILTER PACKAGES BY STATUS
@@ -488,14 +499,15 @@ export class AppPackageDialogContentComponent {
 
 
   action: string;
-  PACKAGE_SELECTED: any;
+  PACKAGE_SELECTED: Package = new Package();
   NEW_CUSTOMER: CustomerClass = new CustomerClass()
   constructor(
     public dialogRef: MatDialogRef<AppPackageDialogContentComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Package,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.PACKAGE_SELECTED = { ...data };
-    this.action = this.PACKAGE_SELECTED.action;
+    this.action = data.action;
+    console.log("Pack",this.PACKAGE_SELECTED)
   }
 
   doAction(): void {

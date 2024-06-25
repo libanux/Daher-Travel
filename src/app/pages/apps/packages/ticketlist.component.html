@@ -320,22 +320,22 @@
         </mat-form-field>
       </div>
 <!-- Download As -->
-<div class="dropdown">
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
-      (selectionChange)="onChange('Download')">
-      @for(option of Options; track option) {
-      <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-      }
-    </mat-select>
-    <mat-icon matPrefix class="op-5">
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-        <path
-          d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-      </svg>
-    </mat-icon>
-  </mat-form-field>
-</div>
+   <div class="dropdown">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+        (selectionChange)="onChange( 'Download')">
+        @for(option of Options; track option) {
+        <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+        }
+      </mat-select>
+      <mat-icon matPrefix class="op-5">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+          <path
+            d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+        </svg>
+      </mat-icon>
+    </mat-form-field>
+  </div>
 
 
     </div>
@@ -361,6 +361,8 @@
               <ng-template #defaultHeader>
                 {{ column | titlecase }}
               </ng-template>
+
+
             </th>
             <td mat-cell *matCellDef="let element" class="p-x-24 f-s-14 p-l-0"
               (click)="expandRow($event, element, column)">
@@ -417,10 +419,52 @@
             </td>
           </ng-container>
         </ng-container>
+        <!-- EXPANDED ROW DETAILS -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+              <div class="details-container p-3 rounded border mb-3 mx-2">
 
+                <div class="detail-body mt-3">
+                  <div class="col-md-4">
+                    <div class="detail-field"><strong>Customer Name: </strong> {{ element.customer.name }}</div>
+                    <div class="detail-field"><strong>Source: </strong> {{ element.source }}</div>
+                    <div class="detail-field"><strong>Destination: </strong> {{ element.destination }}</div>
+                    <div class="detail-field"><strong>Cost: </strong> {{ element.cost }}</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="detail-field"><strong>Number of seats : </strong> {{ element.seats }}</div>
+                    <div class="detail-field"><strong>Duration: </strong> {{ element.duration }}</div>
+                    <div class="detail-field"><strong>Hotels: </strong> {{ element.hotels }}</div>
+                    <div class="detail-field"><strong>Sell: </strong> {{ element.sell }}</div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="detail-field"><strong>Status: </strong> {{ element.status }}</div>
+                    <div class="detail-field"><strong>Created At: </strong>{{ FORMAT_DATE(element.createdAt) }}</div>
+                    <div class="detail-field"><strong>Updated At: </strong> {{ FORMAT_DATE(element.updatedAt) }}</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="detail-field"><strong>Note: </strong> {{ element.note }}</div>
+                </div>
+
+                <div class="invoice-btn-div">
+                  <button class="invoice-btn">Print invoice</button>
+                </div>
+
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        
         <!-- HEADER AND ROW DEFINITIONS -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand" class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element" (click)="
+            expandedElement = expandedElement === element ? null : element;"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
 
       <!-- NO ITEMS FOUND ROW -->

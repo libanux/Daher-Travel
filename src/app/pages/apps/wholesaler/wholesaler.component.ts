@@ -215,7 +215,7 @@ export class WholesalerComponent implements OnInit {
   SELECTED_WHOLESALER(obj: WholesalerClass): void {
     this.ShowAddButoon = false;
     this.currentAction = "Update Wholesaler"
-    this.ADDED_WHOLESALER = obj;
+    this.ADDED_WHOLESALER = { ...obj };
 
     this.open_expansion_value = 1;
     this.panelOpenState = true;

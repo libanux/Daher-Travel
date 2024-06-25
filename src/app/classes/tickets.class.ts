@@ -5,7 +5,9 @@ export class Tickets {
     public wholesaler: {
       id: string,
       name: string
-    } = { id: '', name: '' },
+    } = 
+    { 
+      id: '', name: '' },
     
     public source: string = '',
     public destination: string = '',

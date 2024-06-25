@@ -104,7 +104,7 @@ ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
       "name": WHOLESALER.name,
       "phoneNumber": WHOLESALER.phoneNumber,
       "address": WHOLESALER.address,
-      'comapny':WHOLESALER.company,
+      'company':WHOLESALER.company,
       'email':WHOLESALER.email
     };
     console.log("Request",requestBody)

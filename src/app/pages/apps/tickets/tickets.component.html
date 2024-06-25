@@ -86,16 +86,19 @@
           </div>
           <mat-form-field appearance="outline" class="w-100">
             <input matInput placeholder="Search Wholesalers....." aria-label="Wholesaler" [matAutocomplete]="auto2"
-              [(ngModel)]="ADDED_TICKET.wholesaler.name" (input)="filterWholesalers()" (ngModelChange)="onInputChange()">
+              [(ngModel)]="ADDED_TICKET.wholesaler.name" (input)="filterWholesalers()"
+              (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
                 width="24px" fill="#5f6368">
-                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                <path
+                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg>
             </mat-icon>
-            <mat-autocomplete #auto2="matAutocomplete">
-              <mat-option *ngFor="let customer of filteredWholeSalers" [value]="customer.name" name="wholesaler" ngDefaultControl>
-                {{customer.name}}
+            <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onWholesalerSelected($event)">
+              <mat-option *ngFor="let wholesaler of filteredWholeSalers" [value]="wholesaler" name="wholesaler"
+                ngDefaultControl>
+                {{wholesaler.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add Wholesaler', ADDED_WHOLESALER)">
                 <div class="option-content">
@@ -108,8 +111,8 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
-        
-        
+
+
 
 
       </div>
@@ -310,24 +313,24 @@
           </mat-icon>
         </mat-form-field>
       </div>
+
       <!-- Download As -->
-        <!-- Download As -->
-        <div class="dropdown">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
-              (selectionChange)="onChange($event.value, 'Download')">
-              @for(option of Options; track option) {
-              <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-              }
-            </mat-select>
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                <path
-                  d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </div>
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+            (selectionChange)="onChange($event.value, 'Download')">
+            @for(option of Options; track option) {
+            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+            }
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
 
 
     </div>
@@ -382,6 +385,8 @@
             <ng-template #noteColumn>
               {{ truncateText(element[column], 20) }}
             </ng-template>
+
+
           </td>
         </ng-container>
         }
@@ -400,19 +405,19 @@
                     <div class="detail-name font-weight-bold">
                       {{ element.customer }}
                     </div>
-                    <div class="detail-status text-muted">
-                      Status: {{ element.status }}
-                    </div>
                   </div>
                 </div>
                 <div class="detail-body mt-3">
                   <!-- <div class="row"> -->
                   <div class="col-md-6">
                     <div class="detail-field">
-                      <strong>Issue Date:</strong> {{ element.issueDate }}
+                      <strong>Customer Name:</strong> {{ element.name }}
                     </div>
                     <div class="detail-field">
-                      <strong>Description:</strong> {{ element.description }}
+                      <strong>Source:</strong> {{ element.source }}
+                    </div>
+                    <div class="detail-note mt-3">
+                      <strong>Destination:</strong> {{ element.destination }}
                     </div>
                     <div class="detail-note mt-3">
                       <strong>Note:</strong> {{ element.note }}

@@ -61,7 +61,10 @@ export class TicketingService {
       "id": editedTicket._id,
       "updateData": {
         "name": editedTicket.name,
-        "wholesaler": editedTicket.wholesaler,
+        "wholesaler": {
+          "id": editedTicket.wholesaler.id,
+          "name": editedTicket.wholesaler.name
+        },
         "source": editedTicket.source,
         "destination": editedTicket.destination,
         "note": editedTicket.note,
@@ -71,6 +74,7 @@ export class TicketingService {
         "balance": editedTicket.balance
       }
     };
+    console.log("Request body",requestBody)
   
     return this.http.post<any>(this.apiUrl + '/UPDATE_TICKETING', requestBody, { headers });
   }
@@ -93,10 +97,11 @@ export class TicketingService {
       "credit": newTicket.credit,
       "balance": newTicket.balance,
       "wholesaler": {
-        "id": "60d21b4667d0d8992e610c85",
+        "id": newTicket.wholesaler.id,
         "name": newTicket.wholesaler.name
       },
     };
+    console.log("Request body",requestBody)
     return this.http.post<any>(this.apiUrl + '/ADD_TICKETING', requestBody, { headers })
   }
 
