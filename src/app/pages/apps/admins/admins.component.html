@@ -210,8 +210,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Accounting</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Accounting" [(ngModel)]="ADDED_ADMIN.permissions.accounting"
-              (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Accounting" [(ngModel)]="ADDED_ADMIN.permissions.accounting">
               @for(type of permissions; track type) {
               <mat-option value={{type.value}}>{{type.name}}</mat-option>
               }
@@ -233,8 +232,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Notes</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Notes" [(ngModel)]="ADDED_ADMIN.permissions.notes"
-              (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Notes" [(ngModel)]="ADDED_ADMIN.permissions.notes">
               @for(type of permissions; track type) {
               <mat-option value={{type.value}}>{{type.name}}</mat-option>
               }
@@ -255,8 +253,7 @@
           <div class="d-flex align-items-center"><mat-label
               class="mat-subtitle-2 f-w-600 d-block m-b-16">Packages</mat-label></div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Packages" [(ngModel)]="ADDED_ADMIN.permissions.packages"
-              (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Packages" [(ngModel)]="ADDED_ADMIN.permissions.packages">
               @for(type of permissions; track type) {
               <mat-option value={{type.value}}>{{type.name}}</mat-option>
               }
@@ -278,8 +275,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Recruitment</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Recruitment" [(ngModel)]="ADDED_ADMIN.permissions.recruitment"
-              (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Recruitment" [(ngModel)]="ADDED_ADMIN.permissions.recruitment">
               @for(type of permissions; track type) {
               <mat-option value={{type.value}}>{{type.name}}</mat-option>
               }
@@ -301,8 +297,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Users</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Users" [(ngModel)]="ADDED_ADMIN.permissions.users"
-              (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Users" [(ngModel)]="ADDED_ADMIN.permissions.users">
               @for(type of permissions; track type) {
               <mat-option value={{type.value}}>{{type.name}}</mat-option>
               }
@@ -324,7 +319,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Visa</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Visa" [(ngModel)]="ADDED_ADMIN.permissions.visa" (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Visa" [(ngModel)]="ADDED_ADMIN.permissions.visa">
               @for(type of permissions; track type) {
               <mat-option value={{type.value}}>{{type.name}}</mat-option>
               }
