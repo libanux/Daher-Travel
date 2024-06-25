@@ -1,4 +1,4 @@
-import { Component, Inject, Input, Optional, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input, Optional, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -47,10 +47,11 @@ export class TicketsComponent {
   currentPage = 1;
   filteredCustomers: any[] = []
   ROWS_COUNT_SHIMMER: any[] = ['1', '2', '3', '4'];
-  ADDED_WHOLESALER: WholesalerClass
+  ADDED_WHOLESALER: WholesalerClass = new WholesalerClass()
   choosenWholesaler: WholesalerClass
-  CUSTOMER_SELECTED: CustomerClass
-  NEW_CUSTOMER_ADDED: CustomerClass
+  NEW_CUSTOMER_ADDED: CustomerClass[] = []
+  CUSTOMER_SELECTED: CustomerClass = new CustomerClass()
+  WHOLESALER_SELECTED: WholesalerClass = new WholesalerClass()
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -96,10 +97,10 @@ export class TicketsComponent {
 
   searchQuery: string;
   searchQuery1: string = ''
-  selectedDownloadOption:string ='Download'
+  selectedDownloadOption: string = 'Download'
   Options: any[] = Download_Options;
 
-  constructor(private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public generalService: GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(private cdr: ChangeDetectorRef, private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public generalService: GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
   }
 
 
@@ -134,36 +135,37 @@ export class TicketsComponent {
 
 
   OPEN_DIALOG(action: string, obj: any): void {
-    this.ADDED_WHOLESALER = obj
     const dialogRef = this.dialog.open(AppTicketingDialogContentComponent, {
       data: { action, obj },
     });
+
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("result . data",result.event)
       if (result.event === 'Add Wholesaler') {
         this.ADD_WHOLESALER(result.data);
-      }
-      else if (result.event === 'Delete') {
-        this.DELETE_TICKETING(obj)
-      }
-      else if (result.event === 'Add New Customer') {
-       
-        this.ADD_NEW_CUSTOMER(result.data)
-        this.CUSTOMER_SELECTED = result.data.name
+        this.ADDED_TICKET.wholesaler.id = result.data.id;
+        this.ADDED_TICKET.wholesaler.name = result.data.name;
+        this.cdr.detectChanges();
+      } else if (result.event === 'Delete') {
+        this.DELETE_TICKETING(obj);
+      } else if (result.event === 'Add New Customer') {
+        this.ADD_NEW_CUSTOMER(result.data);
+        this.ADDED_TICKET.name = result.data.name;
       }
     });
   }
 
 
 
+
   ADD_NEW_CUSTOMER(obj: CustomerClass) {
-    console.log("Object", obj)
     this.customerService.ADD_CUSTOMER(obj).subscribe({
 
       next: (response: any) => {
-
-        this.ADDED_TICKET.name = response.name
+        this.CUSTOMER_SELECTED = obj
+        this.CUSTOMER_SELECTED.name = response.name
+        this.ADDED_TICKET.name = response.name;
         console.log('Response:', response)
+
       },
       error: (error) => { },
       complete: () => {
@@ -177,9 +179,11 @@ export class TicketsComponent {
   ADD_WHOLESALER(wholesaler: any) {
     this.wholesaler.ADD_WHOLESALER(wholesaler).subscribe({
       next: (response: any) => {
-        this.ADDED_TICKET.wholesaler.name= wholesaler.name;
-        this.ADDED_TICKET.wholesaler.id = wholesaler._id
-        console.log("Response:", response)
+        this.WHOLESALER_SELECTED = wholesaler;
+        this.WHOLESALER_SELECTED.name = response.name;
+        this.ADDED_TICKET.wholesaler.name = response.name;
+        this.ADDED_TICKET.wholesaler.id = response._id;
+        console.log("Response:", response);
       },
       error: (error: any) => {
         console.error('Error:', error);
@@ -187,7 +191,6 @@ export class TicketsComponent {
       complete: () => { }
     });
   }
-
 
   //DELETE TICKETING RECORD
   DELETE_TICKETING(ticket: any) {
@@ -331,6 +334,8 @@ export class TicketsComponent {
       },
       complete: () => {
         this.open_expansion_value = -1;
+        this.CUSTOMER_SELECTED = <CustomerClass>{};
+        this.WHOLESALER_SELECTED = <WholesalerClass>{}
       }
     });
   }
@@ -379,6 +384,8 @@ export class TicketsComponent {
     this.CLEAR_VALUES(this.ADDED_TICKET);
     this.currentAction = 'Add Ticket';
     this.routeSignalService.show_pop_up_route.set(false);
+    this.CUSTOMER_SELECTED = <CustomerClass>{};
+    this.WHOLESALER_SELECTED = <WholesalerClass>{}
   }
 
 
@@ -439,13 +446,25 @@ export class TicketsComponent {
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
+    console.log("Object",obj)
     this.ShowAddButoon = false;
     this.ADDED_TICKET = { ...obj };
     this.currentAction = 'Update Ticket';
     this.open_expansion_value = 1;
     this.panelOpenState = true;
     this.routeSignalService.show_pop_up_route.set(false);
+
+    // Set the CUSTOMER_SELECTED and WHOLESALER_SELECTED objects
+    this.CUSTOMER_SELECTED.name = obj.name;
+    this.WHOLESALER_SELECTED.name = obj.wholesaler.name;
+    this.WHOLESALER_SELECTED._id = obj.wholesaler.id; // Ensure id is assigned correctly
+
+    // Set the ADDED_TICKET properties based on CUSTOMER_SELECTED and WHOLESALER_SELECTED
+    this.ADDED_TICKET.wholesaler.name = this.WHOLESALER_SELECTED.name;
+    this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED._id;
+    this.ADDED_TICKET.name = this.CUSTOMER_SELECTED.name;
   }
+
 
   //UPDATE TICKET
   UPDATE_TICKET() {
@@ -455,11 +474,15 @@ export class TicketsComponent {
         this.CLEAR_VALUES(this.ADDED_TICKET)
         this.currentAction = 'Add Ticket';
         this.open_expansion_value = -1;
+        console.log("RESPONSE ON UPDATE", response)
       },
       error: (error: any) => {
         console.error('Error:', error.error);
       },
-      complete: () => { }
+      complete: () => {
+        this.CUSTOMER_SELECTED = <CustomerClass>{};
+        this.WHOLESALER_SELECTED = <WholesalerClass>{}
+      }
     });
 
   }
@@ -511,13 +534,14 @@ export class AppTicketingDialogContentComponent {
   }
 
   doAction(): void {
-    if (this.action == 'Delete') {
+    this.action = this.data.action;
+    if (this.action === 'Delete') {
       this.dialogRef.close({ event: this.action, data: this.TICKET_SELECTED });
     }
-    else if (this.action = 'Add Wholesaler') {
+    if (this.action === 'Add Wholesaler') {
       this.dialogRef.close({ event: this.action, data: this.ADDED_WHOLESALER });
     }
-    else if (this.action == 'Add New Customer') {
+    if (this.action === 'Add New Customer') {
       this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });
     }
   }

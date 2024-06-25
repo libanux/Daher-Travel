@@ -13,12 +13,12 @@
         <!-- NAME -->
         <div class="col-md-3 d-flex flex-column">
           <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer</mat-label>
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
 
             <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
-              [(ngModel)]="CUSTOMER_SELECTED" (input)="filterCustomers()" (ngModelChange)="onInputChange()"
+              [(ngModel)]="ADDED_TICKET.name" (input)="filterCustomers()" (ngModelChange)="onInputChange()"
               name="customer" ngDefaultControl>
 
             <mat-icon matPrefix class="op-5">
@@ -29,8 +29,7 @@
               </svg>
             </mat-icon>
             <mat-autocomplete #auto1="matAutocomplete">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer.name" name="customer"
-                ngDefaultControl>
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer.name">
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add New Customer', NEW_CUSTOMER_ADDED)">
@@ -45,7 +44,6 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
-
         <!-- SOURCE -->
         <div class="col-md-3 d-flex flex-column">
           <div class="d-flex align-items-center">
@@ -87,20 +85,16 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">WholeSaler</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-
             <input matInput placeholder="Search Wholesalers....." aria-label="Wholesaler" [matAutocomplete]="auto2"
-              [(ngModel)]="CUSTOMER_SELECTED" (input)="filterWholesalers()">
-
+              [(ngModel)]="ADDED_TICKET.wholesaler.name" (input)="filterWholesalers()" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
                 width="24px" fill="#5f6368">
-                <path
-                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg>
             </mat-icon>
-            <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
-              <mat-option *ngFor="let customer of filteredWholeSalers" [value]="customer" name="wholesaler"
-                ngDefaultControl>
+            <mat-autocomplete #auto2="matAutocomplete">
+              <mat-option *ngFor="let customer of filteredWholeSalers" [value]="customer.name" name="wholesaler" ngDefaultControl>
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add Wholesaler', ADDED_WHOLESALER)">
@@ -114,6 +108,8 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
+        
+        
 
 
       </div>
@@ -264,6 +260,8 @@
 
   <!-- Search -->
   <header>
+
+    <!-- SEARCHBAR -->
     <div class="searchbar p-20">
       <mat-form-field appearance="outline" class="w-100">
         <input matInput placeholder="Search Tickets ..." aria-label="Product" [(ngModel)]="searchText"
@@ -277,6 +275,7 @@
         </mat-icon>
       </mat-form-field>
     </div>
+    <!-- DATE FILTER -->
     <div class="filter-date p-20">
 
       @if(showDatePicker) {
@@ -312,22 +311,24 @@
         </mat-form-field>
       </div>
       <!-- Download As -->
-<div class="dropdown">
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
-      (selectionChange)="onChange($event.value,'Download')">
-      @for(option of Options; track option) {
-      <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-      }
-    </mat-select>
-    <mat-icon matPrefix class="op-5">
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-        <path
-          d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-      </svg>
-    </mat-icon>
-  </mat-form-field>
-</div>
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+            (selectionChange)="onChange($event.value,'Download')">
+            @for(option of Options; track option) {
+            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+            }
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+
+
     </div>
   </header>
 
