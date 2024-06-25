@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class GeneralService {
   storedToken: string = '';  // Initialize with an empty string
   admin_id: any = 0
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object,private httpClient: HttpClient) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private httpClient: HttpClient) {
     this.platformId = platformId;
     if (isPlatformBrowser(platformId)) {
       // runs on client / browser
@@ -58,7 +58,7 @@ export class GeneralService {
     return text;
   }
   //GET THE STATUS CLASS
-  GET_STATUS_CLASS(status: string, pending: string, completed:string, rejected:string): string {
+  GET_STATUS_CLASS(status: string, pending: string, completed: string, rejected: string): string {
     switch (status) {
       case pending:
         return 'bg-light-warning mat-body-2 f-w-500 p-x-8 p-y-4 f-s-12 rounded-pill';
@@ -101,6 +101,48 @@ export class GeneralService {
         }
       );
   }
+
+  getDataForReports(urlString: string, requestBody: any) {
+    console.log("Request body:", requestBody)
+    const url = `https://api.dahertravellb.com/DaherTravel/api/${urlString}`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.storedToken}`, // Replace YOUR_AUTH_TOKEN with the actual token
+      'Content-Type': 'application/json'
+    });
+
+    this.httpClient.post(url, requestBody, { headers: headers, responseType: 'blob', observe: 'response' })
+      .subscribe(
+        (response: HttpResponse<Blob>) => {
+          const contentDisposition = response.headers.get('Content-Disposition');
+          const contentType = response.headers.get('Content-Type') || '/octet-stream'; // Default to a generic type if Content-Type is null
+
+          const blob = new Blob([response.body as BlobPart], { type: contentType });
+
+          // Create a link element and trigger the download
+          const downloadLink = document.createElement('a');
+          downloadLink.href = window.URL.createObjectURL(blob);
+          downloadLink.download = this.getFileNameFromContentDisposition1(contentDisposition);
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        },
+        (error: HttpErrorResponse) => {
+          console.error('HTTP Error:', error);
+          console.error('Server error message:', error.error);
+          // Handle HTTP request error, e.g., show an error message to the user
+        }
+      );
+  }
+  // Utility method to extract file name from content-disposition header
+  private getFileNameFromContentDisposition1(contentDisposition: string | null): string {
+    if (!contentDisposition) {
+      return 'downloaded-file';
+    }
+
+    const matches = /filename="([^"]+)"/.exec(contentDisposition);
+    return (matches != null && matches[1]) ? matches[1] : 'downloaded-file';
+  }
+
 
   private getFileNameFromContentDisposition(contentDisposition: string | null): string {
     if (!contentDisposition) {
@@ -149,4 +191,4 @@ export const Download_Options: any[] = [
 export const Categories: any[] =
   ['All', 'Pack', 'Visa', 'Ticketing']
 
-  
+

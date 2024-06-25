@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Month_Filter_Array, Download_Options, Categories, GeneralService, Reports_Month_Filter_Array } from 'src/app/services/general.service';
+import { Month_Filter_Array, Download_Options, Categories, Reports_Month_Filter_Array, GeneralService } from 'src/app/services/general.service';
 import { LaborRecReportsService } from 'src/app/services/labore-rec-reports.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
@@ -69,15 +69,21 @@ export class LaborReportsComponent {
         this.FETCH_REPORTS()
       }
     }
-
     else if (dropdown == 'Download') {
-      this.DOWNLOAD(value);
+      this.DOWNLOAD();
     }
   }
 
-  DOWNLOAD(OPTION: string) {
-    this.generalService.getData('EXPORT_RECRUITING_TO_EXCEL')
+  DOWNLOAD() {
+    const requestBody = {
+      filterType: 'thisMonth',
+      startDate: '',
+      endDate: ''
+    };
+    
+    this.generalService.getDataForReports('EXPORT_RECRUITING_FINANCIAL_REPORT_TO_EXCEL', requestBody);
   }
+  
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
     return this.generalService.FORMAT_DATE_YYYYMMDD(date)

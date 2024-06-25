@@ -17,11 +17,6 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-
-            <!-- <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
-              [(ngModel)]="CUSTOMER_SELECTED" (input)="filterCustomers()" (ngModelChange)="onInputChange()"
-              name="customer" ngDefaultControl> -->
-
             <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
               [(ngModel)]="CUSTOMER_SELECTED.name" (input)="filterCustomers()" name="customer">
 
