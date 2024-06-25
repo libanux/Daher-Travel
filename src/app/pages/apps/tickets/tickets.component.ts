@@ -299,6 +299,15 @@ export class TicketsComponent {
         this.SEARCH_TICKETS()
       }
     }
+    else if (dropdown == 'Download') {
+      this.DOWNLOAD(value);
+    }
+  }
+
+
+  DOWNLOAD(OPTION: string) {
+    this.generalService.getData('EXPORT_TICKETING_TO_EXCEL')
+
   }
 
   //FILTER PACKAGES BY DATE

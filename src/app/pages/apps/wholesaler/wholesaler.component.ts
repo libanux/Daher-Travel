@@ -9,6 +9,7 @@ import { WholesalerService } from 'src/app/services/wholesaler.service';
 import { CustomerDialogContentComponent } from '../customers/main-page/customers.component';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
+import { Download_Options, GeneralService } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-wholesaler',
@@ -67,10 +68,10 @@ export class WholesalerComponent implements OnInit {
   WHOLESALER_Array_length = 0
   Current_page = 1
 
-
+  Options: any[] = Download_Options;
   constructor(
     private routeSignalService: RouteSignalService,
-    private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService) {
+    private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService,private generalService : GeneralService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
@@ -100,6 +101,13 @@ export class WholesalerComponent implements OnInit {
         this.DELETE_WHOLESALER(obj._id);
       }
     });
+  }
+
+  DROPDOWN_FILTERATION(value: string, dropdown: string) {
+
+     if (dropdown == 'Download') {
+      this.DOWNLOAD(value);
+    }
   }
 
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
@@ -217,6 +225,13 @@ export class WholesalerComponent implements OnInit {
   panelClosed() {
     this.open_expansion_value = 0;
     this.panelOpenState = false;
+  }
+
+  selectedDownloadOption: string = 'Download as';
+
+  DOWNLOAD(OPTION: string) {
+    this.generalService.getData('EXPORT_WHOLESALERS_TO_EXCEL')
+
   }
 
 
