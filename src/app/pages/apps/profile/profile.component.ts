@@ -41,7 +41,6 @@ export class ProfileComponent implements OnInit {
 
   EDIT_PROFILE() {
     this.UpdateProfile = true;
-    this.UPDATED_ADMIN = { ...this.admin }
   }
 
   CANCEL_UPDATE() {
@@ -50,8 +49,21 @@ export class ProfileComponent implements OnInit {
   }
 
   SAVE_EDIT() {
-
+    this.adminService.UPDATE_ADMIN(this.UPDATED_ADMIN).subscribe({
+      next: (response: any) => {
+        this.admin = response.updatedAdmin;
+      },
+      error: (error: any) => {
+        this.UPDATED_ADMIN = new Admin();
+      },
+      complete: () => {
+        this.SHOW_PROFILE = true;
+        this.UpdateProfile = false;
+        this.UPDATED_ADMIN = { ...this.admin }
+      }
+    });
   }
+
 
   SHOW_PROFILE = false;
   GET_ADMIN_PROFILE_BY_ID(ID: string) {
@@ -60,13 +72,8 @@ export class ProfileComponent implements OnInit {
         this.admin = response;
         this.UPDATED_ADMIN = response
       },
-      error: (error: any) => {
-        this.UPDATED_ADMIN = new Admin();
-      },
-      complete: () => {
-        this.SHOW_PROFILE = true;
-        console.log(this.admin)
-      }
+      error: (error: any) => {this.UPDATED_ADMIN = new Admin();},
+      complete: () => {this.SHOW_PROFILE = true;}
     });
   }
 

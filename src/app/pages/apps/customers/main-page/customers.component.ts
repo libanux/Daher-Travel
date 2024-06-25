@@ -283,7 +283,6 @@ export class CustomersComponent implements OnInit {
   FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
     this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.current_page_array_length = response.customers.length
         this.CustomersArray = new MatTableDataSource(response.customers);
         this.CUSTOMERS_Array_length = response.pagination.totalCustomers
