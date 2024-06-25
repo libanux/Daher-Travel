@@ -95,8 +95,6 @@ export class VisaService {
       "type": VISA.type,
     };
 
-    console.log(requestBody)
-
     return this.httpClient.post<any>(this.apiUrl + '/ADD_VISA', requestBody, { headers });
   }
 
@@ -132,17 +130,8 @@ export class VisaService {
   }
 
   DOWNLOAD_AS(VALUE: string): Observable<any> {
-    // if(VALUE == 'PDF'){
-    //   return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
-    // }
-
-    // else {
-    //   console.log('here')
     return this.httpClient.get<any>(this.apiUrl + '/EXPORT_VISAS_TO_EXCEL');
   }
-  // }
-
-
 
   getData() {
     const url = 'https://api.dahertravellb.com/DaherTravel/api/EXPORT_VISAS_TO_EXCEL';

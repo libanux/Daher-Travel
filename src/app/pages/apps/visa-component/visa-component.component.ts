@@ -293,11 +293,19 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
+  NEW_CUSTOMER_RESPONSE: any
   ADD_NEW_CUSTOMER(obj: any) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
-      next: (response: any) => {this.CUSTOMER_SELECTED = response;},
+      next: (response: any) => {this.NEW_CUSTOMER_RESPONSE = response;},
       error: (error) => { },
-      complete: () => {this.FETCH_CUSTOMER();}
+      complete: () => {
+        this.CUSTOMER_SELECTED = {
+          id: this.NEW_CUSTOMER_RESPONSE._id,
+          name: this.NEW_CUSTOMER_RESPONSE.name,
+          phoneNumber: this.NEW_CUSTOMER_RESPONSE.phoneNumber
+        }
+        this.FETCH_CUSTOMER();
+      }
     });
   }
 
@@ -409,6 +417,13 @@ export class VisaComponentComponent implements OnInit {
   
   // ADD NEW VISA
   ADD_VISA() {
+    this.ADDED_VISA.customer = 
+    {
+      id: this.CUSTOMER_SELECTED.id,
+      name: this.CUSTOMER_SELECTED.name,
+      phoneNumber: this.CUSTOMER_SELECTED.phoneNumber,
+    }
+
     this.SHOW_LOADING_SPINNER = true;
     this.visaService.ADD_VISA(this.ADDED_VISA).subscribe({
       next: (response: any) => {    },
