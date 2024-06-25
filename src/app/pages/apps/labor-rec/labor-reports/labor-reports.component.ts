@@ -75,8 +75,8 @@ export class LaborReportsComponent {
     }
   }
 
-  DOWNLOAD(OPTION: string): string {
-    return this.selectedDownloadOption = 'Download As'
+  DOWNLOAD(OPTION: string) {
+    this.generalService.getData('EXPORT_RECRUITING_TO_EXCEL')
   }
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
