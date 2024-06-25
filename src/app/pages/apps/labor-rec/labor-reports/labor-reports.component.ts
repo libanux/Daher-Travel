@@ -6,7 +6,7 @@ import { LaborRecReportsService } from 'src/app/services/labore-rec-reports.serv
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 const headers: any[] = [
-  'Cost',
+  'Income',
   'Expenses',
   'NetProfit',
 ];
@@ -29,12 +29,12 @@ export class LaborReportsComponent {
 
   // TABLE SHIMMER 
   show_shimmer = true;
-  ROWS_COUNT_SHIMMER: any[] = ['1', '2','3', '4'];
+  ROWS_COUNT_SHIMMER: any[] = ['1', '2', '3', '4'];
 
   FILTER_TYPE = 'thisMonth'
 
   DATA = [
-    { category: 'Pack', Cost: '$40.00', Expenses: '$80.00', NetProfit: '$40.00' },
+    { category: 'Rec', Income: '$0.00', Expenses: '$0.00', NetProfit: '$0.00' },
   ]
 
   months: any[] = Reports_Month_Filter_Array;
@@ -65,7 +65,8 @@ export class LaborReportsComponent {
 
       else {
         this.showDatePicker = false;
-        // this.FILTER_ARRAY_BY_DATE(value)
+        this.FILTER_TYPE = value;
+        this.FETCH_REPORTS()
       }
     }
 
@@ -85,32 +86,35 @@ export class LaborReportsComponent {
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.START_DATE = this.FORMAT_DATE_YYYYMMDD(event);
-    // this.FILTER_ARRAY_BY_DATE('custom')
+    this.FILTER_TYPE = 'custom'
+    this.FETCH_REPORTS()
   }
 
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.END_DATE = this.FORMAT_DATE_YYYYMMDD(event);
-    // this.FILTER_ARRAY_BY_DATE('custom')
+    this.FILTER_TYPE = 'custom'
+    this.FETCH_REPORTS()
   }
 
   // GET ALL REPORTS
   FETCH_REPORTS() {
+    // console.log("Filter tyepa:",this.FILTER_TYPE)
+    // console.log("Start date",this.START_DATE)
+    // console.log("end date",this.END_DATE)
     this.show_shimmer = true;
     this.laborReportsService.GET_RECRUITING_FINANCIAL_REPORT(this.FILTER_TYPE, this.START_DATE, this.END_DATE).subscribe({
       next: (response: any) => {
-        this.DATA =  
-        [
-        { category: 'Pack', Cost: response.packageReport.totalCost, Expenses: response.packageReport.totalIncome, NetProfit: response.packageReport.netProfit },
-        { category: 'Visa', Cost: response.visaReport.totalCost, Expenses: response.visaReport.totalIncome, NetProfit: response.visaReport.netProfit },
-        { category: 'Ticketing', Cost: response.ticketingReport.totalCost, Expenses: response.ticketingReport.totalIncome, NetProfit: response.ticketingReport.netProfit },
-        { category: 'Total', Cost: response.totalCost, Expenses: response.totalIncome, NetProfit: response.totalNetProfit },
-      ]
+        this.DATA =
+          [
+            { category: 'Rec', Income: response.totalIncome, Expenses: response.totalExpense, NetProfit: response.netProfit },
+
+          ]
       },
       error: (error: any) => { },
-      complete: () => { 
+      complete: () => {
         this.REPORTS_ARRAY = new MatTableDataSource(this.DATA);
-        this.show_shimmer = false; 
+        this.show_shimmer = false;
       }
     });
   }
