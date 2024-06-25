@@ -5,7 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LaborRecService } from 'src/app/services/labor-rec.service';
-import { Date_Filter_Array, Download_Options, Month_Filter_Array } from 'src/app/services/general.service';
+import { Date_Filter_Array, Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { LaborList } from 'src/app/classes/labor.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 
@@ -41,7 +41,7 @@ export class LaborMainComponent implements AfterViewInit {
   recruitings: any[] = []
   showCalendar: boolean = false;
   selectedDate: Date | null = null;
-
+  selectedDownloadOption: string = 'Download as';
   //RECRUITING ON EDIT
   viewPackage: LaborList
   editedrecruiting: LaborList
@@ -94,7 +94,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   constructor(
     private routeSignalService: RouteSignalService,
-    public dialog: MatDialog, private recruitingService: LaborRecService) {
+    public dialog: MatDialog, private recruitingService: LaborRecService, private generalService: GeneralService) {
     this.viewPackage = new LaborList()
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
@@ -402,7 +402,15 @@ export class LaborMainComponent implements AfterViewInit {
       this.onInputChange()
 
     }
+    else if (dropdown == 'Download') {
+      this.DOWNLOAD();
+    }
   }
+
+  DOWNLOAD() {
+    this.generalService.getData('EXPORT_RECRUITING_TO_EXCEL')
+  }
+
   Options: any[] = Download_Options;
 
   onDateSelect(date: Date) {

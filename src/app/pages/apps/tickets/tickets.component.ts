@@ -13,6 +13,7 @@ import { WholesalerService } from 'src/app/services/wholesaler.service';
 import { WholesalerClass } from 'src/app/classes/wholesaler.class';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CustomerClass } from 'src/app/classes/customer.class';
+import { Package } from 'src/app/classes/package.class';
 
 @Component({
   selector: 'app-tickets',
@@ -51,7 +52,7 @@ export class TicketsComponent {
   choosenWholesaler: WholesalerClass
   NEW_CUSTOMER_ADDED: CustomerClass[] = []
   CUSTOMER_SELECTED: CustomerClass = new CustomerClass()
-  WHOLESALER_SELECTED: WholesalerClass = new WholesalerClass()
+  WHOLESALER_SELECTED=  { id: '', name: ''}
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -253,13 +254,7 @@ export class TicketsComponent {
     return product ? product.name : '';
   }
 
-  onWholesalerSelected(event: any) {
-    console.log('event ', event);
-    console.log("Value changed to", this.ADDED_TICKET.wholesaler)
-    this.ADDED_TICKET.wholesaler.name = event.option.value.name
-    this.ADDED_TICKET.wholesaler.id = event.option.value._id
-    console.log("AddedTicket",this.ADDED_TICKET)
-  }
+
 
 
   // Method to handle changes in start date input
@@ -408,7 +403,7 @@ export class TicketsComponent {
     this.currentAction = 'Add Ticket';
     this.routeSignalService.show_pop_up_route.set(false);
     this.CUSTOMER_SELECTED = <CustomerClass>{};
-    this.WHOLESALER_SELECTED = <WholesalerClass>{}
+
   }
 
 
@@ -498,11 +493,41 @@ export class TicketsComponent {
       },
       complete: () => {
         this.CUSTOMER_SELECTED = <CustomerClass>{};
-        this.WHOLESALER_SELECTED = <WholesalerClass>{}
+      
       }
     });
 
   }
+  DATA_CHANGED: boolean = false;
+  MAIN_SELECTED_TICKET_DATA: Tickets = new Tickets()
+  onWholesalerSelected(event: any ) {
+    this.WHOLESALER_SELECTED = { id: '', name: ''}
+    if(event.option.value == 'Add New Wholesaler'){
+        this.OPEN_DIALOG('Add New Wholesaler', this.NEW_CUSTOMER_ADDED)
+        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+    }
+
+    else {
+      this.WHOLESALER_SELECTED = 
+      {
+        id: event.option.value._id,
+        name: event.option.value.name,
+      }
+  
+      this.ADDED_TICKET.wholesaler = this.WHOLESALER_SELECTED
+      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+    }
+  }
+
+  CHECK_IF_CHANGED_CUSTOMER_NAME(){
+    if (this.MAIN_SELECTED_TICKET_DATA.wholesaler.name !== this.CUSTOMER_SELECTED.name ) {
+      this.DATA_CHANGED = true;
+    } 
+    else {
+      this.DATA_CHANGED = false;
+    }
+  }
+
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Tickets) {
