@@ -93,7 +93,7 @@ export class TicketingService {
       "credit": newTicket.credit,
       "balance": newTicket.balance,
       "wholesaler": {
-        "id": newTicket.wholesaler.id,
+        "id": "60d21b4667d0d8992e610c85",
         "name": newTicket.wholesaler.name
       },
     };
