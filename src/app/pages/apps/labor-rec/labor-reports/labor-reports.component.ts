@@ -59,7 +59,7 @@ export class LaborReportsComponent {
   onChange(value: string, dropdown: string) {
 
     if (dropdown == 'month') {
-      if (value === 'Calendar') {
+      if (value === 'custom') {
         this.showDatePicker = true;
       }
 
