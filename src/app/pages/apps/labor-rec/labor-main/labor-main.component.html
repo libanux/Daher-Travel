@@ -21,7 +21,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Name" [(ngModel)]="editedrecruiting.name" />
+            <input matInput placeholder="Name" [(ngModel)]="editedrecruiting.name" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -38,7 +38,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Nationality</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Nationality" [(ngModel)]="editedrecruiting.nationality" />
+            <input matInput placeholder="Nationality" [(ngModel)]="editedrecruiting.nationality" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -81,7 +81,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Age </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Age" [(ngModel)]="editedrecruiting.age" />
+            <input type="number" matInput placeholder="Age" [(ngModel)]="editedrecruiting.age" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -99,7 +99,7 @@
           </div>
           <mat-form-field appearance="outline" class="w-100">
             <input type="number" matInput placeholder="Price." aria-label="Product"
-              [(ngModel)]="editedrecruiting.cost">
+              [(ngModel)]="editedrecruiting.cost" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -116,7 +116,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Sell" [(ngModel)]="editedrecruiting.sell" />
+            <input type="number" matInput placeholder="Sell" [(ngModel)]="editedrecruiting.sell" (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -138,7 +138,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Type</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Type" aria-label="Product" [(ngModel)]="editedrecruiting.type">
+            <input matInput placeholder="Type" aria-label="Product" [(ngModel)]="editedrecruiting.type" (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -156,7 +156,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Note" [(ngModel)]="editedrecruiting.note" />
+            <input matInput placeholder="Note" [(ngModel)]="editedrecruiting.note"  (ngModelChange)="onInputChange()"/>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -217,7 +217,7 @@
       <div class="searchbar p-20">
         <mat-form-field appearance="outline" class="w-100">
           <input matInput placeholder="Search Labor..." aria-label="Product" [(ngModel)]="searchText"
-            (keyup)="onInputChange()">
+            (keyup)="onSearchKeyChange()">
           <mat-icon matPrefix class="op-5">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
               width="24px" fill="#5f6368">

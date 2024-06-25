@@ -9,7 +9,6 @@ import { Download_Options, GeneralService, Month_Filter_Array } from 'src/app/se
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerService } from 'src/app/services/Customer.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CustomerClass } from 'src/app/classes/customer.class';
 
 @Component({
@@ -74,19 +73,8 @@ export class VisaComponentComponent implements OnInit {
   ];
 
   // This is the added or updated VISA fdefualt values
-  ADDED_VISA: VisaClass = {
-    _id: '',
-    customer: {
-      id: '',
-      name: '',
-      phoneNumber: '',
-    },
-    country: '',
-    note: '',
-    sell: '',
-    status: '',
-    type: '',
-  }
+  ADDED_VISA: VisaClass = new VisaClass()
+  MAIN_SELECTED_VISA_DATA: VisaClass = new VisaClass()
 
   pageSize = 10;
   Visa_Array_length = 0
@@ -102,6 +90,7 @@ export class VisaComponentComponent implements OnInit {
   expandedElement: VisaClass | null = null;
   VisaArray = new MatTableDataSource();
 
+  SHOW_LOADING_SPINNER: boolean = false;
 
   // Storing the start and end date selected in filtering by Date
   // Used in filter by date
@@ -110,7 +99,8 @@ export class VisaComponentComponent implements OnInit {
     private customerService: CustomerService,
     private routeSignalService: RouteSignalService,
     private breadCrumbService: BreadCrumbSignalService,
-    private generalService: GeneralService, public dialog: MatDialog, private visaService: VisaService) {
+    private generalService: GeneralService, 
+    public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
@@ -212,9 +202,18 @@ export class VisaComponentComponent implements OnInit {
   }
 
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
-
   // Function to log input changes
   onInputChange() {
+
+    // When inputs changes -> i check if they are the same as the main one
+    // if they are the same keep the update button disabled
+    if (JSON.stringify(this.MAIN_SELECTED_VISA_DATA) !== JSON.stringify(this.ADDED_VISA)) {
+      this.DATA_CHANGED = true;
+    } 
+    else {
+      this.DATA_CHANGED = false;
+    }
+    
     // Check only specific fields for content
     this.isAnyFieldNotEmpty = ['name', 'country', 'note', 'sell'].some(key => {
       const fieldValue = this.ADDED_VISA[key as keyof VisaClass] || ''; // Using || for fallback value
@@ -229,12 +228,13 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
-  CUSTOMER_SELECTED: string = '';
+  CUSTOMER_SELECTED: CustomerClass = new CustomerClass();
   filteredCustomers: any[] = []
-
   filterCustomers() {
-    const query = this.ADDED_VISA.customer.name.toLowerCase();
-    this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
+    const query = this.CUSTOMER_SELECTED.name.toLowerCase();
+    this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.filter((customer: any) =>
+      customer.name.toLowerCase().includes(query)
+    );
   }
 
   ALL_CUSTOMERS_ARRAY: any = []
@@ -250,24 +250,20 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
-  onOptionSelected(event: MatAutocompleteSelectedEvent, source: string) {
+  onCustomerSelected(event: any) {
+    console.log('event ', event);
 
-    if (source == 'customer') {
-      this.ADDED_VISA.customer.name = event.option.value.name
-      this.ADDED_VISA.customer.id = event.option.value._id
-      this.ADDED_VISA.customer.phoneNumber = event.option.value.phoneNumber
+    this.CUSTOMER_SELECTED.name = event.option.value;
 
-    }
+    if (this.MAIN_SELECTED_VISA_DATA.customer.name !== this.CUSTOMER_SELECTED.name ) {
+      this.DATA_CHANGED = true;
+      console.log('changed');
+    } 
     else {
-      // this.choosenWholesaler = event.option.value;
-      this.ADDED_VISA.customer.id = event.option.value._id; // Assigning id
-      this.ADDED_VISA.customer.name = event.option.value.name;
+      this.DATA_CHANGED = false;
+      console.log('same')
+
     }
-
-  }
-
-  displayFn(customer: { id: number, name: string }): string {
-    return customer ? customer.name : '';
   }
 
   ADD_NEW_CUSTOMER(obj: CustomerClass) {
@@ -275,10 +271,13 @@ export class VisaComponentComponent implements OnInit {
       next: (response: any) => {
         this.ADDED_VISA.customer.id = response._id
         this.ADDED_VISA.customer.name = response.name
-        this.ADDED_VISA.customer.phoneNumber = response.phoneNumber
+        this.ADDED_VISA.customer.phoneNumber = response.phoneNumber;
+
+        this.CUSTOMER_SELECTED = response.name;
+
       },
       error: (error) => { },
-      complete: () => { 
+      complete: () => {
         this.FETCH_CUSTOMER();
       }
     });
@@ -352,6 +351,9 @@ export class VisaComponentComponent implements OnInit {
     this.CurrentAction = 'Add Visa';
     this.ShowAddButoon = true;
     this.routeSignalService.show_pop_up_route.set(false)
+    this.SHOW_LOADING_SPINNER = false
+    this.DATA_CHANGED = false;
+    this.CUSTOMER_SELECTED = new CustomerClass();
 
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
@@ -369,6 +371,8 @@ export class VisaComponentComponent implements OnInit {
       status: '',
       type: '',
     }
+
+
   }
 
   // DELETE VSIA
@@ -380,12 +384,14 @@ export class VisaComponentComponent implements OnInit {
         }
       },
       error: (error) => { },
-      complete: () => { this.FETCH_VISA(); }
+      complete: () => { this.FETCH_VISA(); this.CANCEL_UPDATE();}
     });
   }
 
   // ADD NEW VISA
   ADD_VISA(obj: VisaClass) {
+    console.log(obj)
+    this.SHOW_LOADING_SPINNER = true
     this.visaService.ADD_VISA(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -395,8 +401,10 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
+  DATA_CHANGED: boolean = false;
   // CONFIRM UPDATE
   UPDATE_VISA() {
+    this.SHOW_LOADING_SPINNER = true
     this.visaService.UPDATE_VISA(this.ADDED_VISA).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -406,6 +414,9 @@ export class VisaComponentComponent implements OnInit {
 
   // SELECT OBJECT TO UPDATE
   SELECTED_VISA(obj: VisaClass): void {
+
+    this.CUSTOMER_SELECTED = new CustomerClass ();
+
     // SECURE THE ROUTE
     this.routeSignalService.show_pop_up_route.set(false)
     // HIDE ADD BUTTON AND SHOW THE UPDATE BUTTON
@@ -415,6 +426,8 @@ export class VisaComponentComponent implements OnInit {
     this.OPEN_PANEL();
     // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
     this.ADDED_VISA = { ...obj };
+    this.MAIN_SELECTED_VISA_DATA = obj ;
+    this.CUSTOMER_SELECTED.name = this.ADDED_VISA.customer.name;
   }
 
   // STATUS FILTERATION
@@ -431,6 +444,7 @@ export class VisaComponentComponent implements OnInit {
 
   // FILTER BY SEARCH KEY
   APPLY_SEARCH_FILTER(searchValue: string): void {
+    this.Current_page = 1
     this.SEARCK_KEY = searchValue
     this.FILTER_VISAS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
   }
@@ -466,23 +480,25 @@ export class visaDialogContentComponent {
 
   action: string;
   action_btn: string = 'Add'
+  SHOW_LOADING_SPINNER: boolean = false;
 
   VISA_SELECTED: any;
-  NEW_CUSTOMER: CustomerClass = new CustomerClass ();
+  NEW_CUSTOMER: CustomerClass = new CustomerClass();
 
   constructor(
     public dialogRef: MatDialogRef<visaDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-      this.VISA_SELECTED = { ...data };
-      this.action = data.action;
+    this.VISA_SELECTED = { ...data };
+    this.action = data.action;
 
-      if (this.action == 'Add New Customer') {
-        this.action_btn = 'Add Customer'
-      }
+    if (this.action == 'Add New Customer') {
+      this.action_btn = 'Add Customer'
+    }
   }
 
   doAction(): void {
+    this.SHOW_LOADING_SPINNER = true
 
     if (this.action == 'Add New Customer') {
       this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });

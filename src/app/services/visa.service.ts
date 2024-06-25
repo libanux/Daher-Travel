@@ -97,6 +97,7 @@ export class VisaService {
       "type": VISA.type,
     };
 
+    console.log(requestBody)
 
     return this.httpClient.post<any>(this.apiUrl + '/ADD_VISA', requestBody, { headers });
   }

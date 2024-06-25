@@ -33,7 +33,6 @@
     </mat-expansion-panel-header>
     <mat-card-content>
 
-
       <!-- FIRST ROW :  name + country + note -->
       @if(CurrentAction == 'Add Admin'){
       <div class="row">
@@ -345,12 +344,19 @@
 
       <div class="Buttons_div">
         <div *ngIf="ShowAddButoon">
-          <button mat-flat-button color="primary" (click)="ADD_ADMIN(ADDED_ADMIN)"> Add Admin </button>
+          <button mat-flat-button color="primary" (click)="ADD_ADMIN(ADDED_ADMIN)" [disabled]="SHOW_LOADING_SPINNER">
+            <span *ngIf="!SHOW_LOADING_SPINNER">Update Admin</span>
+            <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
+          </button>
         </div>
 
         <div class="TwoButtons" *ngIf="!ShowAddButoon">
           <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
-          <button mat-flat-button color="primary" (click)="UPDATE_ADMIN()">Update Admin</button>
+          <!-- <button mat-flat-button color="primary" (click)="UPDATE_ADMIN()">Update Admin</button> -->
+          <button mat-flat-button color="primary" (click)="UPDATE_ADMIN()" [disabled]="SHOW_LOADING_SPINNER">
+            <span *ngIf="!SHOW_LOADING_SPINNER">Update Admin</span>
+            <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
+          </button>    
         </div>
       </div>
 

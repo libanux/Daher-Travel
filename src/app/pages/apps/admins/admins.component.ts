@@ -4,9 +4,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AdminService } from 'src/app/services/Admins.service';
-import { Admin, PERMISSIONS, Permissions_Array } from 'src/app/classes/admin.class';
+import { Admin, Permissions_Array } from 'src/app/classes/admin.class';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
-import { Permission } from 'src/app/classes/adminPermissions.class';
 import { GeneralService } from 'src/app/services/general.service';
 
 @Component({
@@ -14,6 +13,8 @@ import { GeneralService } from 'src/app/services/general.service';
   styleUrls: ['admins.component.scss', '../../../../assets/scss/apps/_add_expand.scss']
 })
 export class AdminsComponent implements OnInit {
+  
+  SHOW_LOADING_SPINNER: boolean = false;
 
   ADDED_ADMIN: Admin = {
     _id: '',
@@ -143,6 +144,7 @@ export class AdminsComponent implements OnInit {
   }
 
   ADD_ADMIN(object: Admin): void {
+  this.SHOW_LOADING_SPINNER = true
    this.adminService.ADD_ADMIN(object).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -151,6 +153,7 @@ export class AdminsComponent implements OnInit {
   }
 
   UPDATE_ADMIN(): void {
+    this.SHOW_LOADING_SPINNER = true
     this.adminService.UPDATE_ADMIN(this.ADDED_ADMIN).subscribe({
       next: (response: any) => { },
       error: (error) => { console.error(error)},
@@ -174,6 +177,8 @@ export class AdminsComponent implements OnInit {
     this.CurrentAction = 'Add Admin';
     this.ShowAddButoon = true;
     // this.routeSignalService.show_pop_up_route.set(false)
+
+    this.SHOW_LOADING_SPINNER = false
 
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
@@ -244,7 +249,7 @@ export class AdminsComponent implements OnInit {
 })
 // tslint:disable-next-line: component-class-suffix
 export class AdminDialogContentComponent {
-
+  SHOW_LOADING_SPINNER: boolean = false
   action: string;
   ADMIN_SELECTED: any;
 
@@ -257,6 +262,7 @@ export class AdminDialogContentComponent {
   }
 
   doAction(): void {
+    this.SHOW_LOADING_SPINNER = true
     this.dialogRef.close({ event: this.action, data: this.ADMIN_SELECTED });
   }
 

@@ -36,6 +36,8 @@ export class CustomersComponent implements OnInit {
 
   ShowAddButoon = true;
 
+  SHOW_LOADING_SPINNER: boolean = false;
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
@@ -52,6 +54,13 @@ export class CustomersComponent implements OnInit {
 
   // This is the added or updated CUSTOMER fdefualt values
   ADDED_CUSTOMER: CustomerClass = {
+    _id: '',
+    name: '',
+    phoneNumber: '',
+    address: ''
+  }
+
+  MAIN_SELECTED_CUSTOMER_DATA: CustomerClass = {
     _id: '',
     name: '',
     phoneNumber: '',
@@ -108,9 +117,20 @@ export class CustomersComponent implements OnInit {
 
 
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
+  DATA_CHANGED: boolean = false;
 
   // Function to log input changes
   onInputChange() {
+        // When inputs changes -> i check if they are the same as the main one
+    // if they are the same keep the update button disabled
+    if (JSON.stringify(this.MAIN_SELECTED_CUSTOMER_DATA) !== JSON.stringify(this.ADDED_CUSTOMER)) {
+      this.DATA_CHANGED = true;
+    } 
+    else {
+      this.DATA_CHANGED = false;
+    }
+    
+
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_CUSTOMER).some(val => val !== '' && val !== null);
 
     if (this.isAnyFieldNotEmpty) {
@@ -159,9 +179,11 @@ export class CustomersComponent implements OnInit {
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
-    this.ShowAddButoon = true;
     this.currentAction = "Add Customer"
+    this.ShowAddButoon = true;
     this.routeSignalService.show_pop_up_route.set(false);
+    this.SHOW_LOADING_SPINNER = false
+    this.DATA_CHANGED = false;
 
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
@@ -208,15 +230,17 @@ export class CustomersComponent implements OnInit {
 
   // ADD NEW CUSTOMER
   ADD_CUSTOMER(obj: CustomerClass) {
+    this.SHOW_LOADING_SPINNER = true
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
-      error: (error) => { },
-      complete: () => { }
+      error: (error) => {},
+      complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
     });
   }
 
   // CONFIRM UPDATE
   UPDATE_CUSTOMER(obj: CustomerClass): void {
+    this.SHOW_LOADING_SPINNER = true
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
       error: (error) => { },
@@ -231,6 +255,7 @@ export class CustomersComponent implements OnInit {
     this.currentAction = "Update Customer";
     // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
     this.ADDED_CUSTOMER = { ...obj };
+    this.MAIN_SELECTED_CUSTOMER_DATA = obj;
     // OPEN PANWL : EXPANDED ROW 
     this.OPEN_PANEL()
     // SECURE THE ROUTE
@@ -239,6 +264,7 @@ export class CustomersComponent implements OnInit {
 
   // FILTER BY SEARCH KEY
   APPLY_SEARCH_FILTER(searchValue: string): void {
+    this.Current_page = 1
     this.SEARCK_KEY = searchValue
     this.FILTER_VISAS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
   }
@@ -251,6 +277,7 @@ export class CustomersComponent implements OnInit {
   FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string){
     this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE,STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
+        console.log(response)
         this.current_page_array_length = response.customers.length
         this.CustomersArray = new MatTableDataSource(response.customers);
         this.CUSTOMERS_Array_length = response.pagination.totalCustomers
@@ -274,10 +301,7 @@ export class CustomersComponent implements OnInit {
 })
 // tslint:disable-next-line: component-class-suffix
 export class CustomerDialogContentComponent {
-  package = { selected: false, read: false, write: false };
-  visa = { selected: false, read: false, write: false };
-
-
+  SHOW_LOADING_SPINNER: boolean = false;
   action: string;
   CUSTOMER_SELECTED: any;
 
@@ -290,6 +314,7 @@ export class CustomerDialogContentComponent {
   }
 
   doAction(): void {
+    this.SHOW_LOADING_SPINNER = true
     this.dialogRef.close({ event: this.action, data: this.CUSTOMER_SELECTED });
   }
 

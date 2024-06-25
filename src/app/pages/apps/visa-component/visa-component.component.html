@@ -2,8 +2,8 @@
 <mat-card class="cardWithShadow">
   <mat-expansion-panel 
   [expanded]="open_expansion_value === 1" 
-    (opened)="OPEN_PANEL()"
-    (closed)="CLOSE_PANEL()">
+  (opened)="OPEN_PANEL()" 
+  (closed)="CLOSE_PANEL()">
 
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{CurrentAction}}</mat-panel-title>
@@ -11,41 +11,26 @@
 
 
     <mat-card-content>
-      <!-- FIRST ROW :  name + country + note -->
+      <!-- FIRST ROW :  CUSTOMER NAME + COUNTRY + NOTE -->
       <div class="row">
 
-        <!-- Visa NAME -->
-        <!-- <div class="col-md-4 d-flex flex-column">
-          <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer Name</mat-label>
-          </div>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="customerName" [(ngModel)]="ADDED_VISA.customer.name" (ngModelChange)="onInputChange()" />
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </div> -->
-
+        <!-- CUSTOMER NAME -->
         <div class="col-md-4 d-flex flex-column">
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer Name</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
 
+            <!-- <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
+              [(ngModel)]="CUSTOMER_SELECTED" (input)="filterCustomers()" (ngModelChange)="onInputChange()"
+              name="customer" ngDefaultControl> -->
+
             <input 
             matInput 
-            placeholder="Search Customers....." 
-            aria-label="Customer" 
+            placeholder="Search Customers....." aria-label="Customer" 
             [matAutocomplete]="auto1"
-            [(ngModel)]="CUSTOMER_SELECTED" 
-            (input)="filterCustomers()" 
-            (ngModelChange)="onInputChange()"
-            name="customer" ngDefaultControl>
+            [(ngModel)]="CUSTOMER_SELECTED.name" 
+            (input)="filterCustomers()" name="customer">
 
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
@@ -54,8 +39,8 @@
                   d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg>
             </mat-icon>
-            <mat-autocomplete #auto1="matAutocomplete">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer.name">
+            <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onCustomerSelected($event)">
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add New Customer', NEW_CUSTOMER_ADDED)">
@@ -66,12 +51,12 @@
                   <span>Add new customer</span>
                 </div>
               </mat-option>
-              
+
             </mat-autocomplete>
           </mat-form-field>
         </div>
 
-        <!-- country-->
+        <!-- COUNTRY-->
         <div class="col-md-4 d-flex flex-column">
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Country</mat-label>
@@ -79,16 +64,12 @@
           <mat-form-field appearance="outline" class="w-100">
             <input matInput placeholder="Country" [(ngModel)]="ADDED_VISA.country" (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z" />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
             </mat-icon>
           </mat-form-field>
         </div>
 
-        <!-- note-->
+        <!-- NOTE-->
         <div class="col-md-4 d-flex flex-column">
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Note</mat-label>
@@ -107,10 +88,10 @@
         </div>
       </div>
 
-      <!-- SECOND ROW :  sell + type + status -->
+      <!-- SECOND ROW :  SELL + TYPE + STATUS -->
       <div class="row">
 
-        <!-- Sell -->
+        <!-- SELL -->
         <div class="col-md-4 d-flex flex-column">
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
@@ -183,7 +164,12 @@
 
         <div class="TwoButtons" *ngIf="!ShowAddButoon">
           <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
-          <button mat-flat-button color="primary" (click)="UPDATE_VISA()">Update Visa</button>
+
+          <button mat-flat-button color="primary" (click)="UPDATE_VISA()" [disabled]="SHOW_LOADING_SPINNER || !DATA_CHANGED">
+            <span *ngIf="!SHOW_LOADING_SPINNER">Update Visa</span>
+            <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
+          </button>    
+
         </div>
       </div>
     </mat-card-content>
@@ -214,61 +200,66 @@
 
       <section>
         @if(showDatePicker) {
-          <mat-form-field appearance="outline" class="date_picker">
-    
-            <mat-date-range-input [rangePicker]="custompicker">
-              <input matStartDate placeholder="Start date" [(ngModel)]="START_DATE"
-                (ngModelChange)="handleStartDateChange($event)" />
-              <input matEndDate placeholder="End date" [(ngModel)]="END_DATE"
-                (ngModelChange)="handleEndDateChange($event)" />
-            </mat-date-range-input>
-    
-            <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
-            <mat-date-range-picker #custompicker></mat-date-range-picker>
-    
-          </mat-form-field>
-          }
-  
+        <mat-form-field appearance="outline" class="date_picker">
+
+          <mat-date-range-input [rangePicker]="custompicker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="START_DATE"
+              (ngModelChange)="handleStartDateChange($event)" />
+            <input matEndDate placeholder="End date" [(ngModel)]="END_DATE"
+              (ngModelChange)="handleEndDateChange($event)" />
+          </mat-date-range-input>
+
+          <mat-datepicker-toggle matIconSuffix [for]="custompicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #custompicker></mat-date-range-picker>
+
+        </mat-form-field>
+        }
+
         <!-- DATE -->
         <div class="dropdown">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select p placeholder="Today" [(ngModel)]="selectedMonth" (selectionChange)="DROPDOWN_FILTERATION($event.value, 'month')">
+            <mat-select p placeholder="Today" [(ngModel)]="selectedMonth"
+              (selectionChange)="DROPDOWN_FILTERATION($event.value, 'month')">
               @for(month of months; track month) {
               <mat-option value={{month.value}}>{{month.viewValue}}</mat-option>
-              }
-  
-            </mat-select>
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>
-            </mat-icon>
-          </mat-form-field>
-        </div>
-      </section>
-
-         <!-- STATUS -->
-         <div class="dropdown">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select p placeholder="All" [(ngModel)]="selectedStatusFilteraTION" (selectionChange)="DROPDOWN_FILTERATION($event.value, 'status')">
-              @for(element of Status_Array_Filter; track element) {
-              <mat-option value={{element.value}}>{{element.viewValue}}</mat-option>
               }
 
             </mat-select>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
-                <path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17
-                        0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83
-                        31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
-                        156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93
-                        227q0 134 93 227t227 93Zm0-320Z" />
+                <path
+                  d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
               </svg>
             </mat-icon>
           </mat-form-field>
         </div>
-        
+      </section>
 
-<!-- Download As -->
+      <!-- STATUS -->
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select p placeholder="All" [(ngModel)]="selectedStatusFilteraTION"
+            (selectionChange)="DROPDOWN_FILTERATION($event.value, 'status')">
+            @for(element of Status_Array_Filter; track element) {
+            <mat-option value={{element.value}}>{{element.viewValue}}</mat-option>
+            }
+
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17
+                        0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83
+                        31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
+                        156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93
+                        227q0 134 93 227t227 93Zm0-320Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+
+
+      <!-- Download As -->
       <div class="dropdown">
         <mat-form-field appearance="outline" class="w-100">
           <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
@@ -320,7 +311,8 @@
               <ng-container *ngIf="column !== 'action'; else actionColumn">
                 <ng-container *ngIf="column !== 'createAt'; else dateColumn">
                   <ng-container *ngIf="column !== 'note'; else noteColumn">
-                    {{ column === 'Customer' ? element.customer.name : column === 'phoneNumber' ? element.customer.phoneNumber : element[column] }}
+                    {{ column === 'Customer' ? element.customer.name : column === 'phoneNumber' ?
+                    element.customer.phoneNumber : element[column] }}
                   </ng-container>
                 </ng-container>
               </ng-container>
@@ -370,14 +362,14 @@
                     <div class="detail-field"><strong>Sell: </strong> {{ element.sell }}</div>
                   </div>
                   <div class="col-md-4">
-                    <div class="detail-field"><strong >Status: </strong> {{ element.status }}</div>
+                    <div class="detail-field"><strong>Status: </strong> {{ element.status }}</div>
                     <div class="detail-field"><strong>Created At: </strong>{{ FORMAT_DATE(element.createdAt) }}</div>
                     <div class="detail-field"><strong>Updated At: </strong> {{ FORMAT_DATE(element.updatedAt) }}</div>
                   </div>
                 </div>
 
                 <div class="col-lg-12">
-                  <div class="detail-field"><strong >Note: </strong> {{ element.note }}</div>
+                  <div class="detail-field"><strong>Note: </strong> {{ element.note }}</div>
                 </div>
 
                 <div class="invoice-btn-div">
