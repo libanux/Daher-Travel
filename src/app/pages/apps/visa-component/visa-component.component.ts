@@ -113,19 +113,7 @@ export class VisaComponentComponent implements OnInit {
   selectedDownloadOption: string = 'Download as';
 
   DOWNLOAD(OPTION: string) {
-    console.log(OPTION)
-    // return this.selectedDownloadOption = OPTION
-
-    // this.visaService.DOWNLOAD_AS(OPTION).subscribe({
-    //   next: (response: any) => {
-    //    console.log(response)
-    //   },
-    //   error: (error) => { console.error('Download error:', error);      },
-    //   complete: () => { console.log('Download process complete')      }
-    // });
-
     this.generalService.getData('EXPORT_VISAS_TO_EXCEL')
-
   }
 
 
