@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Admin, PERMISSIONS, Permissions_Array } from 'src/app/classes/admin.class';
+import { Admin, Permissions_Array } from 'src/app/classes/admin.class';
 import { Permission } from 'src/app/classes/adminPermissions.class';
 import { AdminService } from 'src/app/services/Admins.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
@@ -35,8 +35,15 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Profile');
     this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
-    this.GET_ADMIN_PROFILE_BY_ID(this.adminID);
+    this.GET_ADMIN_PROFILE();
 
+  }
+
+  SHOW_PROFILE = false;
+  GET_ADMIN_PROFILE() {
+    this.admin = this.adminService.ADMIN_LOGGED_IN
+    this.UPDATED_ADMIN = this.adminService.ADMIN_LOGGED_IN
+    this.SHOW_PROFILE = true;
   }
 
   EDIT_PROFILE() {
@@ -45,7 +52,7 @@ export class ProfileComponent implements OnInit {
 
   CANCEL_UPDATE() {
     this.UpdateProfile = false;
-    this.GET_ADMIN_PROFILE_BY_ID(this.adminID);
+    this.GET_ADMIN_PROFILE()
   }
 
   SAVE_EDIT() {
@@ -65,17 +72,7 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  SHOW_PROFILE = false;
-  GET_ADMIN_PROFILE_BY_ID(ID: string) {
-    this.adminService.GET_ADMIN_BY_ID(ID).subscribe({
-      next: (response: any) => {
-        this.admin = response;
-        this.UPDATED_ADMIN = response
-      },
-      error: (error: any) => {this.UPDATED_ADMIN = new Admin();},
-      complete: () => {this.SHOW_PROFILE = true;}
-    });
-  }
+
 
 
 
