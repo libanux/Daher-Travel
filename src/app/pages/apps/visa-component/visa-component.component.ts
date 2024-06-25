@@ -124,7 +124,7 @@ export class VisaComponentComponent implements OnInit {
     //   complete: () => { console.log('Download process complete')      }
     // });
 
-    this.visaService.getData()
+    this.generalService.getData('EXPORT_VISAS_TO_EXCEL')
 
   }
 
