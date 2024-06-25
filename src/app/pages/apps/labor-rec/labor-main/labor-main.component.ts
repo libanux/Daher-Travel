@@ -7,6 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { LaborRecService } from 'src/app/services/labor-rec.service';
 import { Date_Filter_Array, Month_Filter_Array } from 'src/app/services/general.service';
 import { LaborList } from 'src/app/classes/labor.class';
+import { RouteSignalService } from 'src/app/signals/route.signal';
 
 interface month {
   value: string;
@@ -91,7 +92,9 @@ export class LaborMainComponent implements AfterViewInit {
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
 
-  constructor(public dialog: MatDialog, private recruitingService: LaborRecService) {
+  constructor(
+    private routeSignalService: RouteSignalService,
+    public dialog: MatDialog, private recruitingService: LaborRecService) {
     this.viewPackage = new LaborList()
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
@@ -126,7 +129,7 @@ export class LaborMainComponent implements AfterViewInit {
   }
 
   // Function to handle input change
-  onInputChange() {
+  onSearchKeyChange() {
     this.recruitingService.SEARCH_FILTER_RECRUITING(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
@@ -143,6 +146,19 @@ export class LaborMainComponent implements AfterViewInit {
       }
     });
 
+  }
+
+  isAnyFieldNotEmpty = false; // Flag to track if any field has content
+  onInputChange() {
+    // Check only specific fields for content
+    this.isAnyFieldNotEmpty = Object.values(this.editedrecruiting).some(val => val !== '' && val !== null);
+
+    if (this.isAnyFieldNotEmpty) {
+      this.routeSignalService.show_pop_up_route.set(true);
+    }
+    else {
+      this.routeSignalService.show_pop_up_route.set(false);
+    }
   }
 
   onPageChange(event: PageEvent): void {
