@@ -5,7 +5,7 @@
   <p>Sure to delete <span class="f-w-600">{{VISA_SELECTED.name}}</span> ?</p>
 </div>
 <div mat-dialog-actions class="p-x-24 p-b-24">
-  <button mat-button (click)="CLOSE_DIALOG()" class="m-l-8">Cancel</button>
+  <button mat-button (click)="CLOSE_DIALOG('CancelDelete')" class="m-l-8">Cancel</button>
   <!-- <button mat-button (click)="doAction()" mat-flat-button color="warn">{{action}}</button> -->
   
   <button mat-button (click)="doAction()" mat-flat-button color="warn" [disabled]="SHOW_LOADING_SPINNER">
@@ -74,7 +74,7 @@
 </div>
 
 <div mat-dialog-actions class="p-x-24 p-b-24">
-  <button mat-button (click)="CLOSE_DIALOG()" class="m-l-8">Cancel</button>
+  <button mat-button (click)="CLOSE_DIALOG('CancelAdd')" class="m-l-8">Cancel</button>
   <button mat-button (click)="doAction()" mat-flat-button color="warn">{{action_btn}}</button>
 </div>
 }
