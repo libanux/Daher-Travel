@@ -33,7 +33,7 @@
               </svg>
             </mat-icon>
             <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onCustomerSelected($event)">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer.name">
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add New Customer', NEW_CUSTOMER_ADDED)">

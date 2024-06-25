@@ -114,7 +114,7 @@ export class VisaComponentComponent implements OnInit {
 
   DOWNLOAD(OPTION: string) {
     this.generalService.getData('EXPORT_VISAS_TO_EXCEL')
-  }
+    }
 
 
   // FILTERING BY DROPDOWN SELECTION : DATE OR STATUS
@@ -148,6 +148,7 @@ export class VisaComponentComponent implements OnInit {
 
     else if (dropdown == 'Download') {
       this.DOWNLOAD(value);
+      this.selectedDownloadOption = 'Download as';
     }
   }
 
@@ -372,14 +373,20 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
+  
   // ADD NEW VISA
   ADD_VISA(obj: VisaClass) {
-    console.log(obj)
-    this.SHOW_LOADING_SPINNER = true
+    obj.customer.name = this.CUSTOMER_SELECTED.name
+    obj.customer.id = '667a7d0bae76e88c389a8c56'
+    obj.customer.phoneNumber = '23423'
+
+    this.SHOW_LOADING_SPINNER = true;
     this.visaService.ADD_VISA(obj).subscribe({
-      next: (response: any) => { },
-      error: (error) => { },
-      complete: () => {
+      next: (response: any) => {    
+      },
+      error: (error) => { console.log(error) },
+      complete: () => {    console.log(obj)
+
         this.FETCH_VISA(); this.CANCEL_UPDATE();
       }
     });
