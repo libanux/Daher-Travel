@@ -52,7 +52,25 @@ export class AppNotesComponent implements OnInit {
       }
     });
   }
-  
+  SEARCH_NOTES() {
+    this.noteService.SEARCH_NOTE(this.searchText).subscribe({
+      next: (response: any) => {
+        this.notes = response;
+        if (this.notes.length > 0) {
+          // Sort the notes by createdAt date in descending order
+          this.notes.sort((a: any, b: any) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          });
+          this.selectedNote = this.notes[0];
+        }
+      },
+      error: (error: any) => {
+        console.error("Error:", error);
+      },
+      complete: () => {
+      }
+    });
+  }
 
   onSelect(note: Note): void {
     this.selectedNote = note;

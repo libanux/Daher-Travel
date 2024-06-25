@@ -56,17 +56,23 @@ export class TicketingService {
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
+  
     const requestBody = {
       "id": editedTicket._id,
       "updateData": {
         "name": editedTicket.name,
-        "destination": editedTicket.destination,
+        "wholesaler": editedTicket.wholesaler,
         "source": editedTicket.source,
-        "note": editedTicket.note
+        "destination": editedTicket.destination,
+        "note": editedTicket.note,
+        "cost": editedTicket.cost,
+        "seats": editedTicket.seats,
+        "credit": editedTicket.credit,
+        "balance": editedTicket.balance
       }
-
     };
-    return this.http.post<any>(this.apiUrl + '/UPDATE_TICKETING', requestBody, { headers })
+  
+    return this.http.post<any>(this.apiUrl + '/UPDATE_TICKETING', requestBody, { headers });
   }
 
 

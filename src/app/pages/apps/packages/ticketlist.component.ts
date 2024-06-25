@@ -8,6 +8,10 @@ import { PackageService } from 'src/app/services/package.service';
 import { Date_Filter_Array, Download_Options, Month_Filter_Array } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { Package } from 'src/app/classes/package.class';
+import { CustomerService } from 'src/app/services/Customer.service';
+import { RouteSignalService } from 'src/app/signals/route.signal';
+import { CustomerClass } from 'src/app/classes/customer.class';
+import { Tickets } from 'src/app/classes/tickets.class';
 
 
 
@@ -94,9 +98,9 @@ export class AppTicketlistComponent implements OnInit {
   open_expansion_value = 0;
 
   CurrentAction: string = 'Add Package'
+  NEW_CUSTOMER_ADDED: CustomerClass[] = []
 
-
-  constructor(public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(private routeSignalService: RouteSignalService,public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService, private customerService : CustomerService) {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
     this.editedpackage.sell = 1
@@ -131,6 +135,76 @@ export class AppTicketlistComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
+  filteredCustomers: any[] = []
+  allCustomers: any = []
+  // GET ALL CUSTOMER'S 
+  FETCH_CUSTOMER() {
+    this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
+      next: (response: any) => {
+        this.allCustomers = response.customers;
+        this.filteredCustomers = response.customers;
+        console.log("Cust",response)
+      },
+      error: (error) => { },
+      complete: () => {
+    
+      }
+    });
+  }
+
+  filterCustomers() {
+    const query = this.editedpackage.customerName.toLowerCase();
+    this.filteredCustomers = this.allCustomers.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
+  }
+  isAnyFieldNotEmpty = false;
+    //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
+    onInputChange() {
+      this.isAnyFieldNotEmpty = Object.values(this.editedpackage).some(val => val !== '' && val !== null);
+  
+      if (this.isAnyFieldNotEmpty) {
+  
+        this.routeSignalService.show_pop_up_route.set(true);
+      }
+      else {
+        this.routeSignalService.show_pop_up_route.set(false);
+  
+      }
+  
+    }
+
+    OPEN_DIALOG(action: string, obj: any): void {
+      const dialogRef = this.dialog.open(AppPackageDialogContentComponent, {
+        data: { action, obj },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+         if (result.event === 'Delete') {
+          this.DELETE_PACKAGE(obj);
+        } else if (result.event === 'Add New Customer') {
+          this.ADD_NEW_CUSTOMER(result.data);
+          this.editedpackage.customerId = result.data.id;
+          this.editedpackage.customerName = result.data.name;
+        }
+      });
+    }
+
+    ADD_NEW_CUSTOMER(obj: CustomerClass) {
+      this.customerService.ADD_CUSTOMER(obj).subscribe({
+  
+        next: (response: any) => {
+
+          this.editedpackage.customerName = response.name;
+          console.log('Response:', response)
+  
+        },
+        error: (error) => { },
+        complete: () => {
+          this.FETCH_CUSTOMER();
+        }
+      });
+    }
+  
+  
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -161,6 +235,7 @@ export class AppTicketlistComponent implements OnInit {
         console.error("Error:", error)
       },
       complete: () => {
+        this.FETCH_CUSTOMER();
       }
     });
   }
@@ -352,23 +427,17 @@ export class AppTicketlistComponent implements OnInit {
   }
 
 
-  // OPEN UPDATE & DELETE DIALOGS
-  openDialog(action: string, delPackage: Package): void {
-    const dialogRef = this.dialog.open(AppPackageDialogContentComponent, {
-      data: { action, delPackage }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.event === 'Delete') {
-        this.packagesService.DELETE_PACKAGE(delPackage).subscribe({
-          next: (response: any) => {
-            this.FETCH_PACKAGES()
-          },
-          error: (error: any) => {
-            console.error('Error:', error);
-          },
-          complete: () => { }
-        });
-      }
+ 
+
+  DELETE_PACKAGE(element:Package){
+    this.packagesService.DELETE_PACKAGE(element).subscribe({
+      next: (response: any) => {
+        this.FETCH_PACKAGES()
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      },
+      complete: () => { }
     });
   }
 
@@ -420,7 +489,7 @@ export class AppPackageDialogContentComponent {
 
   action: string;
   PACKAGE_SELECTED: any;
-
+  NEW_CUSTOMER: CustomerClass = new CustomerClass()
   constructor(
     public dialogRef: MatDialogRef<AppPackageDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Package,
@@ -430,8 +499,13 @@ export class AppPackageDialogContentComponent {
   }
 
   doAction(): void {
+    if (this.action === 'Delete') {
     this.dialogRef.close({ event: this.action, data: this.PACKAGE_SELECTED });
   }
+  if (this.action === 'Add New Customer') {
+    this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });
+  }
+}
 
   CLOSE_DIALOG(): void {
     this.dialogRef.close({ event: 'Cancel' });

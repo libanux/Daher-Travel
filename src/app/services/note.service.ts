@@ -58,6 +58,18 @@ export class NoteService {
     return this.http.post<any>(this.apiUrl + '/ADD_NOTE', requestBody, { headers })
   }
 
+    // ADD NOTE
+    SEARCH_NOTE(searchtext: string): Observable<any> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`,
+        'Content-Type': 'application/json'
+      });
+      const requestBody = {
+        "searchText":searchtext
+      };
+      return this.http.post<any>(this.apiUrl + '/SEARCH_BY_TEXT', requestBody, { headers })
+    }
+
   // UPDATE NOTE
   UPDATE_NOTE(editedNote: Note): Observable<any> {
     const headers = new HttpHeaders({
