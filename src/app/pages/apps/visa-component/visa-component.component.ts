@@ -10,6 +10,8 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { CustomerClass } from 'src/app/classes/customer.class';
+import { Admin } from 'src/app/classes/admin.class';
+import { AdminService } from 'src/app/services/Admins.service';
 
 @Component({
   selector: 'app-visa-component',
@@ -98,17 +100,21 @@ export class VisaComponentComponent implements OnInit {
   // Used in filter by date
 
   constructor(
+    private adminService:AdminService,
     private customerService: CustomerService,
     private routeSignalService: RouteSignalService,
     private breadCrumbService: BreadCrumbSignalService,
-    private generalService: GeneralService, 
+    private generalService: GeneralService,
     public dialog: MatDialog, private visaService: VisaService) {
 
   }
 
+  ADMIN_LOGGED_IN_VISA_PERMISSION : string
+  
   ngOnInit(): void {
-    this.breadCrumbService.currentRoute.set('Visa')
-    this.pageSize = this.generalService.PageSizing
+    this.breadCrumbService.currentRoute.set('Visa');
+    this.GET_ADMIN_PERMISSIONS_FOR_VISA();
+    this.pageSize = this.generalService.PageSizing;
     this.FETCH_VISA();
   }
 
@@ -116,7 +122,13 @@ export class VisaComponentComponent implements OnInit {
 
   DOWNLOAD(OPTION: string) {
     this.generalService.getData('EXPORT_VISAS_TO_EXCEL')
-    }
+  }
+
+  // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
+  GET_ADMIN_PERMISSIONS_FOR_VISA() {
+    this.ADMIN_LOGGED_IN_VISA_PERMISSION = this.adminService.ADMIN_LOGGED_IN.permissions.visa
+    console.log(this.ADMIN_LOGGED_IN_VISA_PERMISSION)
+  }
 
 
   // FILTERING BY DROPDOWN SELECTION : DATE OR STATUS
@@ -164,7 +176,7 @@ export class VisaComponentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
 
-       if (result.event === 'CancelAdd') {
+      if (result.event === 'CancelAdd') {
         this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
         this.ADDED_VISA = {
@@ -181,13 +193,16 @@ export class VisaComponentComponent implements OnInit {
           type: this.ADDED_VISA.type
         }
 
-        this.CUSTOMER_SELECTED = { 
+        this.CUSTOMER_SELECTED = {
           id: this.MAIN_SELECTED_VISA_DATA.customer.id,
-           name: this.MAIN_SELECTED_VISA_DATA.customer.name, 
-           phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
-           }
+          name: this.MAIN_SELECTED_VISA_DATA.customer.name,
+          phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
+        }
 
-           this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+        console.log('main visa selected ', this.MAIN_SELECTED_VISA_DATA)
+        console.log('CUSTOMER_SELECTED  ', this.CUSTOMER_SELECTED)
+
+        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
       }
 
       else if (result.event === 'delete') {
@@ -201,10 +216,14 @@ export class VisaComponentComponent implements OnInit {
     });
   }
 
-  CHECK_IF_CHANGED_CUSTOMER_NAME(){
-    if (this.MAIN_SELECTED_VISA_DATA.customer.name !== this.CUSTOMER_SELECTED.name ) {
+  CHECK_IF_CHANGED_CUSTOMER_NAME() {
+    console.log('MAIN_SELECTED_VISA_DATA.customer.name ', this.MAIN_SELECTED_VISA_DATA.customer.name)
+    console.log('CUSTOMER_SELECTED.customer.name ', this.CUSTOMER_SELECTED.name)
+
+
+    if (this.MAIN_SELECTED_VISA_DATA.customer.name !== this.CUSTOMER_SELECTED.name) {
       this.DATA_CHANGED = true;
-    } 
+    }
     else {
       this.DATA_CHANGED = false;
     }
@@ -236,11 +255,11 @@ export class VisaComponentComponent implements OnInit {
     // if they are the same keep the update button disabled
     if (JSON.stringify(this.MAIN_SELECTED_VISA_DATA) !== JSON.stringify(this.ADDED_VISA)) {
       this.DATA_CHANGED = true;
-    } 
+    }
     else {
       this.DATA_CHANGED = false;
     }
-    
+
     // Check only specific fields for content
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_VISA).some(val => val !== '' && val !== null);
     if (this.isAnyFieldNotEmpty) {
@@ -267,13 +286,13 @@ export class VisaComponentComponent implements OnInit {
       next: (response: any) => {
         this.ALL_CUSTOMERS_ARRAY = response.customers;
         // Transforming each customer object to include only necessary properties
-      this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.map((customer: any) => ({
-        _id: customer._id,
-        name: customer.name,
-        phoneNumber: customer.phoneNumber,
-        disabled: false  // Set disabled to false for all customers initially
-      }));
-
+        // this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.map((customer: any) => ({
+        //   id: customer.id,
+        //   name: customer.name,
+        //   phoneNumber: customer.phoneNumber,
+        //   disabled: false  // Set disabled to false for all customers initially
+        // }));
+        this.filteredCustomers = response.customers;
         console.log(this.filteredCustomers)
       },
       error: (error) => { },
@@ -282,41 +301,41 @@ export class VisaComponentComponent implements OnInit {
   }
 
   disabledselection = false;
- PREVIOUS_CUSTOMER_SELECTED  = { id: '', name: '', phoneNumber: '' }
-  onCustomerSelected(event: any ) {
-   
+  PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+  onCustomerSelected(event: any) {
+
     console.log(event)
 
-if(event != 'Add New Customer'){
+    if (event != 'Add New Customer') {
 
-  this.CUSTOMER_SELECTED = 
-  {
-    id: event.id,
-    name: event.name,
-    phoneNumber: event.phoneNumber
-  }
-  console.log('CUSTOMER_SELECTED ',this.CUSTOMER_SELECTED)
+      this.CUSTOMER_SELECTED =
+      {
+        id: event.id,
+        name: event.name,
+        phoneNumber: event.phoneNumber
+      }
+      console.log('CUSTOMER_SELECTED ', this.CUSTOMER_SELECTED)
 
 
- if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
-      console.log('CUSTOMER_SELECTED EQUAL ', this.CUSTOMER_SELECTED)
-      console.log('prevoius ', this.PREVIOUS_CUSTOMER_SELECTED)
-      console.log('CUSTOMER_SELECTED ',this.CUSTOMER_SELECTED)
-      // this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
-  }
+      if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
+        console.log('CUSTOMER_SELECTED EQUAL ', this.CUSTOMER_SELECTED)
+        console.log('prevoius ', this.PREVIOUS_CUSTOMER_SELECTED)
+        console.log('CUSTOMER_SELECTED ', this.CUSTOMER_SELECTED)
+        // this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+      }
+
+      else {
+        this.PREVIOUS_CUSTOMER_SELECTED = { ...this.CUSTOMER_SELECTED }
+        this.ADDED_VISA.customer = this.CUSTOMER_SELECTED
+        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+      }
+    }
 
     else {
-      this.PREVIOUS_CUSTOMER_SELECTED = {...this.CUSTOMER_SELECTED}
-      this.ADDED_VISA.customer = this.CUSTOMER_SELECTED
+      this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+      this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
-  }
-
-  else {
-    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
-    this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
-    this.CHECK_IF_CHANGED_CUSTOMER_NAME()
-  }
 
 
   }
@@ -324,7 +343,7 @@ if(event != 'Add New Customer'){
   NEW_CUSTOMER_RESPONSE: any
   ADD_NEW_CUSTOMER(obj: any) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
-      next: (response: any) => {this.NEW_CUSTOMER_RESPONSE = response;},
+      next: (response: any) => { this.NEW_CUSTOMER_RESPONSE = response; },
       error: (error) => { },
       complete: () => {
         this.CUSTOMER_SELECTED = {
@@ -408,6 +427,7 @@ if(event != 'Add New Customer'){
     this.SHOW_LOADING_SPINNER = false
     this.DATA_CHANGED = false;
     this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+    this.MAIN_SELECTED_VISA_DATA = new VisaClass()
 
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
@@ -439,14 +459,13 @@ if(event != 'Add New Customer'){
         }
       },
       error: (error) => { },
-      complete: () => { this.FETCH_VISA(); this.CANCEL_UPDATE();}
+      complete: () => { this.FETCH_VISA(); this.CANCEL_UPDATE(); }
     });
   }
 
-  
   // ADD NEW VISA
   ADD_VISA() {
-    this.ADDED_VISA.customer = 
+    this.ADDED_VISA.customer =
     {
       id: this.CUSTOMER_SELECTED.id,
       name: this.CUSTOMER_SELECTED.name,
@@ -455,16 +474,16 @@ if(event != 'Add New Customer'){
 
     this.SHOW_LOADING_SPINNER = true;
     this.visaService.ADD_VISA(this.ADDED_VISA).subscribe({
-      next: (response: any) => {    },
+      next: (response: any) => { },
       error: (error) => { },
-      complete: () => {this.FETCH_VISA(); this.CANCEL_UPDATE();}
+      complete: () => { this.FETCH_VISA(); this.CANCEL_UPDATE(); }
     });
   }
 
   DATA_CHANGED: boolean = false;
   // CONFIRM UPDATE
   UPDATE_VISA() {
-    this.ADDED_VISA.customer = 
+    this.ADDED_VISA.customer =
     {
       id: this.CUSTOMER_SELECTED.id,
       name: this.CUSTOMER_SELECTED.name,
@@ -492,10 +511,10 @@ if(event != 'Add New Customer'){
     this.OPEN_PANEL();
     // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
     this.ADDED_VISA = { ...obj };
-    this.MAIN_SELECTED_VISA_DATA = obj ;
-        
+    this.MAIN_SELECTED_VISA_DATA = obj;
+
     // this.CUSTOMER_SELECTED = this.MAIN_SELECTED_VISA_DATA.customer;
-    this.CUSTOMER_SELECTED = 
+    this.CUSTOMER_SELECTED =
     {
       id: this.MAIN_SELECTED_VISA_DATA.customer.id,
       name: this.MAIN_SELECTED_VISA_DATA.customer.name,

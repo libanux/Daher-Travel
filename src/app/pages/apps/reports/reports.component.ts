@@ -77,8 +77,16 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  DOWNLOAD(OPTION: string): string {
-    return this.selectedDownloadOption = 'Download As'
+  DOWNLOAD(OPTION: string) {
+     this.selectedDownloadOption = 'Download As'
+
+      const requestBody = {
+        filterType: this.FILTER_TYPE,
+        startDate: '',
+        endDate: ''
+      };
+      
+      this.generalService.getDataForReports('EXPORT_ALL_FINANCIAL_REPORT_TO_EXCEL', requestBody); 
   }
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {

@@ -8,4 +8,5 @@ export interface NavItem {
     route?: string;
     children?: NavItem[];
     ddType?: string;
+    permission_name?: string;
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 import { GeneralService } from './general.service';
 import { CustomerClass } from '../classes/customer.class';
+import { CustomersRoutes } from '../pages/apps/customers/customers.routing.module';
 
 
 @Injectable({
@@ -71,17 +72,18 @@ export class CustomerService {
   //UPDATE CUSTOMER
   UPDATE_CUSTOMER(CUSTOMER: CustomerClass): Observable<any> {
 
+    console.log(CUSTOMER)
+    
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
 
     const requestBody = {
-      id: CUSTOMER._id,
-      "updateData": {
-        name: CUSTOMER.name,
-        address: CUSTOMER.address
-      }
+      "customerId": CUSTOMER._id,
+        "name": CUSTOMER.name,
+        "address": CUSTOMER.address,
+        "phoneNumber": CUSTOMER.phoneNumber
     };
 
     return this.httpClient.post<any>(this.apiUrl + '/UPDATE_CUSTOMER', requestBody, { headers });

@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, OnChanges, Output,  EventEmitter, Optional, Inject } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, OnChanges, Output, EventEmitter, Optional, Inject } from '@angular/core';
 import { NavItem } from '../../../../../classes/nav-item';
 import { Router } from '@angular/router';
 import { NavService } from '../../../../../services/nav.service';
@@ -13,6 +13,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { RouteSignalService } from 'src/app/signals/route.signal';
+import { Admin } from 'src/app/classes/admin.class';
+import { AdminService } from 'src/app/services/Admins.service';
 
 @Component({
   selector: 'app-nav-item',
@@ -31,7 +33,7 @@ import { RouteSignalService } from 'src/app/signals/route.signal';
     ]),
   ],
 })
-export class AppNavItemComponent implements OnChanges,OnInit{
+export class AppNavItemComponent implements OnChanges, OnInit {
   @Output() toggleMobileLink: any = new EventEmitter<void>();
   @Output() notify: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -42,9 +44,29 @@ export class AppNavItemComponent implements OnChanges,OnInit{
   @Input() item: NavItem | any;
   @Input() depth: any;
 
-  constructor(private routeSignalService: RouteSignalService,private dialog: MatDialog, public navService: NavService, public router: Router, private authService : AuthService,private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  // GETTING THE ADMIN BY ID TO CHECK THE PERMISSIONS
+  admin: Admin;
+  adminID: string = '';
+
+  showToggle = true;
+  svgContent: string = ''
+
+  constructor(private adminService: AdminService, private routeSignalService: RouteSignalService, private dialog: MatDialog, public navService: NavService, public router: Router, private authService: AuthService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     if (this.depth === undefined) {
       this.depth = 0;
+    }
+
+    this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
+  }
+
+
+  ngOnInit(): void {
+    this.GET_ADMIN_PROFILE_BY_ID();
+    // console.log('items : ', this.item.permission_name)
+    if (this.item.iconName) {
+      // Extract only the main SVG content from this.item.iconName
+      this.svgContent = this.extractSvgContent(this.item.iconName);
+      this.registerSvgIcon('custom-icon', this.svgContent);
     }
   }
 
@@ -57,43 +79,68 @@ export class AppNavItemComponent implements OnChanges,OnInit{
     });
   }
 
-  onItemSelected(item: NavItem) {
+  // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
+  GET_ADMIN_PROFILE_BY_ID() {
+    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {
+        // console.log('admin in sidebar ', response.permissions)
+        this.admin = response;
+      },
+      error: (error: any) => { },
+      complete: () => { }
+    });
+  }
 
-    if(item.displayName == 'logout'){
-        this.authService.LOGOUT();
-        this.router.navigate(['/login']).then(() => {
-          window.scrollTo(0, 0);
-        });
+  checkPermission(permissionName: keyof Admin['permissions']): boolean {
+    console.log(this.admin.permissions)
+    // Replace 'admin' with the actual object representing your logged-in admin
+    if (this.admin.permissions[permissionName] === 'none') {
+      return false; // Hide items with 'none' permission
+    }
+    // Implement logic to check other permissions as needed
+    return true; // Show items by default if no specific check is needed
+  }
+
+
+  onItemSelected(item: NavItem) {
+    if (item.displayName == 'logout') {
+      this.authService.LOGOUT();
+      this.router.navigate(['/login']).then(() => {
+        window.scrollTo(0, 0);
+      });
     }
 
     else {
       if (!item.children || !item.children.length) {
-        this.router.navigate([item.route]); 
+        this.router.navigate([item.route]);
         this.routeSignalService.show_pop_up_route.set(false);
       }
       if (item.children && item.children.length) {
         this.expanded = !this.expanded;
       }
       //scroll
-      window.scroll({  top: 0,  left: 0,  behavior: 'smooth' });
-      if (!this.expanded){
-      if (window.innerWidth < 1024) {
-        this.notify.emit();
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+      if (!this.expanded) {
+        if (window.innerWidth < 1024) {
+          this.notify.emit();
+        }
       }
-    }
     }
 
   }
 
+  // POP UP SHOW --> ONLY IF THE ADMIN HAS WRITTEN DATA 
+  // TO KEEP THE DATA THAT THE ADMIN HAS WRITTEN AND NOT LOOSE DATA
+  // A POP UP SHOWN : ARE U SURE U WANT TO GO TO (THIS SELECTED ROUTE)
   OPEN_DIALOG(obj: any): void {
 
-    if(this.routeSignalService.show_pop_up_route() == true){
+    if (this.routeSignalService.show_pop_up_route() == true) {
       const dialogRef = this.dialog.open(NavbarItemDialogContentComponent, {
         data: obj,
       });
-  
+
       dialogRef.afterClosed().subscribe((result) => {
-        if (result.event != 'Cancel') {       
+        if (result.event != 'Cancel') {
           this.onItemSelected(obj);
         }
         else {
@@ -105,48 +152,37 @@ export class AppNavItemComponent implements OnChanges,OnInit{
     else {
       this.onItemSelected(obj);
     }
-  
+
   }
 
   onSubItemSelected(item: NavItem) {
-    if (!item.children || !item.children.length){
+    if (!item.children || !item.children.length) {
       if (this.expanded && window.innerWidth < 1024) {
         this.notify.emit();
       }
     }
   }
 
-  showToggle = true;
 
+  private extractSvgContent(iconName: string): string {
+    // Example logic to extract SVG content from iconName
+    // Modify according to your SVG structure and how you want to extract it
+    const startIndex = iconName.indexOf('<svg');
+    const endIndex = iconName.indexOf('</svg>') + '</svg>'.length;
 
-svgContent: string =''
-ngOnInit(): void {
-  if (this.item.iconName) {
-    // Extract only the main SVG content from this.item.iconName
-    this.svgContent = this.extractSvgContent(this.item.iconName);
-    this.registerSvgIcon('custom-icon', this.svgContent);
-    
+    return iconName.substring(startIndex, endIndex);
   }
-}
 
-private extractSvgContent(iconName: string): string {
-  // Example logic to extract SVG content from iconName
-  // Modify according to your SVG structure and how you want to extract it
-  const startIndex = iconName.indexOf('<svg');
-  const endIndex = iconName.indexOf('</svg>') + '</svg>'.length;
-  
-  return iconName.substring(startIndex, endIndex);
-}
-getSafeHtml(svg: string): SafeHtml {
-  return this.domSanitizer.bypassSecurityTrustHtml(svg);
-}
+  getSafeHtml(svg: string): SafeHtml {
+    return this.domSanitizer.bypassSecurityTrustHtml(svg);
+  }
 
-private registerSvgIcon(iconName: string, svgContent: string): void {
-  // Register the SVG icon using MatIconRegistry
-  this.matIconRegistry.addSvgIconLiteral(iconName, this.domSanitizer.bypassSecurityTrustHtml(svgContent));
-}
-}
+  private registerSvgIcon(iconName: string, svgContent: string): void {
+    // Register the SVG icon using MatIconRegistry
+    this.matIconRegistry.addSvgIconLiteral(iconName, this.domSanitizer.bypassSecurityTrustHtml(svgContent));
+  }
 
+}
 
 
 
@@ -157,15 +193,14 @@ private registerSvgIcon(iconName: string, svgContent: string): void {
   styleUrl: './navbar-items-dialog.scss',
 })
 // tslint:disable-next-line: component-class-suffix
-export class NavbarItemDialogContentComponent{
+export class NavbarItemDialogContentComponent {
 
   Selected_Route: any;
 
   constructor(
     public dialogRef: MatDialogRef<NavbarItemDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: NavItem,
-  ) 
-  {
+  ) {
     this.Selected_Route = { ...data };
   }
 

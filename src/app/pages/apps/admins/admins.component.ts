@@ -49,6 +49,8 @@ export class AdminsComponent implements OnInit {
   pageSize = 10;
   Current_page = 1
   admins_Array_length = 0
+  
+  ShowAddButoon = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
 
@@ -168,9 +170,6 @@ export class AdminsComponent implements OnInit {
       complete: () => { this.FETCH_ADMINS(); }
     });
   }
-
-
-  ShowAddButoon = true;
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {

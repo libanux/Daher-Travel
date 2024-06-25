@@ -236,6 +236,7 @@ export class CustomersComponent implements OnInit {
 
   // ADD NEW CUSTOMER
   ADD_CUSTOMER(obj: CustomerClass) {
+    console.log(obj)
     this.SHOW_LOADING_SPINNER = true
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
@@ -246,6 +247,7 @@ export class CustomersComponent implements OnInit {
 
   // CONFIRM UPDATE
   UPDATE_CUSTOMER(obj: CustomerClass): void {
+    console.log(obj)
     this.SHOW_LOADING_SPINNER = true
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },

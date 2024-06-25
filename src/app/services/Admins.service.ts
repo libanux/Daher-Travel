@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GeneralService } from './general.service';
 import { environment } from 'src/enviroment/enviroment';
@@ -14,13 +14,22 @@ export class AdminService {
   private apiUrl = '';
   private pagingSize = 10;
   searchKey: string = '';
+  ADMIN_LOGGED_IN : Admin;
+  adminID: string;
 
   constructor(private httpClient: HttpClient, private generalService: GeneralService, private searchService: SearchService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
+    this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
+
+     this.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {this.ADMIN_LOGGED_IN = response;},
+      error: (error: any) => {},
+      complete: () => {    console.log(this.ADMIN_LOGGED_IN)}
+
+    });
   }
 
-  
   // VALIDATE TOKEN
   isTokenExpired1(): boolean {
     const token = this.getToken();
@@ -39,23 +48,20 @@ export class AdminService {
     return localStorage.getItem('TICKET');
   }
 
-  //GET USERS
+  //GET ALL ADMIN
   GET_ALL_ADMINS(currentPage: number, pageSize: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
-
     const requestBody = {
       "page": currentPage,
       "pageSize": pageSize
     }
-
-
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_ADMINS',requestBody, { headers });
   }
 
-  // ADD ADMIN
+  // ADD NEW ADMIN
   ADD_ADMIN(admin: Admin): Observable<any> {
     const jwt = this.generalService.storedToken;
 
@@ -85,6 +91,7 @@ export class AdminService {
     return this.httpClient.post<any>(this.apiUrl + '/SIGN_UP', requestBody, { headers })
   }
 
+  // NOT WORKING YET
   // DELETE ADMIN
   DELETE_ADMIN(ID: string): Observable<any> {
     const jwt = this.generalService.storedToken;
@@ -101,6 +108,7 @@ export class AdminService {
     return this.httpClient.post<any>(this.apiUrl + '/DELETE_ADMIN_BY_ID', requestBody, { headers })
   }
 
+  // NOT WORKING YET
   // DELETE ADMIN
   UPDATE_ADMIN(admin: Admin): Observable<any> {
     const jwt = this.generalService.storedToken;
@@ -160,5 +168,15 @@ export class AdminService {
 
     return this.httpClient.post<any>(this.apiUrl + '/SEARCH_ADMIN_BY_FIELDS', requestBody, { headers });
   }
+
+  
+    checkPermission(admin: Admin, permissionName: keyof Admin['permissions']): boolean {
+      // Replace 'admin' with the actual object representing your logged-in admin
+      if (admin.permissions[permissionName] === 'none') {
+        return false; // Hide items with 'none' permission
+      }
+      // Implement logic to check other permissions as needed
+      return true; // Show items by default if no specific check is needed
+    }
 
 }
