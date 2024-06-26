@@ -79,7 +79,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Age </mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Age" [(ngModel)]="editedrecruiting.age"
+            <input type="number" min="1" matInput placeholder="Age" [(ngModel)]="editedrecruiting.age"
               (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -97,7 +97,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input type="number" matInput placeholder="Price." aria-label="Product" [(ngModel)]="editedrecruiting.cost"
+            <input type="number" matInput placeholder="Cost" aria-label="Product" [(ngModel)]="editedrecruiting.cost"
               (ngModelChange)="onInputChange()">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -195,12 +195,18 @@
 
       <div class="Buttons_div">
         <div *ngIf="ShowAddButoon">
-          <button mat-flat-button color="primary" (click)="ADD_RECRUITING()"> Add Recruiting </button>
+          <button mat-flat-button color="primary" (click)="ADD_RECRUITING()"> Add Visa </button>
         </div>
 
         <div class="TwoButtons" *ngIf="!ShowAddButoon">
           <button (click)="CancelUpdate()" mat-flat-button color="primary">Cancel</button>
-          <button mat-flat-button color="primary" (click)="UPDATE_RECRUITING()">Update Recruiting</button>
+
+          <button mat-flat-button color="primary" (click)="UPDATE_RECRUITING()"
+            [disabled]="SHOW_LOADING_SPINNER || !DATA_CHANGED">
+            <span *ngIf="!SHOW_LOADING_SPINNER">Update Visa</span>
+            <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
+          </button>
+
         </div>
       </div>
     </mat-card-content>
@@ -218,7 +224,7 @@
     <div class="searchbar p-20">
       <mat-form-field appearance="outline" class="w-100">
         <input matInput placeholder="Search Labor..." aria-label="Product" [(ngModel)]="searchText"
-          (keyup)="onSearchKeyChange()">
+          (keyup)="SEARCH_FILTER_RECRUITINGS()">
         <mat-icon matPrefix class="op-5">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
             width="24px" fill="#5f6368">
@@ -267,7 +273,6 @@
           </mat-form-field>
         </div>
 
-
       </section>
 
       <!-- STATUS -->
@@ -291,26 +296,26 @@
         </mat-form-field>
       </div>
 
-    <!-- Download As -->
-    <div class="dropdown">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
-          (selectionChange)="onChange('Download')">
-          @for(option of Options; track option) {
-          <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-          }
-        </mat-select>
-        <mat-icon matPrefix class="op-5">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-            <path
-              d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-          </svg>
-        </mat-icon>
-      </mat-form-field>
-    </div>
+      <!-- Download As -->
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+            (selectionChange)="onChange('Download')">
+            @for(option of Options; track option) {
+            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+            }
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
     </div>
 
-  
+
   </header>
   <mat-card-content>
     @if(show_shimmer){

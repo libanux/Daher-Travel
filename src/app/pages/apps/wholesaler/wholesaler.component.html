@@ -1,11 +1,8 @@
 @if(showAddSection){
 <mat-card class="cardWithShadow">
 
-    <mat-expansion-panel 
-    [expanded]="open_expansion_value === 1"
-    (opened)="panelOpenState = true"
-    (closed)="panelClosed()"
-    >
+    <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="panelOpenState = true"
+        (closed)="panelClosed()">
         <mat-expansion-panel-header>
             <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{currentAction}}</mat-panel-title>
         </mat-expansion-panel-header>
@@ -21,7 +18,8 @@
                         <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Name</mat-label>
                     </div>
                     <mat-form-field appearance="outline" class="w-100">
-                        <input matInput placeholder="Name" [(ngModel)]="ADDED_WHOLESALER.name"  (ngModelChange)="onInputChange()"/>
+                        <input matInput placeholder="Name" [(ngModel)]="ADDED_WHOLESALER.name"
+                            (ngModelChange)="onInputChange()" />
                         <mat-icon matPrefix class="op-5">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                                 fill="#5f6368">
@@ -38,7 +36,8 @@
                         <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone Number</mat-label>
                     </div>
                     <mat-form-field appearance="outline" class="w-100">
-                        <input matInput placeholder="Phone Number " [(ngModel)]="ADDED_WHOLESALER.phoneNumber"  (ngModelChange)="onInputChange()"/>
+                        <input matInput placeholder="Phone Number " [(ngModel)]="ADDED_WHOLESALER.phoneNumber"
+                            (ngModelChange)="onInputChange()" />
                         <mat-icon matPrefix class="op-5">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                                 fill="#5f6368">
@@ -47,6 +46,7 @@
                             </svg>
                         </mat-icon>
                     </mat-form-field>
+                    <p>{{phoneError}}</p>
                 </div>
 
                 <!-- email-->
@@ -56,7 +56,8 @@
                     </div>
 
                     <mat-form-field appearance="outline" class="w-100">
-                        <input matInput placeholder="Email" [(ngModel)]="ADDED_WHOLESALER.email"  (ngModelChange)="onInputChange()"/>
+                        <input matInput placeholder="Email" [(ngModel)]="ADDED_WHOLESALER.email"
+                            (ngModelChange)="onInputChange()" />
                         <mat-icon matPrefix class="op-5">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                                 fill="#5f6368">
@@ -77,7 +78,8 @@
                     </div>
 
                     <mat-form-field appearance="outline" class="w-100">
-                        <input matInput placeholder="Address" [(ngModel)]="ADDED_WHOLESALER.address"  (ngModelChange)="onInputChange()"/>
+                        <input matInput placeholder="Address" [(ngModel)]="ADDED_WHOLESALER.address"
+                            (ngModelChange)="onInputChange()" />
                         <mat-icon matPrefix class="op-5">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                                 fill="#5f6368">
@@ -95,7 +97,8 @@
                     </div>
 
                     <mat-form-field appearance="outline" class="w-100">
-                        <input matInput placeholder="Company" [(ngModel)]="ADDED_WHOLESALER.company"  (ngModelChange)="onInputChange()"/>
+                        <input matInput placeholder="Company" [(ngModel)]="ADDED_WHOLESALER.company"
+                            (ngModelChange)="onInputChange()" />
                         <mat-icon matPrefix class="op-5">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                                 fill="#5f6368">
@@ -109,14 +112,19 @@
 
             <div class="Buttons_div">
                 <div *ngIf="ShowAddButoon">
-                    <button mat-flat-button color="primary" (click)="ADD_CUSTOMER(ADDED_WHOLESALER)"> Add Wholesaler
+                    <button mat-flat-button color="primary" (click)="ADD_WHOLESALER(ADDED_WHOLESALER)"> Add Visa
                     </button>
                 </div>
 
                 <div class="TwoButtons" *ngIf="!ShowAddButoon">
                     <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
-                    <button mat-flat-button color="primary" (click)="UPDATE_WHOLESALER(ADDED_WHOLESALER)">Update
-                        Wholesaler</button>
+
+                    <button mat-flat-button color="primary" (click)="UPDATE_WHOLESALER(ADDED_WHOLESALER)"
+                        [disabled]="SHOW_LOADING_SPINNER || !DATA_CHANGED">
+                        <span *ngIf="!SHOW_LOADING_SPINNER">Update Visa</span>
+                        <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
+                    </button>
+
                 </div>
             </div>
 
@@ -145,37 +153,34 @@
             </mat-form-field>
         </div>
 
-        <div class="Buttons_div">
-            <div *ngIf="show_print_btn">
-                <button mat-flat-button color="primary"> Print </button>
+
+        <div class="filter-date p-20">
+            <!-- Download As -->
+            <div class="dropdown">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+                        (selectionChange)="DROPDOWN_FILTERATION($event.value, 'Download')">
+                        @for(option of Options; track option) {
+                        <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon matPrefix class="op-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                            fill="#5f6368">
+                            <path
+                                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+                        </svg>
+                    </mat-icon>
+                </mat-form-field>
             </div>
         </div>
-
-
-        <!-- Download As -->
-    <div class="dropdown">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
-            (selectionChange)="DROPDOWN_FILTERATION($event.value, 'Download')">
-            @for(option of Options; track option) {
-            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-            }
-          </mat-select>
-          <mat-icon matPrefix class="op-5">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-              <path
-                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-            </svg>
-          </mat-icon>
-        </mat-form-field>
-      </div>
     </header>
 
     <mat-card-content class="p-24">
         @if(show_shimmer){
-            <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
-          }
-          @else {
+        <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
+        }
+        @else {
         <div class="table-responsive">
             <table mat-table [dataSource]="WholesalerArray" multiTemplateDataRows>
                 @for( column of displayedColumns; track column) {
@@ -211,7 +216,7 @@
             <!-- NO ITEMS FOUND ROW -->
             <app-no-items-found *ngIf="WholesalerArray.length === 0"></app-no-items-found>
         </div>
-    }
+        }
         <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="WHOLESALER_Array_length" [pageSize]="pageSize"
             aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
         </mat-paginator>

@@ -36,10 +36,11 @@ export class WholesalerComponent implements OnInit {
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
-
+  MAIN_SELECTED_WHOLESALER_DATA: WholesalerClass = new WholesalerClass()
   searchText: any;
   selectedMonth: string = '';
-
+  DATA_CHANGED: boolean = false;
+  SHOW_LOADING_SPINNER: boolean = false;
   displayedColumns: string[] = [
     'name',
     'phoneNumber',
@@ -48,6 +49,8 @@ export class WholesalerComponent implements OnInit {
     'address',
     'action',
   ];
+
+  phoneError: string = ''
 
   // 1 basic
   panelOpenState = false;
@@ -71,7 +74,7 @@ export class WholesalerComponent implements OnInit {
   Options: any[] = Download_Options;
   constructor(
     private routeSignalService: RouteSignalService,
-    private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService,private generalService : GeneralService) {
+    private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService, private generalService: GeneralService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
     effect(() => (
       this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
@@ -105,13 +108,21 @@ export class WholesalerComponent implements OnInit {
 
   DROPDOWN_FILTERATION(value: string, dropdown: string) {
 
-     if (dropdown == 'Download') {
+    if (dropdown == 'Download') {
       this.DOWNLOAD(value);
     }
   }
 
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
   onInputChange() {
+    // When inputs changes -> i check if they are the same as the main one
+    // if they are the same keep the update button disabled
+    if (JSON.stringify(this.MAIN_SELECTED_WHOLESALER_DATA) !== JSON.stringify(this.ADDED_WHOLESALER)) {
+      this.DATA_CHANGED = true;
+    }
+    else {
+      this.DATA_CHANGED = false;
+    }
     // Check only specific fields for content
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_WHOLESALER).some(val => val !== '' && val !== null);
 
@@ -130,6 +141,7 @@ export class WholesalerComponent implements OnInit {
 
         this.WholesalerArray = response.wholesalers;
         this.WHOLESALER_Array_length = response.pagination.totalWholesalers
+        console.log("Response on search", response)
       },
       error: (error: any) => {
         this.WholesalerArray = [];
@@ -141,10 +153,6 @@ export class WholesalerComponent implements OnInit {
     });
   }
 
-  //STATUS FILTERATION
-  FILTER_ARRAY_BY_STATUS(val: any) {
-    // this.CustomersArray.filter = val.trim().toLowerCase();
-  }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   VIEW_WHOLESALER(): void {
@@ -189,11 +197,21 @@ export class WholesalerComponent implements OnInit {
   }
 
   // ADD
-  ADD_CUSTOMER(obj: WholesalerClass) {
+  ADD_WHOLESALER(obj: WholesalerClass) {
     this.wholesaler.ADD_WHOLESALER(obj).subscribe({
       next: (response: any) => {
       },
-      error: (error) => { },
+      error: (error) => {
+        console.log("Error", error.error);
+        //   if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: email_1 dup key:')) {
+        //       this.phoneError = 'Phone number already in use';
+        //   }
+
+        //   if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: phoneNumber_1 dup key:')) {
+        //     this.phoneError = 'Emailr already in use';
+        // }
+        console.log("Phone error", this.phoneError)
+      },
       complete: () => { this.CANCEL_UPDATE(); this.FETCH_WHOLESALERS(); }
     });
   }
@@ -219,6 +237,7 @@ export class WholesalerComponent implements OnInit {
 
     this.open_expansion_value = 1;
     this.panelOpenState = true;
+    this.MAIN_SELECTED_WHOLESALER_DATA = obj;
   }
 
   // Method to handle the panel closed event
