@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Admin, Permissions_Array } from 'src/app/classes/admin.class';
-import { Permission } from 'src/app/classes/adminPermissions.class';
 import { AdminService } from 'src/app/services/Admins.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
