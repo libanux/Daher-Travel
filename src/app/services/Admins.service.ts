@@ -12,7 +12,7 @@ export class AdminService {
 
   private apiUrl = '';
   private pagingSize = 10;
-  ADMIN_LOGGED_IN: Admin;
+  public ADMIN_LOGGED_IN: Admin;
   adminID: string;
 
   constructor(private httpClient: HttpClient, private generalService: GeneralService) {
@@ -24,7 +24,7 @@ export class AdminService {
     this.GET_ADMIN_BY_ID(this.adminID).subscribe({
       next: (response: any) => { this.ADMIN_LOGGED_IN = response; },
       error: (error: any) => { },
-      complete: () => { }
+      complete: () => { console.log('after change in service : ', this.ADMIN_LOGGED_IN) }
 
     });
   }
@@ -104,6 +104,7 @@ export class AdminService {
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
+    console.log('admin to update : ', admin)
     const requestBody = {
       "adminId": admin._id, // The ID of the admin you want to update
       "updateData": {

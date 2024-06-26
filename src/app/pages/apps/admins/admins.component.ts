@@ -108,7 +108,10 @@ export class AdminsComponent implements OnInit {
         this.ROWS_COUNT_SHIMMER = this.GENERATE_SHIMMER_ROWS_COUNT(response.pagination.totalAdmins)
       },
       error: (error) => { },
-      complete: () => { this.show_shimmer = false }
+      complete: () => { 
+        this.show_shimmer = false,    
+         this.routeSignalService.show_pop_up_route.set(false)
+      }
     });
   }
 
