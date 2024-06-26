@@ -51,7 +51,7 @@ export class TicketsComponent {
   ADDED_WHOLESALER: WholesalerClass = new WholesalerClass()
   choosenWholesaler: WholesalerClass
   NEW_CUSTOMER_ADDED: CustomerClass[] = []
-  CUSTOMER_SELECTED: CustomerClass = new CustomerClass()
+  CUSTOMER_SELECTED =  { id: '', name: ''}
   WHOLESALER_SELECTED=  { id: '', name: ''}
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
@@ -128,7 +128,7 @@ export class TicketsComponent {
       },
       complete: () => {
         this.FETCH_CUSTOMER()
-
+        this.FETCH_WHOLESALERS()
       }
     });
   }
@@ -163,7 +163,10 @@ export class TicketsComponent {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
 
       next: (response: any) => {
-        this.CUSTOMER_SELECTED = obj
+        this.CUSTOMER_SELECTED.id = obj._id
+        this.CUSTOMER_SELECTED.name = obj.name
+
+
         this.CUSTOMER_SELECTED.name = response.name
         this.ADDED_TICKET.name = response.name;
         console.log('Response:', response)
@@ -212,15 +215,16 @@ export class TicketsComponent {
 
   // GET ALL WHOLESALERS
   FETCH_WHOLESALERS() {
-    this.wholesaler.GET_ALL_WHOLESALERS_WITH_NO_PAGING().subscribe({
+
+    this.wholesaler.GET_ALL_WHOLESALERS(1).subscribe({
       next: (response: any) => {
         console.log("All wholesalers", response.wholesalers)
         this.allWholesalers = response.wholesalers
-        this.filteredWholeSalers = response.wholesalers
+        this.filteredWholeSalers = response.wholesalers;
+        console.log("filteredWholeSalers ", this.filteredWholeSalers)
+
       },
-      error: (error) => {
-        console.error("Error wholesaler", error)
-      },
+      error: (error) => { },
       complete: () => { }
     });
   }
@@ -402,7 +406,7 @@ export class TicketsComponent {
     this.CLEAR_VALUES(this.ADDED_TICKET);
     this.currentAction = 'Add Ticket';
     this.routeSignalService.show_pop_up_route.set(false);
-    this.CUSTOMER_SELECTED = <CustomerClass>{};
+    this.CUSTOMER_SELECTED = {id: '', name: ''};
 
   }
 
@@ -492,16 +496,19 @@ export class TicketsComponent {
         console.error('Error:', error.error);
       },
       complete: () => {
-        this.CUSTOMER_SELECTED = <CustomerClass>{};
+        // this.CUSTOMER_SELECTED = <CustomerClass>{};
       
       }
     });
 
   }
+
   DATA_CHANGED: boolean = false;
   MAIN_SELECTED_TICKET_DATA: Tickets = new Tickets()
   onWholesalerSelected(event: any ) {
+    console.log('wholesaler selected ', event.option.value)
     this.WHOLESALER_SELECTED = { id: '', name: ''}
+
     if(event.option.value == 'Add New Wholesaler'){
         this.OPEN_DIALOG('Add New Wholesaler', this.NEW_CUSTOMER_ADDED)
         this.CHECK_IF_CHANGED_CUSTOMER_NAME()
@@ -514,9 +521,36 @@ export class TicketsComponent {
         name: event.option.value.name,
       }
   
-      this.ADDED_TICKET.wholesaler = this.WHOLESALER_SELECTED
+      this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED.id     
+       this.ADDED_TICKET.wholesaler.name = this.WHOLESALER_SELECTED.name
+
+
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
+  }
+
+  onCustomerSelected(event: any ) {
+    console.log('customer event ', event)
+    this.CUSTOMER_SELECTED = { id: '', name: ''}
+
+    if(event.option.value == 'Add New customer'){
+        this.OPEN_DIALOG('Add New Wholesaler', this.NEW_CUSTOMER_ADDED)
+        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+    }
+
+    else {
+      this.CUSTOMER_SELECTED = 
+      {
+        id: event.option.value._id,
+        name: event.option.value.name,
+      }
+  
+      this.ADDED_TICKET.name = this.CUSTOMER_SELECTED.name
+      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+    }
+
+    console.log('customer selected ', event.option.value)
+
   }
 
   CHECK_IF_CHANGED_CUSTOMER_NAME(){
