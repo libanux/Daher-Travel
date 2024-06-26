@@ -18,6 +18,7 @@ export class AdminService {
   private pagingSize = 10;
   public ADMIN_LOGGED_IN: Admin;
   adminID: string;
+
   constructor(private httpClient: HttpClient, private generalService: GeneralService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
@@ -123,9 +124,15 @@ export class AdminService {
           "packages": admin.permissions.packages,
           "visa": admin.permissions.visa,
           "recruitment": admin.permissions.recruitment,
-          "accounting": admin.permissions.accounting,
+          "customers": admin.permissions.customers,
           "users": admin.permissions.users,
-          "notes": admin.permissions.notes
+          "notes": admin.permissions.notes,
+          "laborReports": admin.permissions.laborReports,
+          "allreports": admin.permissions.allreports,
+          "wholesalers": admin.permissions.wholesalers,
+          "ticketing": admin.permissions.ticketing,
+"generalExpense": "readwrite",
+    "generalFinance": "readwrite"
         }
       }
     }

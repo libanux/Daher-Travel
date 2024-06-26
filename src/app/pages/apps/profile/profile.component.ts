@@ -30,19 +30,11 @@ export class ProfileComponent implements OnInit {
   constructor(private adminService: AdminService, private breadCrumbService: BreadCrumbSignalService) {}
 
   ngOnInit(): void {
+    this.adminID = localStorage.getItem('admin_id') || '';
     this.breadCrumbService.currentRoute.set('Profile');
-    this.GET_ADMIN_PROFILE();
+    this.GET_ADMIN_BY_ID();
   }
 
-  SHOW_PROFILE = false;
-  GET_ADMIN_PROFILE() {
-    // this.admin = this.adminService.ADMIN_LOGGED_IN
-    // this.UPDATED_ADMIN = {...this.adminService.ADMIN_LOGGED_IN}
-    // this.UPDATED_ADMIN.permissions = {...this.adminService.ADMIN_LOGGED_IN.permissions}
-    this.SHOW_PROFILE = true;
-    this.adminID = this.adminService.adminID
-    this.GET_ADMIN_BY_ID()
-  }
 
   EDIT_PROFILE() {
     this.UpdateProfile = true;
@@ -64,10 +56,12 @@ export class ProfileComponent implements OnInit {
         this.UPDATED_ADMIN.permissions = { ...response.updatedAdmin.permissions }
       },
       error: (error: any) => {
+        console.error(error)
         this.UPDATED_ADMIN = new Admin();
       },
       complete: () => {
-        this.SHOW_PROFILE = true;
+        console.log(' completed ')
+
         this.UpdateProfile = false;
         this.adminService.ADMIN_LOGGED_IN =this.admin
       }
