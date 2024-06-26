@@ -141,7 +141,6 @@ export class WholesalerComponent implements OnInit {
 
         this.WholesalerArray = response.wholesalers;
         this.WHOLESALER_Array_length = response.pagination.totalWholesalers
-        console.log("Response on search", response)
       },
       error: (error: any) => {
         this.WholesalerArray = [];
@@ -198,11 +197,13 @@ export class WholesalerComponent implements OnInit {
 
   // ADD
   ADD_WHOLESALER(obj: WholesalerClass) {
+    this.SHOW_LOADING_SPINNER = true;
     this.wholesaler.ADD_WHOLESALER(obj).subscribe({
       next: (response: any) => {
       },
       error: (error) => {
         console.log("Error", error.error);
+        this.SHOW_LOADING_SPINNER = false;
         //   if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: email_1 dup key:')) {
         //       this.phoneError = 'Phone number already in use';
         //   }
@@ -210,21 +211,26 @@ export class WholesalerComponent implements OnInit {
         //   if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: phoneNumber_1 dup key:')) {
         //     this.phoneError = 'Emailr already in use';
         // }
-        console.log("Phone error", this.phoneError)
       },
-      complete: () => { this.CANCEL_UPDATE(); this.FETCH_WHOLESALERS(); }
+      complete: () => {
+        this.CANCEL_UPDATE(); this.FETCH_WHOLESALERS();
+        this.SHOW_LOADING_SPINNER = false;
+      }
     });
   }
 
   // CONFIRM UPDATE
   UPDATE_WHOLESALER(obj: WholesalerClass): void {
+    this.SHOW_LOADING_SPINNER = true;
     this.wholesaler.UPDATE_WHOLESALER(obj).subscribe({
       next: (response: any) => { },
       error: (error: any) => {
+        this.SHOW_LOADING_SPINNER = false;
       },
       complete: () => {
         this.CANCEL_UPDATE();
         this.FETCH_WHOLESALERS();
+        this.SHOW_LOADING_SPINNER = false;
       }
     });
   }

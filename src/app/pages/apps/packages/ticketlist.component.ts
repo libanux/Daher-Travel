@@ -129,7 +129,6 @@ export class AppTicketlistComponent implements OnInit {
       next: (response: any) => {
         this.allCustomers = response.customers;
         this.filteredCustomers = response.customers;
-        console.log("Cust", response)
       },
       error: (error) => { },
       complete: () => {
@@ -145,8 +144,16 @@ export class AppTicketlistComponent implements OnInit {
     );
   }
   isAnyFieldNotEmpty = false;
+  MAIN_SELECTED_PACKAGE_DATA: Package = new Package()
   //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
   onInputChange() {
+
+    if (JSON.stringify(this.MAIN_SELECTED_PACKAGE_DATA) !== JSON.stringify(this.editedpackage)) {
+      this.DATA_CHANGED = true;
+    }
+    else {
+      this.DATA_CHANGED = false;
+    }
     this.isAnyFieldNotEmpty = Object.values(this.editedpackage).some(val => val !== '' && val !== null);
 
     if (this.isAnyFieldNotEmpty) {
@@ -170,9 +177,9 @@ export class AppTicketlistComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
 
-   
 
-       if (result.event === 'Delete') {
+
+      if (result.event === 'Delete') {
         this.DELETE_PACKAGE(obj);
       }
 
@@ -187,10 +194,10 @@ export class AppTicketlistComponent implements OnInit {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
 
       next: (response: any) => {
-        console.log("res", response)
+
         this.CUSTOMER_SELECTED.id = response._id
         this.CUSTOMER_SELECTED.name = response.name;
-        console.log('Response:', response)
+
 
       },
       error: (error) => { },
@@ -219,12 +226,9 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log("PACKAGESS:", response)
         this.show_shimmer = false
         this.packages = response.packages;
         this.totalCount = response.pagination.totalPackages
-
-
       },
       error: (error: any) => {
         console.error("Error:", error)
@@ -285,9 +289,8 @@ export class AppTicketlistComponent implements OnInit {
   DATA_CHANGED: boolean = false;
   CUSTOMER_SELECTED = { id: '', name: '' }
   PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '' }
-  MAIN_SELECTED_PACKAGE_DATA: Package = new Package()
+
   onCustomerSelected(event: any) {
-    console.log("Event", event)
     if (event != 'Add New Customer') {
 
       this.CUSTOMER_SELECTED =
@@ -295,13 +298,8 @@ export class AppTicketlistComponent implements OnInit {
         id: event._id,
         name: event.name,
       }
-
-      console.log("Customer selected", this.CUSTOMER_SELECTED)
-
       if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
-        console.log('CUSTOMER_SELECTED EQUAL')
       }
-
       else {
         this.PREVIOUS_CUSTOMER_SELECTED = { ...this.CUSTOMER_SELECTED }
         this.editedpackage.customer.id = this.CUSTOMER_SELECTED.id
@@ -332,53 +330,19 @@ export class AppTicketlistComponent implements OnInit {
 
   }
 
-  //FILTER PACKAGES BY STATUS
-  FILTER_PACKAGES(status: string) {
-    this.currentPage = 1;
-    this.packagesService.FILTER_PACKAGES_BY_STATUS(this.pageSize, this.currentPage, status).subscribe({
-      next: (response: any) => {
-        this.packages = response.packages;
-        this.dataSource = new MatTableDataSource(this.packages);
-        this.totalCount = response.pagination.totalPackages;
-      },
-      error: (error: any) => {
-        console.error('Error:', error.error);
-      },
-      complete: () => { }
-    });
-  }
-
-
-  //FILTER PACKAGES BY DATE
-  FILTER_PACKAGES_BY_DATE(filter: string) {
-    this.packagesService.FILTER_PACKAGE_BY_DATE(filter, this.startDateValue, this.endDateValue).subscribe({
-      next: (response: any) => {
-        this.packages = response;
-        this.dataSource = new MatTableDataSource(this.packages);
-      },
-      error: (error: any) => {
-        console.error('Error:', error.error);
-      },
-      complete: () => { }
-    });
-  }
   startDateValue: string = ''; // Variable to store the start date
   endDateValue: string = ''; // Variable to store the end date
 
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.FILTER_PACKAGES_BY_DATE('custom')
 
   }
 
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.FILTER_PACKAGES_BY_DATE('custom')
-
   }
-
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
     // Extract year, month, and day from the Date object
@@ -410,9 +374,10 @@ export class AppTicketlistComponent implements OnInit {
 
 
 
-
+  SHOW_LOADING_SPINNER: boolean = false;
   // SHOW BUTTON UPDATE AND SET INPUTS
   UPDATE(obj: Package): void {
+    this.MAIN_SELECTED_PACKAGE_DATA = obj
     this.CUSTOMER_SELECTED = { id: '', name: '' }
     this.ShowAddButoon = false;
     this.editedpackage = { ...obj };
@@ -421,8 +386,8 @@ export class AppTicketlistComponent implements OnInit {
       id: this.editedpackage.customer.id,
       name: this.editedpackage.customer.name,
     }
-    this.CUSTOMER_SELECTED.id= this.editedpackage.customer.id
-    this.CUSTOMER_SELECTED.name= this.editedpackage.customer.name
+    this.CUSTOMER_SELECTED.id = this.editedpackage.customer.id
+    this.CUSTOMER_SELECTED.name = this.editedpackage.customer.name
     this.open_expansion_value = 1;
     this.panelOpenState = true;
   }
@@ -435,6 +400,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //UPDATE PACKAGE VALUES
   UPDATE_PACKAGE() {
+    this.SHOW_LOADING_SPINNER = true;
     this.editedpackage.customer =
     {
       id: this.CUSTOMER_SELECTED.id,
@@ -448,29 +414,33 @@ export class AppTicketlistComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error:', error.error);
+        this.SHOW_LOADING_SPINNER = false;
       },
-      complete: () => { }
+      complete: () => {
+        this.SHOW_LOADING_SPINNER = false;
+      }
     });
 
   }
 
   //ADD NEW RECRUITING RECORD
   ADD_PACKAGE(): void {
+    this.SHOW_LOADING_SPINNER = true;
     this.editedpackage.customer =
     {
       id: this.CUSTOMER_SELECTED.id,
       name: this.CUSTOMER_SELECTED.name,
     }
-    console.log('EDITED PACK', this.editedpackage)
     this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
       next: (response: any) => {
         this.CLEAR_VALUES(this.editedpackage)
-      
       },
       error: (error: any) => {
         console.error("Error:", error)
+        this.SHOW_LOADING_SPINNER = false;
       },
       complete: () => {
+        this.SHOW_LOADING_SPINNER = false;
         this.FETCH_PACKAGES()
       }
     });
@@ -482,7 +452,7 @@ export class AppTicketlistComponent implements OnInit {
   CLEAR_VALUES(obj: Package) {
     obj._id = '';
     // obj.customerName = '';
-    this.CUSTOMER_SELECTED =  { id: '', name: '' }
+    this.CUSTOMER_SELECTED = { id: '', name: '' }
     obj.source = '';
     obj.destination = '';
     obj.duration = 0;
@@ -562,10 +532,10 @@ export class AppPackageDialogContentComponent {
   }
 
   doAction(): void {
-   
+
     if (this.action === 'Add New Customer') {
       this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });
-    }else{
+    } else {
       this.dialogRef.close({ event: this.action, data: this.PACKAGE_SELECTED });
     }
   }
