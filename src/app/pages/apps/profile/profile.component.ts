@@ -37,10 +37,12 @@ export class ProfileComponent implements OnInit {
 
   SHOW_PROFILE = false;
   GET_ADMIN_PROFILE() {
-    this.admin = this.adminService.ADMIN_LOGGED_IN
-    this.UPDATED_ADMIN = {...this.adminService.ADMIN_LOGGED_IN}
-    this.UPDATED_ADMIN.permissions = {...this.adminService.ADMIN_LOGGED_IN.permissions}
+    // this.admin = this.adminService.ADMIN_LOGGED_IN
+    // this.UPDATED_ADMIN = {...this.adminService.ADMIN_LOGGED_IN}
+    // this.UPDATED_ADMIN.permissions = {...this.adminService.ADMIN_LOGGED_IN.permissions}
     this.SHOW_PROFILE = true;
+    this.adminID = this.adminService.adminID
+    this.GET_ADMIN_BY_ID()
   }
 
   EDIT_PROFILE() {
@@ -56,7 +58,9 @@ export class ProfileComponent implements OnInit {
   SAVE_EDIT() {
     this.adminService.UPDATE_ADMIN(this.UPDATED_ADMIN).subscribe({
       next: (response: any) => {
+        console.log('response ', response)
         this.admin = response.updatedAdmin;
+        this.adminID = response.updatedAdmin._id
         this.UPDATED_ADMIN = { ...response.updatedAdmin }
         this.UPDATED_ADMIN.permissions = { ...response.updatedAdmin.permissions }
       },
@@ -66,7 +70,23 @@ export class ProfileComponent implements OnInit {
       complete: () => {
         this.SHOW_PROFILE = true;
         this.UpdateProfile = false;
+        this.adminService.ADMIN_LOGGED_IN =this.admin
       }
+    });
+  }
+
+  GET_ADMIN_BY_ID(){
+    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => { 
+        console.log('response for get admin by id :', response)
+
+    this.admin = response
+    this.UPDATED_ADMIN = {...response}
+    this.UPDATED_ADMIN.permissions = {...response.permissions}
+      },
+      error: (error: any) => { },
+      complete: () => { }
+
     });
   }
 

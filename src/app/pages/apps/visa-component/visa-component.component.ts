@@ -124,7 +124,8 @@ export class VisaComponentComponent implements OnInit {
 
   // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
   GET_ADMIN_PERMISSIONS_FOR_VISA() {
-    this.ADMIN_LOGGED_IN_VISA_PERMISSION = this.adminService.ADMIN_LOGGED_IN.permissions.visa
+    this.ADMIN_LOGGED_IN_VISA_PERMISSION = this.adminService.ADMIN_LOGGED_IN.permissions.visa;
+    console.log(this.ADMIN_LOGGED_IN_VISA_PERMISSION)
   }
 
 
