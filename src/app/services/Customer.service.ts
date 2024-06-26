@@ -46,7 +46,6 @@ export class CustomerService {
       "page": currentPage,
       "pageSize": pageSize,
     };
-    console.log(pageSize)
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_CUSTOMERS', requestBody, { headers });
   }
 
