@@ -75,8 +75,8 @@ export class AppTicketlistComponent implements OnInit {
   dataSource = new MatTableDataSource(this.packages);
 
   packageExample = new Package();
-  pageSize: number = 10;
-  currentPage: number = 1;
+  pageSize = 10;
+  currentPage = 1;
 
 
   // 1 basic
@@ -204,12 +204,10 @@ export class AppTicketlistComponent implements OnInit {
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
-    console.log("COlumn", column)
     if (column === 'action') {
       this.expandedElement = element;
     }
     else {
-      console.log("Here")
       this.expandedElement = this.expandedElement === element ? null : element;
       event.stopPropagation();
     }
@@ -225,7 +223,7 @@ export class AppTicketlistComponent implements OnInit {
         this.show_shimmer = false
         this.packages = response.packages;
         this.totalCount = response.pagination.totalPackages
-        this.btnCategoryClick('')
+
 
       },
       error: (error: any) => {
@@ -239,7 +237,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //SEARCH & FILTER  PACKAGES 
   SEARCH_PACKAGES(): void {
-    this.currentPage = 1;
+
     this.packagesService.SEARCH_FILTER_PACKAGE(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
@@ -484,6 +482,7 @@ export class AppTicketlistComponent implements OnInit {
   CLEAR_VALUES(obj: Package) {
     obj._id = '';
     // obj.customerName = '';
+    this.CUSTOMER_SELECTED =  { id: '', name: '' }
     obj.source = '';
     obj.destination = '';
     obj.duration = 0;

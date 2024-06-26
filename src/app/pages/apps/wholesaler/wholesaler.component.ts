@@ -156,7 +156,7 @@ export class WholesalerComponent implements OnInit {
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   VIEW_WHOLESALER(): void {
-    this.router.navigate(['apps/wholesaler/view']).then(() => {
+    this.router.navigate(['/wholesaler/view']).then(() => {
       window.scrollTo(0, 0);
     });
   }

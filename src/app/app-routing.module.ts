@@ -14,7 +14,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/apps/labor-rec/labor-rec.module').then((m) => m.LaborRecModule),
       },
       {
-        path: 'apps',
+        path: '',
         loadChildren: () => import('./pages/apps/apps.module').then((m) => m.AppsModule),
       },
     ],
