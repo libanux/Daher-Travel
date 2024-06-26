@@ -76,7 +76,7 @@ export class LaborReportsComponent {
 
   DOWNLOAD() {
     const requestBody = {
-      filterType: 'thisMonth',
+      filterType: this.FILTER_TYPE,
       startDate: '',
       endDate: ''
     };

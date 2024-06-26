@@ -20,30 +20,30 @@ export class WholesalerService {
     this.pagingSize = this.generalService.PageSizing;
   }
 
-    // VALIDATE TOKEN
-    isTokenExpired1(): boolean {
-      const token = this.getToken();
-      if (!token) return true;
-      const tokenParts = token.split('.');
-      if (tokenParts.length !== 3) return true;
-      const payload = JSON.parse(atob(tokenParts[1]));
-      if (!payload.exp) return true;
-      const expirationTime = payload.exp * 1000;
-      const currentTime = new Date().getTime();
-      return expirationTime < currentTime;
-    }
-  
-    // GET TOKEN FROM LOCAL STORAGE
-    getToken(): string | null {
-      return localStorage.getItem('TICKET');
-    }
+  // VALIDATE TOKEN
+  isTokenExpired1(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+    const tokenParts = token.split('.');
+    if (tokenParts.length !== 3) return true;
+    const payload = JSON.parse(atob(tokenParts[1]));
+    if (!payload.exp) return true;
+    const expirationTime = payload.exp * 1000;
+    const currentTime = new Date().getTime();
+    return expirationTime < currentTime;
+  }
+
+  // GET TOKEN FROM LOCAL STORAGE
+  getToken(): string | null {
+    return localStorage.getItem('TICKET');
+  }
 
   //GET ALL WHOLESALERS
   GET_ALL_WHOLESALERS(currentPage: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     });
 
     const requestBody = {
@@ -59,7 +59,7 @@ export class WholesalerService {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     });
 
     const requestBody = {
@@ -70,33 +70,32 @@ export class WholesalerService {
   }
 
   //UPDATE WHOLESALER
-UPDATE_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
-
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.getToken()}`,
-    'Content-Type': 'application/json' 
-  });
-
-    const requestBody = {
-      id: WHOLESALER._id,
-      "updateData": {
-        name: WHOLESALER.name,
-        address: WHOLESALER.address,
-        company: WHOLESALER.company,
-        phoneNumber: WHOLESALER.phoneNumber,
-        email: WHOLESALER.email
-      }
-    };
-    
-  return this.httpClient.post<any>(this.apiUrl + '/UPDATE_WHOLESALER', requestBody, { headers });
-}
-
-  //ADD WHOLESALER
-ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
+  UPDATE_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
+    });
+
+    const requestBody = {
+      wholesalerId: WHOLESALER._id,
+      name: WHOLESALER.name,
+      address: WHOLESALER.address,
+      company: WHOLESALER.company,
+      phoneNumber: WHOLESALER.phoneNumber,
+      email: WHOLESALER.email
+
+    };
+
+    return this.httpClient.post<any>(this.apiUrl + '/UPDATE_WHOLESALER', requestBody, { headers });
+  }
+
+  //ADD WHOLESALER
+  ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
     });
 
     // Define the request body
@@ -104,25 +103,25 @@ ADD_WHOLESALER(WHOLESALER: WholesalerClass): Observable<any> {
       "name": WHOLESALER.name,
       "phoneNumber": WHOLESALER.phoneNumber,
       "address": WHOLESALER.address,
-      'company':WHOLESALER.company,
-      'email':WHOLESALER.email
+      'company': WHOLESALER.company,
+      'email': WHOLESALER.email
     };
-    console.log("Request",requestBody)
-    
+    console.log("Request", requestBody)
+
     return this.httpClient.post<any>(this.apiUrl + '/ADD_WHOLESALER', requestBody, { headers });
-}
+  }
 
-//DELETE DELETE_WHOLESALER
-DELETE_WHOLESALER(ID: number): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.getToken()}`,
-    'Content-Type': 'application/json' 
-  });
+  //DELETE DELETE_WHOLESALER
+  DELETE_WHOLESALER(ID: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
 
-  const requestBody = { "id": ID  };
+    const requestBody = { "id": ID };
 
-   return this.httpClient.post<any>(this.apiUrl + '/DELETE_WHOLESALER', requestBody, { headers });
-}
+    return this.httpClient.post<any>(this.apiUrl + '/DELETE_WHOLESALER', requestBody, { headers });
+  }
 
   //GET CUSTOMER BY ID
   GET_WHOLESALER_BY_ID(ID: string): Observable<any> {
@@ -137,21 +136,22 @@ DELETE_WHOLESALER(ID: number): Observable<any> {
     return this.httpClient.post<any>(this.apiUrl + '/GET_WHOLESALER_BY_ID', requestBody, { headers });
   }
 
-     // FILTER PACKAGE BY DATE
- SEARCH_WHOLESALER(pageSize:number, currentPage: number,searchkey:string): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.getToken()}`,
-    'Content-Type': 'application/json'
-  });
-  const requestBody = {
-    "search": searchkey,
-    "filterType": "",
-    "startDate": "",
-    "endDate": "",
-    "page": currentPage,
-    "pageSize":pageSize
-  };
-  return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_WHOLESALERS', requestBody, { headers })
-}
+  // SEARCH WHOLESALERS
+  SEARCH_WHOLESALER(pageSize: number, currentPage: number, searchkey: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "search": searchkey,
+      "filterType": "",
+      "startDate": "",
+      "endDate": "",
+      "page": 1,
+      "pageSize": pageSize
+    };
+    console.log("REQUEST",requestBody)
+    return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_WHOLESALERS', requestBody, { headers })
+  }
 
 }

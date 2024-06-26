@@ -5,10 +5,10 @@ export class LaborList {
       public nationality: string ='',
       public gender: string ='',
       public type: string ='',
-      public age: number=0,
-      public cost : number =0,
+      public age: string='',
+      public cost : string ='',
       public note: string ='',
-      public sell : number =0,
+      public sell : string ='',
       public status: string =''
     ) {}
   }

@@ -17,7 +17,7 @@ interface month {
 @Component({
   selector: 'app-labor-main',
   templateUrl: './labor-main.component.html',
-  styleUrls: ['./labor-main.component.scss', '../../../../../assets/scss/apps/_add_expand.scss', '../../../../../assets/scss/apps/general_table.scss'],
+  styleUrls: ['../../../../../assets/scss/apps/_add_expand.scss', '../../../../../assets/scss/apps/general_table.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -35,7 +35,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   ShowAddButoon = true;
   selectedMonth: string = 'thisMonth';
-  statusValue: string = 'all'
+  statusValue: string = ''
   CurrentAction: string = 'Add Recruiting'
   //MAIN RECRUITING ARRAY
   recruitings: any[] = []
@@ -51,56 +51,47 @@ export class LaborMainComponent implements AfterViewInit {
   open_expansion_value = 0;
 
   //TABLE COLUMNS
-  displayedColumns: string[] = [
-    'name',
-    'nationality',
-    'gender',
-    'type',
-    'age',
-    'cost',
-    'sell',
-    'note',
-    'status',
-    'action',
-  ];
+  displayedColumns: string[] = ['name', 'nationality', 'gender', 'type', 'age', 'cost', 'sell', 'note', 'status', 'action'];
 
   columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: LaborList | null = null;
-
-
   pageSize: number = 10;
   currentPage: number = 1;
   selectedStatusFilteraTION: string = '';
+  MAIN_SELECTED_LABOR_DATA: LaborList = new LaborList()
   show_shimmer = true
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
-  searchText: any;
+  searchText: string = '';
   totalCount = -1;
   Cancelled = -1;
   Inprogress = -1;
   Completed = -1;
-
+  startDateValue: string = '';
+  endDateValue: string = '';
   //MONTHS FOR FILTER DROPDOWN
   months: any[] = Month_Filter_Array
-
+  //OPTIONS OF DOWNLOAD
+  Options: any[] = Download_Options;
   //FILTRATION ARRAY
   Filteration: any[] = Date_Filter_Array
 
+  DATA_CHANGED: boolean = false;
+  SHOW_LOADING_SPINNER: boolean = false;
   showDatePicker = false;
-
+  isAnyFieldNotEmpty = false;
   //RECRUITINGS RECORDS
   dataSource = new MatTableDataSource(this.recruitings);
 
   constructor(
     private routeSignalService: RouteSignalService,
     public dialog: MatDialog, private recruitingService: LaborRecService, private generalService: GeneralService) {
-    this.viewPackage = new LaborList()
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
-    this.editedrecruiting.sell = 1
-    this.editedrecruiting.cost = 1
-    this.editedrecruiting.age = 1
+    this.editedrecruiting.sell = ''
+    this.editedrecruiting.cost = ''
+    this.editedrecruiting.age = ''
     this.editedrecruiting.gender = 'female'
   }
 
@@ -122,6 +113,7 @@ export class LaborMainComponent implements AfterViewInit {
       },
       error: (error: any) => {
         console.error("Error:", error)
+        this.show_shimmer = false;
       },
       complete: () => {
       }
@@ -129,13 +121,14 @@ export class LaborMainComponent implements AfterViewInit {
   }
 
   // Function to handle input change
-  onSearchKeyChange() {
+  SEARCH_FILTER_RECRUITINGS() {
     this.recruitingService.SEARCH_FILTER_RECRUITING(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
         this.recruitings = response.recruitings;
         this.dataSource = new MatTableDataSource(this.recruitings);
         this.totalCount = response.pagination.totalRecruitings;
+        // this.pageSize=response.pagination.totalRecruitings;
       },
       error: (error: any) => {
         this.recruitings = []
@@ -145,20 +138,28 @@ export class LaborMainComponent implements AfterViewInit {
       complete: () => {
       }
     });
-
   }
 
-  isAnyFieldNotEmpty = false; // Flag to track if any field has content
   onInputChange() {
+
+    // When inputs changes -> i check if they are the same as the main one
+    // if they are the same keep the update button disabled
+    if (JSON.stringify(this.MAIN_SELECTED_LABOR_DATA) !== JSON.stringify(this.editedrecruiting)) {
+      this.DATA_CHANGED = true;
+    }
+    else {
+      this.DATA_CHANGED = false;
+    }
+
     // Check only specific fields for content
     this.isAnyFieldNotEmpty = Object.values(this.editedrecruiting).some(val => val !== '' && val !== null);
-
     if (this.isAnyFieldNotEmpty) {
       this.routeSignalService.show_pop_up_route.set(true);
     }
     else {
       this.routeSignalService.show_pop_up_route.set(false);
     }
+
   }
 
   onPageChange(event: PageEvent): void {
@@ -166,7 +167,6 @@ export class LaborMainComponent implements AfterViewInit {
     this.currentPage = event.pageIndex + 1;
     this.FETCH_RECRUITINGS()
   }
-
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -185,7 +185,6 @@ export class LaborMainComponent implements AfterViewInit {
     this.CLEAR_VALUES(this.editedrecruiting)
     this.open_expansion_value = -1;
   }
-
 
   //GET THE CATEGORY LENGTH
   btnCategoryClick(val: string): number {
@@ -215,7 +214,6 @@ export class LaborMainComponent implements AfterViewInit {
     return text;
   }
 
-
   // OPEN UPDATE & DELETE DIALOGS
   openDialog(action: string, delRecruiting: LaborList): void {
     const dialogRef = this.dialog.open(AppRecruitingDialogContentComponent, {
@@ -225,7 +223,6 @@ export class LaborMainComponent implements AfterViewInit {
       if (result && result.event === 'Delete') {
         this.recruitingService.DELETE_RECRUITING(delRecruiting).subscribe({
           next: (response: any) => {
-            console.log("Response",response)
             this.FETCH_RECRUITINGS()
           },
           error: (error: any) => {
@@ -253,17 +250,15 @@ export class LaborMainComponent implements AfterViewInit {
     });
   }
 
-
   // SET UPDATE VALUES
   UPDATE(obj: LaborList): void {
     this.ShowAddButoon = false;
     this.editedrecruiting = { ...obj };
     this.CurrentAction = 'Update Recruiting'
-
     this.open_expansion_value = 1;
     this.panelOpenState = true;
+    this.MAIN_SELECTED_LABOR_DATA = obj;
   }
-
 
   //UPDATE RECRUITING RECORD
   UPDATE_RECRUITING() {
@@ -273,7 +268,6 @@ export class LaborMainComponent implements AfterViewInit {
         this.CLEAR_VALUES(this.editedrecruiting)
         this.CurrentAction = 'Add Recruiting'
         this.open_expansion_value = -1;
-        console.log("Response on update:", response)
       },
       error: (error: any) => {
         console.error('Error:', error.error);
@@ -283,94 +277,42 @@ export class LaborMainComponent implements AfterViewInit {
 
   }
 
-  //FILTER RECRUITING RECORDS BY STATUS
-  FILTER_RECRUITING(status: string) {
-    this.currentPage = 1;
-    this.recruitingService.FILTER_RECRUITINGS(this.pageSize, this.currentPage, status).subscribe({
-      next: (response: any) => {
-        this.recruitings = response.recruitings;
-        this.dataSource = new MatTableDataSource(this.recruitings);
-        this.totalCount = response.pagination.totalPackages
-      },
-      error: (error: any) => {
-        console.error('Error:', error.error);
-      },
-      complete: () => { }
-    });
-  }
-
-
-  //FILTER RECRUITING RECORDS BY DATE
-  FILTER_RECRUITING_BY_DATE(filter: string) {
-    this.recruitingService.FILTER_RECRUITING_BY_DATE(filter, this.startDateValue, this.endDateValue).subscribe({
-      next: (response: any) => {
-        this.recruitings = response;
-        this.dataSource = new MatTableDataSource(this.recruitings);
-      },
-      error: (error: any) => {
-        console.error('Error:', error.error);
-      },
-      complete: () => { }
-    });
-  }
-
-  startDateValue: string = ''; // Variable to store the start date
-  endDateValue: string = ''; // Variable to store the end date
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.FILTER_RECRUITING_BY_DATE('custom')
-
+    // this.FILTER_RECRUITING_BY_DATE('custom')
+    this.SEARCH_FILTER_RECRUITINGS();
   }
 
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.FILTER_RECRUITING_BY_DATE('custom')
-
+    // this.FILTER_RECRUITING_BY_DATE('custom')
+    this.SEARCH_FILTER_RECRUITINGS();
   }
-
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
-    // Extract year, month, and day from the Date object
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
-    const day = ('0' + date.getDate()).slice(-2);
-
-    // Return the formatted date string in YYYY-MM-DD format
-    return `${year}-${month}-${day}`;
+    return this.generalService.FORMAT_DATE_YYYYMMDD(date)
   }
-
-
   // Function to format date
   FORMAT_DATE(dateString: string): string {
-    const dateObj = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true,
-      timeZone: 'UTC' // Optional: Adjust to your timezone
-    };
+    return this.generalService.FORMAT_DATE_WITH_HOUR(dateString)
+  };
 
-    return dateObj.toLocaleString('en-US', options);
-  }
 
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: LaborList) {
     obj._id = '';
     obj.name = '';
+    obj.gender = 'female'
     obj.nationality = '';
-    obj.age = 0;
+    obj.age = '';
     obj.type = '';
-    obj.sell = 0;
-    obj.cost = 0;
+    obj.sell = '';
+    obj.cost = '';
     obj.note = '';
-    obj.status = '';
+    obj.status = 'pending';
 
     this.open_expansion_value = -1;
     this.panelClosed()
@@ -382,7 +324,6 @@ export class LaborMainComponent implements AfterViewInit {
     this.panelOpenState = false;
   }
 
-
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(dropdown: string) {
     if (dropdown == 'month') {
@@ -390,16 +331,17 @@ export class LaborMainComponent implements AfterViewInit {
         this.selectedMonth = 'custom'
         this.showDatePicker = true;
       }
-
       else {
         this.showDatePicker = false;
         this.onInputChange()
+        this.SEARCH_FILTER_RECRUITINGS()
       }
     }
 
     else if (dropdown == 'status') {
 
       this.onInputChange()
+      this.SEARCH_FILTER_RECRUITINGS()
 
     }
     else if (dropdown == 'Download') {
@@ -407,14 +349,9 @@ export class LaborMainComponent implements AfterViewInit {
     }
   }
 
+  //DOWNLOAD EXCEL DOCUMENT
   DOWNLOAD() {
     this.generalService.getData('EXPORT_RECRUITING_TO_EXCEL')
-  }
-
-  Options: any[] = Download_Options;
-
-  onDateSelect(date: Date) {
-    // console.log('Selected Date:', date);
   }
 
 }
@@ -438,9 +375,8 @@ export class AppRecruitingDialogContentComponent {
     public dialogRef: MatDialogRef<AppRecruitingDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.LABOR_SELECTED = data.delRecruiting  ;
+    this.LABOR_SELECTED = data.delRecruiting;
     this.action = data.action;
-    console.log("Labor",this.LABOR_SELECTED)
   }
 
   doAction(): void {

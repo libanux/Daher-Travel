@@ -76,18 +76,16 @@ export class LaborRecService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "id": editedRecruitng._id,
-      "updateData": {
-        "name": editedRecruitng.name,
-        "nationality": editedRecruitng.nationality,
-        "gender": editedRecruitng.gender,
-        "type": editedRecruitng.type,
-        "age": editedRecruitng.age,
-        "cost": editedRecruitng.cost,
-        "status": editedRecruitng.status,
-        "sell": editedRecruitng.sell,
-        "note": editedRecruitng.note
-      }
+      "recruitingId": editedRecruitng._id,
+      "name": editedRecruitng.name,
+      "nationality": editedRecruitng.nationality,
+      "gender": editedRecruitng.gender,
+      "type": editedRecruitng.type,
+      "age": editedRecruitng.age,
+      "cost": editedRecruitng.cost,
+      "status": editedRecruitng.status,
+      "sell": editedRecruitng.sell,
+      "note": editedRecruitng.note
 
     };
     return this.http.post<any>(this.apiUrl + '/UPDATE_RECRUITING', requestBody, { headers })
@@ -108,7 +106,7 @@ export class LaborRecService {
     return this.http.post<any>(this.apiUrl + '/DELETE_RECRUITING', requestBody, { headers })
   }
   // SEARCH & FILTER RECRUITING RECORD
-  SEARCH_FILTER_RECRUITING(pageSize:number, currentPage: number,searchkey:string,filterType: string ,statusValue: string , startDate: string , endDate: string): Observable<any> {
+  SEARCH_FILTER_RECRUITING(pageSize: number, currentPage: number, searchkey: string, filterType: string, statusValue: string, startDate: string, endDate: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
@@ -116,49 +114,16 @@ export class LaborRecService {
 
     const requestBody = {
       "search": searchkey,
-      "filterType":filterType,
+      "filterType": filterType,
       "startDate": startDate,
       "endDate": endDate,
       "status": statusValue,
-      "page": currentPage,
+      "page": 1,
       "pageSize": pageSize
     };
+
 
     return this.http.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_RECRUITING', requestBody, { headers })
-  }
-
-  // FILTER RECRUITING RECORDS
-  FILTER_RECRUITINGS(pageSize: number, currentPage: number, status: String): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`,
-      'Content-Type': 'application/json'
-    });
-
-    const requestBody = {
-      "status": status,
-      "page": currentPage,
-      "pageSize": pageSize
-    };
-
-    return this.http.post<any>(this.apiUrl + '/FILTER_RECRUITING_BY_STATUS', requestBody, { headers })
-  }
-
-
-  // FILTER RECRUITING RECORDS
-  FILTER_RECRUITING_BY_DATE(filter: String, startDate: string, endDate: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`,
-      'Content-Type': 'application/json'
-    });
-
-    const requestBody = {
-      "filterType": filter,
-      "startDate": startDate,
-      "endDate": endDate
-
-    };
-
-    return this.http.post<any>(this.apiUrl + '/FILTER_RECRUITING_BY_DATE', requestBody, { headers })
   }
 
 
