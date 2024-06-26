@@ -1,5 +1,5 @@
 <!-- add expand row -->
- @if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'write' || ADMIN_LOGGED_IN_VISA_PERMISSION == 'readwrite'){
+ <!-- @if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'write' || ADMIN_LOGGED_IN_VISA_PERMISSION == 'readwrite'){ -->
 <mat-card class="cardWithShadow">
   <mat-expansion-panel [expanded]="open_expansion_value === 1" (opened)="OPEN_PANEL()" (closed)="CLOSE_PANEL()">
 
@@ -166,9 +166,9 @@
 
   </mat-expansion-panel>
 </mat-card>
-}
+<!-- } -->
 
-@if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'read' || ADMIN_LOGGED_IN_VISA_PERMISSION == 'readwrite'){
+<!-- @if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'read' || ADMIN_LOGGED_IN_VISA_PERMISSION == 'readwrite'){ -->
 <mat-card class="cardWithShadow">
   <!-- Search -->
   <header>
@@ -406,4 +406,4 @@
   </mat-card-content>
 
 </mat-card>
-}
+<!-- } -->
