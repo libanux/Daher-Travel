@@ -1,8 +1,12 @@
 export class Package {
   constructor(
     public _id: string = '',
-    public customerId: string = '',
-    public customerName: string = '',
+    public customer: {
+      id: string;
+      name: string;
+
+    } =
+    { id: '', name: '' },
     public phoneNumber: string = '',
     public source: string = '',
     public destination: string = '',
