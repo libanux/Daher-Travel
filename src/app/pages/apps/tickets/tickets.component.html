@@ -17,19 +17,14 @@
           </div>
           <mat-form-field appearance="outline" class="w-100">
 
-            <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
-              [(ngModel)]="ADDED_TICKET.name" (input)="filterCustomers()" (ngModelChange)="onInputChange()"
-              name="customer" ngDefaultControl>
+            <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="autoCustomer"
+            [(ngModel)]="ADDED_TICKET.name" (input)="filterCustomers()" name="customer">
 
             <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
-                width="24px" fill="#5f6368">
-                <path
-                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"> <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
             </mat-icon>
-            <mat-autocomplete #auto1="matAutocomplete">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer.name">
+            <mat-autocomplete #autoCustomer="matAutocomplete" (optionSelected)="onCustomerSelected($event)">
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add New Customer', NEW_CUSTOMER_ADDED)">
@@ -82,25 +77,27 @@
         <!-- WHOLESALER-->
              <div class="col-md-3 d-flex flex-column">
               <div class="d-flex align-items-center">
-                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Wholesaler</mat-label>
+                <mat-label 
+                class="mat-subtitle-2 f-w-600 d-block m-b-16">Wholesaler</mat-label>
               </div>
               <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
-                  [(ngModel)]="WHOLESALER_SELECTED.name" (input)="filterWholesalers()" name="customer">
-    
+
+                <input matInput placeholder="Search wholesalers....." aria-label="wholesaler" [matAutocomplete]="autoWholesaler"
+       [(ngModel)]="WHOLESALER_SELECTED.name" (input)="filterWholesalers()" name="wholesaler">
+
                 <mat-icon matPrefix class="op-5">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
                 </mat-icon>
-                <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onWholesalerSelected($event)">
-                  <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
-                    {{customer.name}}
+                <mat-autocomplete #autoWholesaler="matAutocomplete" (optionSelected)="onWholesalerSelected($event)">
+                  <mat-option *ngFor="let wholesaler of filteredWholeSalers" [value]="wholesaler">
+                    {{wholesaler.name}}
                   </mat-option>
-                  <mat-option class="add-new-customer-option" [value]="'Add New Wholesaler'">
+                  <mat-option class="add-new-wholesaler-option" [value]="'Add New Wholesaler'">
                     <div class="option-content">
                       <mat-icon matPrefix class="op-5">
                         <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
                       </mat-icon>
-                      <span>Add New Customer</span>
+                      <span>Add New wholesaler</span>
                     </div>
                   </mat-option>
     
