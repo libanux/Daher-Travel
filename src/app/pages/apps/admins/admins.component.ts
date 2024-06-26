@@ -30,7 +30,12 @@ export class AdminsComponent implements OnInit {
       recruitment: '',
       accounting: '',
       users: '',
-      notes: ''
+      notes: '',
+      allreports: '',
+      customers: '',
+      laborReports: '',
+      ticketing: '',
+      wholesalers: ''
     },
     token: ''
   };
@@ -99,12 +104,15 @@ export class AdminsComponent implements OnInit {
     }
   }
 
+  current_page_array_length = 0
   FETCH_ADMINS() {
     this.show_shimmer = true
     this.adminService.GET_ALL_ADMINS(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
         this.ADMINS_ARRAY = new MatTableDataSource(response.admins);
         this.admins_Array_length = response.pagination.totalAdmins;
+        this.current_page_array_length = response.admins.length
+
         this.ROWS_COUNT_SHIMMER = this.GENERATE_SHIMMER_ROWS_COUNT(response.pagination.totalAdmins)
       },
       error: (error) => { },
@@ -118,6 +126,14 @@ export class AdminsComponent implements OnInit {
   GENERATE_SHIMMER_ROWS_COUNT(count: number): string[] {
     return this.generalService.GENERATE_SHIMMER_ROWS_COUNT(count)
   }
+
+    // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+    }
+  }
+
 
   APPLY_SEARCH_FILTER(SEARCH_VALUE: string): void {
     this.adminService.SEARCH_ADMIN(SEARCH_VALUE).subscribe({
@@ -158,6 +174,8 @@ export class AdminsComponent implements OnInit {
   }
 
   UPDATE_ADMIN(): void {
+    console.log(this.ADDED_ADMIN)
+
     this.SHOW_LOADING_SPINNER = true
     this.adminService.UPDATE_ADMIN(this.ADDED_ADMIN).subscribe({
       next: (response: any) => { },
@@ -168,7 +186,12 @@ export class AdminsComponent implements OnInit {
 
   DELETE_ADMIN(ID: string): void {
     this.adminService.DELETE_ADMIN(ID).subscribe({
-      next: (response: any) => { },
+      next: (response: any) => {
+        if (this.current_page_array_length == 1) {
+          this.Current_page = this.Current_page - 1
+          this.goToPreviousPage()
+        }
+       },
       error: (error) => { console.error(error) },
       complete: () => { this.FETCH_ADMINS(); this.CANCEL_UPDATE()}
     });
@@ -198,7 +221,12 @@ export class AdminsComponent implements OnInit {
         recruitment: '',
         accounting: '',
         users: '',
-        notes: ''
+        notes: '',
+        allreports: '',
+        customers: '',
+        laborReports: '',
+        ticketing: '',
+        wholesalers: ''
       },
       token: ''
     }
@@ -206,6 +234,7 @@ export class AdminsComponent implements OnInit {
 
   // SELECT OBJECT TO UPDATE
   SELECTED_ADMIN(obj: Admin): void {
+    console.log(obj)
     // SECURE THE ROUTE
     // this.routeSignalService.show_pop_up_route.set(false)
     // HIDE ADD BUTTON AND SHOW THE UPDATE BUTTON

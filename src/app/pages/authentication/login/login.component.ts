@@ -39,20 +39,12 @@ export class AppLoginComponent {
 
       this.authserivece.SIGN_IN(authenticationParams).subscribe({
         next: (response: any) => {
+          console.log(response)
             this.router.navigate(['/tickets']).then(() => {
-              console.log(response)
               window.scrollTo(0, 0);
             }),
-
               localStorage.setItem('TICKET', response.token),
               localStorage.setItem('admin_id', response._id)
-
-              localStorage.setItem('accounting', response.permissions.accounting),
-              localStorage.setItem('notes',  response.permissions.notes),
-              localStorage.setItem('packages',  response.permissions.packages),
-              localStorage.setItem('recruitment',  response.permissions.recruitment),
-              localStorage.setItem('users',  response.permissions.users),
-              localStorage.setItem('visa',  response.permissions.visa)
         },
         error: (error: any) => {this.loading = false;}
       });

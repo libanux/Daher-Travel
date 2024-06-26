@@ -8,6 +8,7 @@ export const navItems: NavItem[] = [
     displayName: 'Ticketing',
     iconName: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 -960 1000 970"><path d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm0-160q17 0 28.5-11.5T520-480q0-17-11.5-28.5T480-520q-17 0-28.5 11.5T440-480q0 17 11.5 28.5T480-440Zm0-160q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm320 440H160q-33 0-56.5-23.5T80-240v-160q33 0 56.5-23.5T160-480q0-33-23.5-56.5T80-560v-160q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v160q-33 0-56.5 23.5T800-480q0 33 23.5 56.5T880-400v160q0 33-23.5 56.5T800-160Zm0-80v-102q-37-22-58.5-58.5T720-480q0-43 21.5-79.5T800-618v-102H160v102q37 22 58.5 58.5T240-480q0 43-21.5 79.5T160-342v102h640ZM480-480Z"/></svg>',
     route: '/tickets',
+    permission_name: 'ticketing'
   },
   {
     displayName: 'Visa',
@@ -25,8 +26,7 @@ export const navItems: NavItem[] = [
     displayName: 'Wholesalers',
     iconName: '<svg class="icon-default" xmlns="http://www.w3.org/2000/svg" viewBox="20 -940 1000 970" ><path d="M856-390 570-104q-12 12-27 18t-30 6q-15 0-30-6t-27-18L103-457q-11-11-17-25.5T80-513v-287q0-33 23.5-56.5T160-880h287q16 0 31 6.5t26 17.5l352 353q12 12 17.5 27t5.5 30q0 15-5.5 29.5T856-390ZM513-160l286-286-353-354H160v286l353 354ZM260-640q25 0 42.5-17.5T320-700q0-25-17.5-42.5T260-760q-25 0-42.5 17.5T200-700q0 25 17.5 42.5T260-640Zm220 160Z"/></svg>',
     route: '/wholesaler/main',
-    permission_name: 'users'
-
+    permission_name: 'wholesalers'
   },
 
   {
@@ -36,19 +36,33 @@ export const navItems: NavItem[] = [
     permission_name: 'users'
 
   },
+  {
+    displayName: 'General Finance',
+    iconName: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -850 1000 970" width="24px"><path d="M444-200h70v-50q50-9 86-39t36-89q0-42-24-77t-96-61q-60-20-83-35t-23-41q0-26 18.5-41t53.5-15q32 0 50 15.5t26 38.5l64-26q-11-35-40.5-61T516-710v-50h-70v50q-50 11-78 44t-28 74q0 47 27.5 76t86.5 50q63 23 87.5 41t24.5 47q0 33-23.5 48.5T486-314q-33 0-58.5-20.5T390-396l-66 26q14 48 43.5 77.5T444-252v52Zm36 120q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>',
+    // route: '/wholesaler/main',
+    permission_name: 'wholesalers'
+
+  },
+
+  {
+    displayName: 'General Expenses',
+    iconName: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -850 1000 970" width="24px"><path d="M560-440q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM280-320q-33 0-56.5-23.5T200-400v-320q0-33 23.5-56.5T280-800h560q33 0 56.5 23.5T920-720v320q0 33-23.5 56.5T840-320H280Zm80-80h400q0-33 23.5-56.5T840-480v-160q-33 0-56.5-23.5T760-720H360q0 33-23.5 56.5T280-640v160q33 0 56.5 23.5T360-400Zm440 240H120q-33 0-56.5-23.5T40-240v-440h80v440h680v80ZM280-400v-320 320Z"/></svg>',
+    // route: '/customers/main',
+    permission_name: 'users'
+
+  },
+  {
+    displayName: 'Reports',
+    iconName: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -850 1000 970"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>',
+    route: '/reports',
+    permission_name: 'allreports'
+  },
 
   {
     displayName: 'Notes',
     iconName: '<svg class="icon-default" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 1000 970"><path d="M222-200 80-342l56-56 85 85 170-170 56 57-225 226Zm0-320L80-662l56-56 85 85 170-170 56 57-225 226Zm298 240v-80h360v80H520Zm0-320v-80h360v80H520Z"/></svg>',
     route: '/notes',
     permission_name: 'notes'
-  },
-
-  {
-    displayName: 'Reports',
-    iconName: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -850 1000 970"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>',
-    route: '/reports',
-    permission_name: 'accounting'
   },
 
   {
@@ -64,7 +78,7 @@ export const navItems: NavItem[] = [
     displayName: 'Labor Reports',
     iconName: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -850 1000 970"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>',
     route: '/labor/reports',
-    permission_name: 'recruitment'
+    permission_name: 'laborReports'
   },
 
 

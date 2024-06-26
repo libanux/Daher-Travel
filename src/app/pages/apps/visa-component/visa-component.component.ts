@@ -110,23 +110,48 @@ export class VisaComponentComponent implements OnInit {
   }
 
   ADMIN_LOGGED_IN_VISA_PERMISSION: string
+  adminID: string 
 
   ngOnInit(): void {
+    this.adminID = localStorage.getItem('admin_id') || '';
+
     this.breadCrumbService.currentRoute.set('Visa');
     this.GET_ADMIN_PERMISSIONS_FOR_VISA();
-    this.FETCH_VISA();
+
   }
+
+
 
   selectedDownloadOption: string = 'Download as';
   DOWNLOAD(OPTION: string) {
     this.generalService.getData('EXPORT_VISAS_TO_EXCEL')
   }
 
+  showToggle = true;
+
   // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
   GET_ADMIN_PERMISSIONS_FOR_VISA() {
-    this.ADMIN_LOGGED_IN_VISA_PERMISSION = this.adminService.ADMIN_LOGGED_IN.permissions.visa;
-  }
+    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {
+         this.ADMIN_LOGGED_IN_VISA_PERMISSION = response.permissions.visa; 
+         console.log(this.ADMIN_LOGGED_IN_VISA_PERMISSION) 
+        },
+      error: (error: any) => { },
+      complete: () => {
+    if(this.ADMIN_LOGGED_IN_VISA_PERMISSION=='readwrite' || this.ADMIN_LOGGED_IN_VISA_PERMISSION=='read'){
+      this.FETCH_VISA();
+      console.log('here')
+      this.showToggle = false;
 
+    }
+
+    else {
+      this.showToggle = true;
+
+    }
+    }
+    });
+  }
 
   // FILTERING BY DROPDOWN SELECTION : DATE OR STATUS
   showDatePicker = false;
@@ -225,13 +250,13 @@ export class VisaComponentComponent implements OnInit {
 
   // Method to handle the panel closed event
   CLOSE_PANEL() {
-    this.open_expansion_value = 0;
-    this.panelOpenState = false;
+      this.open_expansion_value = 0;
+      this.panelOpenState = false
   }
 
   OPEN_PANEL() {
-    this.open_expansion_value = 1;
-    this.panelOpenState = true;
+      this.open_expansion_value = 1;
+      this.panelOpenState = true;
   }
 
 
@@ -410,6 +435,7 @@ export class VisaComponentComponent implements OnInit {
     this.show_shimmer = true;
     this.visaService.GET_ALL_VISA(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
+        console.log(response)
         this.current_page_array_length = response.visas.length
         this.Visa_Array_length = response.pagination.totalVisas;
         this.VisaArray = new MatTableDataSource(response.visas);
