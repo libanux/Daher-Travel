@@ -122,6 +122,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   // Function to handle input change
   SEARCH_FILTER_RECRUITINGS() {
+    this.paginator.firstPage();
     this.recruitingService.SEARCH_FILTER_RECRUITING(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
@@ -164,8 +165,11 @@ export class LaborMainComponent implements AfterViewInit {
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
+
     this.currentPage = event.pageIndex + 1;
-    this.FETCH_RECRUITINGS()
+    this.FETCH_RECRUITINGS();
+
+
   }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
@@ -236,6 +240,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   //ADD NEW RECRUITING RECORD
   ADD_RECRUITING(): void {
+    this.SHOW_LOADING_SPINNER = true;
     this.recruitingService.ADD_RECRUITING(this.editedrecruiting).subscribe({
       next: (response: any) => {
         this.CLEAR_VALUES(this.editedrecruiting)
@@ -244,24 +249,28 @@ export class LaborMainComponent implements AfterViewInit {
       },
       error: (error: any) => {
         console.error("Error:", error)
+        this.SHOW_LOADING_SPINNER = false;
       },
       complete: () => {
+        this.SHOW_LOADING_SPINNER = false;
       }
     });
   }
 
   // SET UPDATE VALUES
   UPDATE(obj: LaborList): void {
+    this.MAIN_SELECTED_LABOR_DATA = obj;
     this.ShowAddButoon = false;
     this.editedrecruiting = { ...obj };
     this.CurrentAction = 'Update Recruiting'
     this.open_expansion_value = 1;
     this.panelOpenState = true;
-    this.MAIN_SELECTED_LABOR_DATA = obj;
+
   }
 
   //UPDATE RECRUITING RECORD
   UPDATE_RECRUITING() {
+    this.SHOW_LOADING_SPINNER = true;
     this.recruitingService.UPDATE_RECRUITING(this.editedrecruiting).subscribe({
       next: (response: any) => {
         this.FETCH_RECRUITINGS();
@@ -271,8 +280,11 @@ export class LaborMainComponent implements AfterViewInit {
       },
       error: (error: any) => {
         console.error('Error:', error.error);
+        this.SHOW_LOADING_SPINNER = false;
       },
-      complete: () => { }
+      complete: () => {
+        this.SHOW_LOADING_SPINNER = false;
+      }
     });
 
   }
