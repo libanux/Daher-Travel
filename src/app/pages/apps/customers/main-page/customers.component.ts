@@ -102,18 +102,15 @@ export class CustomersComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent): void {
-    console.log('onPageChange ',event)
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
-
-    this.FETCH_CUSTOMER()
+    this.FETCH_CUSTOMER();
   }
 
   // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
   goToPreviousPage(): void {
     if (this.paginator.hasPreviousPage()) {
       this.paginator.previousPage();
-      console.log('heree')
     }
   }
 
@@ -277,11 +274,14 @@ export class CustomersComponent implements OnInit {
     this.routeSignalService.show_pop_up_route.set(false);
   }
 
+
+  // FILTRATION
+
   // FILTER BY SEARCH KEY
   APPLY_SEARCH_FILTER(searchValue: string): void {
-    this.Current_page = 1
+    this.paginator.firstPage();
     this.SEARCK_KEY = searchValue
-    this.FILTER_VISAS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
+    this.FILTER_CUSTOMERS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
   }
 
   SEARCK_KEY = '';
@@ -290,7 +290,7 @@ export class CustomersComponent implements OnInit {
   END_DATE = ''
   STATUS = ''
   // FILTER FUNCTION
-  FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
+  FILTER_CUSTOMERS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
     this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
         this.current_page_array_length = response.customers.length

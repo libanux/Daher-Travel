@@ -44,9 +44,7 @@ export class AppNavItemComponent implements OnChanges, OnInit {
   @Input() item: NavItem | any;
   @Input() depth: any;
 
-  // GETTING THE ADMIN BY ID TO CHECK THE PERMISSIONS
-  admin: Admin;
-  adminID: string = '';
+
 
   showToggle = true;
   svgContent: string = ''
@@ -55,8 +53,6 @@ export class AppNavItemComponent implements OnChanges, OnInit {
     if (this.depth === undefined) {
       this.depth = 0;
     }
-
-    this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
   }
 
 
@@ -77,18 +73,6 @@ export class AppNavItemComponent implements OnChanges, OnInit {
       }
     });
   }
-
-
-  checkPermission(permissionName: keyof Admin['permissions']): boolean {
-    console.log(this.admin.permissions)
-    // Replace 'admin' with the actual object representing your logged-in admin
-    if (this.admin.permissions[permissionName] === 'none') {
-      return false; // Hide items with 'none' permission
-    }
-    // Implement logic to check other permissions as needed
-    return true; // Show items by default if no specific check is needed
-  }
-
 
   onItemSelected(item: NavItem) {
     if (item.displayName == 'logout') {

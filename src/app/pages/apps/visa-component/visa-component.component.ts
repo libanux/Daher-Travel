@@ -125,7 +125,6 @@ export class VisaComponentComponent implements OnInit {
   // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
   GET_ADMIN_PERMISSIONS_FOR_VISA() {
     this.ADMIN_LOGGED_IN_VISA_PERMISSION = this.adminService.ADMIN_LOGGED_IN.permissions.visa;
-    console.log(this.ADMIN_LOGGED_IN_VISA_PERMISSION)
   }
 
 
@@ -144,6 +143,9 @@ export class VisaComponentComponent implements OnInit {
         this.END_DATE = '';
 
         this.showDatePicker = false;
+
+        this.FILTER_TYPE = value;
+
         this.FILTER_ARRAY_BY_DATE(value)
       }
     }
@@ -152,9 +154,11 @@ export class VisaComponentComponent implements OnInit {
     else if (dropdown == 'status') {
       if (value == 'all') {
         this.FILTER_ARRAY_BY_STATUS('')
+        this.STATUS = ''
       }
       else {
         this.FILTER_ARRAY_BY_STATUS(value)
+        this.STATUS = value
       }
     }
 
@@ -199,7 +203,7 @@ export class VisaComponentComponent implements OnInit {
         this.CHECK_IF_CHANGED_CUSTOMER_NAME()
       }
 
-      else if (result.event === 'delete') {
+      else if (result.event === 'Delete') {
         this.DELETE_VISA(obj._id);
       }
 
@@ -230,18 +234,36 @@ export class VisaComponentComponent implements OnInit {
     this.panelOpenState = true;
   }
 
+
+  //  PAGING
+
   // function when page number changes
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
-    console.log(event)
-    this.Current_page = event.pageIndex + 1;
-    this.FETCH_VISA();
+
+    if (this.STATUS != '' || this.FILTER_TYPE != '') {
+      this.Current_page = event.pageIndex + 1;
+      this.FILTER_VISAS(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
+    }
+
+    else {
+      this.Current_page = event.pageIndex + 1;
+      this.FETCH_VISA();
+    }
+
   }
+
+  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+    }
+  }
+
 
   isAnyFieldNotEmpty = false; // Flag to track if any field has content
   // Function to log input changes
   onInputChange() {
-
     // When inputs changes -> i check if they are the same as the main one
     // if they are the same keep the update button disabled
     if (JSON.stringify(this.MAIN_SELECTED_VISA_DATA) !== JSON.stringify(this.ADDED_VISA)) {
@@ -261,8 +283,10 @@ export class VisaComponentComponent implements OnInit {
     }
   }
 
-  filteredCustomers: any[] = []
 
+  // CUSTOMERS
+
+  filteredCustomers: any[] = []
   filterCustomers() {
     const query = this.CUSTOMER_SELECTED.name.toLowerCase();
     this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.filter((customer: any) =>
@@ -297,7 +321,7 @@ export class VisaComponentComponent implements OnInit {
       }
 
       if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
-        console.log('CUSTOMER_SELECTED EQUAL')
+        // console.log('CUSTOMER_SELECTED EQUAL')
       }
 
       else {
@@ -331,6 +355,9 @@ export class VisaComponentComponent implements OnInit {
       }
     });
   }
+
+
+  // DATE SELECTION
 
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
@@ -375,14 +402,6 @@ export class VisaComponentComponent implements OnInit {
     return this.generalService.GET_STATUS_CLASS(status, 'pending', 'approved', 'rejected')
   }
 
-  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
-  goToPreviousPage(): void {
-    if (this.paginator && this.paginator.hasPreviousPage()) {
-      this.paginator.previousPage();
-      console.log('page size ', this.pageSize)
-      console.log(' current_page_array_length ', this.current_page_array_length)
-    }
-  }
 
   // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
@@ -412,14 +431,9 @@ export class VisaComponentComponent implements OnInit {
     this.DATA_CHANGED = false;
     this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
     this.MAIN_SELECTED_VISA_DATA = new VisaClass()
-
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
-
-  
-
     this.onCustomerSelected(this.CUSTOMER_SELECTED)
-
   }
 
   // DELETE VSIA
@@ -428,10 +442,6 @@ export class VisaComponentComponent implements OnInit {
       next: (response: any) => {
         // CHECK IF I AM DELETING THE LAST ITEM LEFT IN THE PAGE I AM AT
         // IF YES --> GO BACK TO THE PREVOUIS PAGE
-
-        console.log('page size ', this.pageSize)
-        console.log(' current_page_array_length ', this.current_page_array_length)
-
         if (this.current_page_array_length == 1) {
           this.Current_page = this.Current_page - 1
           this.goToPreviousPage()
@@ -507,18 +517,20 @@ export class VisaComponentComponent implements OnInit {
   // STATUS FILTERATION
   FILTER_ARRAY_BY_STATUS(val: any) {
     this.STATUS = val
+    this.paginator.firstPage();
     this.FILTER_VISAS(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, val)
   }
 
   // DATE FILTERATION
   FILTER_ARRAY_BY_DATE(filter_type: any) {
     this.FILTER_TYPE = filter_type
+    this.paginator.firstPage();
     this.FILTER_VISAS(this.SEARCK_KEY, filter_type, this.START_DATE, this.END_DATE, this.STATUS)
   }
 
   // FILTER BY SEARCH KEY
   APPLY_SEARCH_FILTER(searchValue: string): void {
-    this.Current_page = 1
+    this.paginator.firstPage();
     this.SEARCK_KEY = searchValue
     this.FILTER_VISAS(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
   }
