@@ -126,7 +126,7 @@
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Pending" [(ngModel)]="ADDED_VISA.status" (ngModelChange)="onInputChange()">
+            <mat-select placeholder="Status" [(ngModel)]="ADDED_VISA.status" (ngModelChange)="onInputChange()">
               @for(status of Status_Array; track status) {
               <mat-option value={{status.value}}>{{status.viewValue}}</mat-option>
               }
