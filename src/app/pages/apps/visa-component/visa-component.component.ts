@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -100,7 +100,7 @@ export class VisaComponentComponent implements OnInit {
   // Used in filter by date
 
   constructor(
-    private adminService:AdminService,
+    private adminService: AdminService,
     private customerService: CustomerService,
     private routeSignalService: RouteSignalService,
     private breadCrumbService: BreadCrumbSignalService,
@@ -109,17 +109,15 @@ export class VisaComponentComponent implements OnInit {
 
   }
 
-  ADMIN_LOGGED_IN_VISA_PERMISSION : string
-  
+  ADMIN_LOGGED_IN_VISA_PERMISSION: string
+
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Visa');
     this.GET_ADMIN_PERMISSIONS_FOR_VISA();
-    this.pageSize = this.generalService.PageSizing;
     this.FETCH_VISA();
   }
 
   selectedDownloadOption: string = 'Download as';
-
   DOWNLOAD(OPTION: string) {
     this.generalService.getData('EXPORT_VISAS_TO_EXCEL')
   }
@@ -127,7 +125,6 @@ export class VisaComponentComponent implements OnInit {
   // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
   GET_ADMIN_PERMISSIONS_FOR_VISA() {
     this.ADMIN_LOGGED_IN_VISA_PERMISSION = this.adminService.ADMIN_LOGGED_IN.permissions.visa
-    console.log(this.ADMIN_LOGGED_IN_VISA_PERMISSION)
   }
 
 
@@ -198,10 +195,6 @@ export class VisaComponentComponent implements OnInit {
           name: this.MAIN_SELECTED_VISA_DATA.customer.name,
           phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
         }
-
-        console.log('main visa selected ', this.MAIN_SELECTED_VISA_DATA)
-        console.log('CUSTOMER_SELECTED  ', this.CUSTOMER_SELECTED)
-
         this.CHECK_IF_CHANGED_CUSTOMER_NAME()
       }
 
@@ -217,10 +210,6 @@ export class VisaComponentComponent implements OnInit {
   }
 
   CHECK_IF_CHANGED_CUSTOMER_NAME() {
-    console.log('MAIN_SELECTED_VISA_DATA.customer.name ', this.MAIN_SELECTED_VISA_DATA.customer.name)
-    console.log('CUSTOMER_SELECTED.customer.name ', this.CUSTOMER_SELECTED.name)
-
-
     if (this.MAIN_SELECTED_VISA_DATA.customer.name !== this.CUSTOMER_SELECTED.name) {
       this.DATA_CHANGED = true;
     }
@@ -243,6 +232,7 @@ export class VisaComponentComponent implements OnInit {
   // function when page number changes
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
+    console.log(event)
     this.Current_page = event.pageIndex + 1;
     this.FETCH_VISA();
   }
@@ -285,15 +275,7 @@ export class VisaComponentComponent implements OnInit {
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
       next: (response: any) => {
         this.ALL_CUSTOMERS_ARRAY = response.customers;
-        // Transforming each customer object to include only necessary properties
-        // this.filteredCustomers = this.ALL_CUSTOMERS_ARRAY.map((customer: any) => ({
-        //   id: customer.id,
-        //   name: customer.name,
-        //   phoneNumber: customer.phoneNumber,
-        //   disabled: false  // Set disabled to false for all customers initially
-        // }));
         this.filteredCustomers = response.customers;
-        console.log(this.filteredCustomers)
       },
       error: (error) => { },
       complete: () => { }
@@ -304,24 +286,17 @@ export class VisaComponentComponent implements OnInit {
   PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
   onCustomerSelected(event: any) {
 
-    console.log(event)
-
     if (event != 'Add New Customer') {
 
       this.CUSTOMER_SELECTED =
       {
-        id: event.id,
+        id: event._id,
         name: event.name,
         phoneNumber: event.phoneNumber
       }
-      console.log('CUSTOMER_SELECTED ', this.CUSTOMER_SELECTED)
-
 
       if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
-        console.log('CUSTOMER_SELECTED EQUAL ', this.CUSTOMER_SELECTED)
-        console.log('prevoius ', this.PREVIOUS_CUSTOMER_SELECTED)
-        console.log('CUSTOMER_SELECTED ', this.CUSTOMER_SELECTED)
-        // this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
+        console.log('CUSTOMER_SELECTED EQUAL')
       }
 
       else {
@@ -399,6 +374,15 @@ export class VisaComponentComponent implements OnInit {
     return this.generalService.GET_STATUS_CLASS(status, 'pending', 'approved', 'rejected')
   }
 
+  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+      console.log('page size ', this.pageSize)
+      console.log(' current_page_array_length ', this.current_page_array_length)
+    }
+  }
+
   // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
   // GET ALL VISA'S 
@@ -407,9 +391,8 @@ export class VisaComponentComponent implements OnInit {
     this.visaService.GET_ALL_VISA(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
         this.current_page_array_length = response.visas.length
-        this.VisaArray = new MatTableDataSource(response.visas);
-        // LENGTH : FOR PAGINATION 
         this.Visa_Array_length = response.pagination.totalVisas;
+        this.VisaArray = new MatTableDataSource(response.visas);
       },
       error: (error) => { },
       complete: () => {
@@ -454,8 +437,15 @@ export class VisaComponentComponent implements OnInit {
   DELETE_VISA(ID: number): void {
     this.visaService.DELETE_VISA(ID).subscribe({
       next: (response: any) => {
+        // CHECK IF I AM DELETING THE LAST ITEM LEFT IN THE PAGE I AM AT
+        // IF YES --> GO BACK TO THE PREVOUIS PAGE
+
+        console.log('page size ', this.pageSize)
+        console.log(' current_page_array_length ', this.current_page_array_length)
+
         if (this.current_page_array_length == 1) {
           this.Current_page = this.Current_page - 1
+          this.goToPreviousPage()
         }
       },
       error: (error) => { },
