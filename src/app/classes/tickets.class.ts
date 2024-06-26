@@ -16,6 +16,7 @@ export class Tickets {
     public seats: string = '',
     public credit: string = '',
     public balance: string = '',
+    public status: string = ''
     // public createdAt: Date = new Date(),
     // public updatedAt: Date = new Date()
   ) { }

@@ -14,6 +14,7 @@ import { WholesalerClass } from 'src/app/classes/wholesaler.class';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Package } from 'src/app/classes/package.class';
+import { Visa_Status_Array } from 'src/app/classes/visaClass';
 
 @Component({
   selector: 'app-tickets',
@@ -92,8 +93,12 @@ export class TicketsComponent {
     cost: '',
     credit: '',
     note: '',
-    seats: ''
+    seats: '',
+    status: ''
   }
+
+  Status_Array: any[] = Visa_Status_Array
+
 
   searchQuery: string;
   searchQuery1: string = ''
@@ -141,7 +146,6 @@ export class TicketsComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Add Wholesaler') {
-        console.log("Adding wholesaler:", result)
         this.ADD_WHOLESALER(result.data);
         // this.ADDED_TICKET.wholesaler.id = result.data.id;
         // this.ADDED_TICKET.wholesaler.name = result.data.name;
@@ -149,7 +153,6 @@ export class TicketsComponent {
       } else if (result.event === 'Delete') {
         this.DELETE_TICKETING(obj);
       } else if (result.event === 'Add New Customer') {
-        console.log("Adding customer:", result)
         this.ADD_NEW_CUSTOMER(result.data);
         this.ADDED_TICKET.name = result.data.name;
       }
@@ -161,16 +164,11 @@ export class TicketsComponent {
 
   ADD_NEW_CUSTOMER(obj: CustomerClass) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
-
       next: (response: any) => {
         this.CUSTOMER_SELECTED.id = obj._id
         this.CUSTOMER_SELECTED.name = obj.name
-
-
         this.CUSTOMER_SELECTED.name = response.name
         this.ADDED_TICKET.name = response.name;
-        console.log('Response:', response)
-
       },
       error: (error) => { },
       complete: () => {
@@ -186,9 +184,7 @@ export class TicketsComponent {
       next: (response: any) => {
         this.WHOLESALER_SELECTED = wholesaler;
         this.WHOLESALER_SELECTED.name = response.name;
-        // this.ADDED_TICKET.wholesaler.name = response.name;
         this.ADDED_TICKET.wholesaler.id = response._id;
-        console.log("Response:", response);
       },
       error: (error: any) => {
         console.error('Error:', error);
@@ -218,11 +214,8 @@ export class TicketsComponent {
 
     this.wholesaler.GET_ALL_WHOLESALERS(1).subscribe({
       next: (response: any) => {
-        console.log("All wholesalers", response.wholesalers)
         this.allWholesalers = response.wholesalers
         this.filteredWholeSalers = response.wholesalers;
-        console.log("filteredWholeSalers ", this.filteredWholeSalers)
-
       },
       error: (error) => { },
       complete: () => { }
@@ -233,7 +226,6 @@ export class TicketsComponent {
   FETCH_CUSTOMER() {
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
       next: (response: any) => {
-        console.log("All customers", response.customers)
         this.allCustomers = response.customers;
         this.filteredCustomers = response.customers;
       },
@@ -346,7 +338,6 @@ export class TicketsComponent {
 
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
-    console.log("Added ticket", this.ADDED_TICKET)
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
 
       next: (response: any) => {
@@ -468,7 +459,9 @@ export class TicketsComponent {
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
-    
+    this.WHOLESALER_SELECTED.id = obj.wholesaler.id
+    this.WHOLESALER_SELECTED.name = obj.wholesaler.name
+
     this.ShowAddButoon = false;
     this.ADDED_TICKET = { ...obj };
     this.currentAction = 'Update Ticket';
@@ -485,12 +478,9 @@ export class TicketsComponent {
     this.ticketingService.UPDATE_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
         this.FETCH_TICKETINGS();
-        console.log("Id after update", this.ADDED_TICKET)
         this.CLEAR_VALUES(this.ADDED_TICKET)
         this.currentAction = 'Add Ticket';
         this.open_expansion_value = -1;
-        console.log("RESPONSE ON UPDATE", response)
-
       },
       error: (error: any) => {
         console.error('Error:', error.error);
@@ -506,7 +496,6 @@ export class TicketsComponent {
   DATA_CHANGED: boolean = false;
   MAIN_SELECTED_TICKET_DATA: Tickets = new Tickets()
   onWholesalerSelected(event: any ) {
-    console.log('wholesaler selected ', event.option.value)
     this.WHOLESALER_SELECTED = { id: '', name: ''}
 
     if(event.option.value == 'Add New Wholesaler'){
@@ -530,7 +519,6 @@ export class TicketsComponent {
   }
 
   onCustomerSelected(event: any ) {
-    console.log('customer event ', event)
     this.CUSTOMER_SELECTED = { id: '', name: ''}
 
     if(event.option.value == 'Add New customer'){
@@ -548,9 +536,6 @@ export class TicketsComponent {
       this.ADDED_TICKET.name = this.CUSTOMER_SELECTED.name
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
-
-    console.log('customer selected ', event.option.value)
-
   }
 
   CHECK_IF_CHANGED_CUSTOMER_NAME(){
@@ -578,8 +563,14 @@ export class TicketsComponent {
       cost: '',
       credit: '',
       note: '',
-      seats: ''
+      seats: '',      
+      status: ''
     }
+
+    this.WHOLESALER_SELECTED = {
+      id: '', name : ''
+    }
+
     this.searchQuery = ''
     this.searchQuery1 = ''
     this.open_expansion_value = -1;

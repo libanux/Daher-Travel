@@ -214,11 +214,11 @@
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
           </div>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Status">
-              <mat-option value="pending">Pending</mat-option>
-              <mat-option value="completed">Completed</mat-option>
-              <mat-option value="canceled">Canceled</mat-option>
+          <mat-form-field appearance="outline" class="w-100" >
+            <mat-select placeholder="Status" [(ngModel)]="ADDED_TICKET.status">
+              @for(status of Status_Array; track status) {
+                <mat-option value={{status.value}}>{{status.viewValue}}</mat-option>
+                }
             </mat-select>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
