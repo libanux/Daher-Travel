@@ -52,8 +52,9 @@ export class TicketsComponent {
   ADDED_WHOLESALER: WholesalerClass = new WholesalerClass()
   choosenWholesaler: WholesalerClass
   NEW_CUSTOMER_ADDED: CustomerClass[] = []
-  CUSTOMER_SELECTED =  { id: '', name: ''}
-  WHOLESALER_SELECTED=  { id: '', name: ''}
+  NEW_WHOLESALER_ADDED: WholesalerClass[] = []
+  CUSTOMER_SELECTED = { id: '', name: '' }
+  WHOLESALER_SELECTED = { id: '', name: '' }
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -145,16 +146,21 @@ export class TicketsComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'Add Wholesaler') {
+      if (result.event === 'Add New Wholesaler') {
+
         this.ADD_WHOLESALER(result.data);
-        // this.ADDED_TICKET.wholesaler.id = result.data.id;
-        // this.ADDED_TICKET.wholesaler.name = result.data.name;
-        this.cdr.detectChanges();
+        this.ADDED_TICKET.wholesaler.id = result.data.id;
+        this.ADDED_TICKET.wholesaler.name = result.data.name;
+
       } else if (result.event === 'Delete') {
+
         this.DELETE_TICKETING(obj);
+
       } else if (result.event === 'Add New Customer') {
+
         this.ADD_NEW_CUSTOMER(result.data);
         this.ADDED_TICKET.name = result.data.name;
+
       }
     });
   }
@@ -180,19 +186,21 @@ export class TicketsComponent {
 
   //ADD NEW WHOLESALER
   ADD_WHOLESALER(wholesaler: any) {
+    console.log("Added wholesaler", wholesaler)
     this.wholesaler.ADD_WHOLESALER(wholesaler).subscribe({
+
       next: (response: any) => {
-        this.WHOLESALER_SELECTED = wholesaler;
-        this.WHOLESALER_SELECTED.name = response.name;
-        this.ADDED_TICKET.wholesaler.id = response._id;
+        this.WHOLESALER_SELECTED.id = wholesaler._id;
+        this.WHOLESALER_SELECTED.name = wholesaler.name;
+        this.ADDED_TICKET.wholesaler.id = response.id;
+        this.ADDED_TICKET.wholesaler.name = response.name;
       },
       error: (error: any) => {
         console.error('Error:', error);
       },
       complete: () => {
-        this.ADDED_TICKET.wholesaler.id = ''
-        this.ADDED_TICKET.wholesaler.id = ''
-       }
+        this.FETCH_WHOLESALERS()
+      }
     });
   }
 
@@ -339,8 +347,8 @@ export class TicketsComponent {
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
-
       next: (response: any) => {
+        console.log("Add tick", response)
         this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
       },
@@ -397,7 +405,7 @@ export class TicketsComponent {
     this.CLEAR_VALUES(this.ADDED_TICKET);
     this.currentAction = 'Add Ticket';
     this.routeSignalService.show_pop_up_route.set(false);
-    this.CUSTOMER_SELECTED = {id: '', name: ''};
+    this.CUSTOMER_SELECTED = { id: '', name: '' };
 
   }
 
@@ -468,6 +476,7 @@ export class TicketsComponent {
     this.open_expansion_value = 1;
     this.panelOpenState = true;
     this.routeSignalService.show_pop_up_route.set(false);
+    console.log("Added tick . seats",this.ADDED_TICKET.seats)
 
 
   }
@@ -487,7 +496,7 @@ export class TicketsComponent {
       },
       complete: () => {
         // this.CUSTOMER_SELECTED = <CustomerClass>{};
-      
+
       }
     });
 
@@ -495,53 +504,61 @@ export class TicketsComponent {
 
   DATA_CHANGED: boolean = false;
   MAIN_SELECTED_TICKET_DATA: Tickets = new Tickets()
-  onWholesalerSelected(event: any ) {
-    this.WHOLESALER_SELECTED = { id: '', name: ''}
 
-    if(event.option.value == 'Add New Wholesaler'){
-        this.OPEN_DIALOG('Add New Wholesaler', this.NEW_CUSTOMER_ADDED)
-        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+  onWholesalerSelected(event: any) {
+    this.WHOLESALER_SELECTED = { id: '', name: '' }
+  
+    if (event.option.value == 'Add New wholesaler') {
+      this.OPEN_DIALOG('Add New Wholesaler', this.NEW_WHOLESALER_ADDED)
+      this.CHECK_IF_CHANGED_WHOLESALER_NAME()
     }
 
     else {
-      this.WHOLESALER_SELECTED = 
+      this.WHOLESALER_SELECTED =
       {
         id: event.option.value._id,
         name: event.option.value.name,
       }
-  
-      this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED.id     
-       this.ADDED_TICKET.wholesaler.name = this.WHOLESALER_SELECTED.name
-
-
-      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+      this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED.id
+      this.ADDED_TICKET.wholesaler.name = this.WHOLESALER_SELECTED.name
+      this.CHECK_IF_CHANGED_WHOLESALER_NAME()
+      console.log("The add",this.ADDED_TICKET)
     }
   }
 
-  onCustomerSelected(event: any ) {
-    this.CUSTOMER_SELECTED = { id: '', name: ''}
+  onCustomerSelected(event: any) {
+    this.CUSTOMER_SELECTED = { id: '', name: '' }
 
-    if(event.option.value == 'Add New customer'){
-        this.OPEN_DIALOG('Add New Wholesaler', this.NEW_CUSTOMER_ADDED)
-        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+    if (event.option.value == 'Add New customer') {
+      this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
+      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
 
     else {
-      this.CUSTOMER_SELECTED = 
+      this.CUSTOMER_SELECTED =
       {
         id: event.option.value._id,
         name: event.option.value.name,
       }
-  
+
       this.ADDED_TICKET.name = this.CUSTOMER_SELECTED.name
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
   }
 
-  CHECK_IF_CHANGED_CUSTOMER_NAME(){
-    if (this.MAIN_SELECTED_TICKET_DATA.wholesaler.name !== this.CUSTOMER_SELECTED.name ) {
+  CHECK_IF_CHANGED_CUSTOMER_NAME() {
+    if (this.MAIN_SELECTED_TICKET_DATA.wholesaler.name !== this.CUSTOMER_SELECTED.name) {
       this.DATA_CHANGED = true;
-    } 
+    }
+    else {
+      this.DATA_CHANGED = false;
+    }
+  }
+
+  CHECK_IF_CHANGED_WHOLESALER_NAME() {
+    if (this.MAIN_SELECTED_TICKET_DATA.wholesaler.name !== this.CUSTOMER_SELECTED.name) {
+      this.DATA_CHANGED = true;
+    }
     else {
       this.DATA_CHANGED = false;
     }
@@ -563,12 +580,12 @@ export class TicketsComponent {
       cost: '',
       credit: '',
       note: '',
-      seats: '',      
+      seats: '',
       status: ''
     }
 
     this.WHOLESALER_SELECTED = {
-      id: '', name : ''
+      id: '', name: ''
     }
 
     this.searchQuery = ''
@@ -605,7 +622,7 @@ export class AppTicketingDialogContentComponent {
     if (this.action === 'Delete') {
       this.dialogRef.close({ event: this.action, data: this.TICKET_SELECTED });
     }
-    if (this.action === 'Add Wholesaler') {
+    if (this.action === 'Add New Wholesaler') {
       this.dialogRef.close({ event: this.action, data: this.ADDED_WHOLESALER });
     }
     if (this.action === 'Add New Customer') {

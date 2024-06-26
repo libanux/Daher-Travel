@@ -18,10 +18,14 @@
           <mat-form-field appearance="outline" class="w-100">
 
             <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="autoCustomer"
-            [(ngModel)]="ADDED_TICKET.name" (input)="filterCustomers()" name="customer">
+              [(ngModel)]="ADDED_TICKET.name" (input)="filterCustomers()" name="customer">
 
             <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"> <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
+                width="24px" fill="#5f6368">
+                <path
+                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+              </svg>
             </mat-icon>
             <mat-autocomplete #autoCustomer="matAutocomplete" (optionSelected)="onCustomerSelected($event)">
               <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
@@ -75,37 +79,41 @@
         </div>
 
         <!-- WHOLESALER-->
-             <div class="col-md-3 d-flex flex-column">
-              <div class="d-flex align-items-center">
-                <mat-label 
-                class="mat-subtitle-2 f-w-600 d-block m-b-16">Wholesaler</mat-label>
-              </div>
-              <mat-form-field appearance="outline" class="w-100">
+        <div class="col-md-3 d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Wholesaler</mat-label>
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
 
-                <input matInput placeholder="Search wholesalers....." aria-label="wholesaler" [matAutocomplete]="autoWholesaler"
-       [(ngModel)]="WHOLESALER_SELECTED.name" (input)="filterWholesalers()" name="wholesaler">
+            <input matInput placeholder="Search wholesalers....." aria-label="wholesaler"
+              [matAutocomplete]="autoWholesaler" [(ngModel)]="WHOLESALER_SELECTED.name" (input)="filterWholesalers()"
+              name="wholesaler">
 
-                <mat-icon matPrefix class="op-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
-                </mat-icon>
-                <mat-autocomplete #autoWholesaler="matAutocomplete" (optionSelected)="onWholesalerSelected($event)">
-                  <mat-option *ngFor="let wholesaler of filteredWholeSalers" [value]="wholesaler">
-                    {{wholesaler.name}}
-                  </mat-option>
-                  <mat-option class="add-new-wholesaler-option" [value]="'Add New Wholesaler'">
-                    <div class="option-content">
-                      <mat-icon matPrefix class="op-5">
-                        <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
-                      </mat-icon>
-                      <span>Add New wholesaler</span>
-                    </div>
-                  </mat-option>
-    
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-        
-        
+            <mat-icon matPrefix class="op-5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
+                width="24px" fill="#5f6368">
+                <path
+                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+              </svg>
+            </mat-icon>
+            <mat-autocomplete #autoWholesaler="matAutocomplete" (optionSelected)="onWholesalerSelected($event)">
+              <mat-option *ngFor="let wholesaler of filteredWholeSalers" [value]="wholesaler">
+                {{wholesaler.name}}
+              </mat-option>
+              <mat-option class="add-new-wholesaler-option" [value]="'Add New Wholesaler'" (click)="OPEN_DIALOG('Add New Wholesaler', NEW_WHOLESALER_ADDED)">
+                <div class="option-content">
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                  <span>Add New wholesaler</span>
+                </div>
+              </mat-option>
+
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+
 
 
       </div>
@@ -214,11 +222,11 @@
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Status</mat-label>
           </div>
-          <mat-form-field appearance="outline" class="w-100" >
+          <mat-form-field appearance="outline" class="w-100">
             <mat-select placeholder="Status" [(ngModel)]="ADDED_TICKET.status">
               @for(status of Status_Array; track status) {
-                <mat-option value={{status.value}}>{{status.viewValue}}</mat-option>
-                }
+              <mat-option value={{status.value}}>{{status.viewValue}}</mat-option>
+              }
             </mat-select>
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -306,24 +314,24 @@
           </mat-icon>
         </mat-form-field>
       </div>
-      
-        <!-- Download As -->
-        <div class="dropdown">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
-              (selectionChange)="onChange($event.value, 'Download')">
-              @for(option of Options; track option) {
-              <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
-              }
-            </mat-select>
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                <path
-                  d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </div>
+
+      <!-- Download As -->
+      <div class="dropdown">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select placeholder={{selectedDownloadOption}} [ngModel]="selectedDownloadOption"
+            (selectionChange)="onChange($event.value, 'Download')">
+            @for(option of Options; track option) {
+            <mat-option value={{option.value}}>{{option.viewValue}}</mat-option>
+            }
+          </mat-select>
+          <mat-icon matPrefix class="op-5">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+              <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+            </svg>
+          </mat-icon>
+        </mat-form-field>
+      </div>
 
 
     </div>
@@ -331,12 +339,13 @@
 
   <mat-card-content>
     @if(show_shimmer){
-    <app-table-shimmer [headers]="displayedColumns" [ROWS_COUNT]="ROWS_COUNT_SHIMMER"></app-table-shimmer>
+    <app-table-shimmer [headers]="displayedColumns"></app-table-shimmer>
     }
     @else{
     <!-- TABLE BODY -->
     <div class="table-responsive">
       <table mat-table [dataSource]="tickets" multiTemplateDataRows>
+
         @for( column of displayedColumns; track column) {
         <ng-container matColumnDef="{{ column }}">
           <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
@@ -379,7 +388,7 @@
               {{ truncateText(element[column], 20) }}
             </ng-template>
 
-            
+
           </td>
         </ng-container>
         }

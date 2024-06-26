@@ -56,33 +56,32 @@ export class TicketingService {
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
-  
+
     const requestBody = {
-      "id": editedTicket._id,
-      "updateData": {
-        "name": editedTicket.name,
-        "wholesaler": {
-          "id": editedTicket.wholesaler.id,
-          "name": editedTicket.wholesaler.name
-        },
-        "source": editedTicket.source,
-        "destination": editedTicket.destination,
-        "note": editedTicket.note,
-        "cost": editedTicket.cost,
-        "seats": editedTicket.seats,
-        "credit": editedTicket.credit,
-        "balance": editedTicket.balance
-      }
+      "ticketId": editedTicket._id,
+      "name": editedTicket.name,
+      "wholesaler": {
+        "id": editedTicket.wholesaler.id,
+        "name": editedTicket.wholesaler.name
+      },
+      "source": editedTicket.source,
+      "destination": editedTicket.destination,
+      "note": editedTicket.note,
+      "cost": editedTicket.cost,
+      "seats": editedTicket.seats,
+      "credit": editedTicket.credit,
+      "balance": editedTicket.balance
+
     };
-    console.log("Request body",requestBody)
-  
+    console.log("Request body", requestBody)
+
     return this.http.post<any>(this.apiUrl + '/UPDATE_TICKETING', requestBody, { headers });
   }
 
 
   // ADD TICKETING
   ADD_TICKETING(newTicket: Tickets): Observable<any> {
-    console.log("The new ticket",newTicket)
+    console.log("The new ticket", newTicket)
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
@@ -94,6 +93,7 @@ export class TicketingService {
       "destination": newTicket.destination,
       "note": newTicket.note,
       "cost": newTicket.cost,
+      "seats": newTicket.seats,
       "credit": newTicket.credit,
       "balance": newTicket.balance,
       "wholesaler": {
@@ -101,7 +101,9 @@ export class TicketingService {
         "name": newTicket.wholesaler.name
       },
     };
-    console.log("Request body",requestBody)
+
+
+    console.log("Request body of tick", requestBody)
     return this.http.post<any>(this.apiUrl + '/ADD_TICKETING', requestBody, { headers })
   }
 
@@ -118,19 +120,19 @@ export class TicketingService {
     return this.http.post<any>(this.apiUrl + '/DELETE_TICKETING', requestBody, { headers })
   }
 
-// FILTER TICKETS BY SEARCHKEY
- SEARCH_TICKETS(pageSize:number, currentPage: number,searchkey:string): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.getToken()}`,
-    'Content-Type': 'application/json'
-  });
-  const requestBody = {
-      "name":searchkey,
-       "page": currentPage,
-       "pageSize": pageSize
-  };
-  return this.http.post<any>(this.apiUrl + '/SEARCH_TICKETING_BY_FIELDS', requestBody, { headers })
-}
+  // FILTER TICKETS BY SEARCHKEY
+  SEARCH_TICKETS(pageSize: number, currentPage: number, searchkey: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "name": searchkey,
+      "page": currentPage,
+      "pageSize": pageSize
+    };
+    return this.http.post<any>(this.apiUrl + '/SEARCH_TICKETING_BY_FIELDS', requestBody, { headers })
+  }
 
   // FILTER TICKETS BY DATE
   FILTER_TICKETS_BY_DATE(filterType: string, startDate: string, endDate: string): Observable<any> {
@@ -147,20 +149,20 @@ export class TicketingService {
   }
 
   // SEARCH AND FILTER TICKETS
- SEARCH_FILTER_TICKETS(pageSize:number, currentPage: number,searchkey:string,filterType: string , startDate: string , endDate: string): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.getToken()}`,
-    'Content-Type': 'application/json'
-  });
-  const requestBody = {
-    "search": searchkey,
-    "filterType":filterType,
-    "startDate": startDate,
-    "endDate": endDate,
-    "status": "",
-    "page": currentPage,
-    "pageSize": pageSize
-  };
-  return this.http.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_TICKETING', requestBody, { headers })
-}
+  SEARCH_FILTER_TICKETS(pageSize: number, currentPage: number, searchkey: string, filterType: string, startDate: string, endDate: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+    const requestBody = {
+      "search": searchkey,
+      "filterType": filterType,
+      "startDate": startDate,
+      "endDate": endDate,
+      "status": "",
+      "page": currentPage,
+      "pageSize": pageSize
+    };
+    return this.http.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_TICKETING', requestBody, { headers })
+  }
 }

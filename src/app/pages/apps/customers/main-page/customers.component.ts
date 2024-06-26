@@ -161,7 +161,7 @@ export class CustomersComponent implements OnInit {
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   VIEW_CUSTOMER(): void {
-    this.router.navigate(['apps/customers/view']).then(() => {
+    this.router.navigate(['/customers/view']).then(() => {
       window.scrollTo(0, 0);
     });
   }
