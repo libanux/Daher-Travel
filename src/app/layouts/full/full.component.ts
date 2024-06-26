@@ -13,6 +13,7 @@ import { MaterialModule } from '../../material.module';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppNavItemComponent, NavbarItemDialogContentComponent } from './vertical/sidebar/nav-item/nav-item.component';
+import { AdminService } from 'src/app/services/Admins.service';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -58,6 +59,7 @@ export class FullComponent implements OnInit {
   }
 
   constructor(
+    private adminsService:AdminService,
     private settings: CoreService,
     private mediaMatcher: MediaMatcher,
     private navService: NavService,
@@ -82,7 +84,42 @@ export class FullComponent implements OnInit {
     this.receiveOptions(this.options);
   }
 
-  ngOnInit(): void {}
+  admins_permissions: any = {
+        packages: '',
+        visa: '',
+        recruitment: '',
+        accounting: '',
+        users: '',
+        notes: '',
+        allreports: '',
+        customers: '',
+        laborReports: '',
+        ticketing: '',
+        wholesalers: ''
+    };
+    adminID: string;
+    filteredNavItems: any[] = []
+    
+  ngOnInit(): void {
+    this.adminID = localStorage.getItem('admin_id') || '';
+      // GET ADMIN LOGGED IN BY ID STORED IN LOCAL STORAGE
+    this.adminsService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {
+         this.admins_permissions = response.permissions; 
+         console.log(response);
+
+      // Filter navItems based on admins_permissions
+      this.filteredNavItems = this.navItems.filter(item => {
+        // Check if item has permission_name and user has that permission
+        return !item.permission_name || this.admins_permissions[item.permission_name] !== 'none';
+      }); 
+        },
+      error: (error: any) => { },
+      complete: () => {
+      console.log(this.filteredNavItems)
+      }
+    });
+  }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();

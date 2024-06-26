@@ -11,14 +11,24 @@ export class Admin {
         recruitment: string,
         accounting: string,
         users: string,
-        notes: string
+        notes: string,
+        allreports: string,
+        customers: string,
+        laborReports: string,
+        ticketing: string,
+        wholesalers: string
     } = {
             packages: '',
             visa: '',
             recruitment: '',
             accounting: '',
             users: '',
-            notes: ''
+            notes: '',
+            allreports: '',
+            customers: '',
+            laborReports: '',
+            ticketing: '',
+            wholesalers: ''
         };
     token: string = '';
 }

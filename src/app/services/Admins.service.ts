@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { GeneralService } from './general.service';
 import { environment } from 'src/enviroment/enviroment';
 import { Admin } from '../classes/admin.class';
+import { NavItem } from '../classes/nav-item';
+
+export const navItems: NavItem[] = [
+];
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +18,6 @@ export class AdminService {
   private pagingSize = 10;
   public ADMIN_LOGGED_IN: Admin;
   adminID: string;
-
   constructor(private httpClient: HttpClient, private generalService: GeneralService) {
     this.apiUrl = environment.apiLocalBaseUrl;
     this.pagingSize = this.generalService.PageSizing;
@@ -24,7 +27,11 @@ export class AdminService {
     this.GET_ADMIN_BY_ID(this.adminID).subscribe({
       next: (response: any) => { this.ADMIN_LOGGED_IN = response; },
       error: (error: any) => { },
-      complete: () => { console.log('after change in service : ', this.ADMIN_LOGGED_IN) }
+      complete: () => {
+        
+        console.log('after change in service : ', this.ADMIN_LOGGED_IN) 
+      
+      }
 
     });
   }

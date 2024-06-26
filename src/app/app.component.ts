@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   
     if (localStorage.getItem('TICKET') != '') {
       this.isLoggedIn = true;
-      this.router.navigate(['/apps/tickets']).then(() => {
+      this.router.navigate(['/tickets']).then(() => {
         window.scrollTo(0, 0);
       })
     }
