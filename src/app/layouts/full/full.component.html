@@ -1,8 +1,11 @@
 <mat-sidenav-container 
 class="mainWrapper" 
-autosize autoFocus [ngClass]="{
+autosize autoFocus 
+
+[ngClass]="{
 'sidebarNav-mini': options.sidenavCollapsed && options.navPos !== 'top' &&  !resView, cardBorder: options.cardBorder,}"
- [dir]="options.dir!">
+ [dir]="options.dir!"
+ >
 
 
 <!-- Sidebar -->
