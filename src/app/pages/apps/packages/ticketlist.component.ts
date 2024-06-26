@@ -47,21 +47,7 @@ export class AppTicketlistComponent implements OnInit {
 
 
   //PACKAGE ON EDIT
-  editedpackage: Package = {
-    _id: '',
-    customerId: '',
-    phoneNumber: '',
-    customerName: '',
-    source: '',
-    destination: '',
-    duration: 0,
-    hotels: '',
-    numberOfPeople: 0,
-    cost: 0,
-    sell: 0,
-    note: '',
-    status: ''
-  }
+  editedpackage: Package = new Package()
   selectedDownloadOption: string = 'Download'
   Options: any[] = Download_Options;
   //TABLE COLUMNS
@@ -153,8 +139,10 @@ export class AppTicketlistComponent implements OnInit {
   }
 
   filterCustomers() {
-    const query = this.editedpackage.customerName.toLowerCase();
-    this.filteredCustomers = this.allCustomers.filter((supplier: { name: string; }) => supplier.name.toLowerCase().includes(query));
+    const query = this.CUSTOMER_SELECTED.name.toLowerCase();
+    this.filteredCustomers = this.allCustomers.filter((customer: any) =>
+      customer.name.toLowerCase().includes(query)
+    );
   }
   isAnyFieldNotEmpty = false;
   //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
@@ -172,18 +160,25 @@ export class AppTicketlistComponent implements OnInit {
 
   }
 
+  // OPEN DIALOG TO MAKE SURE OF DELETION
   OPEN_DIALOG(action: string, obj: any): void {
+    obj.action = action;
+
     const dialogRef = this.dialog.open(AppPackageDialogContentComponent, {
-      data: { action, obj },
+      data: obj,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'Delete') {
+
+   
+
+       if (result.event === 'Delete') {
         this.DELETE_PACKAGE(obj);
-      } else if (result.event === 'Add New Customer') {
+      }
+
+      else if (result.event === 'Add New Customer') {
         this.ADD_NEW_CUSTOMER(result.data);
-        this.editedpackage.customerId = result.data.id;
-        this.editedpackage.customerName = result.data.name;
+        this.CUSTOMER_SELECTED = result.data.name
       }
     });
   }
@@ -192,8 +187,9 @@ export class AppTicketlistComponent implements OnInit {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
 
       next: (response: any) => {
-
-        this.editedpackage.customerName = response.name;
+        console.log("res", response)
+        this.CUSTOMER_SELECTED.id = response._id
+        this.CUSTOMER_SELECTED.name = response.name;
         console.log('Response:', response)
 
       },
@@ -225,10 +221,9 @@ export class AppTicketlistComponent implements OnInit {
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
-        console.log("Response:", response)
+        console.log("PACKAGESS:", response)
         this.show_shimmer = false
         this.packages = response.packages;
-        this.dataSource = new MatTableDataSource(this.packages);
         this.totalCount = response.pagination.totalPackages
         this.btnCategoryClick('')
 
@@ -249,7 +244,6 @@ export class AppTicketlistComponent implements OnInit {
       next: (response: any) => {
 
         this.packages = response.packages;
-        this.dataSource = new MatTableDataSource(this.packages);
         this.totalCount = response.pagination.totalPackages
       },
       error: (error: any) => {
@@ -292,29 +286,43 @@ export class AppTicketlistComponent implements OnInit {
   }
   DATA_CHANGED: boolean = false;
   CUSTOMER_SELECTED = { id: '', name: '' }
+  PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '' }
   MAIN_SELECTED_PACKAGE_DATA: Package = new Package()
   onCustomerSelected(event: any) {
-    this.CUSTOMER_SELECTED = { id: '', name: '' }
-    if (event.option.value == 'Add New Customer') {
+    console.log("Event", event)
+    if (event != 'Add New Customer') {
+
+      this.CUSTOMER_SELECTED =
+      {
+        id: event._id,
+        name: event.name,
+      }
+
+      console.log("Customer selected", this.CUSTOMER_SELECTED)
+
+      if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
+        console.log('CUSTOMER_SELECTED EQUAL')
+      }
+
+      else {
+        this.PREVIOUS_CUSTOMER_SELECTED = { ...this.CUSTOMER_SELECTED }
+        this.editedpackage.customer.id = this.CUSTOMER_SELECTED.id
+        this.editedpackage.customer.name = this.CUSTOMER_SELECTED.name
+        this.CHECK_IF_CHANGED_CUSTOMER_NAME()
+      }
+    }
+
+    else {
+      this.CUSTOMER_SELECTED = { id: '', name: '' }
       this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
 
-    else {
-      this.CUSTOMER_SELECTED =
-      {
-        id: event.option.value._id,
-        name: event.option.value.name,
-      }
 
-      this.editedpackage.customerName = this.CUSTOMER_SELECTED.name
-      this.editedpackage.customerId = this.CUSTOMER_SELECTED.id
-      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
-    }
   }
 
   CHECK_IF_CHANGED_CUSTOMER_NAME() {
-    if (this.MAIN_SELECTED_PACKAGE_DATA.customerName !== this.CUSTOMER_SELECTED.name) {
+    if (this.MAIN_SELECTED_PACKAGE_DATA.customer.name !== this.CUSTOMER_SELECTED.name) {
       this.DATA_CHANGED = true;
     }
     else {
@@ -407,9 +415,16 @@ export class AppTicketlistComponent implements OnInit {
 
   // SHOW BUTTON UPDATE AND SET INPUTS
   UPDATE(obj: Package): void {
+    this.CUSTOMER_SELECTED = { id: '', name: '' }
     this.ShowAddButoon = false;
     this.editedpackage = { ...obj };
-
+    this.CUSTOMER_SELECTED =
+    {
+      id: this.editedpackage.customer.id,
+      name: this.editedpackage.customer.name,
+    }
+    this.CUSTOMER_SELECTED.id= this.editedpackage.customer.id
+    this.CUSTOMER_SELECTED.name= this.editedpackage.customer.name
     this.open_expansion_value = 1;
     this.panelOpenState = true;
   }
@@ -422,6 +437,12 @@ export class AppTicketlistComponent implements OnInit {
 
   //UPDATE PACKAGE VALUES
   UPDATE_PACKAGE() {
+    this.editedpackage.customer =
+    {
+      id: this.CUSTOMER_SELECTED.id,
+      name: this.CUSTOMER_SELECTED.name,
+    }
+
     this.packagesService.UPDATE_PACKAGE(this.editedpackage).subscribe({
       next: (response: any) => {
         this.FETCH_PACKAGES();
@@ -437,27 +458,32 @@ export class AppTicketlistComponent implements OnInit {
 
   //ADD NEW RECRUITING RECORD
   ADD_PACKAGE(): void {
-    this.editedpackage.customerName = this.CUSTOMER_SELECTED.name
-    this.editedpackage.customerId = this.CUSTOMER_SELECTED.id,
-
-      this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
-        next: (response: any) => {
-          this.CLEAR_VALUES(this.editedpackage)
-          this.FETCH_PACKAGES()
-        },
-        error: (error: any) => {
-          console.error("Error:", error)
-        },
-        complete: () => {
-        }
-      });
+    this.editedpackage.customer =
+    {
+      id: this.CUSTOMER_SELECTED.id,
+      name: this.CUSTOMER_SELECTED.name,
+    }
+    console.log('EDITED PACK', this.editedpackage)
+    this.packagesService.ADD_PACKAGE(this.editedpackage).subscribe({
+      next: (response: any) => {
+        this.CLEAR_VALUES(this.editedpackage)
+      
+      },
+      error: (error: any) => {
+        console.error("Error:", error)
+      },
+      complete: () => {
+        this.FETCH_PACKAGES()
+      }
+    });
   }
+
 
 
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Package) {
     obj._id = '';
-    obj.customerName = '';
+    // obj.customerName = '';
     obj.source = '';
     obj.destination = '';
     obj.duration = 0;
@@ -514,11 +540,6 @@ export class AppTicketlistComponent implements OnInit {
   }
 }
 
-//MONTHS INTERFACE
-interface month {
-  value: string;
-  viewValue: string;
-}
 
 @Component({
   // tslint:disable-next-line - Disables all
@@ -527,8 +548,7 @@ interface month {
 })
 // tslint:disable-next-line - Disables all
 export class AppPackageDialogContentComponent {
-  package = { selected: false, read: false, write: false };
-  visa = { selected: false, read: false, write: false };
+
 
 
   action: string;
@@ -540,15 +560,14 @@ export class AppPackageDialogContentComponent {
   ) {
     this.PACKAGE_SELECTED = { ...data };
     this.action = data.action;
-    console.log("Pack", this.PACKAGE_SELECTED)
   }
 
   doAction(): void {
-    if (this.action === 'Delete') {
-      this.dialogRef.close({ event: this.action, data: this.PACKAGE_SELECTED });
-    }
+   
     if (this.action === 'Add New Customer') {
       this.dialogRef.close({ event: this.action, data: this.NEW_CUSTOMER });
+    }else{
+      this.dialogRef.close({ event: this.action, data: this.PACKAGE_SELECTED });
     }
   }
 

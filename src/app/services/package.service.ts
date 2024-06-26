@@ -57,8 +57,8 @@ export class PackageService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "customerId": newPackage.customerId,
-      "customerName": newPackage.customerName,
+      "customerId": newPackage.customer.id,
+      "customerName": newPackage.customer.name,
       "destination": newPackage.destination,
       "numberOfPeople": newPackage.numberOfPeople,
       "duration": newPackage.duration,
@@ -69,6 +69,7 @@ export class PackageService {
       "sell": newPackage.sell,
       "note": newPackage.note
     };
+    console.log("Request pack",requestBody)
     return this.http.post<any>(this.apiUrl + '/ADD_PACKAGE', requestBody, { headers })
   }
 
@@ -79,10 +80,9 @@ export class PackageService {
       'Content-Type': 'application/json'
     });
     const requestBody = {
-      "id": editedPackage._id,
-      "updateData": {
-        "customerId": editedPackage.customerId,
-        "customerName": editedPackage.customerName,
+      "packageId": editedPackage._id,
+        "customerId": editedPackage.customer.id,
+        "customerName": editedPackage.customer.name,
         "destination": editedPackage.destination,
         "numberOfPeople": editedPackage.numberOfPeople,
         "duration": editedPackage.duration,
@@ -92,7 +92,7 @@ export class PackageService {
         "status": editedPackage.status,
         "sell": editedPackage.sell,
         "note": editedPackage.note
-      }
+
 
     };
     return this.http.post<any>(this.apiUrl + '/UPDATE_PACKAGE', requestBody, { headers })

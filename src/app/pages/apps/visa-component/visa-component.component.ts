@@ -415,19 +415,7 @@ export class VisaComponentComponent implements OnInit {
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
 
-    this.ADDED_VISA = {
-      _id: '',
-      customer: {
-        id: '',
-        name: '',
-        phoneNumber: '',
-      },
-      country: '',
-      note: '',
-      sell: '',
-      status: '',
-      type: '',
-    }
+  
 
     this.onCustomerSelected(this.CUSTOMER_SELECTED)
 
