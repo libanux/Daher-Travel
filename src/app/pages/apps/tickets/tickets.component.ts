@@ -151,7 +151,8 @@ export class TicketsComponent {
       if (result.event === 'Add New Wholesaler') {
 
         this.ADD_WHOLESALER(result.data);
-        this.ADDED_TICKET.wholesaler.id = result.data.id;
+        console.log("result of wholesaler",result.data)
+        this.ADDED_TICKET.wholesaler.id = result.data._id;
         this.ADDED_TICKET.wholesaler.name = result.data.name;
 
       } else if (result.event === 'Delete') {
@@ -189,12 +190,9 @@ export class TicketsComponent {
   //ADD NEW WHOLESALER
   ADD_WHOLESALER(wholesaler: any) {
     this.wholesaler.ADD_WHOLESALER(wholesaler).subscribe({
-
       next: (response: any) => {
-        this.WHOLESALER_SELECTED.id = wholesaler._id;
-        this.WHOLESALER_SELECTED.name = wholesaler.name;
-        this.ADDED_TICKET.wholesaler.id = response.id;
-        this.ADDED_TICKET.wholesaler.name = response.name;
+        this.WHOLESALER_SELECTED.id = response._id;
+        this.WHOLESALER_SELECTED.name = response.name;
       },
       error: (error: any) => {
         console.error('Error:', error);
@@ -259,47 +257,24 @@ export class TicketsComponent {
     return product ? product.name : '';
   }
 
-
-
-
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.FILTER_TICKETS_BY_DATE('custom')
+    this.SEARCH_TICKETS()
   }
-
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.FILTER_TICKETS_BY_DATE('custom')
-
+    this.SEARCH_TICKETS()
   }
   FORMAT_DATE_YYYYMMDD(date: Date): string {
-    // Extract year, month, and day from the Date object
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
-    const day = ('0' + date.getDate()).slice(-2);
-
-    // Return the formatted date string in YYYY-MM-DD format
-    return `${year}-${month}-${day}`;
+    return this.generalService.FORMAT_DATE_YYYYMMDD(date)
   }
-
   // Function to format date
   FORMAT_DATE(dateString: string): string {
-    const dateObj = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true,
-      timeZone: 'UTC' // Optional: Adjust to your timezone
-    };
+    return this.generalService.FORMAT_DATE_WITH_HOUR(dateString)
+  };
 
-    return dateObj.toLocaleString('en-US', options);
-  }
 
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(value: string, dropdown: string) {
@@ -348,9 +323,10 @@ export class TicketsComponent {
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
     this.SHOW_LOADING_SPINNER = true;
+    this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED.id
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        // console.log("Add tick", response)
+        console.log("Add tick", response)
         this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
       },
