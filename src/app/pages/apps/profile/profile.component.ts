@@ -11,8 +11,8 @@ import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.serv
 })
 export class ProfileComponent implements OnInit {
 
-  admin: Admin;
-  UPDATED_ADMIN: Admin;
+  admin: Admin = new Admin();
+  UPDATED_ADMIN: Admin = new Admin();
 
   adminID: string = '';
   permissions: any = Permissions_Array
@@ -28,21 +28,18 @@ export class ProfileComponent implements OnInit {
 
   UpdateProfile = false;
 
-  constructor(private adminService: AdminService, private breadCrumbService: BreadCrumbSignalService) {
-    this.admin = new Admin();
-  }
+  constructor(private adminService: AdminService, private breadCrumbService: BreadCrumbSignalService) {}
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Profile');
-    this.adminID = localStorage.getItem('admin_id') || ''; // Get admin ID from local storage
     this.GET_ADMIN_PROFILE();
-
   }
 
   SHOW_PROFILE = false;
   GET_ADMIN_PROFILE() {
     this.admin = this.adminService.ADMIN_LOGGED_IN
-    this.UPDATED_ADMIN = {...this.admin}
+    this.UPDATED_ADMIN = {...this.adminService.ADMIN_LOGGED_IN}
+    this.UPDATED_ADMIN.permissions = {...this.adminService.ADMIN_LOGGED_IN.permissions}
     this.SHOW_PROFILE = true;
   }
 
@@ -52,14 +49,16 @@ export class ProfileComponent implements OnInit {
 
   CANCEL_UPDATE() {
     this.UpdateProfile = false;
-    this.GET_ADMIN_PROFILE()
+    this.UPDATED_ADMIN = {...this.admin}
+    this.UPDATED_ADMIN.permissions = {...this.admin.permissions}
   }
 
   SAVE_EDIT() {
     this.adminService.UPDATE_ADMIN(this.UPDATED_ADMIN).subscribe({
       next: (response: any) => {
         this.admin = response.updatedAdmin;
-        console.log(this.admin)
+        this.UPDATED_ADMIN = { ...response.updatedAdmin }
+        this.UPDATED_ADMIN.permissions = { ...response.updatedAdmin.permissions }
       },
       error: (error: any) => {
         this.UPDATED_ADMIN = new Admin();
@@ -67,15 +66,9 @@ export class ProfileComponent implements OnInit {
       complete: () => {
         this.SHOW_PROFILE = true;
         this.UpdateProfile = false;
-        this.UPDATED_ADMIN = { ...this.admin }
       }
     });
   }
-
-
-
-
-
 
 
 }

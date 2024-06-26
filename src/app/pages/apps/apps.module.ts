@@ -37,7 +37,6 @@ import { AppRecruitingDialogContentComponent, LaborMainComponent } from './labor
 import { VisaComponentComponent, visaDialogContentComponent } from './visa-component/visa-component.component';
 import { AppTicketingDialogContentComponent, TicketsComponent } from './tickets/tickets.component';
 import { AdminDialogContentComponent, AdminsComponent } from './admins/admins.component';
-import { AddComponent } from './admins/add-admin/add.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CustomerDialogContentComponent, CustomersComponent } from './customers/main-page/customers.component';
 import { DeleteWholesalerDialogContentComponent, WholesalerComponent } from './wholesaler/wholesaler.component';
@@ -82,7 +81,6 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     TicketsComponent,
     AdminsComponent,
     AdminDialogContentComponent,
-    AddComponent,
     LaborMainComponent,
     AppRecruitingDialogContentComponent,
     ProfileComponent,

@@ -167,7 +167,7 @@ export class AdminsComponent implements OnInit {
     this.adminService.DELETE_ADMIN(ID).subscribe({
       next: (response: any) => { },
       error: (error) => { console.error(error) },
-      complete: () => { this.FETCH_ADMINS(); }
+      complete: () => { this.FETCH_ADMINS(); this.CANCEL_UPDATE()}
     });
   }
 

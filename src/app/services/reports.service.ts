@@ -15,7 +15,6 @@ export class ReportsService {
     this.apiUrl = environment.apiLocalBaseUrl;
   }
 
-  
   // VALIDATE TOKEN
   isTokenExpired1(): boolean {
     const token = this.getToken();
@@ -36,18 +35,15 @@ export class ReportsService {
 
   //GET ALL REPORTS
   GET_ALL_FINANCIAL_REPORT(FILTER_TYPE: string, START_DATE: string, END_DATE: string): Observable<any> {
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
-
     const requestBody = {
-        "filterType":FILTER_TYPE,
-        "startDate": START_DATE,
-        "endDate": END_DATE
-      }
-      
+      "filterType": FILTER_TYPE,
+      "startDate": START_DATE,
+      "endDate": END_DATE
+    }
     return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_FINANCIAL_REPORT', requestBody, { headers });
   }
 

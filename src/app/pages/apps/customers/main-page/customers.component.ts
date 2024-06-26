@@ -102,10 +102,19 @@ export class CustomersComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent): void {
+    console.log('onPageChange ',event)
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
 
     this.FETCH_CUSTOMER()
+  }
+
+  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+      console.log('heree')
+    }
   }
 
   OPEN_DIALOG(action: string, obj: any): void {
@@ -207,8 +216,7 @@ export class CustomersComponent implements OnInit {
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
     this.show_shimmer = true;
-
-    this.customerService.GET_ALL_CUSTOMER(this.Current_page).subscribe({
+    this.customerService.GET_ALL_CUSTOMER(this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
         this.current_page_array_length = response.customers.length
         this.CustomersArray = new MatTableDataSource(response.customers);
@@ -227,6 +235,7 @@ export class CustomersComponent implements OnInit {
         // IF YES --> GO BACK TO THE PREVOUIS PAGE
         if (this.current_page_array_length == 1) {
           this.Current_page = this.Current_page - 1
+          this.goToPreviousPage()
         }
       },
       error: (error) => { },
@@ -236,7 +245,6 @@ export class CustomersComponent implements OnInit {
 
   // ADD NEW CUSTOMER
   ADD_CUSTOMER(obj: CustomerClass) {
-    console.log(obj)
     this.SHOW_LOADING_SPINNER = true
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
@@ -247,7 +255,6 @@ export class CustomersComponent implements OnInit {
 
   // CONFIRM UPDATE
   UPDATE_CUSTOMER(obj: CustomerClass): void {
-    console.log(obj)
     this.SHOW_LOADING_SPINNER = true
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
@@ -282,6 +289,7 @@ export class CustomersComponent implements OnInit {
   START_DATE = ''
   END_DATE = ''
   STATUS = ''
+  // FILTER FUNCTION
   FILTER_VISAS(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
     this.customerService.FILTER_AND_SEARCH_CUSTOMERS(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
       next: (response: any) => {
