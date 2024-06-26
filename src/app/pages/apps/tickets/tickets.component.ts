@@ -55,6 +55,8 @@ export class TicketsComponent {
   NEW_WHOLESALER_ADDED: WholesalerClass[] = []
   CUSTOMER_SELECTED = { id: '', name: '' }
   WHOLESALER_SELECTED = { id: '', name: '' }
+  DATA_CHANGED: boolean = false;
+  SHOW_LOADING_SPINNER: boolean = false;
   //TABLE COLUMNS
   displayedColumns: string[] = ['name', 'source', 'destination', 'cost', 'credit', 'balance', 'note', 'action',];
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -186,7 +188,6 @@ export class TicketsComponent {
 
   //ADD NEW WHOLESALER
   ADD_WHOLESALER(wholesaler: any) {
-    console.log("Added wholesaler", wholesaler)
     this.wholesaler.ADD_WHOLESALER(wholesaler).subscribe({
 
       next: (response: any) => {
@@ -346,16 +347,19 @@ export class TicketsComponent {
 
   //ADD NEW TICKET
   ADD_TICKETINGS(): void {
+    this.SHOW_LOADING_SPINNER = true;
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        console.log("Add tick", response)
+        // console.log("Add tick", response)
         this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
       },
       error: (error: any) => {
         console.error("Error:", error);
+        this.SHOW_LOADING_SPINNER = false;
       },
       complete: () => {
+        this.SHOW_LOADING_SPINNER = false;
         this.open_expansion_value = -1;
       }
     });
@@ -429,10 +433,15 @@ export class TicketsComponent {
 
 
   isAnyFieldNotEmpty = false;
-
+  MAIN_SELECTED_TICKET_DATA: Tickets = new Tickets()
   //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
   onInputChange() {
-
+    if (JSON.stringify(this.MAIN_SELECTED_TICKET_DATA) !== JSON.stringify(this.ADDED_TICKET)) {
+      this.DATA_CHANGED = true;
+    }
+    else {
+      this.DATA_CHANGED = false;
+    }
     this.isAnyFieldNotEmpty = Object.values(this.ADDED_TICKET).some(val => val !== '' && val !== null);
 
     if (this.isAnyFieldNotEmpty) {
@@ -467,6 +476,7 @@ export class TicketsComponent {
 
   // SET UPDATE VALUES
   UPDATE(obj: Tickets): void {
+    this.MAIN_SELECTED_TICKET_DATA = obj;
     this.WHOLESALER_SELECTED.id = obj.wholesaler.id
     this.WHOLESALER_SELECTED.name = obj.wholesaler.name
 
@@ -476,14 +486,12 @@ export class TicketsComponent {
     this.open_expansion_value = 1;
     this.panelOpenState = true;
     this.routeSignalService.show_pop_up_route.set(false);
-    console.log("Added tick . seats",this.ADDED_TICKET.seats)
-
-
   }
 
 
   //UPDATE TICKET
   UPDATE_TICKET() {
+    this.SHOW_LOADING_SPINNER = true;
     this.ticketingService.UPDATE_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
         this.FETCH_TICKETINGS();
@@ -493,17 +501,15 @@ export class TicketsComponent {
       },
       error: (error: any) => {
         console.error('Error:', error.error);
+        this.SHOW_LOADING_SPINNER = false;
       },
       complete: () => {
-        // this.CUSTOMER_SELECTED = <CustomerClass>{};
+        this.SHOW_LOADING_SPINNER = false;
 
       }
     });
 
   }
-
-  DATA_CHANGED: boolean = false;
-  MAIN_SELECTED_TICKET_DATA: Tickets = new Tickets()
 
   onWholesalerSelected(event: any) {
     this.WHOLESALER_SELECTED = { id: '', name: '' }
@@ -522,7 +528,6 @@ export class TicketsComponent {
       this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED.id
       this.ADDED_TICKET.wholesaler.name = this.WHOLESALER_SELECTED.name
       this.CHECK_IF_CHANGED_WHOLESALER_NAME()
-      console.log("The add",this.ADDED_TICKET)
     }
   }
 
