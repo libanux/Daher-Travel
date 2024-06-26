@@ -61,7 +61,6 @@ export class AppNavItemComponent implements OnChanges, OnInit {
 
 
   ngOnInit(): void {
-    this.GET_ADMIN_PROFILE_BY_ID();
     // console.log('items : ', this.item.permission_name)
     if (this.item.iconName) {
       // Extract only the main SVG content from this.item.iconName
@@ -79,17 +78,6 @@ export class AppNavItemComponent implements OnChanges, OnInit {
     });
   }
 
-  // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
-  GET_ADMIN_PROFILE_BY_ID() {
-    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
-      next: (response: any) => {
-        // console.log('admin in sidebar ', response.permissions)
-        this.admin = response;
-      },
-      error: (error: any) => { },
-      complete: () => { }
-    });
-  }
 
   checkPermission(permissionName: keyof Admin['permissions']): boolean {
     console.log(this.admin.permissions)

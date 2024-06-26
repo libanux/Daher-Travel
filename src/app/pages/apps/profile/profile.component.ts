@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   SHOW_PROFILE = false;
   GET_ADMIN_PROFILE() {
     this.admin = this.adminService.ADMIN_LOGGED_IN
-    this.UPDATED_ADMIN = this.adminService.ADMIN_LOGGED_IN
+    this.UPDATED_ADMIN = {...this.admin}
     this.SHOW_PROFILE = true;
   }
 
@@ -59,6 +59,7 @@ export class ProfileComponent implements OnInit {
     this.adminService.UPDATE_ADMIN(this.UPDATED_ADMIN).subscribe({
       next: (response: any) => {
         this.admin = response.updatedAdmin;
+        console.log(this.admin)
       },
       error: (error: any) => {
         this.UPDATED_ADMIN = new Admin();
