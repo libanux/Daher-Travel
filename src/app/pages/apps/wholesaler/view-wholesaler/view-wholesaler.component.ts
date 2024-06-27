@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { WholesalerClass } from 'src/app/classes/wholesaler.class';
+import { Month_Filter_Array } from 'src/app/services/general.service';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
 export interface PeriodicElement {
   id: number;
@@ -56,6 +57,8 @@ export class ViewWholesalerComponent {
     company:'',
     email:''
   }
+  months: any [] = Month_Filter_Array
+  showDatePicker = false;
 
   displayedColumns: string[] = [
     'select',

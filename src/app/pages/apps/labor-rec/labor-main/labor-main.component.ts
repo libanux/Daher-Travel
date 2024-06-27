@@ -225,17 +225,22 @@ export class LaborMainComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.event === 'Delete') {
-        this.recruitingService.DELETE_RECRUITING(delRecruiting).subscribe({
-          next: (response: any) => {
-            this.FETCH_RECRUITINGS()
-          },
-          error: (error: any) => {
-            console.error('Error:', error);
-          },
-          complete: () => { }
-        });
+    this.DELETE_RECRUITING(delRecruiting)
       }
     });
+  }
+
+  DELETE_RECRUITING(delRecruiting:LaborList){
+    this.show_shimmer= true;
+      this.recruitingService.DELETE_RECRUITING(delRecruiting).subscribe({
+        next: (response: any) => {
+          this.FETCH_RECRUITINGS()
+        },
+        error: (error: any) => {
+          console.error('Error:', error);
+        },
+        complete: () => { }
+      });
   }
 
   //ADD NEW RECRUITING RECORD
