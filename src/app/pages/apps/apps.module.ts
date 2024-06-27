@@ -47,6 +47,7 @@ import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.c
 import { NoItemsFoundComponent } from './no-items-found/no-items-found.component';
 import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
 import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -68,8 +69,6 @@ import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.c
     }),
     MatNativeDateModule,
     NgScrollbarModule,
-
-    
   ],
   exports: [TablerIconsModule],
   declarations: [
@@ -103,6 +102,6 @@ import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.c
     PdfsTemplateComponent
 
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,],
 })
 export class AppsModule {}

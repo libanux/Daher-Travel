@@ -26,6 +26,10 @@ import { FilterPipe } from './pipe/filter.pipe';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 export function HttpLoaderFactory(http: HttpClient): any {
@@ -42,6 +46,10 @@ export function HttpLoaderFactory(http: HttpClient): any {
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
     TablerIconsModule.pick(TablerIcons),
     FeatherModule.pick(allIcons),
     TranslateModule.forRoot({
@@ -54,7 +62,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     NgScrollbarModule,
     FullComponent,
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},{ provide: MAT_DATE_LOCALE, useValue: 'en-US' },],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
 })
