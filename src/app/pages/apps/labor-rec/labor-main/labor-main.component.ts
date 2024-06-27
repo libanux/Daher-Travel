@@ -141,6 +141,33 @@ export class LaborMainComponent implements AfterViewInit {
     });
   }
 
+    //DATE AND STATUS DROPDOWN CHANGE
+    onChange(dropdown: string) {
+      if (dropdown == 'month') {
+        if (this.selectedMonth == 'Calendar') {
+          this.selectedMonth = 'custom'
+          console.log("The salacted month:",this.selectedMonth)
+          this.showDatePicker = true;
+        }
+        else {
+          this.showDatePicker = false;
+          this.onInputChange()
+          this.SEARCH_FILTER_RECRUITINGS()
+        }
+      }
+  
+      else if (dropdown == 'status') {
+  
+        this.onInputChange()
+        this.SEARCH_FILTER_RECRUITINGS()
+  
+      }
+      else if (dropdown == 'Download') {
+        this.DOWNLOAD();
+      }
+    }
+  
+
   onInputChange() {
 
     // When inputs changes -> i check if they are the same as the main one
@@ -298,7 +325,6 @@ export class LaborMainComponent implements AfterViewInit {
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
     // this.FILTER_RECRUITING_BY_DATE('custom')
-    this.SEARCH_FILTER_RECRUITINGS();
   }
 
   // Method to handle changes in end date input
@@ -309,12 +335,34 @@ export class LaborMainComponent implements AfterViewInit {
   }
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
-    return this.generalService.FORMAT_DATE_YYYYMMDD(date)
+    if (!date) {
+      return ''; // or handle the case where date is null or undefined
+    }
+    
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
   }
   // Function to format date
+
+  // Function to format date
   FORMAT_DATE(dateString: string): string {
-    return this.generalService.FORMAT_DATE_WITH_HOUR(dateString)
-  };
+    const dateObj = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+      timeZone: 'UTC' // Optional: Adjust to your timezone
+    };
+
+    return dateObj.toLocaleString('en-US', options);
+  }
+
 
 
 
@@ -341,39 +389,16 @@ export class LaborMainComponent implements AfterViewInit {
     this.panelOpenState = false;
   }
 
-  //DATE AND STATUS DROPDOWN CHANGE
-  onChange(dropdown: string) {
-    if (dropdown == 'month') {
-      if (this.selectedMonth === 'Calendar') {
-        this.selectedMonth = 'custom'
-        this.showDatePicker = true;
-      }
-      else {
-        this.showDatePicker = false;
-        this.onInputChange()
-        this.SEARCH_FILTER_RECRUITINGS()
-      }
-    }
 
-    else if (dropdown == 'status') {
 
-      this.onInputChange()
-      this.SEARCH_FILTER_RECRUITINGS()
-
-    }
-    else if (dropdown == 'Download') {
-      this.DOWNLOAD();
-    }
-  }
-
+    //-------------------------------------------------------------DOWNLOAD RECRUITING EXCEL---------------------------------------------------------------------
   //DOWNLOAD EXCEL DOCUMENT
   DOWNLOAD() {
     this.generalService.getData('EXPORT_RECRUITING_TO_EXCEL')
   }
-
 }
 
-
+  //-------------------------------------------------------------LABOR RECRUITING DIALOG TS---------------------------------------------------------------------
 @Component({
   // tslint:disable-next-line - Disables all
   selector: 'app-dialogRec-content',

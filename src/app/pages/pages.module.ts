@@ -10,7 +10,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     MaterialModule,
     FormsModule,
-    RouterModule.forChild(PagesRoutes)
+    RouterModule.forChild(PagesRoutes),
+    
   ],
 })
 export class PagesModule {}

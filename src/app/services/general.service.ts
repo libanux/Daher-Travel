@@ -42,6 +42,10 @@ export class GeneralService {
 
   FORMAT_DATE_YYYYMMDD(date: Date): string {
     // Extract year, month, and day from the Date object
+    if (!date) {
+      return ''; // or handle the case where date is null or undefined
+    }
+    
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
     const day = ('0' + date.getDate()).slice(-2);

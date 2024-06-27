@@ -58,7 +58,9 @@ export class AppTicketlistComponent implements OnInit {
 
   searchText: any;
   totalCount = -1;
-
+  startDateValue: string = '';
+  endDateValue: string = '';
+  SHOW_LOADING_SPINNER: boolean = false;
   //MONTHS FOR FILTER DROPDOWN
   months: any[] = Month_Filter_Array
 
@@ -81,6 +83,9 @@ export class AppTicketlistComponent implements OnInit {
   NEW_CUSTOMER_ADDED: CustomerClass[] = []
   isAnyFieldNotEmpty = false;
   MAIN_SELECTED_PACKAGE_DATA: Package = new Package()
+  DATA_CHANGED: boolean = false;
+  CUSTOMER_SELECTED = { id: '', name: '' }
+  PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '' }
 
   constructor(private routeSignalService: RouteSignalService, public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService, private customerService: CustomerService, private generalService: GeneralService) {
     this.editedpackage = new Package()
@@ -111,28 +116,9 @@ export class AppTicketlistComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-  
 
-  // GET ALL CUSTOMER'S 
-  FETCH_CUSTOMER() {
-    this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
-      next: (response: any) => {
-        this.allCustomers = response.customers;
-        this.filteredCustomers = response.customers;
-      },
-      error: (error) => { },
-      complete: () => {
 
-      }
-    });
-  }
 
-  filterCustomers() {
-    const query = this.CUSTOMER_SELECTED.name.toLowerCase();
-    this.filteredCustomers = this.allCustomers.filter((customer: any) =>
-      customer.name.toLowerCase().includes(query)
-    );
-  }
 
   //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
   onInputChange() {
@@ -179,19 +165,6 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-  ADD_NEW_CUSTOMER(obj: CustomerClass) {
-
-    this.customerService.ADD_CUSTOMER(obj).subscribe({
-      next: (response: any) => {
-        this.CUSTOMER_SELECTED.id = response._id
-        this.CUSTOMER_SELECTED.name = response.name;
-      },
-      error: (error) => { },
-      complete: () => {
-        this.FETCH_CUSTOMER();
-      }
-    });
-  }
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -205,7 +178,7 @@ export class AppTicketlistComponent implements OnInit {
   }
 
 
-
+ //-------------------------------------------------------------FETCH & SEARCH PACKAGES---------------------------------------------------------------------
   //FETCH PACKAGES FROM API
   FETCH_PACKAGES(): void {
     this.packagesService.GET_PACKAGES(this.currentPage, this.pageSize).subscribe({
@@ -243,12 +216,7 @@ export class AppTicketlistComponent implements OnInit {
   }
 
 
-  CancelUpdate(): void {
-    this.ShowAddButoon = true;
-    this.open_expansion_value = -1;
-  }
-
-
+  //-------------------------------------------------------------DROPDOWN & FILTERS HANDELING---------------------------------------------------------------------
   //DATE AND STATUS DROPDOWN CHANGE
   onChange(dropdown: string) {
     if (dropdown == 'month') {
@@ -270,9 +238,7 @@ export class AppTicketlistComponent implements OnInit {
       this.DOWNLOAD();
     }
   }
-  DATA_CHANGED: boolean = false;
-  CUSTOMER_SELECTED = { id: '', name: '' }
-  PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '' }
+
 
   onCustomerSelected(event: any) {
     if (event != 'Add New Customer') {
@@ -301,6 +267,20 @@ export class AppTicketlistComponent implements OnInit {
 
   }
 
+  ADD_NEW_CUSTOMER(obj: CustomerClass) {
+
+    this.customerService.ADD_CUSTOMER(obj).subscribe({
+      next: (response: any) => {
+        this.CUSTOMER_SELECTED.id = response._id
+        this.CUSTOMER_SELECTED.name = response.name;
+      },
+      error: (error) => { },
+      complete: () => {
+        this.FETCH_CUSTOMER();
+      }
+    });
+  }
+
   CHECK_IF_CHANGED_CUSTOMER_NAME() {
     if (this.MAIN_SELECTED_PACKAGE_DATA.customer.name !== this.CUSTOMER_SELECTED.name) {
       this.DATA_CHANGED = true;
@@ -309,14 +289,35 @@ export class AppTicketlistComponent implements OnInit {
       this.DATA_CHANGED = false;
     }
   }
+
+    // GET ALL CUSTOMER'S 
+    FETCH_CUSTOMER() {
+      this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
+        next: (response: any) => {
+          this.allCustomers = response.customers;
+          this.filteredCustomers = response.customers;
+        },
+        error: (error) => { },
+        complete: () => {
+  
+        }
+      });
+    }
+  
+    filterCustomers() {
+      const query = this.CUSTOMER_SELECTED.name.toLowerCase();
+      this.filteredCustomers = this.allCustomers.filter((customer: any) =>
+        customer.name.toLowerCase().includes(query)
+      );
+    }
+   //-------------------------------------------------------------EXCEL DOWNLOAD---------------------------------------------------------------------
   DOWNLOAD() {
     this.generalService.getData('EXPORT_PACKAGES_TO_EXCEL')
 
   }
 
-  startDateValue: string = ''; // Variable to store the start date
-  endDateValue: string = ''; // Variable to store the end date
 
+ //-------------------------------------------------------------HANDELING DATE CHANGES AND FORMATTING---------------------------------------------------------------------
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
@@ -326,17 +327,21 @@ export class AppTicketlistComponent implements OnInit {
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    this.SEARCH_PACKAGES()
   }
 
-  FORMAT_DATE_YYYYMMDD(date: Date): string {
-    // Extract year, month, and day from the Date object
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero based
-    const day = ('0' + date.getDate()).slice(-2);
-
-    // Return the formatted date string in YYYY-MM-DD format
-    return `${year}-${month}-${day}`;
+FORMAT_DATE_YYYYMMDD(date: Date): string {
+  if (!date) {
+    return ''; // or handle the case where date is null or undefined
   }
+  
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  
+  return `${year}-${month}-${day}`;
+}
+
 
 
   // Function to format date
@@ -356,9 +361,16 @@ export class AppTicketlistComponent implements OnInit {
     return dateObj.toLocaleString('en-US', options);
   }
 
+  // Method to handle the panel closed event
+  panelClosed() {
+    this.open_expansion_value = 0;
+    this.panelOpenState = false;
+  }
 
 
-  SHOW_LOADING_SPINNER: boolean = false;
+    //-------------------------------------------------------------ADD + UPDADE + DELETE +CLEAR VALUES---------------------------------------------------------------------
+
+
   // SHOW BUTTON UPDATE AND SET INPUTS
   UPDATE(obj: Package): void {
     this.MAIN_SELECTED_PACKAGE_DATA = obj
@@ -376,11 +388,6 @@ export class AppTicketlistComponent implements OnInit {
     this.panelOpenState = true;
   }
 
-  // Method to handle the panel closed event
-  panelClosed() {
-    this.open_expansion_value = 0;
-    this.panelOpenState = false;
-  }
 
   //UPDATE PACKAGE VALUES
   UPDATE_PACKAGE() {
@@ -390,7 +397,6 @@ export class AppTicketlistComponent implements OnInit {
       id: this.CUSTOMER_SELECTED.id,
       name: this.CUSTOMER_SELECTED.name,
     }
-
     this.packagesService.UPDATE_PACKAGE(this.editedpackage).subscribe({
       next: (response: any) => {
         this.FETCH_PACKAGES();
@@ -407,7 +413,7 @@ export class AppTicketlistComponent implements OnInit {
 
   }
 
-  //ADD NEW RECRUITING RECORD
+  //ADD NEW PACKAGE
   ADD_PACKAGE(): void {
     this.SHOW_LOADING_SPINNER = true;
     this.editedpackage.customer =
@@ -430,8 +436,6 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-
-
   //CLEAR OBJECT VALUES
   CLEAR_VALUES(obj: Package) {
     obj._id = '';
@@ -450,10 +454,9 @@ export class AppTicketlistComponent implements OnInit {
   }
 
 
-
-
+  //DELETE A PACKAGE
   DELETE_PACKAGE(element: Package) {
-    this.show_shimmer=true;
+    this.show_shimmer = true;
     this.packagesService.DELETE_PACKAGE(element).subscribe({
       next: (response: any) => {
         this.FETCH_PACKAGES()
@@ -465,12 +468,12 @@ export class AppTicketlistComponent implements OnInit {
     });
   }
 
-  //GET THE CATEGORY LENGTH
-  btnCategoryClick(val: string): number {
-    this.dataSource.filter = val.trim().toLowerCase();
-    return this.dataSource.filteredData.length;
+  CancelUpdate(): void {
+    this.ShowAddButoon = true;
+    this.open_expansion_value = -1;
   }
 
+  
   //TRUNCATE THE TEXT INTO 20 CHARS
   truncateText(text: string, limit: number): string {
     if (text && text.length > limit) {
@@ -494,7 +497,7 @@ export class AppTicketlistComponent implements OnInit {
   }
 }
 
-
+  //-------------------------------------------------------------PACKAGE DIALOG TS---------------------------------------------------------------------
 @Component({
   // tslint:disable-next-line - Disables all
   selector: 'app-dialog-content',
@@ -502,9 +505,6 @@ export class AppTicketlistComponent implements OnInit {
 })
 // tslint:disable-next-line - Disables all
 export class AppPackageDialogContentComponent {
-
-
-
   action: string;
   PACKAGE_SELECTED: Package = new Package();
   NEW_CUSTOMER: CustomerClass = new CustomerClass()

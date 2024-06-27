@@ -65,7 +65,7 @@ export class TicketsComponent {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  searchText: any;
+  searchText:string ='';
   totalCount = -1;
   Cancelled = -1;
   Inprogress = -1;
@@ -257,16 +257,26 @@ export class TicketsComponent {
   // Method to handle changes in start date input
   handleStartDateChange(event: any): void {
     this.startDateValue = this.FORMAT_DATE_YYYYMMDD(event);
-    this.SEARCH_TICKETS()
+    console.log("Start date:",this.startDateValue)
   }
   // Method to handle changes in end date input
   handleEndDateChange(event: any): void {
     this.endDateValue = this.FORMAT_DATE_YYYYMMDD(event);
+    console.log("End date:",this.endDateValue)
     this.SEARCH_TICKETS()
   }
   FORMAT_DATE_YYYYMMDD(date: Date): string {
-    return this.generalService.FORMAT_DATE_YYYYMMDD(date)
+    if (!date) {
+      return ''; // or handle the case where date is null or undefined
+    }
+    
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    
+    return `${year}-${month}-${day}`;
   }
+  
   // Function to format date
   FORMAT_DATE(dateString: string): string {
     return this.generalService.FORMAT_DATE_WITH_HOUR(dateString)
@@ -277,6 +287,7 @@ export class TicketsComponent {
   onChange(value: string, dropdown: string) {
     if (dropdown == 'month') {
       if (value === 'Calendar') {
+        this.selectedMonth='custom'
         this.showDatePicker = true;
       }
       else {
@@ -340,12 +351,13 @@ export class TicketsComponent {
 
   //FETCH TICKETS FROM API
   SEARCH_TICKETS(): void {
-    this.currentPage = 1;
+  this.currentPage=1;
     this.ticketingService.SEARCH_FILTER_TICKETS(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
         this.tickets = response.ticketings;
-        this.dataSource = new MatTableDataSource(this.tickets);
+        // this.dataSource = new MatTableDataSource(this.tickets);
         this.totalCount = response.pagination.totalTickets
+        console.log("Response data",response)
       },
       error: (error: any) => {
         this.tickets = []

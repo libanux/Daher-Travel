@@ -160,6 +160,7 @@ export class TicketingService {
       "page": currentPage,
       "pageSize": pageSize
     };
+    console.log("Request body",requestBody)
     return this.http.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_TICKETING', requestBody, { headers })
   }
 }
