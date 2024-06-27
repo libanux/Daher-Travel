@@ -98,6 +98,13 @@
       </table>
     </div>
     }
+
+    <div style="visibility: hidden;height: 20px;">
+      <app-pdfs-template></app-pdfs-template>
+    </div>
+    
+    
+    
     <!-- <mat-paginator 
     [pageSizeOptions]="[10, 20, 30]" 
     [length]="CUSTOMERS_Array_length" 
@@ -110,10 +117,5 @@
 
 </mat-card>
 
-<div id="pdfContent">
-  <!-- Your content here -->
-  <h1>{{ title }}</h1>
-  <p>{{ description }}</p>
-  <!-- More content -->
-</div>
-<button (click)="generatePDF()">Generate PDF</button>
+
+

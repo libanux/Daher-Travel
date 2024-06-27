@@ -1,5 +1,5 @@
 import { IfStmt } from '@angular/compiler';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import html2canvas from 'html2canvas';
@@ -7,6 +7,8 @@ import jsPDF from 'jspdf';
 import { Month_Filter_Array, Download_Options, Categories, Reports_Month_Filter_Array, GeneralService } from 'src/app/services/general.service';
 import { LaborRecReportsService } from 'src/app/services/labore-rec-reports.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { PDFSignalService } from 'src/app/signals/pdf-download.signal';
+import { PdfsTemplateComponent } from '../pdfs-template/pdfs-template.component';
 
 const headers: any[] = [
   'Income',
@@ -21,14 +23,16 @@ const headers: any[] = [
   styleUrls: ['./labor-reports.component.scss', '../../../../../assets/scss/apps/general_table.scss']
 })
 export class LaborReportsComponent {
-
+  @ViewChild(PdfsTemplateComponent) pdfsTemplateComponent: PdfsTemplateComponent;
+  hidePdfComponent: boolean = true;
   selectedMonth: string = '';
   selectedDownloadOption: string = 'Download as';
-
+  showPdfComponent:boolean = false;
   // Storing the start and end date selected in filtering by Date
   // Used in filter by date
   START_DATE = ''
   END_DATE = ''
+  SHOW_PDF =false;
 
   // TABLE SHIMMER 
   show_shimmer = true;
@@ -49,7 +53,7 @@ export class LaborReportsComponent {
 
   searchText: any;
 
-  constructor(public laborReportsService: LaborRecReportsService, public generalService: GeneralService, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(private pdfService: PDFSignalService,public laborReportsService: LaborRecReportsService, public generalService: GeneralService, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService) {
 
   }
 
@@ -76,7 +80,7 @@ export class LaborReportsComponent {
       if(value=='Excel'){
         this.DOWNLOAD();
       }else if(value=='PDF'){
-        this.generatePDF();
+        this.pdfService.triggerDownload();
       }
     }
   }
@@ -131,21 +135,5 @@ export class LaborReportsComponent {
   title = 'Your Title';
   description = 'Your description text goes here.';
 
-  generatePDF() {
-    const data = document.getElementById('pdfContent');
-    if (data) {
-      html2canvas(data).then(canvas => {
-        const imgWidth = 208;
-        const pageHeight = 295;
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-        const heightLeft = imgHeight;
 
-        const contentDataURL = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const position = 0;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-        pdf.save('GeneratedPDF.pdf');
-      });
-    }
-  }
 }
