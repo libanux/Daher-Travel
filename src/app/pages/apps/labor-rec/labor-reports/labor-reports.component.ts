@@ -1,6 +1,9 @@
+import { IfStmt } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { Month_Filter_Array, Download_Options, Categories, Reports_Month_Filter_Array, GeneralService } from 'src/app/services/general.service';
 import { LaborRecReportsService } from 'src/app/services/labore-rec-reports.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
@@ -70,7 +73,11 @@ export class LaborReportsComponent {
       }
     }
     else if (dropdown == 'Download') {
-      this.DOWNLOAD();
+      if(value=='Excel'){
+        this.DOWNLOAD();
+      }else if(value=='PDF'){
+        this.generatePDF();
+      }
     }
   }
 
@@ -105,16 +112,12 @@ export class LaborReportsComponent {
 
   // GET ALL REPORTS
   FETCH_REPORTS() {
-    // console.log("Filter tyepa:",this.FILTER_TYPE)
-    // console.log("Start date",this.START_DATE)
-    // console.log("end date",this.END_DATE)
     this.show_shimmer = true;
     this.laborReportsService.GET_RECRUITING_FINANCIAL_REPORT(this.FILTER_TYPE, this.START_DATE, this.END_DATE).subscribe({
       next: (response: any) => {
         this.DATA =
           [
             { category: 'Rec', Income: response.totalIncome, Expenses: response.totalExpense, NetProfit: response.netProfit },
-
           ]
       },
       error: (error: any) => { },
@@ -123,5 +126,26 @@ export class LaborReportsComponent {
         this.show_shimmer = false;
       }
     });
+  }
+
+  title = 'Your Title';
+  description = 'Your description text goes here.';
+
+  generatePDF() {
+    const data = document.getElementById('pdfContent');
+    if (data) {
+      html2canvas(data).then(canvas => {
+        const imgWidth = 208;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        const heightLeft = imgHeight;
+
+        const contentDataURL = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const position = 0;
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.save('GeneratedPDF.pdf');
+      });
+    }
   }
 }

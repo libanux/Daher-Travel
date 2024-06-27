@@ -7,7 +7,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 })
 export class GeneralService {
 
-  PageSizing = 5;
+  PageSizing = 10;
   storedToken: string = '';  // Initialize with an empty string
   admin_id: any = 0
 

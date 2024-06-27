@@ -17,7 +17,6 @@ export class WholesalerService {
 
   constructor(private httpClient: HttpClient, private generalService: GeneralService) {
     this.apiUrl = environment.apiLocalBaseUrl;
-    this.pagingSize = this.generalService.PageSizing;
   }
 
   // VALIDATE TOKEN
@@ -150,7 +149,7 @@ export class WholesalerService {
       "page": 1,
       "pageSize": pageSize
     };
-    console.log("REQUEST",requestBody)
+    console.log("REQUEST", requestBody)
     return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_WHOLESALERS', requestBody, { headers })
   }
 
