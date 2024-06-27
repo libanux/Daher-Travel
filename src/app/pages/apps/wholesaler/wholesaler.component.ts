@@ -28,8 +28,7 @@ import { Download_Options, GeneralService } from 'src/app/services/general.servi
 })
 
 export class WholesalerComponent implements OnInit {
-  rangeStart = signal('');
-  rangeEnd = signal('');
+
   ShowAddButoon = true;
   show_shimmer = true;
   @Input() showAddSection = true;
@@ -41,6 +40,7 @@ export class WholesalerComponent implements OnInit {
   selectedMonth: string = '';
   DATA_CHANGED: boolean = false;
   SHOW_LOADING_SPINNER: boolean = false;
+  isAnyFieldNotEmpty = false; 
   displayedColumns: string[] = [
     'name',
     'phoneNumber',
@@ -76,9 +76,6 @@ export class WholesalerComponent implements OnInit {
     private routeSignalService: RouteSignalService,
     private router: Router, public dialog: MatDialog, private breadCrumbService: BreadCrumbSignalService, private wholesaler: WholesalerService, private generalService: GeneralService) {
     this.ADDED_WHOLESALER = new WholesalerClass()
-    effect(() => (
-      this.valueDisplayed = this.rangeStart() + '' + this.rangeEnd()
-    ))
   }
 
   ngOnInit(): void {
@@ -94,11 +91,9 @@ export class WholesalerComponent implements OnInit {
 
   OPEN_DIALOG(action: string, obj: any): void {
     obj.action = action;
-
     const dialogRef = this.dialog.open(CustomerDialogContentComponent, {
       data: obj,
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'delete') {
         this.DELETE_WHOLESALER(obj._id);
@@ -107,16 +102,13 @@ export class WholesalerComponent implements OnInit {
   }
 
   DROPDOWN_FILTERATION(value: string, dropdown: string) {
-
     if (dropdown == 'Download') {
       this.DOWNLOAD(value);
     }
   }
 
-  isAnyFieldNotEmpty = false; // Flag to track if any field has content
+
   onInputChange() {
-    // When inputs changes -> i check if they are the same as the main one
-    // if they are the same keep the update button disabled
     if (JSON.stringify(this.MAIN_SELECTED_WHOLESALER_DATA) !== JSON.stringify(this.ADDED_WHOLESALER)) {
       this.DATA_CHANGED = true;
     }
@@ -138,7 +130,6 @@ export class WholesalerComponent implements OnInit {
     this.Current_page = 1;
     this.wholesaler.SEARCH_WHOLESALER(this.pageSize, this.Current_page, this.searchText).subscribe({
       next: (response: any) => {
-
         this.WholesalerArray = response.wholesalers;
         this.WHOLESALER_Array_length = response.pagination.totalWholesalers
       },
@@ -152,14 +143,12 @@ export class WholesalerComponent implements OnInit {
     });
   }
 
-
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   VIEW_WHOLESALER(): void {
     this.router.navigate(['/wholesaler/view']).then(() => {
       window.scrollTo(0, 0);
     });
   }
-
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   ROW_CLICK(element: any, column: string): void {
@@ -169,8 +158,6 @@ export class WholesalerComponent implements OnInit {
       this.VIEW_WHOLESALER()
     }
   }
-
-
 
   // GET ALL WHOLESALERS
   FETCH_WHOLESALERS() {
@@ -263,12 +250,10 @@ export class WholesalerComponent implements OnInit {
 
   // CANCEL UPDATE
   CANCEL_UPDATE(): void {
+    this.panelClosed()
     this.ShowAddButoon = true;
     this.currentAction = "Add Wholesaler"
     this.open_expansion_value = -1;
-
-    this.panelClosed()
-
     this.ADDED_WHOLESALER = {
       _id: '',
       name: '',
@@ -278,7 +263,6 @@ export class WholesalerComponent implements OnInit {
       company: ''
     }
   }
-
 }
 
 
@@ -291,9 +275,6 @@ export class WholesalerComponent implements OnInit {
 // tslint:disable-next-line: component-class-suffix
 export class DeleteWholesalerDialogContentComponent {
   action: string;
-  package = { selected: false, read: false, write: false };
-  visa = { selected: false, read: false, write: false };
-
   LABOR_SELECTED: any;
 
   constructor(
