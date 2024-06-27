@@ -46,6 +46,7 @@ import { ViewWholesalerComponent } from './wholesaler/view-wholesaler/view-whole
 import { LaborReportsComponent } from './labor-rec/labor-reports/labor-reports.component';
 import { NoItemsFoundComponent } from './no-items-found/no-items-found.component';
 import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
+import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.component';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
     TableShimmerComponent,
     WholesalerComponent,
     TicketsComponent,
+    PdfsTemplateComponent
 
   ],
   providers: [DatePipe],
