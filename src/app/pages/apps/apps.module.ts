@@ -48,6 +48,7 @@ import { NoItemsFoundComponent } from './no-items-found/no-items-found.component
 import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
 import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { GeneralFinanceComponent } from './general-finance/general-finance.component';
 
 @NgModule({
   imports: [
@@ -99,7 +100,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     TableShimmerComponent,
     WholesalerComponent,
     TicketsComponent,
-    PdfsTemplateComponent
+    PdfsTemplateComponent,
+    GeneralFinanceComponent
 
   ],
   providers: [DatePipe,],
