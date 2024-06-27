@@ -58,10 +58,6 @@ export class AppTicketlistComponent implements OnInit {
 
   searchText: any;
   totalCount = -1;
-  Cancelled = -1;
-  Inprogress = -1;
-  Completed = -1;
-
 
   //MONTHS FOR FILTER DROPDOWN
   months: any[] = Month_Filter_Array
@@ -73,18 +69,18 @@ export class AppTicketlistComponent implements OnInit {
 
   //PACKAGES
   dataSource = new MatTableDataSource(this.packages);
-
-  packageExample = new Package();
   pageSize = 10;
   currentPage = 1;
-
 
   // 1 basic
   panelOpenState = false;
   open_expansion_value = 0;
-
+  filteredCustomers: any[] = []
+  allCustomers: any = []
   CurrentAction: string = 'Add Package'
   NEW_CUSTOMER_ADDED: CustomerClass[] = []
+  isAnyFieldNotEmpty = false;
+  MAIN_SELECTED_PACKAGE_DATA: Package = new Package()
 
   constructor(private routeSignalService: RouteSignalService, public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService, private customerService: CustomerService, private generalService: GeneralService) {
     this.editedpackage = new Package()
@@ -93,24 +89,18 @@ export class AppTicketlistComponent implements OnInit {
     this.editedpackage.cost = 1
     this.editedpackage.numberOfPeople = 1
     this.editedpackage.duration = 1
-
   }
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Packages')
     this.FETCH_PACKAGES();
   }
-  onDateSelect(date: Date) {
-    // console.log('Selected Date:', date);
-  }
-
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
     this.FETCH_PACKAGES()
   }
-
 
   cancelSelection() {
     this.showCalendar = false;
@@ -121,8 +111,8 @@ export class AppTicketlistComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-  filteredCustomers: any[] = []
-  allCustomers: any = []
+  
+
   // GET ALL CUSTOMER'S 
   FETCH_CUSTOMER() {
     this.customerService.GET_ALL_CUSTOMERS_WITH_NO_PAGING().subscribe({
@@ -143,8 +133,7 @@ export class AppTicketlistComponent implements OnInit {
       customer.name.toLowerCase().includes(query)
     );
   }
-  isAnyFieldNotEmpty = false;
-  MAIN_SELECTED_PACKAGE_DATA: Package = new Package()
+
   //CHECK IF ANY FILED HAS CHANGED BEFORE EXIt
   onInputChange() {
 
@@ -191,14 +180,11 @@ export class AppTicketlistComponent implements OnInit {
   }
 
   ADD_NEW_CUSTOMER(obj: CustomerClass) {
+
     this.customerService.ADD_CUSTOMER(obj).subscribe({
-
       next: (response: any) => {
-
         this.CUSTOMER_SELECTED.id = response._id
         this.CUSTOMER_SELECTED.name = response.name;
-
-
       },
       error: (error) => { },
       complete: () => {
@@ -206,8 +192,6 @@ export class AppTicketlistComponent implements OnInit {
       }
     });
   }
-
-
 
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
@@ -469,6 +453,7 @@ export class AppTicketlistComponent implements OnInit {
 
 
   DELETE_PACKAGE(element: Package) {
+    this.show_shimmer=true;
     this.packagesService.DELETE_PACKAGE(element).subscribe({
       next: (response: any) => {
         this.FETCH_PACKAGES()

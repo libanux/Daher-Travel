@@ -151,7 +151,6 @@ export class TicketsComponent {
       if (result.event === 'Add New Wholesaler') {
 
         this.ADD_WHOLESALER(result.data);
-        console.log("result of wholesaler",result.data)
         this.ADDED_TICKET.wholesaler.id = result.data._id;
         this.ADDED_TICKET.wholesaler.name = result.data.name;
 
@@ -169,8 +168,6 @@ export class TicketsComponent {
   }
 
 
-
-
   ADD_NEW_CUSTOMER(obj: CustomerClass) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => {
@@ -185,7 +182,6 @@ export class TicketsComponent {
       }
     });
   }
-
 
   //ADD NEW WHOLESALER
   ADD_WHOLESALER(wholesaler: any) {
@@ -205,6 +201,7 @@ export class TicketsComponent {
 
   //DELETE TICKETING RECORD
   DELETE_TICKETING(ticket: any) {
+    this.show_shimmer = true;
     this.ticketingService.DELETE_TICKETING(ticket).subscribe({
       next: (response: any) => {
         this.FETCH_TICKETINGS()
@@ -326,7 +323,6 @@ export class TicketsComponent {
     this.ADDED_TICKET.wholesaler.id = this.WHOLESALER_SELECTED.id
     this.ticketingService.ADD_TICKETING(this.ADDED_TICKET).subscribe({
       next: (response: any) => {
-        console.log("Add tick", response)
         this.CLEAR_VALUES(this.ADDED_TICKET);
         this.FETCH_TICKETINGS();
       },
@@ -489,7 +485,7 @@ export class TicketsComponent {
 
   onWholesalerSelected(event: any) {
     this.WHOLESALER_SELECTED = { id: '', name: '' }
-  
+
     if (event.option.value == 'Add New wholesaler') {
       this.OPEN_DIALOG('Add New Wholesaler', this.NEW_WHOLESALER_ADDED)
       this.CHECK_IF_CHANGED_WHOLESALER_NAME()

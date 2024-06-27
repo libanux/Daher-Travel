@@ -187,6 +187,7 @@ export class WholesalerComponent implements OnInit {
 
   // DELETE 
   DELETE_WHOLESALER(ID: number): void {
+    this.show_shimmer=true;
     this.wholesaler.DELETE_WHOLESALER(ID).subscribe({
       next: (response: any) => {
       },

@@ -119,7 +119,7 @@ export class ReportsComponent implements OnInit {
       next: (response: any) => {
         this.DATA =  
         [
-        { category: 'Pack', Cost: response.packageReport.totalCost, Expenses: response.packageReport.totalIncome, NetProfit: response.packageReport.netProfit },
+        { category: 'Package', Cost: response.packageReport.totalCost, Expenses: response.packageReport.totalIncome, NetProfit: response.packageReport.netProfit },
         { category: 'Visa', Cost: response.visaReport.totalCost, Expenses: response.visaReport.totalIncome, NetProfit: response.visaReport.netProfit },
         { category: 'Ticketing', Cost: response.ticketingReport.totalCost, Expenses: response.ticketingReport.totalIncome, NetProfit: response.ticketingReport.netProfit },
         { category: 'Total', Cost: response.totalCost, Expenses: response.totalIncome, NetProfit: response.totalNetProfit },

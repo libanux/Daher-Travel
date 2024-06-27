@@ -73,7 +73,6 @@ export class TicketingService {
       "balance": editedTicket.balance
 
     };
-    console.log("Request body", requestBody)
 
     return this.http.post<any>(this.apiUrl + '/UPDATE_TICKETING', requestBody, { headers });
   }
@@ -86,7 +85,7 @@ export class TicketingService {
       'Authorization': `Bearer ${this.getToken()}`,
       'Content-Type': 'application/json'
     });
-console.log("The new ticket:",newTicket)
+
     const requestBody = {
       "name": newTicket.name,
       "source": newTicket.source,
@@ -102,8 +101,6 @@ console.log("The new ticket:",newTicket)
       },
     };
 
-
-    console.log("Request body of tick", requestBody)
     return this.http.post<any>(this.apiUrl + '/ADD_TICKETING', requestBody, { headers })
   }
 
