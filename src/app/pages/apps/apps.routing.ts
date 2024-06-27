@@ -8,6 +8,7 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { AdminsComponent } from './admins/admins.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportsComponent } from './reports/reports.component';
+import { GeneralFinanceComponent } from './general-finance/general-finance.component';
 
 export const AppsRoutes: Routes = [
   {
@@ -65,6 +66,10 @@ export const AppsRoutes: Routes = [
       {
         path: 'profile',
         component:ProfileComponent
+      },
+      {
+        path: 'general-finance',
+        component:GeneralFinanceComponent
       },
 
     ],
