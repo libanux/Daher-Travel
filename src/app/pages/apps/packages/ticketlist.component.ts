@@ -198,7 +198,7 @@ export class AppTicketlistComponent implements OnInit {
 
   //SEARCH & FILTER  PACKAGES 
   SEARCH_PACKAGES(): void {
-
+    this.paginator.firstPage();
     this.packagesService.SEARCH_FILTER_PACKAGE(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.statusValue, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
 
@@ -214,7 +214,12 @@ export class AppTicketlistComponent implements OnInit {
       }
     });
   }
-
+  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+    }
+  }
 
   //-------------------------------------------------------------DROPDOWN & FILTERS HANDELING---------------------------------------------------------------------
   //DATE AND STATUS DROPDOWN CHANGE
@@ -464,7 +469,9 @@ FORMAT_DATE_YYYYMMDD(date: Date): string {
       error: (error: any) => {
         console.error('Error:', error);
       },
-      complete: () => { }
+      complete: () => { 
+        this.goToPreviousPage()
+      }
     });
   }
 

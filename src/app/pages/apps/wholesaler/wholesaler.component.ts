@@ -125,9 +125,14 @@ export class WholesalerComponent implements OnInit {
       this.routeSignalService.show_pop_up_route.set(false);
     }
   }
-
+  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+    }
+  }
   APPLY_SEARCH_FILTER(): void {
-    this.Current_page = 1;
+    this.paginator.firstPage();
     this.wholesaler.SEARCH_WHOLESALER(this.pageSize, this.Current_page, this.searchText).subscribe({
       next: (response: any) => {
         this.WholesalerArray = response.wholesalers;
@@ -179,7 +184,9 @@ export class WholesalerComponent implements OnInit {
       next: (response: any) => {
       },
       error: (error) => { },
-      complete: () => { this.FETCH_WHOLESALERS(); this.CANCEL_UPDATE(); }
+      complete: () => { this.FETCH_WHOLESALERS(); this.CANCEL_UPDATE(); 
+        this.goToPreviousPage()
+      }
     });
   }
 

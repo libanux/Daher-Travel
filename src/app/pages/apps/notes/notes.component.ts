@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Note } from '../../../classes/note';
 import { NoteService } from 'src/app/services/note.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class AppNotesComponent implements OnInit {
 
 
   adminid: string = ''
-  constructor(public noteService: NoteService) {
+  constructor(public noteService: NoteService, private breadCrumbService :BreadCrumbSignalService) {
     this.newNote = new Note();
     const admin_id = localStorage.getItem("admin_id");
     this.adminid = admin_id !== null ? admin_id : "";
@@ -29,6 +30,7 @@ export class AppNotesComponent implements OnInit {
     this.selectedNote.adminid = this.adminid
   }
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Notes')
     this.FETCH_NOTES();
   }
 

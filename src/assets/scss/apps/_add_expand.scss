@@ -87,15 +87,23 @@
     position: sticky;
     bottom: 0;
     background-color: rgb(255, 255, 255);
-    z-index: 1;
+    z-index: 1000;
     margin-bottom: 0;
     }
     
+
+    .mat-mdc-option.mdc-list-item {
+        background-color: rgb(255, 255, 255);
+    }
+
+    .mat-mdc-option.mdc-list-item:hover{
+        background-color: rgb(255, 255, 255);
+    }
     .add-new-customer-option:hover {
         position: sticky;
         bottom: 0;
         background-color: rgb(255, 255, 255);
-        z-index: 1;
+        z-index: 1000;
         margin-bottom: 0;
         }
     

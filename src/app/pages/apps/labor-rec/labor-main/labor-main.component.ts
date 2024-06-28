@@ -201,6 +201,13 @@ export class LaborMainComponent implements AfterViewInit {
 
   }
 
+    // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+    goToPreviousPage(): void {
+      if (this.paginator && this.paginator.hasPreviousPage()) {
+        this.paginator.previousPage();
+      }
+    }
+
   //EXPAND THE ROW AND CHECK IF THE COLUMN IS ACTION THEN DO NOT EXPAND
   expandRow(event: Event, element: any, column: string): void {
     if (column === 'action') {
@@ -268,7 +275,9 @@ export class LaborMainComponent implements AfterViewInit {
         error: (error: any) => {
           console.error('Error:', error);
         },
-        complete: () => { }
+        complete: () => {
+          this.goToPreviousPage()
+         }
       });
   }
 

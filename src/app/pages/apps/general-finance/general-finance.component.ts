@@ -68,7 +68,7 @@ export class GeneralFinanceComponent {
  'description',
  'cost',
  'sell',
- 'createAt',
+ 'createdAt',
  'action'
  ];
 
@@ -165,6 +165,13 @@ export class GeneralFinanceComponent {
    }
  }
 
+   // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+   goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+    }
+  }
+
  // OPEN DIALOG TO MAKE SURE OF DELETION
  OPEN_DIALOG(action: string, obj: any): void {
    obj.action = action;
@@ -248,12 +255,7 @@ export class GeneralFinanceComponent {
 
  }
 
- // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
- goToPreviousPage(): void {
-   if (this.paginator && this.paginator.hasPreviousPage()) {
-     this.paginator.previousPage();
-   }
- }
+
 
 
  isAnyFieldNotEmpty = false; // Flag to track if any field has content
@@ -301,7 +303,7 @@ export class GeneralFinanceComponent {
      complete: () => { }
    });
  }
-
+ selectedCustomerId:string =''
  disabledselection = false;
  PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
  onCustomerSelected(event: any) {
@@ -333,6 +335,7 @@ export class GeneralFinanceComponent {
   }
 
 
+  this.selectedCustomerId = this.CUSTOMER_SELECTED.id;
 }
  NEW_CUSTOMER_ADDED:CustomerClass
 
@@ -445,7 +448,9 @@ export class GeneralFinanceComponent {
        }
      },
      error: (error: any) => { },
-     complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); }
+     complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); 
+      this.goToPreviousPage()
+     }
    });
  }
 

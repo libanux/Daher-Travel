@@ -32,7 +32,7 @@
               </svg>
             </mat-icon>
             <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onCustomerSelected($event.option.value)">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer" [disabled]="customer._id === selectedCustomerId">
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" [value]="'Add New Customer'">
@@ -263,7 +263,7 @@
             <!-- display row objects -->
             <ng-container *ngIf="column !== 'cost' && column!=='sell'; else priceColumn">
               <ng-container *ngIf="column !== 'action'; else actionColumn">
-                <ng-container *ngIf="column !== 'createAt'; else dateColumn">
+                <ng-container *ngIf="column !== 'createdAt'; else dateColumn">
                   <ng-container *ngIf="column !== 'note'; else noteColumn">
                     {{ column === 'customerName' ? element.customer.name : column === 'customerPhoneNumber' ?
                     element.customer.phoneNumber : element[column] }}
