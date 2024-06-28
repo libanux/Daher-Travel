@@ -52,15 +52,15 @@ export class GeneralFinanceService {
             'Content-Type': 'application/json'
         });
         const requestBody = {
-            "customerId": GeneralFinance.customerId, // Required: ID of the customer to update
-            "customerName": GeneralFinance.customerName,
-            "customerPhoneNumber": GeneralFinance.customerPhoneNumber,
+            "customerId": GeneralFinance.customer.id,                                     
+            "customerName": GeneralFinance.customer.name,
+            "customerPhoneNumber": GeneralFinance.customer.phoneNumber,                                        
             "description": GeneralFinance.description,
             "cost": GeneralFinance.cost,
             "sell": GeneralFinance.sell
         };
 
-        return this.httpClient.post<any>(this.apiUrl + '/DATE_GENERAL_FINANCE_BY_ID', requestBody, { headers });
+        return this.httpClient.post<any>(this.apiUrl + '/UPDATE_GENERAL_FINANCE_BY_ID', requestBody, { headers });
     }
 
     //ADD GENERAL FINANCE
@@ -70,9 +70,9 @@ export class GeneralFinanceService {
             'Content-Type': 'application/json'
         });
         const requestBody = {
-            "customerId": generalFinance.customerId,
-            "customerName": generalFinance.customerName,
-            "customerPhoneNumber": generalFinance.customerPhoneNumber,
+            "customerId": generalFinance.customer.id,
+            "customerName": generalFinance.customer.name,
+            "customerPhoneNumber": generalFinance.customer.phoneNumber,
             "description": generalFinance.description,
             "cost": generalFinance.cost,
             "sell":generalFinance.sell

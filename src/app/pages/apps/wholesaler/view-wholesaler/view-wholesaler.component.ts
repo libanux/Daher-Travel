@@ -5,6 +5,7 @@ import { CustomerClass } from 'src/app/classes/customer.class';
 import { WholesalerClass } from 'src/app/classes/wholesaler.class';
 import { Month_Filter_Array } from 'src/app/services/general.service';
 import { WholesalerService } from 'src/app/services/wholesaler.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 export interface PeriodicElement {
   id: number;
   uname: string;
@@ -94,11 +95,12 @@ export class ViewWholesalerComponent {
     }`;
   }
 
-  constructor(private wholesalerService : WholesalerService){}
+  constructor(private wholesalerService : WholesalerService, private breadCrumbService : BreadCrumbSignalService){}
 
   viewed_cutomer_ID = ''
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Wholesaler/View')
     const viewed_customer_id_str = localStorage.getItem('viewed_wholesaler_id');
     if (viewed_customer_id_str !== null) {
       this.viewed_cutomer_ID = viewed_customer_id_str; // Use unary plus (+) to convert string to number

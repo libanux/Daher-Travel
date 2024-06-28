@@ -67,7 +67,8 @@ export class GeneralFinanceComponent {
  'customerPhoneNumber',
  'description',
  'cost',
- 'sell'
+ 'sell',
+ 'action'
  ];
 
  // This is the added or updated VISA fdefualt values
@@ -210,7 +211,7 @@ export class GeneralFinanceComponent {
  }
 
  CHECK_IF_CHANGED_CUSTOMER_NAME() {
-   if (this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customerName !== this.CUSTOMER_SELECTED.name) {
+   if (this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.name !== this.CUSTOMER_SELECTED.name) {
      this.DATA_CHANGED = true;
    }
    else {
@@ -407,9 +408,9 @@ export class GeneralFinanceComponent {
    this.generalFinanceService.GET_ALL_GENERAL_FINANCE(this.Current_page, this.pageSize).subscribe({
      next: (response: any) => {
        console.log(response)
-       this.current_page_array_length = response.visas.length
-       this.Visa_Array_length = response.pagination.totalVisas;
-       this.GeneralFinanceArray = new MatTableDataSource(response.visas);
+       this.current_page_array_length = response.financeRecords.length
+       this.Visa_Array_length = response.pagination.financeRecords;
+       this.GeneralFinanceArray = new MatTableDataSource(response.financeRecords);
      },
      error: (error) => { },
      complete: () => {
@@ -451,8 +452,13 @@ export class GeneralFinanceComponent {
 
  // ADD NEW VISA
  ADD_GENERAL_FINANCE() {
-
-
+  this.ADDED_GENERAL_FINANCE.customer =
+  {
+    id: this.CUSTOMER_SELECTED.id,
+    name: this.CUSTOMER_SELECTED.name,
+    phoneNumber:this.CUSTOMER_SELECTED.phoneNumber
+  }
+console.log("ADDED",this.ADDED_GENERAL_FINANCE)
    this.SHOW_LOADING_SPINNER = true;
    this.generalFinanceService.ADD_GENERAL_FINANCE(this.ADDED_GENERAL_FINANCE).subscribe({
      next: (response: any) => { },
@@ -463,7 +469,14 @@ export class GeneralFinanceComponent {
 
  DATA_CHANGED: boolean = false;
  // CONFIRM UPDATE
- UPDATE_VISA() {
+ UPDATE_GENERAL_FINANCE() {
+  this.ADDED_GENERAL_FINANCE.customer =
+  {
+    id: this.CUSTOMER_SELECTED.id,
+    name: this.CUSTOMER_SELECTED.name,
+    phoneNumber: this.CUSTOMER_SELECTED.phoneNumber,
+  }
+
    this.SHOW_LOADING_SPINNER = true
    this.generalFinanceService.UPDATE_GENERAL_FINANCE(this.ADDED_GENERAL_FINANCE).subscribe({
      next: (response: any) => { },
@@ -487,13 +500,13 @@ export class GeneralFinanceComponent {
    this.ADDED_GENERAL_FINANCE = { ...obj };
    this.MAIN_SELECTED_GENERAL_FINANCE_DATA = obj;
 
-   // this.CUSTOMER_SELECTED = this.MAIN_SELECTED_VISA_DATA.customer;
-  //  this.CUSTOMER_SELECTED =
-  //  {
-  //    id: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.id,
-  //    name: this.MAIN_SELECTED_VISA_DATA.customer.name,
-  //    phoneNumber: this.MAIN_SELECTED_VISA_DATA.customer.phoneNumber
-  //  }
+   this.CUSTOMER_SELECTED = this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer;
+   this.CUSTOMER_SELECTED =
+   {
+     id: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.id,
+     name: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.name,
+     phoneNumber: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.phoneNumber
+   }
 
    this.onCustomerSelected(this.CUSTOMER_SELECTED)
 
