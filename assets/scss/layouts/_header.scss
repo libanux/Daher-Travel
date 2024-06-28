@@ -19,6 +19,12 @@ html .topbar {
   }
 }
 
+.baseRoute a {
+  text-decoration: none;
+  color: rgba(235, 179, 27, 0.9843137255);
+  cursor: pointer;
+}
+
 .upgrade-bg {
   position: absolute;
   top: 0px;
