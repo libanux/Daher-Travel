@@ -26,12 +26,13 @@
                 <div class="row justify-content-center w-100">
                   <div class="col-lg-9 max-width-form">
                     <h4 class="f-w-700 f-s-24 m-0">Welcome to Daher Travel</h4>
-        
+
+                   
 <form class="m-t-30" [formGroup]="form" (ngSubmit)="login()">
 
 <mat-form-field appearance="outline" class="w-100" color="primary">
 <mat-label>Username</mat-label>
-<input matInput formControlName="uname" />
+<input matInput formControlName="uname" (change)="onChange($event)"/>
         @if(f['uname'].touched && f['uname'].invalid) 
         {
           <mat-hint class="m-b-16 error-msg">
@@ -47,7 +48,7 @@
 <mat-form-field appearance="outline" class="w-100" color="primary">
 
 <mat-label>Password</mat-label>
-<input matInput type="password" formControlName="password" />
+<input matInput type="password" formControlName="password" (change)="onChange($event)"/>
 
 @if(f['password'].touched && f['password'].invalid) 
   {
@@ -60,10 +61,10 @@
 </mat-form-field>
 
         
-<div class="d-flex align-items-center m-b-12">
-    <mat-checkbox color="primary">Remember this Device</mat-checkbox>
-</div>
 
+@if(login_error!==''){
+  <div  class="text-error m-b-16">{{ login_error }}</div>
+}
 <button mat-flat-button color="primary" class="w-100" [disabled]="!form.valid">Sign In</button>
 
 </form>

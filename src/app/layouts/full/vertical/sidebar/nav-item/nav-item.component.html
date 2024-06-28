@@ -7,7 +7,7 @@
 @if(!item.navCap && !item.external) {
   <mat-list-item (click)="OPEN_DIALOG(item)"
   [ngClass]="{
-    'mat-toolbar mat-accent activeMenu': item.route ? router.isActive(item.route, true) : false,
+    'mat-toolbar mat-accent activeMenu': isRouteActive(item),
     expanded: expanded
   }"
   class="menu-list-item rounded-pill"

@@ -61,7 +61,7 @@ export class GeneralFinanceComponent {
 
  // searchText: any;
 
- // These are the column of the table 
+
  displayedColumns: string[] = [
  'customerName',
  'customerPhoneNumber',
@@ -421,7 +421,7 @@ export class GeneralFinanceComponent {
 
  // CANCEL UPDATE
  CANCEL_UPDATE(): void {
-   this.CurrentAction = 'Add Visa';
+   this.CurrentAction = 'Add General Finance';
    this.ShowAddButoon = true;
    this.routeSignalService.show_pop_up_route.set(false)
    this.SHOW_LOADING_SPINNER = false
