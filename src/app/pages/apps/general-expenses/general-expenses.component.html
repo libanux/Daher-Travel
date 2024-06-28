@@ -15,46 +15,13 @@
       <!-- FIRST ROW :  CUSTOMER NAME + COUNTRY + NOTE -->
       <div class="row">
 
-        <!-- CUSTOMER NAME -->
-        <div class="col-md-4 d-flex flex-column">
+        <!-- Amount-->
+        <div class="col-md-6 d-flex flex-column">
           <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Customer Name</mat-label>
+            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Amount</mat-label>
           </div>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Search Customers....." aria-label="Customer" [matAutocomplete]="auto1"
-              [(ngModel)]="CUSTOMER_SELECTED.name" (input)="filterCustomers()" name="customer">
-
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
-                width="24px" fill="#5f6368">
-                <path
-                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-              </svg>
-            </mat-icon>
-            <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onCustomerSelected($event.option.value)">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
-                {{customer.name}}
-              </mat-option>
-              <mat-option class="add-new-customer-option" [value]="'Add New Customer'">
-                <div class="option-content">
-                  <mat-icon matPrefix class="op-5">
-                    <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
-                  </mat-icon>
-                  <span>Add New Customer</span>
-                </div>
-              </mat-option>
-
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-
-        <!-- COUNTRY-->
-        <div class="col-md-4 d-flex flex-column">
-          <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Cost</mat-label>
-          </div>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Cost" [(ngModel)]="ADDED_GENERAL_FINANCE.cost"
+            <input type="number" matInput placeholder="Amount" [(ngModel)]="ADDED_GENERAL_EXPENSE.amount"
               (ngModelChange)="onInputChange()" />
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -66,41 +33,14 @@
           </mat-form-field>
         </div>
 
-        <!-- SELL -->
-        <div class="col-md-4 d-flex flex-column">
-          <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Sell</mat-label>
-          </div>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Sell" [(ngModel)]="ADDED_GENERAL_FINANCE.sell"
-              (ngModelChange)="onInputChange()" type="number" min="0">
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </div>
-
-
-
-
-
-
-      </div>
-      <!-- SECOND ROW :  SELL + TYPE + STATUS -->
-      <div class="row">
-        <!-- NOTE-->
+        <!-- Description -->
         <div class="col-md-6 d-flex flex-column">
           <div class="d-flex align-items-center">
             <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Description</mat-label>
           </div>
-
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Description" [(ngModel)]="ADDED_GENERAL_FINANCE.description"
-              (ngModelChange)="onInputChange()">
+            <input matInput placeholder="Description" [(ngModel)]="ADDED_GENERAL_EXPENSE.description"
+              (ngModelChange)="onInputChange()" min="0">
             <mat-icon matPrefix class="op-5">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -111,37 +51,19 @@
           </mat-form-field>
         </div>
 
-
-        <!-- TYPE -->
-        <div class="col-md-6 d-flex flex-column">
-          <div class="d-flex align-items-center">
-            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">Phone Number</mat-label>
-          </div>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput placeholder="Phone Number" [(ngModel)]="CUSTOMER_SELECTED.phoneNumber"
-              (ngModelChange)="onInputChange()" readonly>
-            <mat-icon matPrefix class="op-5">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#5f6368">
-                <path
-                  d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z" />
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </div>
       </div>
 
       <div class="Buttons_div">
         <div *ngIf="ShowAddButoon">
-          <button mat-flat-button color="primary" (click)="ADD_GENERAL_FINANCE()"> Add Visa </button>
+          <button mat-flat-button color="primary" (click)="ADD_GENERAL_EXPENSE()"> Add General Expense </button>
         </div>
 
         <div class="TwoButtons" *ngIf="!ShowAddButoon">
           <button (click)="CANCEL_UPDATE()" mat-flat-button color="primary">Cancel</button>
 
-          <button mat-flat-button color="primary" (click)="UPDATE_GENERAL_FINANCE()"
+          <button mat-flat-button color="primary" (click)="UPDATE_GENERAL_EXPENSE()"
             [disabled]="SHOW_LOADING_SPINNER || !DATA_CHANGED">
-            <span *ngIf="!SHOW_LOADING_SPINNER">Update Visa</span>
+            <span *ngIf="!SHOW_LOADING_SPINNER">Update General Expense</span>
             <mat-spinner diameter="20" *ngIf="SHOW_LOADING_SPINNER"></mat-spinner>
           </button>
 
@@ -152,16 +74,12 @@
   </mat-expansion-panel>
 </mat-card>
 
-
-
-
 <mat-card class="cardWithShadow">
   <!-- Search -->
   <header>
-
     <div class="searchbar p-20">
       <mat-form-field appearance="outline" class="w-100">
-        <input matInput placeholder="Search General Finances..." aria-label="Product"
+        <input matInput placeholder="Search General Expenses..." aria-label="general expenses"
           (keyup)="APPLY_SEARCH_FILTER($any($event.target).value)">
         <mat-icon matPrefix class="op-5">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon-20 d-flex" height="24px" viewBox="0 -960 960 960"
@@ -213,6 +131,7 @@
         </div>
       </section>
 
+
       <!-- Download As -->
       <div class="dropdown">
         <mat-form-field appearance="outline" class="w-100">
@@ -247,7 +166,7 @@
     <!-- TABLE BODY -->
     <div class="table-responsive">
 
-      <table mat-table [dataSource]="GeneralFinanceArray" multiTemplateDataRows>
+      <table mat-table [dataSource]="GeneralExpenseArray" multiTemplateDataRows>
         @for( column of displayedColumns; track column) {
 
         <ng-container matColumnDef="{{ column }}">
@@ -261,12 +180,11 @@
             (click)=" EXPAND_ROW($event, element, column)">
 
             <!-- display row objects -->
-            <ng-container *ngIf="column !== 'cost' && column!=='sell'; else priceColumn">
+            <ng-container *ngIf="column !== 'amount'; else amountColumn">
               <ng-container *ngIf="column !== 'action'; else actionColumn">
-                <ng-container *ngIf="column !== 'createAt'; else dateColumn">
-                  <ng-container *ngIf="column !== 'note'; else noteColumn">
-                    {{ column === 'customerName' ? element.customer.name : column === 'customerPhoneNumber' ?
-                    element.customer.phoneNumber : element[column] }}
+                <ng-container *ngIf="column !== 'createdAt'; else dateColumn">
+                  <ng-container *ngIf="column !== 'description'; else noteColumn">
+                    {{ element[column] }}
                   </ng-container>
                 </ng-container>
               </ng-container>
@@ -275,18 +193,18 @@
             </ng-container>
 
             <ng-template #dateColumn>{{ FORMAT_DATE(element[column]) }}</ng-template>
-            <ng-template #noteColumn>{{ truncateText(element[column], 30) }}</ng-template>
+            <ng-template #noteColumn>{{ truncateText(element[column], 40) }}</ng-template>
             <!-- SHOW ACTION TEMPLATE -->
             <ng-template #actionColumn>
               <div class="action-link">
-                <a (click)="SELECTED_GENERAL_FINANCE(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit"
+                <a (click)="SELECTED_GENERAL_EXPENSE(element)" class="m-r-10 cursor-pointer"><i-tabler name="edit"
                     class="icon-18"></i-tabler></a>
                 <a (click)="OPEN_DIALOG('Delete', element)" class="m-r-10 cursor-pointer"><i-tabler name="trash"
                     class="icon-18"></i-tabler></a>
               </div>
             </ng-template>
-            <!--IF THE COLUMN IS STATUS THEM APPLY SPECIFIC DESIGN-->
-            <ng-template #priceColumn>$ {{ element[column]}}</ng-template>
+            <!--IF THE COLUMN IS AMOUNT THEM APPLY SPECIFIC DESIGN-->
+            <ng-template #amountColumn>$ {{ element.amount}}</ng-template>
 
           </td>
 
@@ -305,22 +223,16 @@
 
                 <div class="detail-body mt-3">
                   <div class="col-md-4">
-                    <div class="detail-field"><strong>Name: </strong> {{ element.customer.name }}</div>
-                    <div class="detail-field"><strong>Phone-Nb: </strong> {{ element.customer.phoneNumber }}</div>
+                    <div class="detail-field"><strong>Amount: </strong> {{ element.amount}}</div>
+                    <div class="detail-field"><strong>Description: </strong> {{ element.description }}</div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="detail-field"><strong>Net-Profit: </strong> {{ element.netProfit }}</div>
-                    <div class="detail-field"><strong>Sell: </strong> {{ element.sell }}</div>
-                  </div>
+
                   <div class="col-md-4">
                     <div class="detail-field"><strong>Created At: </strong>{{ FORMAT_DATE(element.createdAt) }}</div>
                     <div class="detail-field"><strong>Updated At: </strong> {{ FORMAT_DATE(element.updatedAt) }}</div>
                   </div>
                 </div>
 
-                <div class="col-lg-12">
-                  <div class="detail-field"><strong>Description: </strong> {{ element.description }}</div>
-                </div>
 
                 <div class="invoice-btn-div">
                   <button class="invoice-btn">Print invoice</button>
@@ -341,7 +253,7 @@
 
       </table>
 
-      @if(GeneralFinanceArray.filteredData.length===0 && !show_shimmer){
+      @if(GeneralExpenseArray.filteredData.length===0 && !show_shimmer){
       <app-no-items-found></app-no-items-found>
       }
 
@@ -353,7 +265,7 @@
     <!-- LENGTH : 1-10 of length -->
     <!-- pageSize : Items Per Page -->
 
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="General_finance_Array_length" [pageSize]="pageSize"
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" [length]="General_Expense_Array_length" [pageSize]="pageSize"
       aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
     </mat-paginator>
 

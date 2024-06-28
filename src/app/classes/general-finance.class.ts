@@ -1,5 +1,6 @@
 export class GeneralFinance {
     constructor(
+      public _id: string = '',
       public customer: {
         id: string;
         name: string;

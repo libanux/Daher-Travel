@@ -4,9 +4,10 @@ import { GeneralService } from './general.service';
 import { environment } from 'src/enviroment/enviroment';
 import { Observable } from 'rxjs';
 import { GeneralFinance } from '../classes/general-finance.class';
+import { GeneralExpense } from '../classes/general-expense.class';
 
 @Injectable({ providedIn: 'root' })
-export class GeneralFinanceService {
+export class GeneralExpenseService {
 
     private apiUrl = '';
 
@@ -32,8 +33,8 @@ export class GeneralFinanceService {
         return localStorage.getItem('TICKET');
     }
 
-    //GET ALL VISA
-    GET_ALL_GENERAL_FINANCE(currentPage: number, pageSize: number): Observable<any> {
+    //GET ALL GENERAL EXPENSE
+    GET_ALL_GENERAL_EXPENSES(currentPage: number, pageSize: number): Observable<any> {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${this.getToken()}`,
             'Content-Type': 'application/json'
@@ -42,56 +43,53 @@ export class GeneralFinanceService {
             "page": currentPage,
             "pageSize": pageSize
         }
-        return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_GENERAL_FINANCE', requestBody, { headers });
+        return this.httpClient.post<any>(this.apiUrl + '/GET_ALL_GENERAL_EXPENSES', requestBody, { headers });
     }
 
-    //UPDATE GENERAL FINANCE
-    UPDATE_GENERAL_FINANCE(GeneralFinance: GeneralFinance): Observable<any> {
+    //UPDATE GENERAL EXPENSE
+    UPDATE_GENERAL_EXPENSE(GeneralExpense: GeneralExpense): Observable<any> {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${this.getToken()}`,
             'Content-Type': 'application/json'
         });
         const requestBody = {
-            "customerId": GeneralFinance.customer.id,
-            "customerName": GeneralFinance.customer.name,
-            "customerPhoneNumber": GeneralFinance.customer.phoneNumber,
-            "description": GeneralFinance.description,
-            "cost": GeneralFinance.cost,
-            "sell": GeneralFinance.sell
-        };
+                "expenseId": GeneralExpense._id,
+                "updateData": {
+                  "description": GeneralExpense.description,
+                  "address": "nabaye  Description",
+                  "amount": GeneralExpense.amount
+              }
+        }
 
-        return this.httpClient.post<any>(this.apiUrl + '/UPDATE_GENERAL_FINANCE_BY_ID', requestBody, { headers });
+        return this.httpClient.post<any>(this.apiUrl + '/UPDATE_GENERAL_EXPENSE_BY_ID', requestBody, { headers });
     }
 
-    //ADD GENERAL FINANCE
-    ADD_GENERAL_FINANCE(generalFinance: GeneralFinance): Observable<any> {
+    //ADD GENERAL EXPENSE
+    ADD_GENERAL_EXPENSE(generalExpense: GeneralExpense): Observable<any> {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${this.getToken()}`,
             'Content-Type': 'application/json'
         });
         const requestBody = {
-            "customerId": generalFinance.customer.id,
-            "customerName": generalFinance.customer.name,
-            "customerPhoneNumber": generalFinance.customer.phoneNumber,
-            "description": generalFinance.description,
-            "cost": generalFinance.cost,
-            "sell": generalFinance.sell
+
+            "description": generalExpense.description,
+            "amount": generalExpense.amount
         };
-        return this.httpClient.post<any>(this.apiUrl + '/ADD_GENERAL_FINANCE', requestBody, { headers });
+        return this.httpClient.post<any>(this.apiUrl + '/ADD_GENERAL_EXPENSE', requestBody, { headers });
     }
 
-    //DELETE GENERAL FINANCE
-    DELETE_GENERAL_FINANCE(ID: number): Observable<any> {
+    //DELETE GENERAL EXPENSE
+    DELETE_GENERAL_EXPENSE(ID: number): Observable<any> {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${this.getToken()}`,
             'Content-Type': 'application/json'
         });
-        const requestBody = { "id": ID };
-        return this.httpClient.post<any>(this.apiUrl + '/DELETE_GENERAL_FINANCE_BY_ID', requestBody, { headers });
+        const requestBody = { "expenseId": ID };
+        return this.httpClient.post<any>(this.apiUrl + '/DELETE_GENERAL_EXPENSE_BY_ID', requestBody, { headers });
     }
 
     // FILTER FUNCTION BY : SEARCH KEY , STATUS AND DATE
-    FILTER_AND_SEARCH_GENERAL_FINANCE(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string, CURRENT_PAGE: number, PAGE_SIZE: number) {
+    FILTER_AND_SEARCH_GENERAL_EXPENSE(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string, CURRENT_PAGE: number, PAGE_SIZE: number) {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${this.getToken()}`,
             'Content-Type': 'application/json'
@@ -105,7 +103,7 @@ export class GeneralFinanceService {
             "page": CURRENT_PAGE,
             "pageSize": PAGE_SIZE
         };
-        return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_GENERAL_FINANCE', requestBody, { headers });
+        return this.httpClient.post<any>(this.apiUrl + '/SEARCH_AND_FILTER_GENERAL_EXPENSES', requestBody, { headers });
     }
 
 

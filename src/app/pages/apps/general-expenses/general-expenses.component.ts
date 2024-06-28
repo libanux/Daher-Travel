@@ -4,34 +4,35 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { CustomerClass } from 'src/app/classes/customer.class';
+import { GeneralExpense } from 'src/app/classes/general-expense.class';
 import { GeneralFinance } from 'src/app/classes/general-finance.class';
-import { VisaType_Array, Visa_Status_Array, Visa_Status_Array_FILTERATION } from 'src/app/classes/visaClass';
+import { Visa_Status_Array, VisaType_Array, Visa_Status_Array_FILTERATION } from 'src/app/classes/visaClass';
 import { AdminService } from 'src/app/services/Admins.service';
 import { CustomerService } from 'src/app/services/Customer.service';
-import { GeneralFinanceService } from 'src/app/services/general-finance.service';
-import { Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
+import { GeneralExpenseService } from 'src/app/services/general-expense.service';
+import { Month_Filter_Array, Download_Options, GeneralService } from 'src/app/services/general.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 
 @Component({
-  selector: 'app-general-finance',
-  templateUrl: './general-finance.component.html',
-  styleUrls: [
-    '../../../../assets/scss/apps/_add_expand.scss',
-    '../../../../assets/scss/apps/general_table.scss',
-  ],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+  selector: 'app-general-expenses',
+  templateUrl: './general-expenses.component.html',
+  styleUrls:[ '../../../../assets/scss/apps/_add_expand.scss',
+  '../../../../assets/scss/apps/general_table.scss',
+],
+animations: [
+  trigger('detailExpand', [
+    state('collapsed', style({ height: '0px', minHeight: '0' })),
+    state('expanded', style({ height: '*' })),
+    transition(
+      'expanded <=> collapsed',
+      animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+    ),
+  ]),
+],
 })
-export class GeneralFinanceComponent {
+export class GeneralExpensesComponent {
+
 
  // These two valus are used for the add expnad row in the top of the page
  panelOpenState = false;
@@ -63,21 +64,18 @@ export class GeneralFinanceComponent {
 
  // These are the column of the table 
  displayedColumns: string[] = [
- 'customerName',
- 'customerPhoneNumber',
+'amount',
  'description',
- 'cost',
- 'sell',
- 'createAt',
+ 'createdAt',
  'action'
  ];
 
  // This is the added or updated VISA fdefualt values
- ADDED_GENERAL_FINANCE: GeneralFinance = new GeneralFinance()
- MAIN_SELECTED_GENERAL_FINANCE_DATA: GeneralFinance = new GeneralFinance()
+ ADDED_GENERAL_EXPENSE: GeneralExpense = new GeneralExpense()
+ MAIN_SELECTED_GENERAL_EXPENSE_DATA: GeneralExpense = new GeneralExpense()
 
  pageSize = 10;
- General_finance_Array_length = 0
+ General_Expense_Array_length = 0
  Current_page = 1
 
  showCalendar: boolean = false;
@@ -85,10 +83,10 @@ export class GeneralFinanceComponent {
  selectedStatusFilteraTION: string = '';
  selectedDate: Date | null = null; // Adjusted the type to accept null
 
- CurrentAction = 'Add General Finance'
+ CurrentAction = 'Add General Expense'
  columnsToDisplayWithExpand = [...this.displayedColumns];
  expandedElement: GeneralFinance | null = null;
- GeneralFinanceArray = new MatTableDataSource();
+ GeneralExpenseArray = new MatTableDataSource();
  // CUSTOMER_SELECTED: CustomerClass = new CustomerClass();
  CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
@@ -98,12 +96,11 @@ export class GeneralFinanceComponent {
  // Used in filter by date
 
  constructor(
-   private adminService: AdminService,
    private customerService: CustomerService,
    private routeSignalService: RouteSignalService,
    private breadCrumbService: BreadCrumbSignalService,
    private generalService: GeneralService,
-   public dialog: MatDialog, private generalFinanceService: GeneralFinanceService) {
+   public dialog: MatDialog, private generalExpense: GeneralExpenseService) {
 
  }
 
@@ -112,8 +109,8 @@ export class GeneralFinanceComponent {
 
  ngOnInit(): void {
    this.adminID = localStorage.getItem('admin_id') || '';
-   this.breadCrumbService.currentRoute.set('General Finance');
-   this.FETCH_GENERAL_FINANCE()
+   this.breadCrumbService.currentRoute.set('General Expense');
+   this.FETCH_GENERAL_EXPENSE()
 
  }
 
@@ -169,7 +166,7 @@ export class GeneralFinanceComponent {
  OPEN_DIALOG(action: string, obj: any): void {
    obj.action = action;
 
-   const dialogRef = this.dialog.open(GeneralFinanceDialogContentComponent, {
+   const dialogRef = this.dialog.open(GeneralExpenseDialogContentComponent, {
      data: obj,
    });
 
@@ -178,45 +175,22 @@ export class GeneralFinanceComponent {
      if (result.event === 'CancelAdd') {
        this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
 
-       this.ADDED_GENERAL_FINANCE = {
-         _id: this.ADDED_GENERAL_FINANCE._id,
-         customer: {
-           id: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.id,
-           name: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.name,
-           phoneNumber: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.phoneNumber,
-         },
-         sell: this.ADDED_GENERAL_FINANCE.sell,
-         cost: this.ADDED_GENERAL_FINANCE.cost,
-         description: this.ADDED_GENERAL_FINANCE.description
+       this.ADDED_GENERAL_EXPENSE = {
+         _id: this.ADDED_GENERAL_EXPENSE._id,
+         amount: this.ADDED_GENERAL_EXPENSE.amount,
+         description: this.ADDED_GENERAL_EXPENSE.description,
        }
 
-       this.CUSTOMER_SELECTED = {
-         id: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.id,
-         name: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.name,
-         phoneNumber: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.phoneNumber
-       }
-       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
      }
 
      else if (result.event === 'Delete') {
-       this.DELETE_GENERAL_FINANCE(obj._id);
+       this.DELETE_GENERAL_EXPENSE(obj._id);
      }
 
-     else if (result.event === 'Add New Customer') {
-       this.ADD_NEW_CUSTOMER(result.data);
-       this.CUSTOMER_SELECTED = result.data.name
-     }
+
    });
  }
 
- CHECK_IF_CHANGED_CUSTOMER_NAME() {
-   if (this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.name !== this.CUSTOMER_SELECTED.name) {
-     this.DATA_CHANGED = true;
-   }
-   else {
-     this.DATA_CHANGED = false;
-   }
- }
 
  // Method to handle the panel closed event
  CLOSE_PANEL() {
@@ -238,12 +212,12 @@ export class GeneralFinanceComponent {
 
    if (this.STATUS != '' || this.FILTER_TYPE != '') {
      this.Current_page = event.pageIndex + 1;
-     this.FILTER_GENERAL_FINANCE(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
+     this.FILTER_GENERAL_EXPENSE(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
    }
 
    else {
      this.Current_page = event.pageIndex + 1;
-     this.FETCH_GENERAL_FINANCE();
+     this.FETCH_GENERAL_EXPENSE();
    }
 
  }
@@ -261,7 +235,7 @@ export class GeneralFinanceComponent {
  onInputChange() {
    // When inputs changes -> i check if they are the same as the main one
    // if they are the same keep the update button disabled
-   if (JSON.stringify(this.MAIN_SELECTED_GENERAL_FINANCE_DATA) !== JSON.stringify(this.ADDED_GENERAL_FINANCE)) {
+   if (JSON.stringify(this.MAIN_SELECTED_GENERAL_EXPENSE_DATA) !== JSON.stringify(this.ADDED_GENERAL_EXPENSE)) {
      this.DATA_CHANGED = true;
    }
    else {
@@ -269,7 +243,7 @@ export class GeneralFinanceComponent {
    }
 
    // Check only specific fields for content
-   this.isAnyFieldNotEmpty = Object.values(this.ADDED_GENERAL_FINANCE).some(val => val !== '' && val !== null);
+   this.isAnyFieldNotEmpty = Object.values(this.ADDED_GENERAL_EXPENSE).some(val => val !== '' && val !== null);
    if (this.isAnyFieldNotEmpty) {
      this.routeSignalService.show_pop_up_route.set(true);
    }
@@ -303,55 +277,6 @@ export class GeneralFinanceComponent {
  }
 
  disabledselection = false;
- PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
- onCustomerSelected(event: any) {
-
-  if (event != 'Add New Customer') {
-
-    this.CUSTOMER_SELECTED =
-    {
-      id: event._id,
-      name: event.name,
-      phoneNumber: event.phoneNumber
-    }
-
-    if (JSON.stringify(this.PREVIOUS_CUSTOMER_SELECTED) == JSON.stringify(this.CUSTOMER_SELECTED)) {
-      // console.log('CUSTOMER_SELECTED EQUAL')
-    }
-
-    else {
-      this.PREVIOUS_CUSTOMER_SELECTED = { ...this.CUSTOMER_SELECTED }
-      this.ADDED_GENERAL_FINANCE.customer = this.CUSTOMER_SELECTED
-      this.CHECK_IF_CHANGED_CUSTOMER_NAME()
-    }
-  }
-
-  else {
-    this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
-    this.OPEN_DIALOG('Add New Customer', this.NEW_CUSTOMER_ADDED)
-    this.CHECK_IF_CHANGED_CUSTOMER_NAME()
-  }
-
-
-}
- NEW_CUSTOMER_ADDED:CustomerClass
-
- NEW_CUSTOMER_RESPONSE: any
- ADD_NEW_CUSTOMER(obj: any) {
-   this.customerService.ADD_CUSTOMER(obj).subscribe({
-     next: (response: any) => { this.NEW_CUSTOMER_RESPONSE = response; },
-     error: (error) => { },
-     complete: () => {
-       this.CUSTOMER_SELECTED = {
-         id: this.NEW_CUSTOMER_RESPONSE._id,
-         name: this.NEW_CUSTOMER_RESPONSE.name,
-         phoneNumber: this.NEW_CUSTOMER_RESPONSE.phoneNumber
-       }
-       this.FETCH_CUSTOMER();
-     }
-   });
- }
-
 
  // DATE SELECTION
 
@@ -401,41 +326,44 @@ export class GeneralFinanceComponent {
 
  // ACTION BUTTONS : GET ALL, ADD , UPDATE , CANCEL , DELETE, SEARCH
 
- // GET ALL VISA'S 
- FETCH_GENERAL_FINANCE() {
+ // GET ALL GENERAL EXPENSE
+ FETCH_GENERAL_EXPENSE() {
    this.show_shimmer = true;
-   this.generalFinanceService.GET_ALL_GENERAL_FINANCE(this.Current_page, this.pageSize).subscribe({
+   this.generalExpense.GET_ALL_GENERAL_EXPENSES(this.Current_page, this.pageSize).subscribe({
      next: (response: any) => {
        console.log(response)
-       this.current_page_array_length = response.financeRecords.length
-       this.General_finance_Array_length = response.pagination.totalRecords;
-       this.GeneralFinanceArray = new MatTableDataSource(response.financeRecords);
+       this.current_page_array_length = response.expenses.length
+       this.General_Expense_Array_length = response.pagination.totalExpenses;
+       this.GeneralExpenseArray = new MatTableDataSource(response.expenses);
      },
-     error: (error) => { },
+     error: (error) => { 
+      this.show_shimmer=false;
+     },
      complete: () => {
        this.show_shimmer = false;
-       this.FETCH_CUSTOMER()
+       this.CANCEL_UPDATE();
      }
    });
  }
 
  // CANCEL UPDATE
  CANCEL_UPDATE(): void {
-   this.CurrentAction = 'Add Visa';
+   this.CurrentAction = 'Add General Expense';
    this.ShowAddButoon = true;
    this.routeSignalService.show_pop_up_route.set(false)
    this.SHOW_LOADING_SPINNER = false
    this.DATA_CHANGED = false;
-   this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
-   this.MAIN_SELECTED_GENERAL_FINANCE_DATA = new GeneralFinance()
+   this.MAIN_SELECTED_GENERAL_EXPENSE_DATA = new GeneralExpense()
+   this.ADDED_GENERAL_EXPENSE.amount=''
+   this.ADDED_GENERAL_EXPENSE.description =''
    // CLOSE THE PANEL
    this.CLOSE_PANEL()
-   this.onCustomerSelected(this.CUSTOMER_SELECTED)
+ 
  }
 
- // DELETE VSIA
- DELETE_GENERAL_FINANCE(ID: number): void {
-   this.generalFinanceService.DELETE_GENERAL_FINANCE(ID).subscribe({
+ // DELETE GENERAL EXPENSE
+ DELETE_GENERAL_EXPENSE(ID: number): void {
+   this.generalExpense.DELETE_GENERAL_EXPENSE(ID).subscribe({
      next: (response: any) => {
        // CHECK IF I AM DELETING THE LAST ITEM LEFT IN THE PAGE I AM AT
        // IF YES --> GO BACK TO THE PREVOUIS PAGE
@@ -445,49 +373,35 @@ export class GeneralFinanceComponent {
        }
      },
      error: (error: any) => { },
-     complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); }
+     complete: () => { this.FETCH_GENERAL_EXPENSE(); this.CANCEL_UPDATE(); }
    });
  }
 
- // ADD NEW VISA
- ADD_GENERAL_FINANCE() {
-  this.ADDED_GENERAL_FINANCE.customer =
-  {
-    id: this.CUSTOMER_SELECTED.id,
-    name: this.CUSTOMER_SELECTED.name,
-    phoneNumber:this.CUSTOMER_SELECTED.phoneNumber
-  }
-console.log("ADDED",this.ADDED_GENERAL_FINANCE)
+ // ADD NEW GENERAL EXPENSE
+ ADD_GENERAL_EXPENSE() {
+
+console.log("ADDED",this.ADDED_GENERAL_EXPENSE)
    this.SHOW_LOADING_SPINNER = true;
-   this.generalFinanceService.ADD_GENERAL_FINANCE(this.ADDED_GENERAL_FINANCE).subscribe({
+   this.generalExpense.ADD_GENERAL_EXPENSE(this.ADDED_GENERAL_EXPENSE).subscribe({
      next: (response: any) => { },
      error: (error: any) => { },
-     complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); }
+     complete: () => { this.FETCH_GENERAL_EXPENSE(); this.CANCEL_UPDATE(); }
    });
  }
 
  DATA_CHANGED: boolean = false;
  // CONFIRM UPDATE
- UPDATE_GENERAL_FINANCE() {
-  this.ADDED_GENERAL_FINANCE.customer =
-  {
-    id: this.CUSTOMER_SELECTED.id,
-    name: this.CUSTOMER_SELECTED.name,
-    phoneNumber: this.CUSTOMER_SELECTED.phoneNumber,
-  }
-
+ UPDATE_GENERAL_EXPENSE() {
    this.SHOW_LOADING_SPINNER = true
-   this.generalFinanceService.UPDATE_GENERAL_FINANCE(this.ADDED_GENERAL_FINANCE).subscribe({
+   this.generalExpense.UPDATE_GENERAL_EXPENSE(this.ADDED_GENERAL_EXPENSE).subscribe({
      next: (response: any) => { },
      error: (error) => { },
-     complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); }
+     complete: () => { this.FETCH_GENERAL_EXPENSE(); this.CANCEL_UPDATE(); }
    });
  }
 
  // SELECT OBJECT TO UPDATE
- SELECTED_GENERAL_FINANCE(obj: GeneralFinance): void {
-   this.CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
-
+ SELECTED_GENERAL_EXPENSE(obj: GeneralExpense): void {
    // SECURE THE ROUTE
    this.routeSignalService.show_pop_up_route.set(false)
    // HIDE ADD BUTTON AND SHOW THE UPDATE BUTTON
@@ -496,18 +410,9 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
    // OPEN THE PANEL 
    this.OPEN_PANEL();
    // FILL THE INPUTS WITH THE SELECTED OBJ VALUES
-   this.ADDED_GENERAL_FINANCE = { ...obj };
-   this.MAIN_SELECTED_GENERAL_FINANCE_DATA = obj;
+   this.ADDED_GENERAL_EXPENSE = { ...obj };
+   this.MAIN_SELECTED_GENERAL_EXPENSE_DATA = obj;
 
-   this.CUSTOMER_SELECTED = this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer;
-   this.CUSTOMER_SELECTED =
-   {
-     id: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.id,
-     name: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.name,
-     phoneNumber: this.MAIN_SELECTED_GENERAL_FINANCE_DATA.customer.phoneNumber
-   }
-
-   this.onCustomerSelected(this.CUSTOMER_SELECTED)
 
  }
 
@@ -515,21 +420,21 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
  FILTER_ARRAY_BY_STATUS(val: any) {
    this.STATUS = val
    this.paginator.firstPage();
-   this.FILTER_GENERAL_FINANCE(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, val)
+   this.FILTER_GENERAL_EXPENSE(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, val)
  }
 
  // DATE FILTERATION
  FILTER_ARRAY_BY_DATE(filter_type: any) {
    this.FILTER_TYPE = filter_type
    this.paginator.firstPage();
-   this.FILTER_GENERAL_FINANCE(this.SEARCK_KEY, filter_type, this.START_DATE, this.END_DATE, this.STATUS)
+   this.FILTER_GENERAL_EXPENSE(this.SEARCK_KEY, filter_type, this.START_DATE, this.END_DATE, this.STATUS)
  }
 
  // FILTER BY SEARCH KEY
  APPLY_SEARCH_FILTER(searchValue: string): void {
    this.paginator.firstPage();
    this.SEARCK_KEY = searchValue
-   this.FILTER_GENERAL_FINANCE(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
+   this.FILTER_GENERAL_EXPENSE(searchValue, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
  }
 
  SEARCK_KEY = '';
@@ -537,49 +442,47 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
  START_DATE = ''
  END_DATE = ''
  STATUS = ''
- FILTER_GENERAL_FINANCE(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
-   this.generalFinanceService.FILTER_AND_SEARCH_GENERAL_FINANCE(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
+ FILTER_GENERAL_EXPENSE(SEARCK_KEY: string, FILTER_TYPE: string, START_DATE: string, END_DATE: string, STATUS: string) {
+   this.generalExpense.FILTER_AND_SEARCH_GENERAL_EXPENSE(SEARCK_KEY, FILTER_TYPE, START_DATE, END_DATE, STATUS, this.Current_page, this.pageSize).subscribe({
      next: (response: any) => {
-       this.current_page_array_length = response.financeRecords.length
-       this.GeneralFinanceArray = new MatTableDataSource(response.financeRecords);
+       this.current_page_array_length = response.expenses.length
+       this.GeneralExpenseArray = new MatTableDataSource(response.expenses);
        // LENGTH : FOR PAGINATION 
-       this.General_finance_Array_length = response.pagination.totalRecords;
+       this.General_Expense_Array_length = response.pagination.totalExpenses;
      },
-     error: (error) => { this.GeneralFinanceArray = new MatTableDataSource() },
+     error: (error) => { this.GeneralExpenseArray = new MatTableDataSource() },
      complete: () => { }
    });
  }
 
 }
-
-
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'general-finance-dialog-content',
-  templateUrl: './general-finance-dialog-content/general-finance-dialog-content.component.html',
+  selector: 'general-expense-dialog-content',
+  templateUrl: './general-expense-dialog-content/general-expense-dialog-content.component.html',
 })
 // tslint:disable-next-line: component-class-suffix
-export class GeneralFinanceDialogContentComponent {
+export class GeneralExpenseDialogContentComponent {
 
   action: string;
   action_btn: string = 'Add'
   SHOW_LOADING_SPINNER: boolean = false;
 
-  GENERAL_FINANCE_SELECTED: any;
+  GENERAL_EXPENSE_SELECTED: any;
 
 
   constructor(
-    public dialogRef: MatDialogRef<GeneralFinanceDialogContentComponent>,
+    public dialogRef: MatDialogRef<GeneralExpenseDialogContentComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.GENERAL_FINANCE_SELECTED = { ...data };
+    this.GENERAL_EXPENSE_SELECTED = { ...data };
     this.action = data.action;
 
   }
 
   doAction(): void {
     this.SHOW_LOADING_SPINNER = true
-      this.dialogRef.close({ event: this.action, data: this.GENERAL_FINANCE_SELECTED });
+      this.dialogRef.close({ event: this.action, data: this.GENERAL_EXPENSE_SELECTED });
   }
 
   CLOSE_DIALOG(event: string): void {
@@ -587,11 +490,6 @@ export class GeneralFinanceDialogContentComponent {
   }
 
 }
-
-
-
-
-
 
 
 
