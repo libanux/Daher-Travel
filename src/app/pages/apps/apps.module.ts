@@ -48,7 +48,8 @@ import { NoItemsFoundComponent } from './no-items-found/no-items-found.component
 import { TableShimmerComponent } from './table-shimmer/table-shimmer.component';
 import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { GeneralFinanceComponent } from './general-finance/general-finance.component';
+import { GeneralFinanceComponent, GeneralFinanceDialogContentComponent } from './general-finance/general-finance.component';
+import { GeneralExpenseDialogContentComponent, GeneralExpensesComponent } from './general-expenses/general-expenses.component';
 
 @NgModule({
   imports: [
@@ -101,7 +102,10 @@ import { GeneralFinanceComponent } from './general-finance/general-finance.compo
     WholesalerComponent,
     TicketsComponent,
     PdfsTemplateComponent,
-    GeneralFinanceComponent
+    GeneralFinanceComponent,
+    GeneralExpensesComponent,
+    GeneralExpenseDialogContentComponent,
+    GeneralFinanceDialogContentComponent
 
   ],
   providers: [DatePipe,],

@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ReportsComponent } from './reports/reports.component';
 import { GeneralFinanceComponent } from './general-finance/general-finance.component';
 import { AuthGuard } from 'src/app/Auth-Guard/auth.guard';
+import { GeneralExpensesComponent } from './general-expenses/general-expenses.component';
 
 export const AppsRoutes: Routes = [
   {
@@ -82,6 +83,11 @@ export const AppsRoutes: Routes = [
       {
         path: 'general-finance',
         component:GeneralFinanceComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'general-expense',
+        component:GeneralExpensesComponent,
         canActivate: [AuthGuard]
       },
 
