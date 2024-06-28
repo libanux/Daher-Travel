@@ -86,7 +86,7 @@ export class GeneralFinanceService {
             'Authorization': `Bearer ${this.getToken()}`,
             'Content-Type': 'application/json'
         });
-        const requestBody = { "id": ID };
+        const requestBody = { "financeId": ID };
         return this.httpClient.post<any>(this.apiUrl + '/DELETE_GENERAL_FINANCE_BY_ID', requestBody, { headers });
     }
 

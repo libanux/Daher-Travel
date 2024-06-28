@@ -1,10 +1,12 @@
 import { Injectable, effect, signal } from '@angular/core';
+import { LaborPdfData } from '../classes/labor-pdf-data.class';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PDFSignalService {
     DOWNLOAD_PDF = signal<boolean>(false);
+    LABOR_PDF_DATA= signal<LaborPdfData>(new LaborPdfData())
 
     constructor() {
         effect(() => {

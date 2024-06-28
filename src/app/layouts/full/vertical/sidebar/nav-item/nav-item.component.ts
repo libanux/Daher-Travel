@@ -135,7 +135,18 @@ export class AppNavItemComponent implements OnChanges, OnInit {
     }
   }
 
-
+  isRouteActive(item: any): boolean {
+    const currentUrl = this.router.url;
+    if (item.route) {
+      if (currentUrl.includes('customers')) {
+        return item.route.includes('customers');
+      } else if (currentUrl.includes('wholesaler')) {
+        return item.route.includes('wholesaler');
+      }
+      return this.router.isActive(item.route, true);
+    }
+    return false;
+  }
   private extractSvgContent(iconName: string): string {
     // Example logic to extract SVG content from iconName
     // Modify according to your SVG structure and how you want to extract it

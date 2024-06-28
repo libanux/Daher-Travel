@@ -5,7 +5,7 @@
             <div class="invoice-information">
               <p><b>Invoice #</b> : 12345</p>
               <p><b>Created Date </b>: May, 07 2022</p>
-              <p><b>Due Date</b> : May, 09 2022</p>
+              <!-- <p><b>Due Date</b> : May, 09 2022</p> -->
             </div>
             <!-- logo brand invoice -->
             <div class="invoice-logo-brand">
@@ -15,16 +15,7 @@
             <!-- invoice head -->
             <div class="invoice-head">
               <div class="head client-info">
-                <p>Tampsh, Inc.</p>
-                <p>NPWP: 12.345.678.910.111213.1415</p>
-                <p>Bondowoso, Jawa timur</p>
-                <p>Jln. Rengganis 05, Bondowoso</p>
-              </div>
-              <div class="head client-data">
-                <p>-</p>
-                <p>Mohammad Sahrullah</p>
-                <p>Bondowoso, Jawa timur</p>
-                <p>Jln. Duko Kembang, Bondowoso</p>
+             <strong>Daher Travel: Labor Recruiting Reports.</strong> 
               </div>
             </div>
             <!-- invoice body-->
@@ -38,12 +29,24 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Template Invoice</td>
-                    <td>Rp.75.000</td>
+                    <td>Income</td>
+                    <td>$ {{LABOR_PDF_DATA.income }}</td>
                   </tr>
                   <tr>
-                    <td>tax</td>
-                    <td>Rp.5.000</td>
+                    <td>Expenses</td>
+                    <td>$ 5.000</td>
+                  </tr>
+                  <tr>
+                    <td>Netprofit</td>
+                    <td>$ 5.000</td>
+                  </tr>
+                  <tr>
+                    <td>Other Incomes</td>
+                    <td>$ 5.000</td>
+                  </tr>
+                  <tr>
+                    <td>Other Expenses</td>
+                    <td>$ 5.000</td>
                   </tr>
                 </tbody>
               </table>
@@ -54,15 +57,15 @@
                     <tbody>
                       <tr>
                         <td>Subtotal</td>
-                        <td>Rp.80.000</td>
+                        <td>$ 80.000</td>
                       </tr>
                       <tr>
                         <td>PPN 10%</td>
-                        <td>Rp.5.000</td>
+                        <td>$ 5.000</td>
                       </tr>
                       <tr>
                         <td>Credit</td>
-                        <td>Rp.0</td>
+                        <td>$ 0</td>
                       </tr>
                     </tbody>
                   </table>
@@ -70,7 +73,7 @@
               </div>
               <!-- invoice total  -->
               <div class="invoice-total-amount">
-                <p>Total : Rp.80.000</p>
+                <p>Total : $ 80.000</p>
               </div>
             </div>
             <!-- invoice footer -->
@@ -79,7 +82,4 @@
             </div>
           </div>
         </section>
-        <!-- <div class="copyright">
-          <p>Created by ❤ Mohammad Sahrullah</p>
-        </div> -->
   </div>

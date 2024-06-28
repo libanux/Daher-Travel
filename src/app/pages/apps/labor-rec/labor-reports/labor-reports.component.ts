@@ -9,6 +9,7 @@ import { LaborRecReportsService } from 'src/app/services/labore-rec-reports.serv
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 import { PDFSignalService } from 'src/app/signals/pdf-download.signal';
 import { PdfsTemplateComponent } from '../pdfs-template/pdfs-template.component';
+import { LaborPdfData } from 'src/app/classes/labor-pdf-data.class';
 
 const headers: any[] = [
   'Income',
@@ -39,7 +40,7 @@ export class LaborReportsComponent {
   ROWS_COUNT_SHIMMER: any[] = ['1', '2', '3', '4'];
 
   FILTER_TYPE = 'thisMonth'
-
+  PDF_DATA :LaborPdfData = new LaborPdfData()
   DATA = [
     { category: 'Rec', Income: '$0.00', Expenses: '$0.00', NetProfit: '$0.00' },
   ]
@@ -80,11 +81,51 @@ export class LaborReportsComponent {
       if(value=='Excel'){
         this.DOWNLOAD();
       }else if(value=='PDF'){
+        this.pdfService.LABOR_PDF_DATA.set(this.PDF_DATA)
         this.pdfService.triggerDownload();
       }
     }
   }
 
+  
+  generatePDF() {
+    const data = document.getElementById('pdfContent');
+    if (data) {
+      html2canvas(data, { scale: 2 }).then(canvas => {
+        const imgWidth = 208;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+  
+        const contentDataURL = canvas.toDataURL('image/png');
+        console.log("Generated data URL:", contentDataURL); // Log the data URL for inspection
+        
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        let position = 0;
+  
+        try {
+          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+  
+          while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+  
+          pdf.save('GeneratedPDF.pdf');
+          this.pdfService.DOWNLOAD_PDF.set(false);
+        } catch (error) {
+          console.error("Error adding image to PDF:", error);
+        }
+      }).catch(error => {
+        console.error("Error generating canvas:", error);
+      });
+    } else {
+      console.error("Element with ID 'pdfContent' not found.");
+    }
+  }
   DOWNLOAD() {
     const requestBody = {
       filterType: this.FILTER_TYPE,
@@ -119,10 +160,14 @@ export class LaborReportsComponent {
     this.show_shimmer = true;
     this.laborReportsService.GET_RECRUITING_FINANCIAL_REPORT(this.FILTER_TYPE, this.START_DATE, this.END_DATE).subscribe({
       next: (response: any) => {
+        this.PDF_DATA.income =response.totalIncome;
+        this.PDF_DATA.expense = response.totalExpense;
+        this.PDF_DATA.netprofit =response.netProfit;
         this.DATA =
           [
             { category: 'Rec', Income: response.totalIncome, Expenses: response.totalExpense, NetProfit: response.netProfit },
           ]
+          
       },
       error: (error: any) => { },
       complete: () => {
