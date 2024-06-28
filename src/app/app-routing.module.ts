@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FullComponent } from './layouts/full/full.component';
 import { BlankComponent } from './layouts/blank/blank.component';
+import { AuthGuard } from './Auth-Guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
     ],
   },
 
+
   {
     path: '', component: BlankComponent,
     children: [
@@ -37,8 +39,7 @@ const routes: Routes = [
   },
   {
     path: '**', redirectTo: '/'
-  }
-
+  },
 
 ];
 

@@ -8,6 +8,7 @@ import { LaborRecService } from 'src/app/services/labor-rec.service';
 import { Date_Filter_Array, Download_Options, GeneralService, Month_Filter_Array } from 'src/app/services/general.service';
 import { LaborList } from 'src/app/classes/labor.class';
 import { RouteSignalService } from 'src/app/signals/route.signal';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 interface month {
   value: string;
@@ -86,7 +87,7 @@ export class LaborMainComponent implements AfterViewInit {
 
   constructor(
     private routeSignalService: RouteSignalService,
-    public dialog: MatDialog, private recruitingService: LaborRecService, private generalService: GeneralService) {
+    public dialog: MatDialog, private recruitingService: LaborRecService, private generalService: GeneralService,private breadCrumbService : BreadCrumbSignalService) {
     this.editedrecruiting = new LaborList()
     this.editedrecruiting.status = 'pending'
     this.editedrecruiting.sell = ''
@@ -96,6 +97,7 @@ export class LaborMainComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Labor Recruitement')
     this.FETCH_RECRUITINGS();
   }
 

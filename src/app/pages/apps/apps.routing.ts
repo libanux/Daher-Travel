@@ -9,6 +9,7 @@ import { AdminsComponent } from './admins/admins.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportsComponent } from './reports/reports.component';
 import { GeneralFinanceComponent } from './general-finance/general-finance.component';
+import { AuthGuard } from 'src/app/Auth-Guard/auth.guard';
 
 export const AppsRoutes: Routes = [
   {
@@ -17,34 +18,41 @@ export const AppsRoutes: Routes = [
       {
         path: 'visa',
         component: VisaComponentComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'reports',
         component: ReportsComponent,
+        canActivate: [AuthGuard]
       },
       { path: 'wholesaler',
         loadChildren: () =>
           import('./wholesaler/wholesalers.module').then(
             (m) => m.WholesalersModule
           ),
+          canActivate: [AuthGuard]
       },
       { path: 'labor',
         loadChildren: () =>
           import('./labor-rec/labor-rec.module').then(
             (m) => m.LaborRecModule
           ),
+          canActivate: [AuthGuard]
       },
       {
         path: 'notes',
         component: AppNotesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'permission',
         component: AppPermissionComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'package',
         component: AppTicketlistComponent,
+        canActivate: [AuthGuard]
       },
 
       { path: 'customers',
@@ -52,24 +60,29 @@ export const AppsRoutes: Routes = [
           import('./customers/customers.module').then(
             (m) => m.CustomersModule
           ),
+          canActivate: [AuthGuard]
       },
       {
         path: 'admins',
         component: AdminsComponent,
+        canActivate: [AuthGuard]
       },
 
       {
         path: 'tickets',
-        component:TicketsComponent
+        component:TicketsComponent,
+        canActivate: [AuthGuard]
       },
 
       {
         path: 'profile',
-        component:ProfileComponent
+        component:ProfileComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'general-finance',
-        component:GeneralFinanceComponent
+        component:GeneralFinanceComponent,
+        canActivate: [AuthGuard]
       },
 
     ],

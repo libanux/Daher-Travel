@@ -32,15 +32,20 @@ export class AuthService {
     return localStorage.getItem('TICKET');
   }
 
+  isLoggedIn(): boolean {
+    // Replace with your logic to check if the user is logged in
+    return !!localStorage.getItem('TICKET'); // Example check
+  }
+
   //LOGIN FUNCTION
   SIGN_IN(params: Params_Authenticate): Observable<any> {
     const url = `${this.apiUrl}/SIGN_IN`;
     return this.http.post<any>(url, params);
   }
 
-  LOGOUT(){
-    localStorage.setItem('TICKET',''),
-    localStorage.setItem('admin_id', '')
+  LOGOUT() {
+    localStorage.setItem('TICKET', ''),
+      localStorage.setItem('admin_id', '')
   }
 }
 

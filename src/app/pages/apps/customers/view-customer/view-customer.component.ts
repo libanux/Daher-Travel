@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { CustomerService } from 'src/app/services/Customer.service';
 import { Month_Filter_Array } from 'src/app/services/general.service';
+import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
 
 export interface PeriodicElement {
 id: number;
@@ -94,11 +95,12 @@ export class ViewCustomerComponent implements OnInit{
     }`;
   }
 
-  constructor(private customerService : CustomerService){}
+  constructor(private customerService : CustomerService,private breadCrumbService : BreadCrumbSignalService){}
 
   viewed_cutomer_ID = ''
 
   ngOnInit(): void {
+    this.breadCrumbService.currentRoute.set('Customer/View')
     const viewed_customer_id_str = localStorage.getItem('viewed_cutomer_id');
     if (viewed_customer_id_str !== null) {
       this.viewed_cutomer_ID = viewed_customer_id_str; // Use unary plus (+) to convert string to number
