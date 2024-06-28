@@ -13,7 +13,7 @@
   </button>
   }
 
-  <span class="flex-1-auto">{{currentRoute}}</span>
-
+  <span class="flex-1-auto" *ngIf="!showMultiRoute">{{currentRoute}}</span>
+  <span class="flex-1-auto" *ngIf="showMultiRoute"><span class="baseRoute"><a [routerLink]="ROUTE_NAVIGATE + '/main'">{{FIRST_ROUTE}}</a></span>/{{SECOND_ROUTE}}</span>
 
 </mat-toolbar>

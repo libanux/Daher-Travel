@@ -12,7 +12,7 @@ import { navItems } from '../sidebar/sidebar-data';
 import { TranslateService } from '@ngx-translate/core';
 import { TablerIconsModule } from 'angular-tabler-icons';
 
-import { MaterialModule } from '../../../../material.module';import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../../../../material.module'; import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -96,7 +96,11 @@ export class HeaderComponent {
       icon: '/assets/images/flag/icon-flag-de.svg',
     },
   ];
-currentRoute: string ='';
+  showMultiRoute: boolean = false;
+  FIRST_ROUTE: string =''
+  SECOND_ROUTE: string =''
+  ROUTE_NAVIGATE:string =''
+  currentRoute: string = '';
   constructor(
     private vsidenav: CoreService,
     public dialog: MatDialog,
@@ -106,6 +110,19 @@ currentRoute: string ='';
     translate.setDefaultLang('en');
     effect(() => {
       this.currentRoute = this.breadCrumbService.currentRoute();
+      console.log("Current route",this.currentRoute)
+      if (this.currentRoute == 'Customers/View' || this.currentRoute == 'Wholesaler/View') {
+         // Splitting the current route on '/'
+    const parts: string[] = this.currentRoute.split('/');
+    this.FIRST_ROUTE =parts[0]
+    this.SECOND_ROUTE=parts[1]
+    this.ROUTE_NAVIGATE = parts[0].toLowerCase();
+        this.showMultiRoute = true;
+        console.log('Show wholesaler',this.showMultiRoute)
+      }
+      else{
+        this.showMultiRoute=false;
+      }
     });
 
   }

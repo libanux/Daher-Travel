@@ -100,7 +100,7 @@ export class ViewCustomerComponent implements OnInit{
   viewed_cutomer_ID = ''
 
   ngOnInit(): void {
-    this.breadCrumbService.currentRoute.set('Customer/View')
+    this.breadCrumbService.currentRoute.set('Customers/View')
     const viewed_customer_id_str = localStorage.getItem('viewed_cutomer_id');
     if (viewed_customer_id_str !== null) {
       this.viewed_cutomer_ID = viewed_customer_id_str; // Use unary plus (+) to convert string to number

@@ -140,8 +140,8 @@ export class AppNavItemComponent implements OnChanges, OnInit {
     if (item.route) {
       if (currentUrl.includes('customers')) {
         return item.route.includes('customers');
-      } else if (currentUrl.includes('wholesaler')) {
-        return item.route.includes('wholesaler');
+      } else if (currentUrl.includes('wholesalers')) {
+        return item.route.includes('wholesalers');
       }
       return this.router.isActive(item.route, true);
     }
