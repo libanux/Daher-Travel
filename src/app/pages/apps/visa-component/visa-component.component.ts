@@ -58,7 +58,8 @@ export class VisaComponentComponent implements OnInit {
   current_page_array_length = 0;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // searchText: any;
 
@@ -331,7 +332,7 @@ export class VisaComponentComponent implements OnInit {
       complete: () => { }
     });
   }
-
+  selectedCustomerId: string =''
   disabledselection = false;
   PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '', phoneNumber: '' }
   onCustomerSelected(event: any) {
@@ -362,7 +363,7 @@ export class VisaComponentComponent implements OnInit {
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
 
-
+    this.selectedCustomerId = this.CUSTOMER_SELECTED.id;
   }
 
   NEW_CUSTOMER_RESPONSE: any

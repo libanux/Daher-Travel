@@ -97,7 +97,7 @@ export class TicketsComponent {
     credit: '',
     note: '',
     seats: '',
-    status: ''
+    status: 'rejected'
   }
 
   Status_Array: any[] = Visa_Status_Array
@@ -166,7 +166,12 @@ export class TicketsComponent {
       }
     });
   }
-
+  // THIS FUNCTION IS FOR THE PAGING TO GO TO PREVOIUS PAGE
+  goToPreviousPage(): void {
+    if (this.paginator && this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
+    }
+  }
 
   ADD_NEW_CUSTOMER(obj: CustomerClass) {
     this.customerService.ADD_CUSTOMER(obj).subscribe({
@@ -209,7 +214,9 @@ export class TicketsComponent {
       error: (error: any) => {
         console.error('Error:', error);
       },
-      complete: () => { }
+      complete: () => {
+        this.goToPreviousPage()
+       }
     });
   }
 
@@ -351,7 +358,7 @@ export class TicketsComponent {
 
   //FETCH TICKETS FROM API
   SEARCH_TICKETS(): void {
-  this.currentPage=1;
+    this.paginator.firstPage();
     this.ticketingService.SEARCH_FILTER_TICKETS(this.pageSize, this.currentPage, this.searchText, this.selectedMonth, this.startDateValue, this.endDateValue).subscribe({
       next: (response: any) => {
         this.tickets = response.ticketings;
@@ -513,8 +520,10 @@ export class TicketsComponent {
       this.ADDED_TICKET.wholesaler.name = this.WHOLESALER_SELECTED.name
       this.CHECK_IF_CHANGED_WHOLESALER_NAME()
     }
+    this.selectedWholesalerId = this.WHOLESALER_SELECTED.id;
   }
-
+  selectedCustomerId: string =''
+  selectedWholesalerId: string =''
   onCustomerSelected(event: any) {
     this.CUSTOMER_SELECTED = { id: '', name: '' }
 
@@ -533,6 +542,8 @@ export class TicketsComponent {
       this.ADDED_TICKET.name = this.CUSTOMER_SELECTED.name
       this.CHECK_IF_CHANGED_CUSTOMER_NAME()
     }
+         // Store the selected customer ID
+         this.selectedCustomerId = this.CUSTOMER_SELECTED.id;
   }
 
   CHECK_IF_CHANGED_CUSTOMER_NAME() {

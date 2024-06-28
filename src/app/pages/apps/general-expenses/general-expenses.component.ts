@@ -373,7 +373,9 @@ export class GeneralExpensesComponent {
        }
      },
      error: (error: any) => { },
-     complete: () => { this.FETCH_GENERAL_EXPENSE(); this.CANCEL_UPDATE(); }
+     complete: () => { this.FETCH_GENERAL_EXPENSE(); this.CANCEL_UPDATE();
+      this.goToPreviousPage()
+      }
    });
  }
 

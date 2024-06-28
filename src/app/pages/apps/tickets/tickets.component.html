@@ -28,7 +28,7 @@
               </svg>
             </mat-icon>
             <mat-autocomplete #autoCustomer="matAutocomplete" (optionSelected)="onCustomerSelected($event)">
-              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
+              <mat-option *ngFor="let customer of filteredCustomers" [value]="customer" [disabled]="customer._id === selectedCustomerId">
                 {{customer.name}}
               </mat-option>
               <mat-option class="add-new-customer-option" (click)="OPEN_DIALOG('Add New Customer', NEW_CUSTOMER_ADDED)">
@@ -97,10 +97,10 @@
               </svg>
             </mat-icon>
             <mat-autocomplete #autoWholesaler="matAutocomplete" (optionSelected)="onWholesalerSelected($event)">
-              <mat-option *ngFor="let wholesaler of filteredWholeSalers" [value]="wholesaler">
+              <mat-option *ngFor="let wholesaler of filteredWholeSalers" [value]="wholesaler" [disabled]="wholesaler._id === selectedWholesalerId">
                 {{wholesaler.name}}
               </mat-option>
-              <mat-option class="add-new-wholesaler-option" [value]="'Add New Wholesaler'" (click)="OPEN_DIALOG('Add New Wholesaler', NEW_WHOLESALER_ADDED)">
+              <mat-option class="add-new-customer-option" [value]="'Add New Wholesaler'" (click)="OPEN_DIALOG('Add New Wholesaler', NEW_WHOLESALER_ADDED)">
                 <div class="option-content">
                   <mat-icon matPrefix class="op-5">
                     <i-tabler name="user" class="icon-20 d-flex"></i-tabler>

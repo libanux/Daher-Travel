@@ -146,7 +146,7 @@ export class WholesalerService {
       "filterType": "",
       "startDate": "",
       "endDate": "",
-      "page": 1,
+      "page": currentPage,
       "pageSize": pageSize
     };
     console.log("REQUEST", requestBody)
