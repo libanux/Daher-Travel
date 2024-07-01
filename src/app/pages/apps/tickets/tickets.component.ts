@@ -33,7 +33,7 @@ import { Visa_Status_Array } from 'src/app/classes/visaClass';
 })
 export class TicketsComponent {
   ShowAddButoon = true;
-  selectedMonth: string = 'thisMonth';
+  selectedMonth: string = '';
   @Input() showAddSection = true;
 
   //MAIN TICKETS ARRAY

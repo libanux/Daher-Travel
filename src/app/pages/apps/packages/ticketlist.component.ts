@@ -37,7 +37,7 @@ export class AppTicketlistComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   ShowAddButoon = true;
-  selectedMonth: string = 'thisMonth';
+  selectedMonth: string = '';
   statusValue: string = ''
   show_shimmer = true;
   //MAIN PACKAGE ARRAY

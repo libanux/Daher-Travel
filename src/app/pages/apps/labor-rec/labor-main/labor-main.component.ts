@@ -35,7 +35,7 @@ export class LaborMainComponent implements AfterViewInit {
 
 
   ShowAddButoon = true;
-  selectedMonth: string = 'thisMonth';
+  selectedMonth: string = '';
   statusValue: string = ''
   CurrentAction: string = 'Add Recruiting'
   //MAIN RECRUITING ARRAY
