@@ -8,5 +8,5 @@ export class BreadCrumbSignalService {
   constructor() { }
 
   currentRoute = signal<string>('');
-
+  previousRoute = signal<string>('')
 }
