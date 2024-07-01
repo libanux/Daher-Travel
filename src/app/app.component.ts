@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
       }
     }
     else {
+      console.log('nulllllll')
       this.isLoggedIn = false;
       this.router.navigate(['/login']).then(() => {
         window.scrollTo(0, 0);

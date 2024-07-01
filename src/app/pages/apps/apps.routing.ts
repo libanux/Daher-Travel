@@ -16,80 +16,32 @@ export const AppsRoutes: Routes = [
   {
     path: '',
     children: [
-      {
-        path: 'visa',
-        component: VisaComponentComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'reports',
-        component: ReportsComponent,
-        canActivate: [AuthGuard]
-      },
+    
       { path: 'wholesaler',
         loadChildren: () =>
-          import('./wholesaler/wholesalers.module').then(
-            (m) => m.WholesalersModule
-          ),
-          canActivate: [AuthGuard]
+          import('./wholesaler/wholesalers.module').then( (m) => m.WholesalersModule ),
       },
+
       { path: 'labor',
         loadChildren: () =>
-          import('./labor-rec/labor-rec.module').then(
-            (m) => m.LaborRecModule
-          ),
-          canActivate: [AuthGuard]
-      },
-      {
-        path: 'notes',
-        component: AppNotesComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'permission',
-        component: AppPermissionComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'package',
-        component: AppTicketlistComponent,
-        canActivate: [AuthGuard]
+          import('./labor-rec/labor-rec.module').then( (m) => m.LaborRecModule ),
       },
 
       { path: 'customers',
         loadChildren: () =>
-          import('./customers/customers.module').then(
-            (m) => m.CustomersModule
-          ),
-          canActivate: [AuthGuard]
-      },
-      {
-        path: 'admins',
-        component: AdminsComponent,
-        canActivate: [AuthGuard]
+          import('./customers/customers.module').then( (m) => m.CustomersModule),
       },
 
-      {
-        path: 'tickets',
-        component:TicketsComponent,
-        canActivate: [AuthGuard]
-      },
-
-      {
-        path: 'profile',
-        component:ProfileComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'general-finance',
-        component:GeneralFinanceComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'general-expense',
-        component:GeneralExpensesComponent,
-        canActivate: [AuthGuard]
-      },
+      { path: 'visa', component: VisaComponentComponent },
+      { path: 'reports', component: ReportsComponent },
+      { path: 'notes', component: AppNotesComponent },
+      { path: 'permission', component: AppPermissionComponent },
+      { path: 'package', component: AppTicketlistComponent },
+      { path: 'admins', component: AdminsComponent },
+      { path: 'tickets', component:TicketsComponent },
+      { path: 'profile', component:ProfileComponent },
+      { path: 'general-finance', component:GeneralFinanceComponent },
+      { path: 'general-expense', component:GeneralExpensesComponent },
 
     ],
   },

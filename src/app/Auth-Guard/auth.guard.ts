@@ -9,18 +9,27 @@ import { Observable } from 'rxjs';
 })
 export class AuthGuard implements CanActivate {
 
+
+  Ticket : string 
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    if ( localStorage.getItem('TICKET') != null) {
-      console.log("in auth guard")
+      console.log(localStorage.getItem('TICKET'))
+      this.Ticket = localStorage.getItem('TICKET') || ""
+      console.log('ticket is = ', this.Ticket)
+
+    if (  this.Ticket !== null && this.Ticket !== "" ) {
+      console.log("in ticket not empty")
       return true;
     }
+
     else {
-      this.router.navigate(['login']);
+      console.log("in ticket empty")
+      this.router.navigate(['/login']);
       return false;
     }
 }
