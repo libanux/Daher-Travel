@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/enviroment/enviroment';
+import { environment } from 'src/enviroment/enviroment.prod';
 import { GeneralService } from './general.service';
 import { CustomerClass } from '../classes/customer.class';
 import { CustomersRoutes } from '../pages/apps/customers/customers.routing.module';

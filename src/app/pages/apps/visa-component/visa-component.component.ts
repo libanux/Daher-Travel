@@ -131,9 +131,13 @@ export class VisaComponentComponent implements OnInit {
   showToggle = true;
 
   // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
-  GET_ADMIN_PERMISSIONS_FOR_VISA() {
+  GET_ADMIN_PERMISSIONS_FOR_VISA() {   
+       console.log('here1')
+
     this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
-      next: (response: any) => {
+      next: (response: any) => {     
+         console.log('here2')
+
          this.ADMIN_LOGGED_IN_VISA_PERMISSION = response.permissions.visa; 
          console.log(this.ADMIN_LOGGED_IN_VISA_PERMISSION) 
         },
@@ -141,7 +145,7 @@ export class VisaComponentComponent implements OnInit {
       complete: () => {
     if(this.ADMIN_LOGGED_IN_VISA_PERMISSION=='readwrite' || this.ADMIN_LOGGED_IN_VISA_PERMISSION=='read'){
       this.FETCH_VISA();
-      console.log('here')
+      console.log('here3')
       this.showToggle = false;
 
     }

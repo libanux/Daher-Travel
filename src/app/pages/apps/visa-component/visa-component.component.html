@@ -1,4 +1,4 @@
-<!-- add expand row -->
+<!-- IF PERMISSION == readwrite THEN SHOW EXPAND ROW WITH EXPAND BTN -->
  @if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'readwrite'){
 <mat-card class="cardWithShadow">
 
@@ -7,12 +7,9 @@
      (opened)="OPEN_PANEL()" 
      (closed)="CLOSE_PANEL()">
   
-
-
     <mat-expansion-panel-header>
       <mat-panel-title class="f-w-600 mat-body-1 currentAction">{{CurrentAction}}</mat-panel-title>
     </mat-expansion-panel-header>
-
 
     <mat-card-content>
       <!-- FIRST ROW :  CUSTOMER NAME + COUNTRY + NOTE -->
@@ -174,7 +171,7 @@
 </mat-card>
  }
 
-
+<!-- IF PERMISSION == readwrite OR read THEN SHOW THE WHOLE TABLE -->
 @if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'read' || ADMIN_LOGGED_IN_VISA_PERMISSION == 'readwrite'){
 <mat-card class="cardWithShadow">
   <!-- Search -->
@@ -415,10 +412,9 @@
 </mat-card>
 }
 
-
+<!-- IF PERMISSION == write THEN SHOW EXPAND ROW WITHOUT EXPAND BTN BUT WITH EMPTY TABLE -->
 @if(ADMIN_LOGGED_IN_VISA_PERMISSION == 'write'){
-
-  <mat-card class="cardWithShadow">
+<mat-card class="cardWithShadow">
 
     <mat-expansion-panel [expanded]="true" [hideToggle]="showToggle">
   
@@ -574,30 +570,9 @@
 
   </mat-expansion-panel>
 </mat-card>
-
-
-
-  <mat-card class="cardWithShadow">
-
-    <!-- Table -->
-    <mat-card-content>
-      <div class="table-responsive">
-  
-        <table mat-table [dataSource]="VisaArray" multiTemplateDataRows>
-          @for( column of displayedColumns; track column) {
-  
-          <ng-container matColumnDef="{{ column }}">
-            <!-- table headers -->
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
-              {{ column | titlecase}}</th>
-          </ng-container>
-          }
-          <!-- HEADER AND ROW DEFINITIONS -->
-          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-        </table>
-        <app-no-items-found [Permission]="true"></app-no-items-found>
-      </div>
-    </mat-card-content>
-  
-  </mat-card>
-  }
+<!-- EMPTY TABLE -->
+<app-no-read-permissions-table
+[ARRAY]="VisaArray"
+[DISPLAYED_COLUMNS]="displayedColumns"
+></app-no-read-permissions-table>
+}

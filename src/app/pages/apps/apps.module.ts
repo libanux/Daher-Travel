@@ -50,6 +50,7 @@ import { PdfsTemplateComponent } from './labor-rec/pdfs-template/pdfs-template.c
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { GeneralFinanceComponent, GeneralFinanceDialogContentComponent } from './general-finance/general-finance.component';
 import { GeneralExpenseDialogContentComponent, GeneralExpensesComponent } from './general-expenses/general-expenses.component';
+import { NoReadPermissionsTableComponent } from './no-read-permissions-table/no-read-permissions-table.component';
 
 @NgModule({
   imports: [
@@ -105,8 +106,8 @@ import { GeneralExpenseDialogContentComponent, GeneralExpensesComponent } from '
     GeneralFinanceComponent,
     GeneralExpensesComponent,
     GeneralExpenseDialogContentComponent,
-    GeneralFinanceDialogContentComponent
-
+    GeneralFinanceDialogContentComponent,
+    NoReadPermissionsTableComponent
   ],
   providers: [DatePipe,],
 })

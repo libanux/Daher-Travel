@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { environment } from 'src/enviroment/enviroment';
+import { environment } from 'src/enviroment/enviroment.prod';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tickets } from '../classes/tickets.class';

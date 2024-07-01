@@ -12,6 +12,7 @@ import { CustomerService } from 'src/app/services/Customer.service';
 import { RouteSignalService } from 'src/app/signals/route.signal';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Tickets } from 'src/app/classes/tickets.class';
+import { AdminService } from 'src/app/services/Admins.service';
 
 
 
@@ -31,7 +32,6 @@ import { Tickets } from 'src/app/classes/tickets.class';
   ],
 })
 export class AppTicketlistComponent implements OnInit {
-  @Input() showAddSection = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -87,7 +87,14 @@ export class AppTicketlistComponent implements OnInit {
   CUSTOMER_SELECTED = { id: '', name: '' }
   PREVIOUS_CUSTOMER_SELECTED = { id: '', name: '' }
 
-  constructor(private routeSignalService: RouteSignalService, public dialog: MatDialog, private packagesService: PackageService, private breadCrumbService: BreadCrumbSignalService, private customerService: CustomerService, private generalService: GeneralService) {
+  constructor(
+    private adminService: AdminService,
+    private routeSignalService: RouteSignalService, 
+    public dialog: MatDialog, 
+    private packagesService: PackageService, 
+    private breadCrumbService: BreadCrumbSignalService, 
+    private customerService: CustomerService, 
+    private generalService: GeneralService) {
     this.editedpackage = new Package()
     this.editedpackage.status = 'pending'
     this.editedpackage.sell = 1
@@ -99,6 +106,36 @@ export class AppTicketlistComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Packages')
     this.FETCH_PACKAGES();
+
+    this.adminID = localStorage.getItem('admin_id') || '';
+    this.GET_ADMIN_PERMISSIONS_FOR_VISA();
+  }
+
+  showToggle = true;
+  ADMIN_LOGGED_IN_PACKAGE_PERMISSION: string
+  adminID: string 
+  // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
+  GET_ADMIN_PERMISSIONS_FOR_VISA() {
+    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {
+         this.ADMIN_LOGGED_IN_PACKAGE_PERMISSION = response.permissions.packages; 
+         console.log(this.ADMIN_LOGGED_IN_PACKAGE_PERMISSION) 
+        },
+      error: (error: any) => { },
+      complete: () => {
+    if(this.ADMIN_LOGGED_IN_PACKAGE_PERMISSION=='readwrite' || this.ADMIN_LOGGED_IN_PACKAGE_PERMISSION=='read'){
+      this.FETCH_PACKAGES();
+      console.log('here')
+      this.showToggle = false;
+
+    }
+
+    else {
+      this.showToggle = true;
+
+    }
+    }
+    });
   }
 
   onPageChange(event: PageEvent): void {
