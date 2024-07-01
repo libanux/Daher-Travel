@@ -10,25 +10,15 @@ const routes: Routes = [
     component: FullComponent,
     children: [
 
-      {
-        path: 'labor',
-        loadChildren: () => import('./pages/apps/labor-rec/labor-rec.module').then((m) => m.LaborRecModule),
-      },
-      {
-        path: '',
-        loadChildren: () => import('./pages/apps/apps.module').then((m) => m.AppsModule),
-      },
+      { path: 'labor', loadChildren: () => import('./pages/apps/labor-rec/labor-rec.module').then((m) => m.LaborRecModule),  canActivate: [AuthGuard] },
+      { path: '', loadChildren: () => import('./pages/apps/apps.module').then((m) => m.AppsModule),  canActivate: [AuthGuard] },
     ],
   },
-
 
   {
     path: '', component: BlankComponent,
     children: [
-      {
-        path: '',
-        loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
-      },
+      { path: '', loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),},
     ],
   },
 
@@ -38,7 +28,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: '**', redirectTo: '/'
+    path: '**', redirectTo: '/login' , 
   },
 
 ];
