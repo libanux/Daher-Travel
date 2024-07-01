@@ -31,7 +31,7 @@
               <span class="note-time f-s-12 f-w-500">{{
                 note.createdAt | date
                 }}</span>
-              <span (click)="DELETE_NOTE(note)" class="remove-note" matTooltip="Delete">
+              <span (click)="openDialog('Delete', note)" class="remove-note" matTooltip="Delete">
                 <i-tabler name="trash" class="icon-16"></i-tabler>
               </span>
             </div>

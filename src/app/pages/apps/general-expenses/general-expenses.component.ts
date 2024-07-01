@@ -58,7 +58,7 @@ export class GeneralExpensesComponent {
  current_page_array_length = 0;
 
  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
- @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+ @ViewChild(MatPaginator) paginator: MatPaginator;
 
  // searchText: any;
 
@@ -212,11 +212,13 @@ export class GeneralExpensesComponent {
 
    if (this.STATUS != '' || this.FILTER_TYPE != '') {
      this.Current_page = event.pageIndex + 1;
+     this.show_shimmer =true
      this.FILTER_GENERAL_EXPENSE(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
    }
 
    else {
      this.Current_page = event.pageIndex + 1;
+     this.show_shimmer =true
      this.FETCH_GENERAL_EXPENSE();
    }
 
@@ -453,7 +455,9 @@ console.log("ADDED",this.ADDED_GENERAL_EXPENSE)
        this.General_Expense_Array_length = response.pagination.totalExpenses;
      },
      error: (error) => { this.GeneralExpenseArray = new MatTableDataSource() },
-     complete: () => { }
+     complete: () => { 
+      this.show_shimmer =false;
+     }
    });
  }
 

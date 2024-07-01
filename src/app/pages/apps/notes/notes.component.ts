@@ -1,14 +1,16 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { Note } from '../../../classes/note';
 import { NoteService } from 'src/app/services/note.service';
 import { BreadCrumbSignalService } from 'src/app/signals/BreadCrumbs.signal.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { GeneralService } from 'src/app/services/general.service';
 
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.scss'],
+  styleUrls: ['./notes.component.scss', '../../../../assets/scss/apps/_add_expand.scss', '../../../../assets/scss/apps/general_table.scss']
 })
 export class AppNotesComponent implements OnInit {
 
@@ -22,7 +24,7 @@ export class AppNotesComponent implements OnInit {
 
 
   adminid: string = ''
-  constructor(public noteService: NoteService, private breadCrumbService :BreadCrumbSignalService) {
+  constructor(public dialog: MatDialog, public noteService: NoteService, private breadCrumbService: BreadCrumbSignalService) {
     this.newNote = new Note();
     const admin_id = localStorage.getItem("admin_id");
     this.adminid = admin_id !== null ? admin_id : "";
@@ -128,4 +130,52 @@ export class AppNotesComponent implements OnInit {
     });
   }
 
+
+  // OPEN UPDATE & DELETE DIALOGS
+  openDialog(action: string, delNote: Note): void {
+    const dialogRef = this.dialog.open(AppNoteDialogContentComponent, {
+      data: { action, delNote }
+    });
+    dialogRef.afterClosed().subscribe((result: { event: string; }) => {
+      if (result && result.event === 'Delete') {
+        this.DELETE_NOTE(delNote)
+      }
+    });
+  }
+
+}
+
+@Component({
+  // tslint:disable-next-line - Disables all
+  selector: 'app-note-dialog-content',
+  templateUrl: './note-dialog-content.html',
+})
+// tslint:disable-next-line - Disables all
+export class AppNoteDialogContentComponent {
+  package = { selected: false, read: false, write: false };
+  visa = { selected: false, read: false, write: false };
+
+
+  action: string;
+  NOTE_SELECTED: Note = new Note()
+
+  constructor(
+    private generalService: GeneralService,
+    public dialogRef: MatDialogRef<AppNoteDialogContentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+    this.NOTE_SELECTED = data.delNote;
+    this.action = data.action;
+  }
+  truncateText() {
+    return this.generalService.truncateText(this.NOTE_SELECTED.text, 10)
+  }
+
+  doAction(): void {
+    this.dialogRef.close({ event: this.action, data: this.NOTE_SELECTED });
+  }
+
+  CLOSE_DIALOG(): void {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
 }

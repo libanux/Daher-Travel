@@ -1,10 +1,10 @@
-<mat-toolbar class="topbar">
+<mat-toolbar class="topbar pl-5">
   <!-- Desktop Menu -->
-  @if(showToggle) {
+  <!-- @if(showToggle) {
   <button mat-icon-button (click)="toggleCollapsed.emit()" class="d-flex justify-content-center">
     <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
   </button>
-  }
+  } -->
 
   <!-- Mobile Menu -->
   @if(!showToggle) {
@@ -13,7 +13,7 @@
   </button>
   }
 
-  <span class="flex-1-auto" *ngIf="!showMultiRoute">{{currentRoute}}</span>
+  <span class="flex-1-auto " *ngIf="!showMultiRoute">{{currentRoute}}</span>
   <span class="flex-1-auto" *ngIf="showMultiRoute"><span class="baseRoute"><a [routerLink]="ROUTE_NAVIGATE + '/main'">{{FIRST_ROUTE}}</a></span>/{{SECOND_ROUTE}}</span>
 
 </mat-toolbar>

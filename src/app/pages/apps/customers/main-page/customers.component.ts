@@ -104,6 +104,7 @@ export class CustomersComponent implements OnInit {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
+    this.show_shimmer =true
     this.FETCH_CUSTOMER();
   }
 
@@ -196,7 +197,7 @@ export class CustomersComponent implements OnInit {
     this.routeSignalService.show_pop_up_route.set(false);
     this.SHOW_LOADING_SPINNER = false
     this.DATA_CHANGED = false;
-
+this.phoneNubError = ""
     // CLOSE THE PANEL
     this.CLOSE_PANEL()
 
@@ -240,18 +241,26 @@ export class CustomersComponent implements OnInit {
     });
   }
 
+  phoneNubError:string =''
   // ADD NEW CUSTOMER
   ADD_CUSTOMER(obj: CustomerClass) {
+    this.phoneNubError=''
     this.SHOW_LOADING_SPINNER = true
     this.customerService.ADD_CUSTOMER(obj).subscribe({
       next: (response: any) => { },
-      error: (error) => { },
+      error: (error) => {
+             if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.customers index: phoneNumber_1 dup key:')) {
+            this.phoneNubError = 'Phone number already in use';
+        }
+        console.log("error",error.error.error)
+       },
       complete: () => { this.FETCH_CUSTOMER(); this.CANCEL_UPDATE(); }
     });
   }
 
   // CONFIRM UPDATE
   UPDATE_CUSTOMER(obj: CustomerClass): void {
+     this.phoneNubError=''
     this.SHOW_LOADING_SPINNER = true
     this.customerService.UPDATE_CUSTOMER(obj).subscribe({
       next: (response: any) => { },

@@ -273,11 +273,13 @@ export class VisaComponentComponent implements OnInit {
 
     if (this.STATUS != '' || this.FILTER_TYPE != '') {
       this.Current_page = event.pageIndex + 1;
+      this.show_shimmer =true
       this.FILTER_VISAS(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
     }
 
     else {
       this.Current_page = event.pageIndex + 1;
+      this.show_shimmer =true
       this.FETCH_VISA();
     }
 
@@ -580,7 +582,7 @@ export class VisaComponentComponent implements OnInit {
         this.Visa_Array_length = response.pagination.totalVisas;
       },
       error: (error) => { this.VisaArray = new MatTableDataSource() },
-      complete: () => { }
+      complete: () => {this.show_shimmer =false; }
     });
   }
 
