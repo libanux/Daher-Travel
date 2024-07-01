@@ -30,6 +30,7 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RouteSignalService } from './signals/route.signal';
 
 
 export function HttpLoaderFactory(http: HttpClient): any {
@@ -62,7 +63,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     NgScrollbarModule,
     FullComponent,
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},{ provide: MAT_DATE_LOCALE, useValue: 'en-US' },],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},{ provide: MAT_DATE_LOCALE, useValue: 'en-US' },RouteSignalService],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
 })
