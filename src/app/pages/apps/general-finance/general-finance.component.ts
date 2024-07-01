@@ -57,7 +57,7 @@ export class GeneralFinanceComponent {
  current_page_array_length = 0;
 
  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
- @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+ @ViewChild(MatPaginator) paginator: MatPaginator;
 
  // searchText: any;
 
@@ -245,11 +245,13 @@ export class GeneralFinanceComponent {
 
    if (this.STATUS != '' || this.FILTER_TYPE != '') {
      this.Current_page = event.pageIndex + 1;
+     this.show_shimmer =true
      this.FILTER_GENERAL_FINANCE(this.SEARCK_KEY, this.FILTER_TYPE, this.START_DATE, this.END_DATE, this.STATUS)
    }
 
    else {
      this.Current_page = event.pageIndex + 1;
+     this.show_shimmer =true
      this.FETCH_GENERAL_FINANCE();
    }
 
@@ -426,6 +428,7 @@ export class GeneralFinanceComponent {
  CANCEL_UPDATE(): void {
    this.CurrentAction = 'Add General Finance';
    this.ShowAddButoon = true;
+   this.phoneError =''
    this.routeSignalService.show_pop_up_route.set(false)
    this.SHOW_LOADING_SPINNER = false
    this.DATA_CHANGED = false;
@@ -453,9 +456,10 @@ export class GeneralFinanceComponent {
      }
    });
  }
-
+ phoneError:string =''
  // ADD NEW VISA
  ADD_GENERAL_FINANCE() {
+this.phoneError=''
   this.ADDED_GENERAL_FINANCE.customer =
   {
     id: this.CUSTOMER_SELECTED.id,
@@ -466,7 +470,11 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
    this.SHOW_LOADING_SPINNER = true;
    this.generalFinanceService.ADD_GENERAL_FINANCE(this.ADDED_GENERAL_FINANCE).subscribe({
      next: (response: any) => { },
-     error: (error: any) => { },
+     error: (error: any) => {
+      if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher')) {
+        this.phoneError = 'Phone number already in use';
+      }
+      },
      complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); }
    });
  }
@@ -474,6 +482,7 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
  DATA_CHANGED: boolean = false;
  // CONFIRM UPDATE
  UPDATE_GENERAL_FINANCE() {
+  this.phoneError = ''
   this.ADDED_GENERAL_FINANCE.customer =
   {
     id: this.CUSTOMER_SELECTED.id,
@@ -484,7 +493,11 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
    this.SHOW_LOADING_SPINNER = true
    this.generalFinanceService.UPDATE_GENERAL_FINANCE(this.ADDED_GENERAL_FINANCE).subscribe({
      next: (response: any) => { },
-     error: (error) => { },
+     error: (error) => {
+      if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher')) {
+        this.phoneError = 'Phone number already in use';
+      }
+      },
      complete: () => { this.FETCH_GENERAL_FINANCE(); this.CANCEL_UPDATE(); }
    });
  }
@@ -551,7 +564,9 @@ console.log("ADDED",this.ADDED_GENERAL_FINANCE)
        this.General_finance_Array_length = response.pagination.totalRecords;
      },
      error: (error) => { this.GeneralFinanceArray = new MatTableDataSource() },
-     complete: () => { }
+     complete: () => { 
+      this.show_shimmer =false;
+     }
    });
  }
 

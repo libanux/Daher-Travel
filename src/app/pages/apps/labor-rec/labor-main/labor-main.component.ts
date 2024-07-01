@@ -63,7 +63,7 @@ export class LaborMainComponent implements AfterViewInit {
   show_shimmer = true
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =
     Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+    @ViewChild(MatPaginator) paginator: MatPaginator;
   searchText: string = '';
   totalCount = -1;
   Cancelled = -1;
@@ -196,6 +196,7 @@ export class LaborMainComponent implements AfterViewInit {
     this.pageSize = event.pageSize;
 
     this.currentPage = event.pageIndex + 1;
+    this.show_shimmer =true
     this.FETCH_RECRUITINGS();
 
 

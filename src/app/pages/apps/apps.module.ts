@@ -17,7 +17,7 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
 
 //Notes
-import { AppNotesComponent } from './notes/notes.component';
+import { AppNoteDialogContentComponent, AppNotesComponent } from './notes/notes.component';
 
 // Permission
 import { AppPermissionComponent } from './permission/permission.component';
@@ -107,7 +107,8 @@ import { NoReadPermissionsTableComponent } from './no-read-permissions-table/no-
     GeneralExpensesComponent,
     GeneralExpenseDialogContentComponent,
     GeneralFinanceDialogContentComponent,
-    NoReadPermissionsTableComponent
+    NoReadPermissionsTableComponent,
+    AppNoteDialogContentComponent
   ],
   providers: [DatePipe,],
 })

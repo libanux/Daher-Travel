@@ -10,27 +10,23 @@ import { Observable } from 'rxjs';
 export class AuthGuard implements CanActivate {
 
 
-  Ticket : string 
+  Ticket: string
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(
-    
+
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-      console.log(localStorage.getItem('TICKET'))
-      this.Ticket = localStorage.getItem('TICKET') || ""
-      console.log('ticket is = ', this.Ticket)
+    this.Ticket = localStorage.getItem('TICKET') || ""
 
-    if (  this.Ticket !== null && this.Ticket !== "" ) {
-      console.log("in ticket not empty")
+    if (this.Ticket !== null && this.Ticket !== "") {
       return true;
     }
 
     else {
-      console.log("in ticket empty")
       this.router.navigate(['/login']);
       return false;
     }
-}
+  }
 }

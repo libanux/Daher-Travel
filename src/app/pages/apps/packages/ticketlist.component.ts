@@ -34,7 +34,7 @@ import { AdminService } from 'src/app/services/Admins.service';
 export class AppTicketlistComponent implements OnInit {
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ShowAddButoon = true;
   selectedMonth: string = '';
@@ -141,6 +141,7 @@ export class AppTicketlistComponent implements OnInit {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
+    this.show_shimmer =true
     this.FETCH_PACKAGES()
   }
 

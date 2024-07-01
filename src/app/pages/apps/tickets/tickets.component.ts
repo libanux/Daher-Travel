@@ -64,7 +64,7 @@ export class TicketsComponent {
   expandedElement: Tickets | null = null;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   searchText:string ='';
   totalCount = -1;
@@ -363,6 +363,7 @@ export class TicketsComponent {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1;
+    this.show_shimmer =true
     this.FETCH_TICKETINGS()
   }
 

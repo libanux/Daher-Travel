@@ -69,7 +69,7 @@ export class AdminsComponent implements OnInit {
 
   ADMINS_ARRAY = new MatTableDataSource();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
   constructor(

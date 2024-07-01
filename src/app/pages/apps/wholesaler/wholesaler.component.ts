@@ -34,13 +34,13 @@ export class WholesalerComponent implements OnInit {
   @Input() showAddSection = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   MAIN_SELECTED_WHOLESALER_DATA: WholesalerClass = new WholesalerClass()
   searchText: any;
   selectedMonth: string = '';
   DATA_CHANGED: boolean = false;
   SHOW_LOADING_SPINNER: boolean = false;
-  isAnyFieldNotEmpty = false; 
+  isAnyFieldNotEmpty = false;
   displayedColumns: string[] = [
     'name',
     'phoneNumber',
@@ -86,6 +86,7 @@ export class WholesalerComponent implements OnInit {
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.Current_page = event.pageIndex + 1;
+    this.show_shimmer = true
     this.FETCH_WHOLESALERS()
   }
 
@@ -179,33 +180,35 @@ export class WholesalerComponent implements OnInit {
 
   // DELETE 
   DELETE_WHOLESALER(ID: number): void {
-    this.show_shimmer=true;
+    this.show_shimmer = true;
     this.wholesaler.DELETE_WHOLESALER(ID).subscribe({
       next: (response: any) => {
       },
       error: (error) => { },
-      complete: () => { this.FETCH_WHOLESALERS(); this.CANCEL_UPDATE(); 
+      complete: () => {
+        this.FETCH_WHOLESALERS(); this.CANCEL_UPDATE();
         this.goToPreviousPage()
       }
     });
   }
-
+  emailError: string = ''
   // ADD
   ADD_WHOLESALER(obj: WholesalerClass) {
+    this.phoneError = ''
+    this.emailError = ''
     this.SHOW_LOADING_SPINNER = true;
     this.wholesaler.ADD_WHOLESALER(obj).subscribe({
       next: (response: any) => {
       },
       error: (error) => {
-        console.log("Error", error.error);
         this.SHOW_LOADING_SPINNER = false;
-        //   if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: email_1 dup key:')) {
-        //       this.phoneError = 'Phone number already in use';
-        //   }
+        if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: phoneNumber_1 dup key:')) {
+          this.phoneError = 'Phone number already in use';
+        }
 
-        //   if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: phoneNumber_1 dup key:')) {
-        //     this.phoneError = 'Emailr already in use';
-        // }
+        if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: email_1 dup key:')) {
+          this.emailError = 'Email already in use';
+        }
       },
       complete: () => {
         this.CANCEL_UPDATE(); this.FETCH_WHOLESALERS();
@@ -216,11 +219,20 @@ export class WholesalerComponent implements OnInit {
 
   // CONFIRM UPDATE
   UPDATE_WHOLESALER(obj: WholesalerClass): void {
+    this.phoneError = ''
+    this.emailError = ''
     this.SHOW_LOADING_SPINNER = true;
     this.wholesaler.UPDATE_WHOLESALER(obj).subscribe({
       next: (response: any) => { },
       error: (error: any) => {
         this.SHOW_LOADING_SPINNER = false;
+        if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: phoneNumber_1 dup key:')) {
+          this.phoneError = 'Phone number already in use';
+        }
+
+        if (error.error.error && error.error.error.includes('E11000 duplicate key error collection: Daher.wholesalers index: email_1 dup key:')) {
+          this.emailError = 'Email already in use';
+        }
       },
       complete: () => {
         this.CANCEL_UPDATE();
@@ -261,6 +273,8 @@ export class WholesalerComponent implements OnInit {
     this.ShowAddButoon = true;
     this.currentAction = "Add Wholesaler"
     this.open_expansion_value = -1;
+    this.phoneError = ''
+    this.emailError = ''
     this.ADDED_WHOLESALER = {
       _id: '',
       name: '',
