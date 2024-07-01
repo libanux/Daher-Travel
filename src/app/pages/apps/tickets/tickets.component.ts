@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CustomerClass } from 'src/app/classes/customer.class';
 import { Package } from 'src/app/classes/package.class';
 import { Visa_Status_Array } from 'src/app/classes/visaClass';
+import { AdminService } from 'src/app/services/Admins.service';
 
 @Component({
   selector: 'app-tickets',
@@ -108,15 +109,45 @@ export class TicketsComponent {
   selectedDownloadOption: string = 'Download'
   Options: any[] = Download_Options;
 
-  constructor(private cdr: ChangeDetectorRef, private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public generalService: GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
+  constructor(    private adminService: AdminService,
+    private cdr: ChangeDetectorRef, private wholesaler: WholesalerService, private customerService: CustomerService, private routeSignalService: RouteSignalService, public generalService: GeneralService, public dialog: MatDialog, private ticketingService: TicketingService, private breadCrumbService: BreadCrumbSignalService) {
   }
 
 
   ngOnInit(): void {
     this.breadCrumbService.currentRoute.set('Ticketing')
     this.FETCH_TICKETINGS();
-
+    this.adminID = localStorage.getItem('admin_id') || '';
+    this.GET_ADMIN_PERMISSIONS_FOR_VISA();
   }
+
+  showToggle = true;
+  ADMIN_LOGGED_IN_PERMISSION: string
+  adminID: string 
+  // GET ADMIN BY ID FUNCTION --> TO CHECK PERMISSIONS
+  GET_ADMIN_PERMISSIONS_FOR_VISA() {
+    this.adminService.GET_ADMIN_BY_ID(this.adminID).subscribe({
+      next: (response: any) => {
+         this.ADMIN_LOGGED_IN_PERMISSION = response.permissions.ticketing; 
+         console.log(this.ADMIN_LOGGED_IN_PERMISSION) 
+        },
+      error: (error: any) => { },
+      complete: () => {
+    if(this.ADMIN_LOGGED_IN_PERMISSION=='readwrite' || this.ADMIN_LOGGED_IN_PERMISSION=='read'){
+      this.FETCH_TICKETINGS();
+      console.log('here')
+      this.showToggle = false;
+
+    }
+
+    else {
+      this.showToggle = true;
+
+    }
+    }
+    });
+  }
+
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

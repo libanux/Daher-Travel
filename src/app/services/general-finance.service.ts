@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GeneralService } from './general.service';
-import { environment } from 'src/enviroment/enviroment';
+import { environment } from 'src/enviroment/enviroment.prod';
 import { Observable } from 'rxjs';
 import { GeneralFinance } from '../classes/general-finance.class';
 

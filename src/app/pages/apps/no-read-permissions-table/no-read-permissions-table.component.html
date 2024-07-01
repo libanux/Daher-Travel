@@ -1,0 +1,24 @@
+<!-- EMPTY TABLE -->
+<mat-card class="cardWithShadow">
+
+    <!-- Table -->
+    <mat-card-content>
+      <div class="table-responsive">
+  
+        <table mat-table [dataSource]="ARRAY" multiTemplateDataRows>
+          @for( column of DISPLAYED_COLUMNS; track column) {
+  
+          <ng-container matColumnDef="{{ column }}">
+            <!-- table headers -->
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-x-24 p-l-0">
+              {{ column | titlecase}}</th>
+          </ng-container>
+          }
+          <!-- HEADER AND ROW DEFINITIONS -->
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        </table>
+        <app-no-items-found [Permission]="true"></app-no-items-found>
+      </div>
+    </mat-card-content>
+  
+  </mat-card>

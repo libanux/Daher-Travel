@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GeneralService } from './general.service';
-import { environment } from 'src/enviroment/enviroment';
 import { Admin } from '../classes/admin.class';
 import { NavItem } from '../classes/nav-item';
+import { environment } from 'src/enviroment/enviroment.prod';
 
 export const navItems: NavItem[] = [
 ];
