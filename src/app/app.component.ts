@@ -11,30 +11,34 @@ export class AppComponent implements OnInit {
   title = 'Daher Travel';
   isLoggedIn = false;
 
-  constructor(private router:Router,private authService: AuthService){}
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-  if(this.authService.isTokenExpired1()){
-    this.router.navigate(['/login']).then(() => {
-      window.scrollTo(0, 0);
-    })
-  }
-    if (localStorage.getItem('TICKET') != '') {
-      this.isLoggedIn = true;
-      this.router.navigate(['/tickets']).then(() => {
-        window.scrollTo(0, 0);
-      })
-    }
-     else if (localStorage.getItem('TICKET') == ''){
-      this.isLoggedIn = false;   
+
+    if (localStorage.getItem('TICKET') != null) {
+      if (!this.authService.isTokenExpired1()) {
+        this.isLoggedIn = true;
+        this.router.navigate(['/tickets']).then(() => {
+          window.scrollTo(0, 0);
+        })
+      }
+      else {
+        this.isLoggedIn = false;
         this.router.navigate(['/login']).then(() => {
           window.scrollTo(0, 0);
         })
+      }
+    }
+    else {
+      this.isLoggedIn = false;
+      this.router.navigate(['/login']).then(() => {
+        window.scrollTo(0, 0);
+      })
     }
 
 
   }
-  
-  
-  
+
+
+
 }
